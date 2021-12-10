@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+// import { canNavigate } from '@/libs/acl/routeProtection'
 // import { isUserLoggedIn, getUserData, getHomeRouteForLoggedInUser } from '@/auth/utils'
 
 Vue.use(VueRouter)
@@ -26,23 +27,51 @@ const router = new VueRouter({
       },
     },
     {
-      path: '/second-page',
-      name: 'second-page',
-      component: () => import('@/views/SecondPage.vue'),
+      path: '/corporate-acount',
+      name: 'home-corporate-acount',
+      component: () => import('@/views/Pages/HomeCorporateAcount.vue'),
       meta: {
-        pageTitle: 'Second Page',
-        breadcrumb: [
-          {
-            text: 'Second Page',
-            active: true,
-          },
-        ],
+        pageTitle: 'Home Corporative',
+      },
+    },
+    {
+      path: '/all-patient',
+      name: 'list-all-patient',
+      component: () => import('@/views/Pages/ListPacientes.vue'),
+      meta: {
+        pageTitle: 'All patient',
+      },
+    },
+    {
+      path: '/create-patient',
+      name: 'create-patient',
+      component: () => import('@/views/Pages/CreatePatient.vue'),
+      meta: {
+        pageTitle: 'Create patient',
+      },
+    },
+    {
+      path: '/request-service',
+      name: 'request-service',
+      component: () => import('@/views/Pages/RequestService.vue'),
+      meta: {
+        pageTitle: 'Request service',
       },
     },
     {
       path: '/login',
       name: 'login',
       component: () => import('@/views/Login.vue'),
+      meta: {
+        layout: 'full',
+        // // resource: 'Auth',
+        // // redirectIfLoggedIn: false,
+      },
+    },
+    {
+      path: '/login-corporative',
+      name: 'login-corporate-acount',
+      component: () => import('@/views/Pages/LoginCorporateAcount.vue'),
       meta: {
         layout: 'full',
       },
@@ -72,6 +101,14 @@ const router = new VueRouter({
       },
     },
     {
+      path: '/not-authorized',
+      name: 'not-authorized',
+      component: () => import('@/views/Pages/NotAuthorized.vue'),
+      meta: {
+        layout: 'full',
+      },
+    },
+    {
       path: '*',
       redirect: 'error-404',
     },
@@ -83,10 +120,10 @@ const router = new VueRouter({
 //
 //   if (!canNavigate(to)) {
 //     // Redirect to login if not logged in
-//     if (!isLoggedIn) return next({ name: 'auth-login' })
+//     if (!isLoggedIn) return next({ name: 'login' })
 //
 //     // If logged in => not authorized
-//     return next({ name: 'misc-not-authorized' })
+//     return next({ name: 'not-authorized' })
 //   }
 //
 //   // Redirect if logged in
@@ -97,7 +134,6 @@ const router = new VueRouter({
 //
 //   return next()
 // })
-
 
 // ? For splash screen
 // Remove afterEach hook if you are not using splash screen

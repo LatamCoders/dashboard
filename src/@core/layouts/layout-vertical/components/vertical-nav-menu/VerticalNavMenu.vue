@@ -20,19 +20,8 @@
 
           <!-- Logo & Text -->
           <li class="nav-item mr-auto">
-            <b-link
-              class="navbar-brand"
-              to="/"
-            >
-              <span class="brand-logo">
-                <b-img
-                  :src="appLogoImage"
-                  alt="logo"
-                />
-              </span>
-              <h2 class="brand-text">
-                {{ appName }}
-              </h2>
+            <b-link class="brand-logo">
+              <b-img src="@/assets/images/logo/AMERA.png" height="63"></b-img>
             </b-link>
           </li>
 
@@ -89,6 +78,7 @@ import useAppConfig from '@core/app-config/useAppConfig'
 import { $themeConfig } from '@themeConfig'
 import VerticalNavMenuItems from './components/vertical-nav-menu-items/VerticalNavMenuItems.vue'
 import useVerticalNavMenu from './useVerticalNavMenu'
+
 
 export default {
   components: {
