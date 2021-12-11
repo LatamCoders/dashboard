@@ -99,6 +99,14 @@ const router = new VueRouter({
       },
     },
     {
+      path: '/register-acount-corporative',
+      name: 'register-corporative',
+      component: () => import('@/views/Pages/RegisterCorporateAcount.vue'),
+      meta: {
+        layout: 'full',
+      },
+    },
+    {
       path: '/forgot-password',
       name: 'forgot-password',
       component: () => import('@/views/Pages/ForgotPassword.vue'),

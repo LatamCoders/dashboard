@@ -22,7 +22,7 @@
               class="mb-2"
           >
             <h5 class="mb-0">
-              Account Details
+              Ordered by
             </h5>
             <small class="text-muted">
               Enter Your Account Details.
@@ -30,12 +30,34 @@
           </b-col>
           <b-col md="6">
             <b-form-group
-                label="Username"
-                label-for="i-username"
+                label="Name"
+                label-for="i-name"
             >
               <b-form-input
-                  id="i-username"
+                  id="i-name"
                   placeholder="johndoe"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col md="6">
+            <b-form-group
+                label="Last Name"
+                label-for="i-lastname"
+            >
+              <b-form-input
+                  id="i-lastname"
+                  placeholder="Doe"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col md="6">
+            <b-form-group
+                label="Contact Number"
+                label-for="i-contactn"
+            >
+              <b-form-input
+                  id="i-contactn"
+                  placeholder="231217848"
               />
             </b-form-group>
           </b-col>
@@ -47,31 +69,7 @@
               <b-form-input
                   id="i-email"
                   type="email"
-                  placeholder="john.doe@email.com"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="6">
-            <b-form-group
-                label="Password"
-                label-for="i-password"
-            >
-              <b-form-input
-                  id="i-password"
-                  type="password"
-                  placeholder="Password"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="6">
-            <b-form-group
-                label="Confirm Password"
-                label-for="i-c-password"
-            >
-              <b-form-input
-                  id="i-c-password"
-                  type="password"
-                  placeholder="Re-type Password"
+                  placeholder="jhondoe@gmail.com"
               />
             </b-form-group>
           </b-col>
@@ -89,50 +87,51 @@
               class="mb-2"
           >
             <h5 class="mb-0">
-              Personal Info
+              Passengers Information
             </h5>
             <small class="text-muted">Enter Your Personal Info.</small>
           </b-col>
           <b-col md="6">
             <b-form-group
-                label-for="i-first-name"
-                label="First Name"
+                label-for="i-name"
+                label="Name"
             >
               <b-form-input
-                  id="i-first-name"
+                  id="i-name"
                   placeholder="John"
               />
             </b-form-group>
           </b-col><b-col md="6">
           <b-form-group
-              label-for="i-first-name"
-              label="First Name"
+              label-for="i-last-name"
+              label="Last Name"
           >
             <b-form-input
-                id="i-first-name"
+                id="i-last-name"
                 placeholder="John"
             />
           </b-form-group>
         </b-col>
           <b-col md="6">
             <b-form-group
-                label-for="i-first-name"
-                label="First Name"
+                label-for="i-contact-number"
+                label="Contact Number"
             >
               <b-form-input
-                  id="i-first-name"
-                  placeholder="John"
+                  id="i-contact-number"
+                  placeholder="15555555554"
               />
             </b-form-group>
           </b-col>
           <b-col md="6">
             <b-form-group
-                label="Last Name"
-                label-for="i-last-name"
+                label="Email"
+                label-for="i-mail"
             >
               <b-form-input
-                  id="i-last-name"
-                  placeholder="Doe"
+                  id="i-mail"
+                  type="Email"
+                  placeholder="Doe@gmail.com"
               />
             </b-form-group>
           </b-col>
@@ -152,37 +151,37 @@
             <h5 class="mb-0">
               Address
             </h5>
-            <small class="text-muted">Enter Your Address.</small>
+            <small class="text-muted">Enter Your Date of Service.</small>
           </b-col>
           <b-col md="6">
             <b-form-group
-                label="Address"
-                label-for="i-address"
+                label="Date of Service"
+                label-for="i-dataservice"
             >
               <b-form-input
-                  id="i-address"
+                  id="i-dataservice"
+                  placeholder="8/01/2022"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col md="6">
+            <b-form-group
+                label="Time of Pickup"
+                label-for="i-time"
+            >
+              <b-form-input
+                  id="i-time"
                   placeholder="98 Borough bridge Road, Birmingham"
               />
             </b-form-group>
           </b-col>
           <b-col md="6">
             <b-form-group
-                label="Landmark"
-                label-for="i-landmark"
+                label="Time of Appt"
+                label-for="i-appt"
             >
               <b-form-input
-                  id="i-landmark"
-                  placeholder="Borough bridge"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="6">
-            <b-form-group
-                label="Pincode"
-                label-for="i-pincode"
-            >
-              <b-form-input
-                  id="i-pincode"
+                  id="i-appt"
                   placeholder="658921"
               />
             </b-form-group>
@@ -202,7 +201,7 @@
       </tab-content>
 
       <!-- social link -->
-      <tab-content
+      <!-- <tab-content
           title="Social Links"
           icon="feather icon-link"
       >
@@ -261,7 +260,7 @@
             </b-form-group>
           </b-col>
         </b-row>
-      </tab-content>
+      </tab-content> -->
     </form-wizard>
 
   </div>

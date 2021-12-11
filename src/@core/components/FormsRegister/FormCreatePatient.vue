@@ -30,40 +30,39 @@
           </b-col>
           <b-col md="6">
             <b-form-group
-                label="Username"
-                label-for="i-username"
+                label="Contact Name"
+                label-for="i-name"
             >
               <b-form-input
-                  id="i-username"
+                  id="i-name"
                   placeholder="johndoe"
               />
             </b-form-group>
           </b-col>
           <b-col md="6">
             <b-form-group
-                label="Email"
-                label-for="i-email"
+                label="Contact Number"
+                label-for="i-number"
             >
               <b-form-input
-                  id="i-email"
-                  type="email"
-                  placeholder="john.doe@email.com"
+                  id="i-number"
+                  placeholder="54484848"
               />
             </b-form-group>
           </b-col>
           <b-col md="6">
             <b-form-group
-                label="Password"
-                label-for="i-password"
+                label="Contact Email"
+                label-for="i-maill"
             >
               <b-form-input
-                  id="i-password"
-                  type="password"
-                  placeholder="Password"
+                  id="i-maill"
+                  type="Email"
+                  placeholder="Jhon.doe@email.com"
               />
             </b-form-group>
           </b-col>
-          <b-col md="6">
+          <!-- <b-col md="6">
             <b-form-group
                 label="Confirm Password"
                 label-for="i-c-password"
@@ -74,7 +73,7 @@
                   placeholder="Re-type Password"
               />
             </b-form-group>
-          </b-col>
+          </b-col> -->
         </b-row>
       </tab-content>
 
@@ -95,44 +94,44 @@
           </b-col>
           <b-col md="6">
             <b-form-group
-                label-for="i-first-name"
-                label="First Name"
+                label-for="i-home"
+                label="Home Address"
             >
               <b-form-input
-                  id="i-first-name"
-                  placeholder="John"
+                  id="i-home"
+                  placeholder="98 Borough bridge Road, Birmingham"
               />
             </b-form-group>
           </b-col><b-col md="6">
             <b-form-group
-                label-for="i-first-name"
-                label="First Name"
+                label-for="i-homenumber"
+                label="Home Telephone Number"
             >
               <b-form-input
-                  id="i-first-name"
-                  placeholder="John"
+                  id="i-homenumber"
+                  placeholder="358185488"
               />
             </b-form-group>
           </b-col>
           <b-col md="6">
             <b-form-group
-                label-for="i-first-name"
-                label="First Name"
+                label-for="i-mobiletelephone"
+                label="Mobile Telephone Number"
             >
               <b-form-input
-                  id="i-first-name"
-                  placeholder="John"
+                  id="i-mobiletelephone"
+                  placeholder="1555558988"
               />
             </b-form-group>
           </b-col>
           <b-col md="6">
             <b-form-group
-                label="Last Name"
-                label-for="i-last-name"
+                label="Email"
+                label-for="i-emai"
             >
               <b-form-input
-                  id="i-last-name"
-                  placeholder="Doe"
+                  id="i-emai"
+                  placeholder="Doe@email.coms"
               />
             </b-form-group>
           </b-col>
@@ -176,7 +175,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="6">
+          <!-- <b-col md="6">
             <b-form-group
                 label="Pincode"
                 label-for="i-pincode"
@@ -186,7 +185,7 @@
                   placeholder="658921"
               />
             </b-form-group>
-          </b-col>
+          </b-col> -->
           <b-col md="6">
             <b-form-group
                 label-for="i-city"

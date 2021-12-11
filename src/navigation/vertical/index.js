@@ -43,31 +43,31 @@ export default [
   //   route: '/',
   //   icon: 'CalendarIcon',
   // },
-  // {
-  //   title: 'Support',
-  //   route: '/',
-  //   icon: 'GridIcon',
-  //   children: [
-  //     {
-  //       title: 'Difficult cases',
-  //       route: '/',
-  //     },
-  //   ],
-  // },
-  // {
-  //   title: 'Billing',
-  //   route: '/',
-  //   icon: 'CreditCardIcon',
-  //   children: [
-  //     {
-  //       title: 'Pending for Payment',
-  //       route: '/',
-  //     },
-  //   ],
-  // },
-  // {
-  //   title: 'User',
-  //   route: '/',
-  //   icon: 'UserIcon',
-  // },
+   {
+     title: 'Support',
+    route: '/',
+    icon: 'GridIcon',
+    children: [
+      {
+        title: 'Difficult cases',
+         route: '/',
+      },
+     ],
+  },
+  {
+     title: 'Billing',
+    route: '/',
+    icon: 'CreditCardIcon',
+     /* children: [
+       {
+        title: 'Pending for Payment',
+        route: '/',
+      },
+    ], */
+  },
+  {
+     title: 'Profile',
+     route: '/',
+    icon: 'UserIcon',
+  },
 ]

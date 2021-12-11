@@ -29,7 +29,7 @@
             </b-button>
           </b-card-text>
         </b-card>
-        <b-card class="cols-12 col-xl-2" title="Request an appointment">
+        <b-card class="cols-12 col-xl-2" title="Request a trip">
           <b-card-text>
             <b-button
                 type="submit"
