@@ -12,7 +12,7 @@ const router = new VueRouter({
     return { x: 0, y: 0 }
   },
   routes: [
-    {
+    /* {
       path: '/',
       name: 'home',
       component: () => import('@/views/Home.vue'),
@@ -25,13 +25,19 @@ const router = new VueRouter({
           },
         ],
       },
-    },
+    }, */
     {
-      path: '/corporate-acount',
+      path: '/',
       name: 'home-corporate-acount',
       component: () => import('@/views/Pages/HomeCorporateAcount.vue'),
       meta: {
         pageTitle: 'Home Corporative',
+        breadcrumb: [
+          {
+            text: 'Home Corporative',
+            active: true,
+          },
+        ],
       },
     },
     {

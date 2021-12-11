@@ -202,7 +202,7 @@
       </tab-content>
 
       <!-- social link -->
-      <tab-content
+      <!-- <tab-content
           title="Social Links"
           icon="feather icon-link"
       >
@@ -261,7 +261,7 @@
             </b-form-group>
           </b-col>
         </b-row>
-      </tab-content>
+      </tab-content> -->
     </form-wizard>
 
   </div>
