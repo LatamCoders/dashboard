@@ -14,7 +14,7 @@
       <!-- account detail tab -->
       <tab-content
           title="Account Details"
-          icon="feather icon-file-text"
+          icon=""
       >
         <b-row>
           <b-col
@@ -30,7 +30,7 @@
           </b-col>
           <b-col md="6">
             <b-form-group
-                label="Contact Name"
+                label="Name"
                 label-for="i-name"
             >
               <b-form-input
@@ -41,18 +41,18 @@
           </b-col>
           <b-col md="6">
             <b-form-group
-                label="Contact Number"
-                label-for="i-number"
+                label="Lastname"
+                label-for="i-lastname"
             >
               <b-form-input
-                  id="i-number"
-                  placeholder="54484848"
+                  id="i-lastname"
+                  placeholder="Doe"
               />
             </b-form-group>
           </b-col>
           <b-col md="6">
             <b-form-group
-                label="Contact Email"
+                label="Email"
                 label-for="i-maill"
             >
               <b-form-input
@@ -62,25 +62,25 @@
               />
             </b-form-group>
           </b-col>
-          <!-- <b-col md="6">
+          <b-col md="6">
             <b-form-group
-                label="Confirm Password"
-                label-for="i-c-password"
+                label="Telephone number"
+                label-for="i-t-number"
             >
               <b-form-input
-                  id="i-c-password"
-                  type="password"
-                  placeholder="Re-type Password"
+                  id="i-t-number"
+                  type="number"
+                  placeholder="33515"
               />
             </b-form-group>
-          </b-col> -->
+          </b-col>
         </b-row>
       </tab-content>
 
       <!-- personal details -->
       <tab-content
           title="Personal Info"
-          icon="feather icon-user"
+          icon=""
       >
         <b-row>
           <b-col
@@ -102,7 +102,8 @@
                   placeholder="98 Borough bridge Road, Birmingham"
               />
             </b-form-group>
-          </b-col><b-col md="6">
+          </b-col>
+          <b-col md="6">
             <b-form-group
                 label-for="i-homenumber"
                 label="Home Telephone Number"
@@ -115,23 +116,47 @@
           </b-col>
           <b-col md="6">
             <b-form-group
-                label-for="i-mobiletelephone"
-                label="Mobile Telephone Number"
+                label="Género"
+                class="mb-0"
             >
-              <b-form-input
-                  id="i-mobiletelephone"
-                  placeholder="1555558988"
-              />
+              <b-form-radio
+                  v-model="selected"
+                  name="Female"
+                  value="Female"
+                  class="custom-control-secondary"
+              >
+                Female
+              </b-form-radio>
+
+              <!-- secondary -->
+              <b-form-radio
+                  v-model="selected"
+                  name="Male"
+                  value="Male"
+                  class="custom-control-secondary"
+              >
+               Male
+              </b-form-radio>
+
+              <!-- success -->
+              <b-form-radio
+                  v-model="selected"
+                  name="Other"
+                  value="Other"
+                  class="custom-control-secondary"
+              >
+                Other
+              </b-form-radio>
             </b-form-group>
           </b-col>
           <b-col md="6">
             <b-form-group
-                label="Email"
+                label="Date of birth"
                 label-for="i-emai"
             >
               <b-form-input
                   id="i-emai"
-                  placeholder="Doe@email.coms"
+                  placeholder="18/03/1990"
               />
             </b-form-group>
           </b-col>
@@ -141,7 +166,7 @@
       <!-- address -->
       <tab-content
           title="Address"
-          icon="feather icon-map-pin"
+          icon=""
       >
         <b-row>
           <b-col
@@ -155,7 +180,7 @@
           </b-col>
           <b-col md="6">
             <b-form-group
-                label="Address"
+                label="Home address"
                 label-for="i-address"
             >
               <b-form-input
@@ -166,12 +191,12 @@
           </b-col>
           <b-col md="6">
             <b-form-group
-                label="Landmark"
+                label="Home telephone number"
                 label-for="i-landmark"
             >
               <b-form-input
                   id="i-landmark"
-                  placeholder="Borough bridge"
+                  placeholder="325654"
               />
             </b-form-group>
           </b-col>
@@ -267,7 +292,7 @@
 </template>
 
 <script>
-import { FormWizard, TabContent } from 'vue-form-wizard'
+import {FormWizard, TabContent} from 'vue-form-wizard'
 // import vSelect from 'vue-select'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
@@ -276,6 +301,7 @@ import {
   BCol,
   BFormGroup,
   BFormInput,
+  BFormRadio,
 } from 'bootstrap-vue'
 // import { codeIconInfo } from './code'
 
@@ -287,33 +313,35 @@ export default {
     BCol,
     BFormGroup,
     BFormInput,
+    BFormRadio,
     // vSelect,
     // eslint-disable-next-line vue/no-unused-components
     ToastificationContent,
   },
   data() {
     return {
+      selected: '',
       selectedContry: 'select_value',
       selectedLanguage: 'nothing_selected',
       countryName: [
-        { value: 'select_value', text: 'Select Value' },
-        { value: 'Russia', text: 'Russia' },
-        { value: 'Canada', text: 'Canada' },
-        { value: 'China', text: 'China' },
-        { value: 'United States', text: 'United States' },
-        { value: 'Brazil', text: 'Brazil' },
-        { value: 'Australia', text: 'Australia' },
-        { value: 'India', text: 'India' },
+        {value: 'select_value', text: 'Select Value'},
+        {value: 'Russia', text: 'Russia'},
+        {value: 'Canada', text: 'Canada'},
+        {value: 'China', text: 'China'},
+        {value: 'United States', text: 'United States'},
+        {value: 'Brazil', text: 'Brazil'},
+        {value: 'Australia', text: 'Australia'},
+        {value: 'India', text: 'India'},
       ],
       languageName: [
-        { value: 'nothing_selected', text: 'Nothing Selected' },
-        { value: 'English', text: 'English' },
-        { value: 'Chinese', text: 'Mandarin Chinese' },
-        { value: 'Hindi', text: 'Hindi' },
-        { value: 'Spanish', text: 'Spanish' },
-        { value: 'Arabic', text: 'Arabic' },
-        { value: 'Malay', text: 'Malay' },
-        { value: 'Russian', text: 'Russian' },
+        {value: 'nothing_selected', text: 'Nothing Selected'},
+        {value: 'English', text: 'English'},
+        {value: 'Chinese', text: 'Mandarin Chinese'},
+        {value: 'Hindi', text: 'Hindi'},
+        {value: 'Spanish', text: 'Spanish'},
+        {value: 'Arabic', text: 'Arabic'},
+        {value: 'Malay', text: 'Malay'},
+        {value: 'Russian', text: 'Russian'},
       ],
     }
   },

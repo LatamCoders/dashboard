@@ -4,9 +4,9 @@
       <b-col
           cols="12"
           xl="12"
-          class="d-flex opcorporate"
+          class="d-flex opcorporate justify-content-center"
       >
-        <b-card class="cols-12 col-xl-2" title="Create a patient">
+        <b-card class="cols-12 col-xl-3" title="Create a patient">
           <!--      <b-card-text>All the best for your new project.</b-card-text>-->
           <b-card-text>
             <b-button
@@ -17,7 +17,7 @@
             </b-button>
           </b-card-text>
         </b-card>
-        <b-card class="cols-12 col-xl-2" title="View all patient">
+        <b-card class="cols-12 col-xl-3" title="View all patient">
           <b-card-text>
             <b-button
                 type="submit"
@@ -29,7 +29,7 @@
             </b-button>
           </b-card-text>
         </b-card>
-        <b-card class="cols-12 col-xl-2" title="Request a trip">
+        <b-card class="cols-12 col-xl-3" title="Request a trip">
           <b-card-text>
             <b-button
                 type="submit"

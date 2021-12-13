@@ -14,7 +14,7 @@
       <!-- account detail tab -->
       <tab-content
           title="Account Details"
-          icon="feather icon-file-text"
+          icon=""
       >
         <b-row>
           <b-col
@@ -79,7 +79,7 @@
       <!-- personal details -->
       <tab-content
           title="Personal Info"
-          icon="feather icon-user"
+          icon=""
       >
         <b-row>
           <b-col
@@ -141,7 +141,7 @@
       <!-- address -->
       <tab-content
           title="Address"
-          icon="feather icon-map-pin"
+          icon=""
       >
         <b-row>
           <b-col
@@ -194,6 +194,25 @@
               <b-form-input
                   id="i-city"
                   placeholder="Birmingham"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col md="6">
+            <b-form-group
+                label="Stop in"
+            >
+              <b-form-select
+                  v-model="selected"
+                  :options="options"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col md="6">
+            <b-form-group
+                label="Appointment date and time"
+            >
+              <b-form-input
+                  v-model="appointment"
               />
             </b-form-group>
           </b-col>
@@ -276,6 +295,7 @@ import {
   BCol,
   BFormGroup,
   BFormInput,
+  BFormSelect,
 } from 'bootstrap-vue'
 // import { codeIconInfo } from './code'
 
@@ -287,14 +307,23 @@ export default {
     BCol,
     BFormGroup,
     BFormInput,
+    BFormSelect,
     // vSelect,
     // eslint-disable-next-line vue/no-unused-components
     ToastificationContent,
   },
   data() {
     return {
+      appointment: '',
+      selected: null,
       selectedContry: 'select_value',
       selectedLanguage: 'nothing_selected',
+      options: [
+        { value: null, text: 'Please select some item' },
+        { value: 'wait', text: 'Wait and return' },
+        { value: 'pharmacy', text: 'Pharmacy stop' },
+        { value: 'additional', text: 'Additional stop' },
+      ],
       countryName: [
         { value: 'select_value', text: 'Select Value' },
         { value: 'Russia', text: 'Russia' },
