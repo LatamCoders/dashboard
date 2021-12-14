@@ -152,10 +152,12 @@
           <b-col md="6">
             <b-form-group
                 label="Date of birth"
-                label-for="i-emai"
             >
-              <b-form-input
-                  id="i-emai"
+              <b-form-datepicker
+                  v-model="value"
+                  :min="min"
+                  :max="max"
+                  locale="en"
                   placeholder="18/03/1990"
               />
             </b-form-group>
@@ -302,6 +304,7 @@ import {
   BFormGroup,
   BFormInput,
   BFormRadio,
+  BFormDatepicker,
 } from 'bootstrap-vue'
 // import { codeIconInfo } from './code'
 
@@ -314,13 +317,28 @@ export default {
     BFormGroup,
     BFormInput,
     BFormRadio,
+    BFormDatepicker,
     // vSelect,
     // eslint-disable-next-line vue/no-unused-components
     ToastificationContent,
   },
   data() {
+    const now = new Date()
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    // 15th two months prior
+    const minDate = new Date(today)
+    minDate.setMonth(minDate.getMonth() - 2)
+    minDate.setDate(15)
+    // 15th in two months
+    const maxDate = new Date(today)
+    maxDate.setMonth(maxDate.getMonth() + 2)
+    maxDate.setDate(15)
+
     return {
       selected: '',
+      value: '',
+      min: minDate,
+      max: maxDate,
       selectedContry: 'select_value',
       selectedLanguage: 'nothing_selected',
       countryName: [

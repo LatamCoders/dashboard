@@ -27,7 +27,7 @@ const router = new VueRouter({
       },
     }, */
     {
-      path: '/',
+      path: '/home-corporate-acount',
       name: 'home-corporate-acount',
       component: () => import('@/views/Pages/HomeCorporateAcount.vue'),
       meta: {
@@ -42,7 +42,7 @@ const router = new VueRouter({
     },
     {
       path: '/all-patient',
-      name: 'list-all-patient',
+      name: 'all-patient',
       component: () => import('@/views/Pages/ListPacientes.vue'),
       meta: {
         pageTitle: 'All patient',
@@ -65,13 +65,19 @@ const router = new VueRouter({
       },
     },
     {
-      path: '/login',
+      path: '/',
       name: 'login',
       component: () => import('@/views/Login.vue'),
       meta: {
         layout: 'full',
         // // resource: 'Auth',
         // // redirectIfLoggedIn: false,
+        breadcrumb: [
+          {
+            text: 'Login',
+            active: true,
+          },
+        ],
       },
     },
     {
@@ -121,6 +127,11 @@ const router = new VueRouter({
       meta: {
         layout: 'full',
       },
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('@/views/Pages/ProfileUser.vue'),
     },
     {
       path: '*',

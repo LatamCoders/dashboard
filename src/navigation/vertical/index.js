@@ -5,15 +5,15 @@ export default [
     icon: 'HomeIcon',
     children: [
       {
-        title: 'Create user',
+        title: 'Create a patient',
         route: 'create-patient',
       },
       {
-        title: 'Request service',
+        title: 'Request a trip',
         route: 'request-service',
       },
       {
-        title: 'View patient',
+        title: 'View all patient',
         route: 'all-patient',
       },
     ],
@@ -67,7 +67,7 @@ export default [
   },
   {
      title: 'Profile',
-     route: '/',
+     route: 'profile',
     icon: 'UserIcon',
   },
 ]

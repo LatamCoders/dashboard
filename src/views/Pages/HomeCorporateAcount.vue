@@ -23,9 +23,8 @@
                 type="submit"
                 variant="primary"
                 class="sigin"
-                to="/all-patient"
-            >
-              View patient
+                to="/all-patient">
+              View all patient
             </b-button>
           </b-card-text>
         </b-card>

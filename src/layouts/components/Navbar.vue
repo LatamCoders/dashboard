@@ -30,9 +30,9 @@
         <template #button-content>
           <div class="d-sm-flex d-none user-nav">
             <p class="user-name font-weight-bolder mb-0">
-              John Doe
+              Orlando Health
             </p>
-            <span class="user-status">Admin</span>
+            <span class="user-status">Corporate account</span>
           </div>
           <b-avatar
               size="40"
@@ -87,7 +87,7 @@
               icon="LogOutIcon"
               class="mr-50"
           />
-          <router-link to="/login">
+          <router-link to="/">
             <span>Logout</span>
           </router-link>
         </b-dropdown-item>

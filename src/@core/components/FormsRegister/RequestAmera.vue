@@ -101,17 +101,18 @@
                   placeholder="John"
               />
             </b-form-group>
-          </b-col><b-col md="6">
-          <b-form-group
-              label-for="i-last-name"
-              label="Last Name"
-          >
-            <b-form-input
-                id="i-last-name"
-                placeholder="John"
-            />
-          </b-form-group>
-        </b-col>
+          </b-col>
+          <b-col md="6">
+            <b-form-group
+                label-for="i-last-name"
+                label="Last Name"
+            >
+              <b-form-input
+                  id="i-last-name"
+                  placeholder="John"
+              />
+            </b-form-group>
+          </b-col>
           <b-col md="6">
             <b-form-group
                 label-for="i-contact-number"
@@ -158,8 +159,11 @@
                 label="Date of Service"
                 label-for="i-dataservice"
             >
-              <b-form-input
-                  id="i-dataservice"
+              <b-form-datepicker
+                  v-model="value"
+                  :min="min"
+                  :max="max"
+                  locale="en"
                   placeholder="8/01/2022"
               />
             </b-form-group>
@@ -199,7 +203,7 @@
           </b-col>
           <b-col md="6">
             <b-form-group
-                label="Stop in"
+                label="Additional stop"
             >
               <b-form-select
                   v-model="selected"
@@ -209,10 +213,26 @@
           </b-col>
           <b-col md="6">
             <b-form-group
-                label="Appointment date and time"
+                label="Appointment date"
             >
-              <b-form-input
-                  v-model="appointment"
+              <b-form-datepicker
+                  v-model="appointmentdate"
+                  :min="min"
+                  :max="max"
+                  locale="en"
+                  placeholder="8/01/2022"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col md="6">
+            <b-form-group
+                label="Appointment time"
+            >
+              <b-form-timepicker
+                  id="timepicker-placeholder"
+                  placeholder="Choose a time"
+                  local="en"
+                  v-model="appointmenttime"
               />
             </b-form-group>
           </b-col>
@@ -286,7 +306,7 @@
 </template>
 
 <script>
-import { FormWizard, TabContent } from 'vue-form-wizard'
+import {FormWizard, TabContent} from 'vue-form-wizard'
 // import vSelect from 'vue-select'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
@@ -296,6 +316,8 @@ import {
   BFormGroup,
   BFormInput,
   BFormSelect,
+  BFormDatepicker,
+  BFormTimepicker,
 } from 'bootstrap-vue'
 // import { codeIconInfo } from './code'
 
@@ -308,41 +330,58 @@ export default {
     BFormGroup,
     BFormInput,
     BFormSelect,
+    BFormDatepicker,
+    BFormTimepicker,
     // vSelect,
     // eslint-disable-next-line vue/no-unused-components
     ToastificationContent,
   },
   data() {
+    const now = new Date()
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    // 15th two months prior
+    const minDate = new Date(today)
+    minDate.setMonth(minDate.getMonth() - 2)
+    minDate.setDate(15)
+    // 15th in two months
+    const maxDate = new Date(today)
+    maxDate.setMonth(maxDate.getMonth() + 2)
+    maxDate.setDate(15)
     return {
+      value: '',
+      min: minDate,
+      max: maxDate,
       appointment: '',
+      appointmentdate: '',
+      appointmenttime: '',
       selected: null,
       selectedContry: 'select_value',
       selectedLanguage: 'nothing_selected',
       options: [
-        { value: null, text: 'Please select some item' },
-        { value: 'wait', text: 'Wait and return' },
-        { value: 'pharmacy', text: 'Pharmacy stop' },
-        { value: 'additional', text: 'Additional stop' },
+        {value: null, text: 'Please select some item'},
+        {value: 'wait', text: 'Wait and return'},
+        {value: 'pharmacy', text: 'Pharmacy stop'},
+        {value: 'additional', text: 'Additional stop'},
       ],
       countryName: [
-        { value: 'select_value', text: 'Select Value' },
-        { value: 'Russia', text: 'Russia' },
-        { value: 'Canada', text: 'Canada' },
-        { value: 'China', text: 'China' },
-        { value: 'United States', text: 'United States' },
-        { value: 'Brazil', text: 'Brazil' },
-        { value: 'Australia', text: 'Australia' },
-        { value: 'India', text: 'India' },
+        {value: 'select_value', text: 'Select Value'},
+        {value: 'Russia', text: 'Russia'},
+        {value: 'Canada', text: 'Canada'},
+        {value: 'China', text: 'China'},
+        {value: 'United States', text: 'United States'},
+        {value: 'Brazil', text: 'Brazil'},
+        {value: 'Australia', text: 'Australia'},
+        {value: 'India', text: 'India'},
       ],
       languageName: [
-        { value: 'nothing_selected', text: 'Nothing Selected' },
-        { value: 'English', text: 'English' },
-        { value: 'Chinese', text: 'Mandarin Chinese' },
-        { value: 'Hindi', text: 'Hindi' },
-        { value: 'Spanish', text: 'Spanish' },
-        { value: 'Arabic', text: 'Arabic' },
-        { value: 'Malay', text: 'Malay' },
-        { value: 'Russian', text: 'Russian' },
+        {value: 'nothing_selected', text: 'Nothing Selected'},
+        {value: 'English', text: 'English'},
+        {value: 'Chinese', text: 'Mandarin Chinese'},
+        {value: 'Hindi', text: 'Hindi'},
+        {value: 'Spanish', text: 'Spanish'},
+        {value: 'Arabic', text: 'Arabic'},
+        {value: 'Malay', text: 'Malay'},
+        {value: 'Russian', text: 'Russian'},
       ],
     }
   },
