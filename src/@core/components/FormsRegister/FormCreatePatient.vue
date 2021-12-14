@@ -116,7 +116,7 @@
           </b-col>
           <b-col md="6">
             <b-form-group
-                label="Género"
+                label="Gender"
                 class="mb-0"
             >
               <b-form-radio
