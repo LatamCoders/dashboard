@@ -134,6 +134,11 @@ const router = new VueRouter({
       component: () => import('@/views/Pages/profile/Profile.vue'),
     },
     {
+      path: '/billing',
+      name: 'billing',
+      component: () => import('@/views/Pages/Billing.vue'),
+    },
+    {
       path: '*',
       redirect: 'error-404',
     },

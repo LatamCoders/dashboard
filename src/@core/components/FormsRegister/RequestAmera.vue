@@ -5,7 +5,7 @@
         color="#7367F0"
         :title="null"
         :subtitle="null"
-        finish-button-text="Submit"
+        finish-button-text="Request"
         back-button-text="Previous"
         class="steps-transparent mb-3 d-flex justify-content-center flex-xl-column formcreatepatient"
         @on-complete="formSubmitted"
@@ -14,7 +14,7 @@
     >
       <!-- account detail tab -->
       <tab-content
-          title="Account Details"
+          title="Applicant"
           icon=""
       >
         <b-row>
@@ -26,7 +26,7 @@
               Ordered by
             </h5>
             <small class="text-muted">
-              Enter Your Account Details.
+
             </small>
           </b-col>
           <b-col md="6">
@@ -36,7 +36,9 @@
             >
               <b-form-input
                   id="i-name"
-                  placeholder="johndoe"
+                  value="johndoe"
+                  disabled
+                  style="font-weight: bold"
               />
             </b-form-group>
           </b-col>
@@ -47,7 +49,9 @@
             >
               <b-form-input
                   id="i-lastname"
-                  placeholder="Doe"
+                  value="Doe"
+                  disabled
+                  style="font-weight: bold"
               />
             </b-form-group>
           </b-col>
@@ -58,7 +62,9 @@
             >
               <b-form-input
                   id="i-contactn"
-                  placeholder="231217848"
+                  value="231217848"
+                  disabled
+                  style="font-weight: bold"
               />
             </b-form-group>
           </b-col>
@@ -70,7 +76,9 @@
               <b-form-input
                   id="i-email"
                   type="email"
-                  placeholder="jhondoe@gmail.com"
+                  value="jhondoe@gmail.com"
+                  disabled
+                  style="font-weight: bold"
               />
             </b-form-group>
           </b-col>
@@ -79,7 +87,7 @@
 
       <!-- personal details -->
       <tab-content
-          title="Personal Info"
+          title="Patient  Info"
           icon=""
       >
         <b-row>
@@ -88,17 +96,15 @@
               class="mb-2"
           >
             <h5 class="mb-0">
-              Passengers Information
+              Patient information
             </h5>
-            <small class="text-muted">Enter Your Personal Info.</small>
+            <small class="text-muted">Enter patient information.</small>
           </b-col>
           <b-col md="6">
             <b-form-group
-                label-for="i-name"
                 label="Name"
             >
               <b-form-input
-                  id="i-name"
                   placeholder="John"
               />
             </b-form-group>
@@ -142,7 +148,7 @@
 
       <!-- address -->
       <tab-content
-          title="Address"
+          title="Preschedule"
           icon=""
       >
         <b-row>
@@ -151,9 +157,9 @@
               class="mb-2"
           >
             <h5 class="mb-0">
-              Address
+              Preschedule date
             </h5>
-            <small class="text-muted">Enter Your Date of Service.</small>
+            <small class="text-muted"></small>
           </b-col>
           <b-col md="6">
             <b-form-group
@@ -204,6 +210,16 @@
           </b-col>
           <b-col md="6">
             <b-form-group
+                label="Surgery type"
+            >
+              <b-form-select
+                  v-model="selectcirujia"
+                  :options="optionscirujia"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col md="6">
+            <b-form-group
                 label="Additional stop"
             >
               <b-form-select
@@ -237,6 +253,7 @@
               />
             </b-form-group>
           </b-col>
+
         </b-row>
       </tab-content>
 
@@ -355,6 +372,7 @@ export default {
       appointment: '',
       appointmentdate: '',
       appointmenttime: '',
+      selectcirujia: null,
       selected: null,
       selectedContry: 'select_value',
       selectedLanguage: 'nothing_selected',
@@ -363,6 +381,15 @@ export default {
         {value: 'wait', text: 'Wait and return'},
         {value: 'pharmacy', text: 'Pharmacy stop'},
         {value: 'additional', text: 'Additional stop'},
+      ],
+      optionscirujia: [
+        {value: null, text: 'Please select some item'},
+        {value: 'appendectomy', text: 'Appendectomy'},
+        {value: 'breast', text: 'Breast biopsy'},
+        {value: 'carotid', text: 'Carotid endarterectomy'},
+        {value: 'cataract', text: 'Cataract surgery'},
+        {value: 'cholecystectomy', text: 'Cholecystectomy'},
+        {value: 'other', text: 'other'},
       ],
       countryName: [
         {value: 'select_value', text: 'Select Value'},

@@ -56,14 +56,8 @@ export default [
   },
   {
      title: 'Billing',
-    route: '/',
+    route: 'billing',
     icon: 'CreditCardIcon',
-     /* children: [
-       {
-        title: 'Pending for Payment',
-        route: '/',
-      },
-    ], */
   },
   {
      title: 'Profile',
