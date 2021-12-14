@@ -154,7 +154,7 @@
                 variant="facebook"
                 href="javascript:void(0)"
             >
-              <feather-icon icon="FacebookIcon" />
+              <b-img src="@/assets/images/icons/facebook.png"></b-img>
             </b-button>
             <b-button
                 variant="twitter"

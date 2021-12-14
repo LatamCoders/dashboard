@@ -153,26 +153,30 @@
             <b-button
               variant="facebook"
               href="javascript:void(0)"
+              style="background-color: transparent"
             >
-              <feather-icon icon="FacebookIcon" />
+              <b-img src="@/assets/images/icons/facebook.png" height="35"></b-img>
             </b-button>
             <b-button
               variant="twitter"
               href="javascript:void(0)"
+              style="background-color: transparent"
             >
-              <feather-icon icon="TwitterIcon" />
+              <b-img src="@/assets/images/icons/instagram.png" height="35"></b-img>
             </b-button>
             <b-button
               variant="google"
               href="javascript:void(0)"
+              style="background-color: transparent"
             >
-              <feather-icon icon="MailIcon" />
+              <b-img src="@/assets/images/icons/youtube.png" height="35"></b-img>
             </b-button>
             <b-button
               variant="github"
               href="javascript:void(0)"
+              style="background-color: transparent"
             >
-              <feather-icon icon="GithubIcon" />
+              <b-img src="@/assets/images/icons/whatsaap.png" height="35"></b-img>
             </b-button>
           </div>
         </b-col>

@@ -131,7 +131,7 @@ const router = new VueRouter({
     {
       path: '/profile',
       name: 'profile',
-      component: () => import('@/views/Pages/ProfileUser.vue'),
+      component: () => import('@/views/Pages/profile/Profile.vue'),
     },
     {
       path: '*',

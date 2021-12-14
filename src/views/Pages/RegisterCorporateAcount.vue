@@ -46,6 +46,7 @@
                   formcreatepatient
                 "
                   @on-complete="formSubmitted"
+                  style="background-color: #fff"
               >
                 <!-- account detail tab -->
                 <tab-content
@@ -327,17 +328,33 @@
             </div>
 
             <div class="auth-footer-btn d-flex justify-content-center">
-              <b-button variant="facebook" href="javascript:void(0)">
-                <feather-icon icon="FacebookIcon"/>
+              <b-button
+                  variant="facebook"
+                  href="javascript:void(0)"
+                  style="background-color: transparent"
+              >
+                <b-img src="@/assets/images/icons/facebook.png" height="39"></b-img>
               </b-button>
-              <b-button variant="twitter" href="javascript:void(0)">
-                <feather-icon icon="TwitterIcon"/>
+              <b-button
+                  variant="twitter"
+                  href="javascript:void(0)"
+                  style="background-color: transparent"
+              >
+                <b-img src="@/assets/images/icons/instagram.png" height="39"></b-img>
               </b-button>
-              <b-button variant="google" href="javascript:void(0)">
-                <feather-icon icon="MailIcon"/>
+              <b-button
+                  variant="google"
+                  href="javascript:void(0)"
+                  style="background-color: transparent"
+              >
+                <b-img src="@/assets/images/icons/youtube.png" height="39"></b-img>
               </b-button>
-              <b-button variant="github" href="javascript:void(0)">
-                <feather-icon icon="GithubIcon"/>
+              <b-button
+                  variant="github"
+                  href="javascript:void(0)"
+                  style="background-color: transparent"
+              >
+                <b-img src="@/assets/images/icons/whatsaap.png" height="39"></b-img>
               </b-button>
             </div>
           </template>

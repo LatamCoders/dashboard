@@ -78,7 +78,7 @@ import {
 import { ref, onUnmounted } from '@vue/composition-api'
 import router from '@/router'
 import store from '@/store'
-// import userStoreModule from '../userStoreModule'
+// import userStoreModule from '/src/@core/components/users-view/userStoreModule.js'
 // import UserEditTabAccount from '/src/@core/components/user/UserEditTabAccount.vue'
 // import UserEditTabInformation from '/src/@core/components/user/UserEditTabInformation.vue'
 // import UserEditTabSocial from '/src/@core/components/user/UserEditTabSocial.vue'

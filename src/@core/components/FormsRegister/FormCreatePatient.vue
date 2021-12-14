@@ -9,7 +9,7 @@
         back-button-text="Previous"
         class="steps-transparent mb-3 d-flex justify-content-center flex-xl-column formcreatepatient"
         @on-complete="formSubmitted"
-
+        style="background-color: #fff"
     >
       <!-- account detail tab -->
       <tab-content
@@ -135,7 +135,7 @@
                   value="Male"
                   class="custom-control-secondary"
               >
-               Male
+                Male
               </b-form-radio>
 
               <!-- success -->
