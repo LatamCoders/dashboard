@@ -45,12 +45,14 @@
         </template>
 
         <b-dropdown-item link-class="d-flex align-items-center">
-          <feather-icon
-              size="16"
-              icon="UserIcon"
-              class="mr-50"
-          />
-          <span>Profile</span>
+          <router-link to="profile">
+            <feather-icon
+                size="16"
+                icon="UserIcon"
+                class="mr-50"
+            />
+            <span>Profile</span>
+          </router-link>
         </b-dropdown-item>
 
         <b-dropdown-item link-class="d-flex align-items-center">
@@ -82,12 +84,12 @@
 
         <b-dropdown-divider/>
         <b-dropdown-item link-class="d-flex align-items-center">
-          <feather-icon
-              size="16"
-              icon="LogOutIcon"
-              class="mr-50"
-          />
           <router-link to="/">
+            <feather-icon
+                size="16"
+                icon="LogOutIcon"
+                class="mr-50"
+            />
             <span>Logout</span>
           </router-link>
         </b-dropdown-item>
