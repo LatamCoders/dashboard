@@ -8,17 +8,6 @@
         :plan-options="planOptions"
         @refetch-data="refetchData"
     />
-
-    <!-- Filters -->
-    <users-list-filters
-
-        :plan-filter.sync="planFilter"
-        :status-filter.sync="statusFilter"
-        :role-options="roleOptions"
-        :plan-options="planOptions"
-        :status-options="statusOptions"
-    />
-
     <!-- Table Container Card -->
     <b-card
         no-body
@@ -73,12 +62,9 @@
       <b-table
           ref="refUserListTable"
           class="position-relative"
-          :items="fetchUsers"
           responsive
-          :fields="tableColumns"
           primary-key="id"
-          :sort-by.sync="sortBy"
-          show-empty
+          :items="personas"
           empty-text="No matching records found"
           :sort-desc.sync="isSortDirDesc"
       >
@@ -90,33 +76,33 @@
               <b-avatar
                   size="32"
                   :src="data.item.avatar"
-                  :text="avatarText(data.item.fullName)"
-                  :variant="`light-${resolveUserRoleVariant(data.item.role)}`"
-                  :to="{ name: 'apps-users-view', params: { id: data.item.id } }"
+                  :text="avatarText(data.item.first_name)"
+                  :variant="`light-${resolveUserRoleVariant(data.item.last_name)}`"
+                  :to="{ name: 'apps-users-view', params: { id: data.item.age } }"
               />
             </template>
             <b-link
                 :to="{ name: 'apps-users-view', params: { id: data.item.id } }"
                 class="font-weight-bold d-block text-nowrap"
             >
-              {{ data.item.fullName }}
+              {{ data.item.first_name }}
             </b-link>
-            <small class="text-muted">@{{ data.item.username }}</small>
+            <small class="text-muted">@{{ data.item.last_name }}</small>
           </b-media>
         </template>
 
         <!-- Column: Role -->
-        <template #cell(role)="data">
-          <div class="text-nowrap">
-            <feather-icon
-                :icon="resolveUserRoleIcon(data.item.role)"
-                size="18"
-                class="mr-50"
-                :class="`text-${resolveUserRoleVariant(data.item.role)}`"
-            />
-            <span class="align-text-top text-capitalize">{{ data.item.role }}</span>
-          </div>
-        </template>
+<!--        <template #cell(fecha)="data">-->
+<!--          <div class="text-nowrap">-->
+<!--            <feather-icon-->
+<!--                :icon="resolveUserRoleIcon(data.item.fecha)"-->
+<!--                size="18"-->
+<!--                class="mr-50"-->
+<!--                :class="`text-${resolveUserRoleVariant(data.item.fecha)}`"-->
+<!--            />-->
+<!--            <span class="align-text-top text-capitalize">{{ data.item.fecha }}</span>-->
+<!--          </div>-->
+<!--        </template>-->
 
         <!-- Column: Status -->
         <template #cell(status)="data">
@@ -228,7 +214,6 @@ import UserListAddNew from '@core/components/infoClients/UserListAddNew'
 
 export default {
   components: {
-    UsersListFilters,
     UserListAddNew,
 
     BCard,
@@ -307,6 +292,12 @@ export default {
     } = useUsersList()
 
     return {
+      personas: [
+        { age: 40, first_name: 'Dickerson', last_name: 'Macdonald', email: 'Dickerson@mail.com', fecha: '18/03/2022' },
+        { age: 21, first_name: 'Larsen', last_name: 'Shaw' },
+        { age: 89, first_name: 'Geneva', last_name: 'Wilson' },
+        { age: 38, first_name: 'Jami', last_name: 'Carney' }
+      ],
 
       // Sidebar
       isAddNewUserSidebarActive,

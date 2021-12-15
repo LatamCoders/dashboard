@@ -4,21 +4,10 @@
 
     <user-list-add-new
         :is-add-new-user-sidebar-active.sync="isAddNewUserSidebarActive"
-        :role-options="roleOptions"
+
         :plan-options="planOptions"
         @refetch-data="refetchData"
     />
-
-    <!-- Filters -->
-    <users-list-filters
-        :role-filter.sync="roleFilter"
-        :plan-filter.sync="planFilter"
-        :status-filter.sync="statusFilter"
-        :role-options="roleOptions"
-        :plan-options="planOptions"
-        :status-options="statusOptions"
-    />
-
     <!-- Table Container Card -->
     <b-card
         no-body
@@ -62,7 +51,7 @@
                   variant="primary"
                   @click="isAddNewUserSidebarActive = true"
               >
-                <span class="text-nowrap">Add User</span>
+                <span class="text-nowrap">Search</span>
               </b-button>
             </div>
           </b-col>
@@ -73,12 +62,9 @@
       <b-table
           ref="refUserListTable"
           class="position-relative"
-          :items="fetchUsers"
           responsive
-          :fields="tableColumns"
           primary-key="id"
-          :sort-by.sync="sortBy"
-          show-empty
+          :items="personas"
           empty-text="No matching records found"
           :sort-desc.sync="isSortDirDesc"
       >
@@ -90,33 +76,33 @@
               <b-avatar
                   size="32"
                   :src="data.item.avatar"
-                  :text="avatarText(data.item.fullName)"
-                  :variant="`light-${resolveUserRoleVariant(data.item.role)}`"
-                  :to="{ name: 'apps-users-view', params: { id: data.item.id } }"
+                  :text="avatarText(data.item.first_name)"
+                  :variant="`light-${resolveUserRoleVariant(data.item.last_name)}`"
+                  :to="{ name: 'apps-users-view', params: { id: data.item.age } }"
               />
             </template>
             <b-link
                 :to="{ name: 'apps-users-view', params: { id: data.item.id } }"
                 class="font-weight-bold d-block text-nowrap"
             >
-              {{ data.item.fullName }}
+              {{ data.item.first_name }}
             </b-link>
-            <small class="text-muted">@{{ data.item.username }}</small>
+            <small class="text-muted">@{{ data.item.last_name }}</small>
           </b-media>
         </template>
 
         <!-- Column: Role -->
-        <template #cell(role)="data">
-          <div class="text-nowrap">
-            <feather-icon
-                :icon="resolveUserRoleIcon(data.item.role)"
-                size="18"
-                class="mr-50"
-                :class="`text-${resolveUserRoleVariant(data.item.role)}`"
-            />
-            <span class="align-text-top text-capitalize">{{ data.item.role }}</span>
-          </div>
-        </template>
+        <!--        <template #cell(fecha)="data">-->
+        <!--          <div class="text-nowrap">-->
+        <!--            <feather-icon-->
+        <!--                :icon="resolveUserRoleIcon(data.item.fecha)"-->
+        <!--                size="18"-->
+        <!--                class="mr-50"-->
+        <!--                :class="`text-${resolveUserRoleVariant(data.item.fecha)}`"-->
+        <!--            />-->
+        <!--            <span class="align-text-top text-capitalize">{{ data.item.fecha }}</span>-->
+        <!--          </div>-->
+        <!--        </template>-->
 
         <!-- Column: Status -->
         <template #cell(status)="data">
@@ -220,14 +206,14 @@ import vSelect from 'vue-select'
 import store from '@/store'
 import { ref, onUnmounted } from '@vue/composition-api'
 import { avatarText } from '@core/utils/filter'
-import UsersListFilters from './UsersListFilters.vue'
-import useUsersList from './useUsersList'
+// import UsersListFilters from './UsersListFilters.vue'
+import UsersListFilters from '/src/@core/components/infoClients/UsersListFilters.vue'
+import useUsersList from '/src/@core/components/infoClients/useUsersList'
 import userStoreModule from '@core/components/users-view/userStoreModule'
 import UserListAddNew from '@core/components/infoClients/UserListAddNew'
 
 export default {
   components: {
-    UsersListFilters,
     UserListAddNew,
 
     BCard,
@@ -306,6 +292,12 @@ export default {
     } = useUsersList()
 
     return {
+      personas: [
+        { first_name: 'Dickerson', last_name: 'Macdonald', email: 'Dickerson@mail.com', tel_number: '6555122', Gender: 'Male', DateOfBirth: '03/08/1990', HomeAddress: 'New york city', HomeTelephoneNumber: '358185488'},
+        { first_name: 'Larsen', last_name: 'Shaw', email: 'Larsen@mail.com', tel_number: '6225122', Gender: 'Male', DateOfBirth: '03/08/1980', HomeAddress: 'Oklahoma', HomeTelephoneNumber: '818355488' },
+        { first_name: 'Geneva', last_name: 'Wilson', email: 'Geneva@mail.com', tel_number: '3225122', Gender: 'Female', DateOfBirth: '03/08/1975', HomeAddress: 'Arizona', HomeTelephoneNumber: '488358185'},
+        { first_name: 'Jami', last_name: 'Carney', email: 'Jami.carney@mail.com', tel_number: '311155122', Gender: 'Female', DateOfBirth: '03/08/1981', HomeAddress: 'Texas', HomeTelephoneNumber: '354885818' }
+      ],
 
       // Sidebar
       isAddNewUserSidebarActive,
