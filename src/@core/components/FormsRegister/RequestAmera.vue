@@ -36,7 +36,7 @@
             >
               <b-form-input
                   id="i-name"
-                  value="johndoe"
+                  value="Orlando"
                   disabled
                   style="font-weight: bold"
               />
@@ -49,7 +49,7 @@
             >
               <b-form-input
                   id="i-lastname"
-                  value="Doe"
+                  value="Health"
                   disabled
                   style="font-weight: bold"
               />
@@ -76,7 +76,7 @@
               <b-form-input
                   id="i-email"
                   type="email"
-                  value="jhondoe@gmail.com"
+                  value="orlandohealth@gmail.com"
                   disabled
                   style="font-weight: bold"
               />

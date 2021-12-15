@@ -92,17 +92,17 @@
         </template>
 
         <!-- Column: Role -->
-<!--        <template #cell(fecha)="data">-->
-<!--          <div class="text-nowrap">-->
-<!--            <feather-icon-->
-<!--                :icon="resolveUserRoleIcon(data.item.fecha)"-->
-<!--                size="18"-->
-<!--                class="mr-50"-->
-<!--                :class="`text-${resolveUserRoleVariant(data.item.fecha)}`"-->
-<!--            />-->
-<!--            <span class="align-text-top text-capitalize">{{ data.item.fecha }}</span>-->
-<!--          </div>-->
-<!--        </template>-->
+        <!--        <template #cell(fecha)="data">-->
+        <!--          <div class="text-nowrap">-->
+        <!--            <feather-icon-->
+        <!--                :icon="resolveUserRoleIcon(data.item.fecha)"-->
+        <!--                size="18"-->
+        <!--                class="mr-50"-->
+        <!--                :class="`text-${resolveUserRoleVariant(data.item.fecha)}`"-->
+        <!--            />-->
+        <!--            <span class="align-text-top text-capitalize">{{ data.item.fecha }}</span>-->
+        <!--          </div>-->
+        <!--        </template>-->
 
         <!-- Column: Status -->
         <template #cell(status)="data">
@@ -131,17 +131,17 @@
               />
             </template>
             <b-dropdown-item :to="{ name: 'apps-users-view', params: { id: data.item.id } }">
-              <feather-icon icon="FileTextIcon" />
+              <feather-icon icon="FileTextIcon"/>
               <span class="align-middle ml-50">Details</span>
             </b-dropdown-item>
 
             <b-dropdown-item :to="{ name: 'apps-users-edit', params: { id: data.item.id } }">
-              <feather-icon icon="EditIcon" />
+              <feather-icon icon="EditIcon"/>
               <span class="align-middle ml-50">Edit</span>
             </b-dropdown-item>
 
             <b-dropdown-item>
-              <feather-icon icon="TrashIcon" />
+              <feather-icon icon="TrashIcon"/>
               <span class="align-middle ml-50">Delete</span>
             </b-dropdown-item>
           </b-dropdown>
@@ -156,7 +156,9 @@
               sm="6"
               class="d-flex align-items-center justify-content-center justify-content-sm-start"
           >
-            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{ dataMeta.of }} entries</span>
+            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{
+                dataMeta.of
+              }} entries</span>
           </b-col>
           <!-- Pagination -->
           <b-col
@@ -204,8 +206,8 @@ import {
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 import store from '@/store'
-import { ref, onUnmounted } from '@vue/composition-api'
-import { avatarText } from '@core/utils/filter'
+import {ref, onUnmounted} from '@vue/composition-api'
+import {avatarText} from '@core/utils/filter'
 // import UsersListFilters from './UsersListFilters.vue'
 import UsersListFilters from '/src/@core/components/infoClients/UsersListFilters.vue'
 import useUsersList from '/src/@core/components/infoClients/useUsersList'
@@ -246,24 +248,24 @@ export default {
     const isAddNewUserSidebarActive = ref(false)
 
     const roleOptions = [
-      { label: 'Admin', value: 'admin' },
-      { label: 'Author', value: 'author' },
-      { label: 'Editor', value: 'editor' },
-      { label: 'Maintainer', value: 'maintainer' },
-      { label: 'Subscriber', value: 'subscriber' },
+      {label: 'Admin', value: 'admin'},
+      {label: 'Author', value: 'author'},
+      {label: 'Editor', value: 'editor'},
+      {label: 'Maintainer', value: 'maintainer'},
+      {label: 'Subscriber', value: 'subscriber'},
     ]
 
     const planOptions = [
-      { label: 'Basic', value: 'basic' },
-      { label: 'Company', value: 'company' },
-      { label: 'Enterprise', value: 'enterprise' },
-      { label: 'Team', value: 'team' },
+      {label: 'Basic', value: 'basic'},
+      {label: 'Company', value: 'company'},
+      {label: 'Enterprise', value: 'enterprise'},
+      {label: 'Team', value: 'team'},
     ]
 
     const statusOptions = [
-      { label: 'Pending', value: 'pending' },
-      { label: 'Active', value: 'active' },
-      { label: 'Inactive', value: 'inactive' },
+      {label: 'Pending', value: 'pending'},
+      {label: 'Active', value: 'active'},
+      {label: 'Inactive', value: 'inactive'},
     ]
 
     const {
@@ -293,10 +295,10 @@ export default {
 
     return {
       personas: [
-        { age: 40, first_name: 'Dickerson', last_name: 'Macdonald', email: 'Dickerson@mail.com', fecha: '18/03/2022' },
-        { age: 21, first_name: 'Larsen', last_name: 'Shaw' },
-        { age: 89, first_name: 'Geneva', last_name: 'Wilson' },
-        { age: 38, first_name: 'Jami', last_name: 'Carney' }
+        { fecha: '18/03/2021', first_name: 'Dickerson', last_name: 'Macdonald', email: 'Dickerson@mail.com',},
+        { fecha: '18/04/2021', first_name: 'Larsen', last_name: 'Shaw'},
+        { fecha: '18/05/2021', first_name: 'Geneva', last_name: 'Wilson'},
+        { fecha: '18/06/2021', first_name: 'Jami', last_name: 'Carney'}
       ],
 
       // Sidebar
