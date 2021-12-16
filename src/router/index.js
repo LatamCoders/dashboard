@@ -45,7 +45,7 @@ const router = new VueRouter({
       name: 'all-patient',
       component: () => import('@/views/Pages/ListPacientes.vue'),
       meta: {
-        pageTitle: 'All patient',
+        pageTitle: 'Patient List',
       },
     },
     {
