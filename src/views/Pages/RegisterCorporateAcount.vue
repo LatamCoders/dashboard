@@ -40,7 +40,7 @@
                   class="
                   steps-transparent
                   mb-3
-                  d-flex
+                  d-lg-flex d-xl-flex d-md-flex
                   justify-content-center
                   flex-xl-column
                   formcreatepatient

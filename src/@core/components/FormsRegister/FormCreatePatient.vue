@@ -7,7 +7,7 @@
         :subtitle="null"
         finish-button-text="Submit"
         back-button-text="Previous"
-        class="steps-transparent mb-3 d-flex justify-content-center flex-xl-column formcreatepatient"
+        class="steps-transparent mb-3 d-lg-flex d-xl-flex d-md-flex justify-content-center flex-xl-column formcreatepatient"
         @on-complete="formSubmitted"
         style="background-color: #fff"
     >

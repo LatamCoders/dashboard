@@ -4,7 +4,7 @@
       <b-col
           cols="12"
           xl="12"
-          class="d-flex opcorporate justify-content-center"
+          class="opcorporate"
       >
         <b-card class="cols-12 col-xl-3" title="Create a patient">
           <!--      <b-card-text>All the best for your new project.</b-card-text>-->
@@ -65,6 +65,14 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss">
+@import "src/assets/scss/variables/variables-components.scss";
 </style>
+<style>
+@media only screen and (max-width: 600px) {
+  .opcorporate {
+    flex-direction: column;
+  }
+}
+</style>
+

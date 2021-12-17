@@ -7,7 +7,7 @@
         :subtitle="null"
         finish-button-text="Request"
         back-button-text="Previous"
-        class="steps-transparent mb-3 d-flex justify-content-center flex-xl-column formcreatepatient"
+        class="steps-transparent mb-3 d-lg-flex d-xl-flex d-md-flex justify-content-center flex-xl-column formcreatepatient"
         @on-complete="formSubmitted"
         style="background-color: #fff"
 
@@ -228,6 +228,7 @@
                     multiple
                     :options="options"
                     label="title"
+                    placeholder="Please select some item"
                 >
                   <template #option="{ title, icon }">
                     <feather-icon
@@ -235,7 +236,7 @@
                         size="16"
                         class="align-middle mr-25"
                     />
-                    <span> {{ title }}</span>
+<!--                    <span> {{ title }}</span>-->
                   </template>
                 </v-select>
               </template>
@@ -385,10 +386,7 @@ export default {
     maxDate.setDate(15)
     return {
       dir: 'ltr',
-      seleccion: [
-        { title: 'Square' },
-        { title: 'Romboid' },
-      ],
+      seleccion: [{}],
       value: '',
       min: minDate,
       max: maxDate,
@@ -400,10 +398,9 @@ export default {
       selectedContry: 'select_value',
       selectedLanguage: 'nothing_selected',
       options: [
-        {value: null, text: 'Please select some item'},
-        {value: 'wait', text: 'Wait and return'},
-        {value: 'pharmacy', text: 'Pharmacy stop'},
-        {value: 'additional', text: 'Additional stop'},
+        {value: 'wait', title: 'Wait and return'},
+        {value: 'pharmacy', title: 'Pharmacy stop'},
+        {value: 'additional', title: 'Additional stop'},
       ],
       optionscirujia: [
         {value: null, text: 'Please select some item'},
