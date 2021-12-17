@@ -1,5 +1,5 @@
 <template>
-  <div class="cols-12 col-xl-8 d-flex justify-content-center"
+  <div class="cols-12 col-xl-12 "
        style="margin: 0 auto">
     <form-wizard
         color="#7367F0"
@@ -29,7 +29,7 @@
 
             </small>
           </b-col>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group
                 label="Name"
                 label-for="i-name"
@@ -42,7 +42,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group
                 label="Last Name"
                 label-for="i-lastname"
@@ -55,7 +55,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group
                 label="Contact Number"
                 label-for="i-contactn"
@@ -68,7 +68,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group
                 label="Email"
                 label-for="i-email"
@@ -100,7 +100,7 @@
             </h5>
             <small class="text-muted">Enter patient information.</small>
           </b-col>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group
                 label="Name"
             >
@@ -109,7 +109,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group
                 label-for="i-last-name"
                 label="Last Name"
@@ -120,7 +120,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group
                 label-for="i-contact-number"
                 label="Contact Number"
@@ -131,7 +131,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group
                 label="Email"
                 label-for="i-mail"
@@ -161,7 +161,7 @@
             </h5>
             <small class="text-muted"></small>
           </b-col>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group
                 label="Date of Service"
                 label-for="i-dataservice"
@@ -175,7 +175,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group
                 label="Time of Pickup"
                 label-for="i-time"
@@ -186,7 +186,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group
                 label="Time of Appt"
                 label-for="i-appt"
@@ -197,7 +197,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group
                 label-for="i-city"
                 label="City"
@@ -208,7 +208,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group
                 label="Surgery type"
             >
@@ -218,17 +218,34 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group
                 label="Additional stop"
             >
-              <b-form-select
-                  v-model="selected"
-                  :options="options"
-              />
+              <template>
+                <v-select
+                    v-model="seleccion"
+                    multiple
+                    :options="options"
+                    label="title"
+                >
+                  <template #option="{ title, icon }">
+                    <feather-icon
+                        :icon="icon"
+                        size="16"
+                        class="align-middle mr-25"
+                    />
+                    <span> {{ title }}</span>
+                  </template>
+                </v-select>
+              </template>
+<!--              <b-form-select-->
+<!--                  v-model="selected"-->
+<!--                  :options="options"-->
+<!--              />-->
             </b-form-group>
           </b-col>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group
                 label="Appointment date"
             >
@@ -241,7 +258,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group
                 label="Appointment time"
             >
@@ -338,6 +355,7 @@ import {
   BFormTimepicker,
 } from 'bootstrap-vue'
 // import { codeIconInfo } from './code'
+import vSelect from 'vue-select'
 
 export default {
   components: {
@@ -350,7 +368,7 @@ export default {
     BFormSelect,
     BFormDatepicker,
     BFormTimepicker,
-    // vSelect,
+    vSelect,
     // eslint-disable-next-line vue/no-unused-components
     ToastificationContent,
   },
@@ -366,6 +384,11 @@ export default {
     maxDate.setMonth(maxDate.getMonth() + 2)
     maxDate.setDate(15)
     return {
+      dir: 'ltr',
+      seleccion: [
+        { title: 'Square' },
+        { title: 'Romboid' },
+      ],
       value: '',
       min: minDate,
       max: maxDate,

@@ -21,7 +21,7 @@
           <!-- Logo & Text -->
           <li class="nav-item mr-auto">
             <b-link class="brand-logo">
-              <b-img src="@/assets/images/logo/AMERA.png" height="63"></b-img>
+              <b-img src="@/assets/images/logo/amera-main.png" height="63"></b-img>
             </b-link>
           </li>
 
@@ -149,4 +149,24 @@ export default {
 
 <style lang="scss">
 @import "~@core/scss/base/core/menu/menu-types/vertical-menu.scss";
+
+.main-menu {
+  background-color: #332B7B !important;
+}
+
+.main-menu.menu-light .navigation {
+  background-color: #332b7b !important;
+}
+
+a.nav-link.modern-nav-toggle{
+  color: white !important;
+}
+
+.main-menu.menu-light .navigation li a {
+  color: white !important;
+}
+[dir] .main-menu.menu-light .navigation > li.open:not(.menu-item-closing) > a, [dir] .main-menu.menu-light .navigation > li.sidebar-group-active > a {
+  background: white;
+  color: #6559d6 !important;
+}
 </style>

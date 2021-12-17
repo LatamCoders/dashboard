@@ -1,5 +1,5 @@
 <template>
-  <div class="cols-12 col-xl-8 d-flex justify-content-center"
+  <div class="cols-12 col-xl-12 "
        style="margin: 0 auto">
     <form-wizard
         color="#7367F0"
@@ -28,7 +28,7 @@
               Enter Your Account Details.
             </small>
           </b-col>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group
                 label="Name"
                 label-for="i-name"
@@ -39,7 +39,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group
                 label="Lastname"
                 label-for="i-lastname"
@@ -50,7 +50,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group
                 label="Email"
                 label-for="i-maill"
@@ -62,7 +62,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group
                 label="Telephone number"
                 label-for="i-t-number"
@@ -92,7 +92,7 @@
             </h5>
             <small class="text-muted">Enter Your Personal Info.</small>
           </b-col>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group
                 label-for="i-home"
                 label="Home Address"
@@ -103,7 +103,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group
                 label-for="i-homenumber"
                 label="Home Telephone Number"
@@ -114,42 +114,44 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group
                 label="Gender"
                 class="mb-0"
             >
-              <b-form-radio
-                  v-model="selected"
-                  name="Female"
-                  value="Female"
-                  class="custom-control-secondary"
-              >
-                Female
-              </b-form-radio>
+              <div style="display: flex; gap: 10px">
+                <b-form-radio
+                    v-model="selected"
+                    name="Female"
+                    value="Female"
+                    class="custom-control-secondary"
+                >
+                  Female
+                </b-form-radio>
 
-              <!-- secondary -->
-              <b-form-radio
-                  v-model="selected"
-                  name="Male"
-                  value="Male"
-                  class="custom-control-secondary"
-              >
-                Male
-              </b-form-radio>
+                <!-- secondary -->
+                <b-form-radio
+                    v-model="selected"
+                    name="Male"
+                    value="Male"
+                    class="custom-control-secondary"
+                >
+                  Male
+                </b-form-radio>
 
-              <!-- success -->
-              <b-form-radio
-                  v-model="selected"
-                  name="Other"
-                  value="Other"
-                  class="custom-control-secondary"
-              >
-                Other
-              </b-form-radio>
+                <!-- success -->
+                <b-form-radio
+                    v-model="selected"
+                    name="Other"
+                    value="Other"
+                    class="custom-control-secondary"
+                >
+                  Other
+                </b-form-radio>
+              </div>
             </b-form-group>
           </b-col>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group
                 label="Date of birth"
             >
@@ -180,7 +182,7 @@
             </h5>
             <small class="text-muted">Enter Your Address.</small>
           </b-col>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group
                 label="Home address"
                 label-for="i-address"
@@ -191,7 +193,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group
                 label="Home telephone number"
                 label-for="i-landmark"
@@ -213,7 +215,7 @@
               />
             </b-form-group>
           </b-col> -->
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group
                 label-for="i-city"
                 label="City"
