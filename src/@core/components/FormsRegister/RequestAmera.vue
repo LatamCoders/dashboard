@@ -98,7 +98,7 @@
             <h5 class="mb-0">
               Patient information
             </h5>
-            <small class="text-muted">Enter patient information.</small>
+            <small class="text-muted" style="color: #000000d6 !important">Enter patient information.</small>
           </b-col>
           <b-col md="4">
             <b-form-group

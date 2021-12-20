@@ -56,7 +56,7 @@
                   <b-row>
                     <b-col cols="12" class="mb-2">
                       <h5 class="mb-0">Account Details</h5>
-                      <small class="text-muted">
+                      <small class="text-muted" style="color: #000000d6 !important">
                         Enter Your Account Details.
                       </small>
                     </b-col>
@@ -132,7 +132,7 @@
                   <b-row>
                     <b-col cols="12" class="mb-2">
                       <h5 class="mb-0">Personal Info</h5>
-                      <small class="text-muted"
+                      <small class="text-muted" style="color: #000000d6 !important"
                       >Enter Your Personal Info.</small
                       >
                     </b-col>
@@ -200,7 +200,7 @@
                   <b-row>
                     <b-col cols="12" class="mb-2">
                       <h5 class="mb-0">Additional Contact</h5>
-                      <small class="text-muted"
+                      <small class="text-muted" style="color: #000000d6 !important"
                       >Enter Your additional contact.</small
                       >
                     </b-col>
@@ -247,7 +247,7 @@
                   <b-row>
                     <b-col cols="12" class="mb-2">
                       <h5 class="mb-0">Credit card</h5>
-                      <small class="text-muted">Enter Your Credit card</small>
+                      <small class="text-muted" style="color: #000000d6 !important">Enter Your Credit card</small>
                     </b-col>
                     <b-col md="6">
                       <b-form-group label="Name on cc" label-for="i-namecredit">

@@ -24,7 +24,7 @@
             <h5 class="mb-0">
               Account Details
             </h5>
-            <small class="text-muted">
+            <small class="text-muted" style="color: #000000d6 !important">
               Enter Your Account Details.
             </small>
           </b-col>
@@ -41,7 +41,7 @@
           </b-col>
           <b-col md="4">
             <b-form-group
-                label="Lastname"
+                label="Last name"
                 label-for="i-lastname"
             >
               <b-form-input
@@ -90,7 +90,7 @@
             <h5 class="mb-0">
               Personal Info
             </h5>
-            <small class="text-muted">Enter Your Personal Info.</small>
+            <small class="text-muted" style="color: #000000d6 !important">Enter Your Personal Info.</small>
           </b-col>
           <b-col md="4">
             <b-form-group
@@ -180,7 +180,7 @@
             <h5 class="mb-0">
               Address
             </h5>
-            <small class="text-muted">Enter Your Address.</small>
+            <small class="text-muted" style="color: #000000d6 !important">Enter Your Address.</small>
           </b-col>
           <b-col md="4">
             <b-form-group
