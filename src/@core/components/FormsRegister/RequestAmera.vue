@@ -220,11 +220,21 @@
           </b-col>
           <b-col md="4">
             <b-form-group
+                label="Pickup address"
+            >
+              <b-form-input
+                  v-model="ubicacion"
+                  placeholder="98 Borough bridge Road, Birmingham"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col md="4">
+            <b-form-group
                 label="Additional stop"
             >
               <template>
                 <v-select
-                    v-model="seleccion"
+                    v-model="seleccionstop"
                     multiple
                     :options="options"
                     label="title"
@@ -244,6 +254,15 @@
 <!--                  v-model="selected"-->
 <!--                  :options="options"-->
 <!--              />-->
+            </b-form-group>
+          </b-col>
+          <b-col md="4" v-if="seleccion === true">
+            <b-form-group
+                label="Destiny"
+            >
+              <b-form-input
+                  placeholder="Birmingham"
+              />
             </b-form-group>
           </b-col>
           <b-col md="4">
@@ -386,7 +405,7 @@ export default {
     maxDate.setDate(15)
     return {
       dir: 'ltr',
-      seleccion: [{}],
+      seleccionstop: '',
       value: '',
       min: minDate,
       max: maxDate,
@@ -395,6 +414,7 @@ export default {
       appointmenttime: '',
       selectcirujia: null,
       selected: null,
+      ubicacion: '',
       selectedContry: 'select_value',
       selectedLanguage: 'nothing_selected',
       options: [
@@ -404,12 +424,22 @@ export default {
       ],
       optionscirujia: [
         {value: null, text: 'Please select some item'},
-        {value: 'appendectomy', text: 'Appendectomy'},
-        {value: 'breast', text: 'Breast biopsy'},
-        {value: 'carotid', text: 'Carotid endarterectomy'},
+        {value: 'endoscopy', text: 'Endoscopy'},
+        {value: 'colonoscopy', text: 'Colonoscopy'},
         {value: 'cataract', text: 'Cataract surgery'},
-        {value: 'cholecystectomy', text: 'Cholecystectomy'},
-        {value: 'other', text: 'other'},
+        {value: 'dentalsurgery', text: 'Dental Surgery'},
+        {value: 'cosmeticsurgery', text: 'Cosmetic Surgery'},
+        {value: 'carpaltunnel', text: 'Carpal Tunnel'},
+        {value: 'surgery', text: 'Surgery'},
+        {value: 'paininjections', text: 'Pain Injections'},
+        {value: 'biopsies', text: 'Biopsies'},
+        {value: 'laparoscopic', text: 'Laparoscopic'},
+        {value: 'sinus', text: 'Sinus'},
+        {value: 'reconstruction', text: 'Reconstruction'},
+        {value: 'shoulderprocedures', text: 'Shoulder Procedures'},
+        {value: 'rology', text: 'Urology'},
+        {value: 'softtissuerepair', text: 'Soft tissue repair'},
+        {value: 'notdisclose', text: 'Prefer not to disclose'},
       ],
       countryName: [
         {value: 'select_value', text: 'Select Value'},
@@ -444,6 +474,15 @@ export default {
         },
       })
     },
+  },
+  watch: {
+    viewInput(seleccion) {
+      if(this.seleccion[seleccion].value === 'additional'){
+        this.seleccion = true;
+      }else {
+        this.seleccion = false;
+      }
+    }
   },
 }
 </script>
