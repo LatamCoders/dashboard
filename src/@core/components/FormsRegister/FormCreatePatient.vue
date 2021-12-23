@@ -65,12 +65,21 @@
           <b-col md="4">
             <b-form-group
                 label="Telephone number"
-                label-for="i-t-number"
             >
               <b-form-input
-                  id="i-t-number"
                   type="number"
                   placeholder="33515"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col md="4">
+            <b-form-group
+                label="Notes"
+            >
+              <b-form-textarea
+                  id="textarea-default"
+                  placeholder="Write here the notes"
+                  rows="3"
               />
             </b-form-group>
           </b-col>
@@ -307,6 +316,7 @@ import {
   BFormInput,
   BFormRadio,
   BFormDatepicker,
+  BFormTextarea,
 } from 'bootstrap-vue'
 // import { codeIconInfo } from './code'
 
@@ -320,6 +330,7 @@ export default {
     BFormInput,
     BFormRadio,
     BFormDatepicker,
+    BFormTextarea,
     // vSelect,
     // eslint-disable-next-line vue/no-unused-components
     ToastificationContent,
