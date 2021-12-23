@@ -256,7 +256,7 @@
 <!--              />-->
             </b-form-group>
           </b-col>
-          <b-col md="4" v-if="seleccion === true">
+          <b-col md="4" v-if="seleccionstop === true">
             <b-form-group
                 label="Destiny"
             >
