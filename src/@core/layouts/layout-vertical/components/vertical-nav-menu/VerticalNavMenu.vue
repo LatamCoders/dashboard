@@ -1,20 +1,20 @@
 <template>
   <div
-    class="main-menu menu-fixed menu-accordion menu-shadow"
-    :class="[
+      class="main-menu menu-fixed menu-accordion menu-shadow"
+      :class="[
       { 'expanded': !isVerticalMenuCollapsed || (isVerticalMenuCollapsed && isMouseHovered) },
       skin === 'semi-dark' ? 'menu-dark' : 'menu-light'
     ]"
-    @mouseenter="updateMouseHovered(true)"
-    @mouseleave="updateMouseHovered(false)"
+      @mouseenter="updateMouseHovered(true)"
+      @mouseleave="updateMouseHovered(false)"
   >
     <!-- main menu header-->
     <div class="navbar-header expanded" style="margin-bottom: 10px">
       <slot
-        name="header"
-        :toggleVerticalMenuActive="toggleVerticalMenuActive"
-        :toggleCollapsed="toggleCollapsed"
-        :collapseTogglerIcon="collapseTogglerIcon"
+          name="header"
+          :toggleVerticalMenuActive="toggleVerticalMenuActive"
+          :toggleCollapsed="toggleCollapsed"
+          :collapseTogglerIcon="collapseTogglerIcon"
       >
         <ul class="nav navbar-nav flex-row">
 
@@ -29,16 +29,16 @@
           <li class="nav-item nav-toggle">
             <b-link class="nav-link modern-nav-toggle">
               <feather-icon
-                icon="XIcon"
-                size="20"
-                class="d-block d-xl-none"
-                @click="toggleVerticalMenuActive"
+                  icon="XIcon"
+                  size="20"
+                  class="d-block d-xl-none"
+                  @click="toggleVerticalMenuActive"
               />
               <feather-icon
-                :icon="collapseTogglerIconFeather"
-                size="20"
-                class="d-none d-xl-block collapse-toggle-icon"
-                @click="toggleCollapsed"
+                  :icon="collapseTogglerIconFeather"
+                  size="20"
+                  class="d-none d-xl-block collapse-toggle-icon"
+                  @click="toggleCollapsed"
               />
             </b-link>
           </li>
@@ -49,21 +49,33 @@
 
     <!-- Shadow -->
     <div
-      :class="{'d-block': shallShadowBottom}"
-      class="shadow-bottom"
+        :class="{'d-block': shallShadowBottom}"
+        class="shadow-bottom"
     />
 
     <!-- main menu content-->
     <vue-perfect-scrollbar
-      :settings="perfectScrollbarSettings"
-      class="main-menu-content scroll-area"
-      tagname="ul"
-      @ps-scroll-y="evt => { shallShadowBottom = evt.srcElement.scrollTop > 0 }"
+        :settings="perfectScrollbarSettings"
+        class="main-menu-content scroll-area"
+        tagname="ul"
+        @ps-scroll-y="evt => { shallShadowBottom = evt.srcElement.scrollTop > 0 }"
     >
       <vertical-nav-menu-items
-        :items="navMenuItems"
-        class="navigation navigation-main"
+          :items="navMenuItems"
+          class="navigation navigation-main"
       />
+      <div style="position: absolute;top: 85%;margin-left: 16px;">
+        <router-link to="/">
+          <h4 style="color: white; font-size: 1.1rem; font-weight: lighter">Chat: </h4>
+        </router-link>
+        <router-link to="/">
+          <h4 style="color: white; font-size: 1.1rem; font-weight: lighter">Email: amera@myamera.com</h4>
+        </router-link>
+        <router-link to="">
+          <h4 style="color: white; font-size: 1.1rem; font-weight: lighter">Phone number: 8552637215</h4>
+        </router-link>
+      </div>
+
     </vue-perfect-scrollbar>
     <!-- /main menu content-->
   </div>
@@ -72,10 +84,10 @@
 <script>
 import navMenuItems from '@/navigation/vertical'
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-import { BLink, BImg } from 'bootstrap-vue'
-import { provide, computed, ref } from '@vue/composition-api'
+import {BLink, BImg} from 'bootstrap-vue'
+import {provide, computed, ref} from '@vue/composition-api'
 import useAppConfig from '@core/app-config/useAppConfig'
-import { $themeConfig } from '@themeConfig'
+import {$themeConfig} from '@themeConfig'
 import VerticalNavMenuItems from './components/vertical-nav-menu-items/VerticalNavMenuItems.vue'
 import useVerticalNavMenu from './useVerticalNavMenu'
 
@@ -106,7 +118,7 @@ export default {
       updateMouseHovered,
     } = useVerticalNavMenu(props)
 
-    const { skin } = useAppConfig()
+    const {skin} = useAppConfig()
 
     // Shadow bottom is UI specific and can be removed by user => It's not in `useVerticalNavMenu`
     const shallShadowBottom = ref(false)
@@ -121,7 +133,7 @@ export default {
     const collapseTogglerIconFeather = computed(() => (collapseTogglerIcon.value === 'unpinned' ? 'CircleIcon' : 'DiscIcon'))
 
     // App Name
-    const { appName, appLogoImage } = $themeConfig.app
+    const {appName, appLogoImage} = $themeConfig.app
 
     return {
       navMenuItems,
@@ -158,13 +170,14 @@ export default {
   background-color: #332b7b !important;
 }
 
-a.nav-link.modern-nav-toggle{
+a.nav-link.modern-nav-toggle {
   color: white !important;
 }
 
 .main-menu.menu-light .navigation li a {
   color: white !important;
 }
+
 [dir] .main-menu.menu-light .navigation > li.open:not(.menu-item-closing) > a, [dir] .main-menu.menu-light .navigation > li.sidebar-group-active > a {
   background: white;
   color: #6559d6 !important;
