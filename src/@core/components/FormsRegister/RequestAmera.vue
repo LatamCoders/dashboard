@@ -232,31 +232,17 @@
             <b-form-group
                 label="Additional stop"
             >
-              <template>
-                <v-select
-                    v-model="seleccionstop"
-                    multiple
-                    :options="options"
-                    label="title"
-                    placeholder="Please select some item"
-                >
-                  <template #option="{ title, icon }">
-                    <feather-icon
-                        :icon="icon"
-                        size="16"
-                        class="align-middle mr-25"
-                    />
-<!--                    <span> {{ title }}</span>-->
-                  </template>
-                </v-select>
-              </template>
-<!--              <b-form-select-->
-<!--                  v-model="selected"-->
-<!--                  :options="options"-->
-<!--              />-->
+              <v-select
+                  v-model="seleccionstop"
+                  :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                  multiple
+                  :options="option"
+                  label="title"
+                  placeholder="Please select some item"
+              />
             </b-form-group>
           </b-col>
-          <b-col md="4" v-if="seleccionstop === true">
+          <b-col md="4" v-if="seleccionstop">
             <b-form-group
                 label="Destiny"
             >
@@ -362,7 +348,8 @@
 
 <script>
 import {FormWizard, TabContent} from 'vue-form-wizard'
-// import vSelect from 'vue-select'
+import vSelect from 'vue-select'
+
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import {
@@ -375,7 +362,7 @@ import {
   BFormTimepicker,
 } from 'bootstrap-vue'
 // import { codeIconInfo } from './code'
-import vSelect from 'vue-select'
+// import vSelect from 'vue-select'
 
 export default {
   components: {
@@ -417,10 +404,10 @@ export default {
       ubicacion: '',
       selectedContry: 'select_value',
       selectedLanguage: 'nothing_selected',
-      options: [
-        {value: 'wait', title: 'Wait and return'},
-        {value: 'pharmacy', title: 'Pharmacy stop'},
-        {value: 'additional', title: 'Additional stop'},
+      option: [
+        {title: 'Wait and return'},
+        {title: 'Pharmacy stop'},
+        {title: 'Additional stop'},
       ],
       optionscirujia: [
         {value: null, text: 'Please select some item'},
@@ -475,14 +462,9 @@ export default {
       })
     },
   },
-  watch: {
-    viewInput(seleccion) {
-      if(this.seleccion[seleccion].value === 'additional'){
-        this.seleccion = true;
-      }else {
-        this.seleccion = false;
-      }
-    }
-  },
 }
 </script>
+
+<style src="vue-select/dist/vue-select.css">
+
+</style>
