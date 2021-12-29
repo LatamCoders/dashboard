@@ -465,6 +465,6 @@ export default {
 }
 </script>
 
-<style src="vue-select/dist/vue-select.css">
-
+<style lang="scss">
+@import '@core/scss/vue/libs/vue-select.scss';
 </style>
