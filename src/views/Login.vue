@@ -135,7 +135,7 @@
 
           <b-card-text class="text-center mt-2">
             <span>New on our platform? </span>
-            <b-link :to="{name:'register-corporative'}">
+            <b-link :to="{name:'register'}">
               <span class="colors-login">&nbsp;Create an account</span>
             </b-link>
           </b-card-text>
