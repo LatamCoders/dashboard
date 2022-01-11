@@ -4,20 +4,20 @@
 
       <!-- Brand logo-->
       <b-link class="brand-logo">
-        <vuexy-logo />
+        <vuexy-logo/>
       </b-link>
       <!-- /Brand logo-->
 
       <!-- Left Text-->
       <b-col
-        lg="8"
-        class="d-none d-lg-flex align-items-center p-5"
+          lg="8"
+          class="d-none d-lg-flex align-items-center p-5"
       >
         <div class="w-100 d-lg-flex align-items-center justify-content-center px-5">
           <b-img
-            fluid
-            :src="imgUrl"
-            alt="Login V2"
+              fluid
+              :src="imgUrl"
+              alt="Login V2"
           />
         </div>
       </b-col>
@@ -25,18 +25,18 @@
 
       <!-- Login-->
       <b-col
-        lg="4"
-        class="d-flex align-items-center auth-bg px-2 p-lg-5"
+          lg="4"
+          class="d-flex align-items-center auth-bg px-2 p-lg-5"
       >
         <b-col
-          sm="8"
-          md="6"
-          lg="12"
-          class="px-xl-2 mx-auto form-login"
+            sm="8"
+            md="6"
+            lg="12"
+            class="px-xl-2 mx-auto form-login"
         >
           <b-card-title
-            title-tag="h2"
-            class="font-weight-bold mb-1"
+              title-tag="h2"
+              class="font-weight-bold mb-1"
           >
             Welcome to Amera! 👋
           </b-card-title>
@@ -47,25 +47,25 @@
           <!-- form -->
           <validation-observer ref="loginValidation">
             <b-form
-              class="auth-login-form mt-2"
-              @submit.prevent
+                class="auth-login-form mt-2"
+                @submit.prevent
             >
               <!-- email -->
               <b-form-group
-                label="Email"
-                label-for="login-email"
+                  label="Email"
+                  label-for="login-email"
               >
                 <validation-provider
-                  #default="{ errors }"
-                  name="Email"
-                  rules="required|email"
+                    #default="{ errors }"
+                    name="Email"
+                    rules="required|email"
                 >
                   <b-form-input
-                    id="login-email"
-                    v-model="userEmail"
-                    :state="errors.length > 0 ? false:null"
-                    name="login-email"
-                    placeholder="john@example.com"
+                      id="login-email"
+                      v-model="userEmail"
+                      :state="errors.length > 0 ? false:null"
+                      name="login-email"
+                      placeholder="john@example.com"
                   />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
@@ -80,28 +80,28 @@
                   </b-link>
                 </div>
                 <validation-provider
-                  #default="{ errors }"
-                  name="Password"
-                  rules="required"
+                    #default="{ errors }"
+                    name="Password"
+                    rules="required"
                 >
                   <b-input-group
-                    class="input-group-merge"
-                    :class="errors.length > 0 ? 'is-invalid':null"
+                      class="input-group-merge"
+                      :class="errors.length > 0 ? 'is-invalid':null"
                   >
                     <b-form-input
-                      id="login-password"
-                      v-model="password"
-                      :state="errors.length > 0 ? false:null"
-                      class="form-control-merge"
-                      :type="passwordFieldType"
-                      name="login-password"
-                      placeholder="············"
+                        id="login-password"
+                        v-model="password"
+                        :state="errors.length > 0 ? false:null"
+                        class="form-control-merge"
+                        :type="passwordFieldType"
+                        name="login-password"
+                        placeholder="············"
                     />
                     <b-input-group-append is-text>
                       <feather-icon
-                        class="cursor-pointer"
-                        :icon="passwordToggleIcon"
-                        @click="togglePasswordVisibility"
+                          class="cursor-pointer"
+                          :icon="passwordToggleIcon"
+                          @click="togglePasswordVisibility"
                       />
                     </b-input-group-append>
                   </b-input-group>
@@ -112,9 +112,9 @@
               <!-- checkbox -->
               <b-form-group>
                 <b-form-checkbox
-                  id="remember-me"
-                  v-model="status"
-                  name="checkbox-1"
+                    id="remember-me"
+                    v-model="status"
+                    name="checkbox-1"
                 >
                   Remember Me
                 </b-form-checkbox>
@@ -122,12 +122,11 @@
 
               <!-- submit buttons -->
               <b-button
-                type="submit"
-                variant="primary"
-                block
-                @click="validationForm"
-                to="/home-corporate-acount"
-                class="sigin"
+                  type="submit"
+                  variant="primary"
+                  block
+                  @click="validationForm"
+                  class="sigin"
               >
                 Sign in
               </b-button>
@@ -151,37 +150,37 @@
           <!-- social buttons -->
           <div class="auth-footer-btn d-flex justify-content-center">
             <b-button
-              variant="facebook"
-              href="javascript:void(0)"
-              style="background-color: transparent"
+                variant="facebook"
+                href="javascript:void(0)"
+                style="background-color: transparent"
             >
               <b-img src="@/assets/images/icons/facebook.png" height="35"></b-img>
             </b-button>
             <b-button
-              variant="twitter"
-              href="javascript:void(0)"
-              style="background-color: transparent"
+                variant="twitter"
+                href="javascript:void(0)"
+                style="background-color: transparent"
             >
               <b-img src="@/assets/images/icons/instagram.png" height="35"></b-img>
             </b-button>
             <b-button
-              variant="google"
-              href="javascript:void(0)"
-              style="background-color: transparent"
+                variant="google"
+                href="javascript:void(0)"
+                style="background-color: transparent"
             >
               <b-img src="@/assets/images/icons/youtube.png" height="35"></b-img>
             </b-button>
             <b-button
-              variant="github"
-              href="javascript:void(0)"
-              style="background-color: transparent"
+                variant="github"
+                href="javascript:void(0)"
+                style="background-color: transparent"
             >
               <b-img src="@/assets/images/icons/whatsaap.png" height="35"></b-img>
             </b-button>
           </div>
         </b-col>
       </b-col>
-    <!-- /Login-->
+      <!-- /Login-->
     </b-row>
   </div>
 </template>
@@ -191,12 +190,25 @@
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import VuexyLogo from '@core/layouts/components/Logo.vue'
 import {
-  BRow, BCol, BLink, BFormGroup, BFormInput, BInputGroupAppend, BInputGroup, BFormCheckbox, BCardText, BCardTitle, BImg, BForm, BButton,
+  BRow,
+  BCol,
+  BLink,
+  BFormGroup,
+  BFormInput,
+  BInputGroupAppend,
+  BInputGroup,
+  BFormCheckbox,
+  BCardText,
+  BCardTitle,
+  BImg,
+  BForm,
+  BButton,
 } from 'bootstrap-vue'
 import { required, email } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
 import store from '@/store/index'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import axios from 'axios'
 
 export default {
   components: {
@@ -244,16 +256,33 @@ export default {
   },
   methods: {
     validationForm() {
-      this.$refs.loginValidation.validate().then(success => {
-        if (success) {
-          this.$toast({
-            component: ToastificationContent,
-            props: {
-              title: 'Form Submitted',
-              icon: 'EditIcon',
-              variant: 'success',
-            },
+      this.$refs.loginValidation.validate()
+          .then(success => {
+            if (success) {
+              this.$toast({
+                component: ToastificationContent,
+                props: {
+                  title: 'Form Submitted',
+                  icon: 'EditIcon',
+                  variant: 'success',
+                },
+              })
+            }
           })
+      axios.post('https://Amera-test.herokuapp.com/api/v1/ca/auth/login', {
+            'email': this.userEmail,
+            'password': this.password,
+          }, {
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest',
+            }
+          }
+      ).then((res) => {
+        if (res.data.data) {
+          this.$router.push({'name': 'home-corporate-acount'})
+          console.log('bien')
+        } else {
+          console.log(res.data.data)
         }
       })
     },
