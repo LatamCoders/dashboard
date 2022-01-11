@@ -591,6 +591,7 @@ import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import VuexyLogo from '@core/layouts/components/Logo.vue'
 import axios from 'axios'
+import Ripple from 'vue-ripple-directive'
 import {
   BRow,
   BCol,
@@ -635,6 +636,9 @@ export default {
     FormWizard,
     TabContent,
     ToastificationContent,
+  },
+  directives: {
+    Ripple,
   },
   mixins: [togglePasswordVisibility],
   data() {
@@ -738,6 +742,28 @@ export default {
         headers: {
           "X-Requested-With" : "XMLHttpRequest"
         }
+      }).then((res) => {
+        if (res.data.data) {
+          this.$swal({
+            title: 'It has been successfully registered',
+            icon: 'success',
+            customClass: {
+              confirmButton: 'btn btn-primary',
+            },
+            buttonsStyling: false,
+          })
+          // console.log('bien')
+        } else {
+          this.$swal({
+            title: 'Could not register',
+            icon: 'error',
+            customClass: {
+              confirmButton: 'btn btn-primary',
+            },
+            buttonsStyling: false,
+          })
+          // console.log(res.data.data)
+        }
       })
 
 
@@ -793,6 +819,9 @@ export default {
       })
     },
   },
+  mounted() {
+
+  }
 
 }
 /* eslint-disable global-require */
