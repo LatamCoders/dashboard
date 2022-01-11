@@ -224,11 +224,11 @@
                         >
                           <validation-provider
                               #default="{ errors }"
-                              name="telephone"
+                              name="telephone_number"
                               rules="required"
                           >
                             <b-form-input
-                                v-model="dataregister.telephone"
+                                v-model="dataregister.telephone_number"
                                 placeholder="038555555"
                                 :state="errors.length > 0 ? false:null"
                             />
@@ -241,11 +241,11 @@
                         <b-form-group label="Fax Number">
                           <validation-provider
                               #default="{ errors }"
-                              name="fax"
+                              name="fax_number"
                               rules="required"
                           >
                             <b-form-input
-                                v-model="dataregister.fax" placeholder="155926969"
+                                v-model="dataregister.fax_number" placeholder="155926969"
                                 :state="errors.length > 0 ? false:null"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
@@ -291,11 +291,11 @@
                         >
                           <validation-provider
                               #default="{ errors }"
-                              name="contactname"
+                              name="contact_name"
                               rules="required"
                           >
                             <b-form-input
-                                v-model="dataregister.contactname"
+                                v-model="dataregister.contact_name"
                                 placeholder="Jhon doe"
                                 :state="errors.length > 0 ? false:null"
                             />
@@ -309,11 +309,11 @@
                         >
                           <validation-provider
                               #default="{ errors }"
-                              name="contactnumber"
+                              name="contact_number"
                               rules="required"
                           >
                             <b-form-input
-                                v-model="dataregister.contactnumber"
+                                v-model="dataregister.contact_number"
                                 placeholder="05656366"
                                 :state="errors.length > 0 ? false:null"
                             />
@@ -429,7 +429,7 @@
                           <validation-provider
                               #default="{ errors }"
                               name="namecreditcard"
-                              rules="required "
+                              rules="required"
                           >
                             <b-form-input
                                 placeholder="Jhon Doe"
@@ -590,7 +590,7 @@ import ToastificationContent from '@core/components/toastification/Toastificatio
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import VuexyLogo from '@core/layouts/components/Logo.vue'
-import axios from '@/libs/axios'
+import axios from 'axios'
 import {
   BRow,
   BCol,
@@ -648,12 +648,12 @@ export default {
         startdate: '',
         locationaddress: '',
         billingaddress: '',
-        telephone: '',
-        fax: '',
+        telephone_number: '',
+        fax_number: '',
         email: '',
         website: '',
-        contactname: '',
-        contactnumber: '',
+        contact_name: '',
+        contact_number: '',
         additionalcontactname: '',
         additionaltitle: '',
         additionalnumbercontac: '',
@@ -664,7 +664,7 @@ export default {
         zip: '',
         code: '',
       },
-
+      enviados: [],
       status: '',
       username: '',
       userEmail: '',
@@ -734,14 +734,15 @@ export default {
           })
     },
     formSubmitted() {
-      this.$toast({
-        component: ToastificationContent,
-        props: {
-          title: 'Form Submitted',
-          icon: 'EditIcon',
-          variant: 'success',
-        },
-      })
+       axios.post('https://Amera-test.herokuapp.com/api/v1/ca/auth/register', this.dataregister, {
+         headers: {
+           "X-Requested-With" : "XMLHttpRequest"
+         }
+       })
+
+
+      // this.enviados = this.dataregister;
+      // console.log(this.enviados)
     },
     validationForm() {
       return new Promise((resolve, reject) => {
