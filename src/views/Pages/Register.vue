@@ -752,6 +752,7 @@ export default {
             },
             buttonsStyling: false,
           })
+          this.$refs.registerForm.reset();
           // console.log('bien')
         } else {
           this.$swal({
@@ -762,6 +763,7 @@ export default {
             },
             buttonsStyling: false,
           })
+
           // console.log(res.data.data)
         }
       })
@@ -819,10 +821,6 @@ export default {
       })
     },
   },
-  mounted() {
-
-  }
-
 }
 /* eslint-disable global-require */
 </script>
