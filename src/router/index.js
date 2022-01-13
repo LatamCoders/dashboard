@@ -12,20 +12,20 @@ const router = new VueRouter({
     return { x: 0, y: 0 }
   },
   routes: [
-    /* {
-      path: '/',
-      name: 'home',
-      component: () => import('@/views/Home.vue'),
+    {
+      path: '/home-admin',
+      name: 'home-admin',
+      component: () => import('@/views/Pages/admin/HomeAdmin.vue'),
       meta: {
-        pageTitle: 'Home',
+        pageTitle: 'Home Admin',
         breadcrumb: [
           {
-            text: 'Home',
+            text: 'Home Admin',
             active: true,
           },
         ],
       },
-    }, */
+    },
     {
       path: '/home-corporate-acount',
       name: 'home-corporate-acount',
@@ -62,6 +62,86 @@ const router = new VueRouter({
       component: () => import('@/views/Pages/RequestService.vue'),
       meta: {
         pageTitle: 'Request service',
+      },
+    },
+    {
+      path: '/trips',
+      name: 'trips',
+      component: () => import('@/views/Pages/admin/Trips.vue'),
+      meta: {
+        pageTitle: 'Trips',
+      },
+    },
+    {
+      path: '/trips/booked-trips',
+      name: 'booked-trips',
+      component: () => import('@/views/Pages/admin/BookedTrips.vue'),
+      meta: {
+        pageTitle: 'Booked Trips',
+      },
+    },
+    {
+      path: '/trips/canceled-reservations',
+      name: 'canceled-reservations',
+      component: () => import('@/views/Pages/admin/CanceledReservations.vue'),
+      meta: {
+        pageTitle: 'Canceled reservations',
+      },
+    },
+    {
+      path: '/trips/reservation-to-accepted',
+      name: 'reservation-to-accepted',
+      component: () => import('@/views/Pages/admin/ReservationToAccept.vue'),
+      meta: {
+        pageTitle: 'Reservation to accepted',
+      },
+    },
+    {
+      path: '/booking',
+      name: 'booking-and-tracking',
+      component: () => import('@/views/Pages/admin/BookingAndTracking.vue'),
+      meta: {
+        pageTitle: 'Booking and Tracking',
+      },
+    },
+    {
+      path: '/booking/approve-drivers',
+      name: 'approve-drivers',
+      component: () => import('@/views/Pages/admin/ApproveDrivers.vue'),
+      meta: {
+        pageTitle: 'Approve drivers',
+      },
+    },
+    {
+      path: '/booking/assign-driver',
+      name: 'assign-driver',
+      component: () => import('@/views/Pages/admin/AssignDriver.vue'),
+      meta: {
+        pageTitle: 'Assign driver',
+      },
+    },
+    {
+      path: '/booking/approve-drivers/details',
+      name: 'details-driver-view',
+      component: () => import('@/views/Pages/admin/DetailsDriver.vue'),
+      meta: {
+        pageTitle: 'Details driver',
+      },
+    },
+    {
+      path: '/providers',
+      name: 'providers',
+      component: () => import('@/views/Pages/admin/Providers.vue'),
+      meta: {
+        pageTitle: 'Providers',
+      },
+    },
+    {
+      path: '/reports',
+      name: 'reports',
+      component: () => import('@/views/Pages/admin/Reports.vue'),
+      meta: {
+        pageTitle: 'Reports',
       },
     },
     {
