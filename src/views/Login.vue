@@ -257,18 +257,18 @@ export default {
   methods: {
     validationForm() {
       this.$refs.loginValidation.validate()
-          .then(success => {
-            if (success) {
-              this.$toast({
-                component: ToastificationContent,
-                props: {
-                  title: 'Form Submitted',
-                  icon: 'EditIcon',
-                  variant: 'success',
-                },
-              })
-            }
-          })
+          // .then(success => {
+          //   if (success) {
+          //     this.$toast({
+          //       component: ToastificationContent,
+          //       props: {
+          //         title: 'Form Submitted',
+          //         icon: 'EditIcon',
+          //         variant: 'success',
+          //       },
+          //     })
+          //   }
+          // })
       axios.post('https://Amera-test.herokuapp.com/api/v1/ca/auth/login', {
             'email': this.userEmail,
             'password': this.password,
@@ -281,7 +281,15 @@ export default {
         if (res.data.data) {
           this.$router.push({'name': 'home-corporate-acount'})
           console.log('bien')
-        } else {
+        } else if (res.data.status === 404){
+          this.$toast({
+            component: ToastificationContent,
+            props: {
+              title: 'Form No Submitted',
+              icon: 'EditIcon',
+              variant: 'error',
+            },
+          })
           console.log(res.data.data)
         }
       })

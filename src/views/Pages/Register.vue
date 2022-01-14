@@ -71,13 +71,14 @@
                         >
                           <validation-provider
                               #default="{ errors }"
-                              name="namecompany"
+                              name="company_legal_name"
                               rules="required"
                           >
                             <b-form-input
-                                v-model="dataregister.namecompany"
+                                v-model="dataregister.company_legal_name"
                                 placeholder="johndoe"
                                 :state="errors.length > 0 ? false:null"
+                                type="text"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                           </validation-provider>
@@ -102,11 +103,11 @@
                         <b-form-group label="Company Type">
                           <validation-provider
                               #default="{ errors }"
-                              name="comapnytype"
+                              name="company_type"
                               rules="required"
                           >
                             <b-form-input
-                                v-model="dataregister.companytype" placeholder="Corporate"
+                                v-model="dataregister.company_type" placeholder="Corporate"
                                 :state="errors.length > 0 ? false:null"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
@@ -134,11 +135,11 @@
                         >
                           <validation-provider
                               #default="{ errors }"
-                              name="businessnature"
+                              name="nature_of_business"
                               rules="required"
                           >
                             <b-form-input
-                                v-model="dataregister.businessnature"
+                                v-model="dataregister.nature_of_business"
                                 placeholder="local / national"
                                 :state="errors.length > 0 ? false:null"
                             />
@@ -152,11 +153,11 @@
                         >
                           <validation-provider
                               #default="{ errors }"
-                              name="startdate"
+                              name="contract_start_date"
                               rules="required"
                           >
                             <b-form-input
-                                v-model="dataregister.startdate"
+                                v-model="dataregister.contract_start_date"
                                 :state="errors.length > 0 ? false:null"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
@@ -169,11 +170,11 @@
                         >
                           <validation-provider
                               #default="{ errors }"
-                              name="locationaddress"
+                              name="office_location_address"
                               rules="required"
                           >
                             <b-form-input
-                                v-model="dataregister.locationaddress"
+                                v-model="dataregister.office_location_address"
                                 placeholder="floor and suite"
                                 :state="errors.length > 0 ? false:null"
                             />
@@ -187,11 +188,11 @@
                         >
                           <validation-provider
                               #default="{ errors }"
-                              name="billingaddress"
+                              name="billing_address"
                               rules="required"
                           >
                             <b-form-input
-                                v-model="dataregister.billingaddress"
+                                v-model="dataregister.billing_address"
                                 placeholder="floor and suite"
                                 :state="errors.length > 0 ? false:null"
                             />
@@ -231,6 +232,7 @@
                                 v-model="dataregister.telephone_number"
                                 placeholder="038555555"
                                 :state="errors.length > 0 ? false:null"
+                                @keypress="isNumber($event)"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                           </validation-provider>
@@ -247,6 +249,7 @@
                             <b-form-input
                                 v-model="dataregister.fax_number" placeholder="155926969"
                                 :state="errors.length > 0 ? false:null"
+                                @keypress="isNumber($event)"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                           </validation-provider>
@@ -316,6 +319,7 @@
                                 v-model="dataregister.contact_number"
                                 placeholder="05656366"
                                 :state="errors.length > 0 ? false:null"
+                                @keypress="isNumber($event)"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                           </validation-provider>
@@ -344,12 +348,12 @@
                         >
                           <validation-provider
                               #default="{ errors }"
-                              name="additionalcontactname"
+                              name="additional_contact_name"
                               rules="required"
                           >
                             <b-form-input
                                 :state="errors.length > 0 ? false:null"
-                                v-model="dataregister.additionalcontactname"
+                                v-model="dataregister.additional_contact_name"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                           </validation-provider>
@@ -361,12 +365,12 @@
                         >
                           <validation-provider
                               #default="{ errors }"
-                              name="additionaltitle"
+                              name="additional_contact_title"
                               rules="required"
                           >
                             <b-form-input
                                 :state="errors.length > 0 ? false:null"
-                                v-model="dataregister.additionaltitle"
+                                v-model="dataregister.additional_contact_title"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                           </validation-provider>
@@ -378,13 +382,14 @@
                         >
                           <validation-provider
                               #default="{ errors }"
-                              name="additionalnumbercontac"
+                              name="additional_contact_number"
                               rules="required"
                           >
                             <b-form-input
-                                v-model="dataregister.additionalnumbercontac"
+                                v-model="dataregister.additional_contact_number"
                                 placeholder="658921"
                                 :state="errors.length > 0 ? false:null"
+                                @keypress="isNumber($event)"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                           </validation-provider>
@@ -396,11 +401,11 @@
                         >
                           <validation-provider
                               #default="{ errors }"
-                              name="additionalemail"
+                              name="additional_contact_email"
                               rules="required|email"
                           >
                             <b-form-input
-                                v-model="dataregister.additionalemail" placeholder="@"
+                                v-model="dataregister.additional_contact_email" placeholder="@"
                                 :state="errors.length > 0 ? false:null"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
@@ -428,12 +433,12 @@
                         <b-form-group label="Name on cc">
                           <validation-provider
                               #default="{ errors }"
-                              name="namecreditcard"
+                              name="name_on_cc"
                               rules="required"
                           >
                             <b-form-input
                                 placeholder="Jhon Doe"
-                                v-model="dataregister.namecreditcard"
+                                v-model="dataregister.name_on_cc"
                                 :state="errors.length > 0 ? false:null"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
@@ -446,13 +451,14 @@
                         >
                           <validation-provider
                               #default="{ errors }"
-                              name="numbercreditcard"
+                              name="cc_number"
                               rules="required"
                           >
                             <b-form-input
-                                v-model="dataregister.numbercreditcard"
+                                v-model="dataregister.cc_number"
                                 placeholder="1111 2222 1111 2222 11"
                                 :state="errors.length > 0 ? false:null"
+                                @keypress="isNumber($event)"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                           </validation-provider>
@@ -464,11 +470,11 @@
                         >
                           <validation-provider
                               #default="{ errors }"
-                              name="selectedcard"
+                              name="type_of_cc"
                               rules="required"
                           >
                             <b-form-select
-                                v-model="dataregister.selectedcard"
+                                v-model="dataregister.type_of_cc"
                                 :options="options"
                                 :state="errors.length > 0 ? false:null"
                             />
@@ -489,6 +495,7 @@
                                 v-model="dataregister.zip"
                                 placeholder="130008"
                                 :state="errors.length > 0 ? false:null"
+                                @keypress="isNumber($event)"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                           </validation-provider>
@@ -500,34 +507,19 @@
                         >
                           <validation-provider
                               #default="{ errors }"
-                              name="code"
+                              name="code_of_cc"
                               rules="required"
                           >
                             <b-form-input
-                                v-model="dataregister.code"
+                                v-model="dataregister.code_of_cc"
                                 placeholder="1303"
                                 :state="errors.length > 0 ? false:null"
+                                @keypress="isNumber($event)"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                           </validation-provider>
                         </b-form-group>
                       </b-col>
-                      <!--  <b-col md="6">
-                        <b-form-group label="Google+" label-for="i-google-plus">
-                          <b-form-input
-                            id="i-google-plus"
-                            placeholder="https://plus.google.com/abc"
-                          />
-                        </b-form-group>
-                      </b-col>
-                      <b-col md="6">
-                        <b-form-group label="LinkedIn" label-for="i-linked-in">
-                          <b-form-input
-                            id="i-linked-in"
-                            placeholder="https://linkedin.com/abc"
-                          />
-                        </b-form-group>
-                      </b-col> -->
                     </b-row>
                   </validation-observer>
                 </tab-content>
@@ -644,29 +636,29 @@ export default {
   data() {
     return {
       dataregister: {
-        namecompany: '',
+        company_legal_name: '',
         dba: '',
-        companytype: '',
+        company_type: '',
         tin: '',
-        businessnature: '',
-        startdate: '',
-        locationaddress: '',
-        billingaddress: '',
+        nature_of_business: '',
+        contract_start_date: '',
+        office_location_address: '',
+        billing_address: '',
         telephone_number: '',
         fax_number: '',
         email: '',
         website: '',
         contact_name: '',
         contact_number: '',
-        additionalcontactname: '',
-        additionaltitle: '',
-        additionalnumbercontac: '',
-        additionalemail: '',
-        namecreditcard: '',
-        numbercreditcard: '',
-        selectedcard: '',
+        additional_contact_name: '',
+        additional_contact_title: '',
+        additional_contact_number: '',
+        additional_contact_email: '',
+        name_on_cc: '',
+        cc_number: '',
+        type_of_cc: '',
         zip: '',
-        code: '',
+        code_of_cc: '',
       },
       enviados: [],
       status: '',
@@ -711,6 +703,19 @@ export default {
     },
   },
   methods: {
+    isNumber: function (evt) {
+      evt = evt ? evt : window.event;
+      var charCode = evt.which ? evt.which : evt.keyCode;
+      if (
+          charCode > 31 &&
+          (charCode < 48 || charCode > 57) &&
+          charCode !== 46
+      ) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
+    },
     register() {
       this.$refs.registerForm.validate()
           .then((success) => {
@@ -740,34 +745,59 @@ export default {
     formSubmitted() {
       axios.post('https://Amera-test.herokuapp.com/api/v1/ca/auth/register', this.dataregister, {
         headers: {
-          "X-Requested-With" : "XMLHttpRequest"
-        }
-      }).then((res) => {
-        if (res.data.data) {
-          this.$swal({
-            title: 'It has been successfully registered',
-            icon: 'success',
-            customClass: {
-              confirmButton: 'btn btn-primary',
-            },
-            buttonsStyling: false,
-          })
-          this.$refs.registerForm.reset();
-          // console.log('bien')
-        } else {
-          this.$swal({
-            title: 'Could not register',
-            icon: 'error',
-            customClass: {
-              confirmButton: 'btn btn-primary',
-            },
-            buttonsStyling: false,
-          })
-
-          // console.log(res.data.data)
+          'X-Requested-With': 'XMLHttpRequest'
         }
       })
+          .then((res) => {
+            if (res.data.status === 200) {
+              this.$swal({
+                title: 'It has been successfully registered',
+                icon: 'success',
+                customClass: {
+                  confirmButton: 'btn btn-primary',
+                },
+                buttonsStyling: false,
+              })
+              this.$refs.registerForm.reset();
 
+              //clear form
+                  this.dataregister.company_legal_name = '',
+                  this.dataregister.dba = '',
+                  this.dataregister.company_type = '',
+                  this.dataregister.tin = '',
+                  this.dataregister.nature_of_business = '',
+                  this.dataregister.contract_start_date = '',
+                  this.dataregister.office_location_address = '',
+                  this.dataregister.billing_address = '',
+                  this.dataregister.telephone_number = '',
+                  this.dataregister.fax_number = '',
+                  this.dataregister.email = '',
+                  this.dataregister.website = '',
+                  this.dataregister.contact_name = '',
+                  this.dataregister.contact_number = '',
+                  this.dataregister.additional_contact_name = '',
+                  this.dataregister.additional_contact_title = '',
+                  this.dataregister.additional_contact_number = '',
+                  this.dataregister.additional_contact_email = '',
+                  this.dataregister.name_on_cc = '',
+                  this.dataregister.cc_number = '',
+                  this.dataregister.type_of_cc = '',
+                  this.dataregister.zip = '',
+                  this.dataregister.code_of_cc = ''
+              // console.log('bien')
+            } else {
+              this.$swal({
+                title: 'Could not register',
+                icon: 'error',
+                customClass: {
+                  confirmButton: 'btn btn-primary',
+                },
+                buttonsStyling: false,
+              })
+
+              // console.log(res.data.data)
+            }
+          })
 
       // this.enviados = this.dataregister;
       // console.log(this.enviados)
@@ -821,6 +851,16 @@ export default {
       })
     },
   },
+  // mounted() {
+  //   this.$swal({
+  //     title: 'It has been successfully registered',
+  //     icon: 'success',
+  //     customClass: {
+  //       confirmButton: 'btn btn-primary',
+  //     },
+  //     buttonsStyling: false,
+  //   })
+  // }
 }
 /* eslint-disable global-require */
 </script>
