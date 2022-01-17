@@ -156,8 +156,12 @@
                               name="contract_start_date"
                               rules="required"
                           >
-                            <b-form-input
+                            <b-form-datepicker
                                 v-model="dataregister.contract_start_date"
+                                :min="min"
+                                :max="max"
+                                locale="en"
+                                placeholder="8/01/2022"
                                 :state="errors.length > 0 ? false:null"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
@@ -473,10 +477,13 @@
                               name="type_of_cc"
                               rules="required"
                           >
-                            <b-form-select
-                                v-model="dataregister.type_of_cc"
+                            <v-select
+                                v-model="credito"
                                 :options="options"
                                 :state="errors.length > 0 ? false:null"
+                                label="title"
+                                placeholder="Select a item"
+                                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                             />
                             <small class="text-danger">{{ errors[0] }}</small>
                           </validation-provider>
@@ -598,12 +605,14 @@ import {
   BImg,
   BCardTitle,
   BCardText,
-  BFormSelect,
+  BFormSelect, BFormDatepicker,
 } from 'bootstrap-vue'
 import { required, email } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
 import store from '@/store/index'
 import useJwt from '@/auth/jwt/useJwt'
+import vSelect from 'vue-select'
+
 
 export default {
   components: {
@@ -622,19 +631,33 @@ export default {
     BInputGroup,
     BInputGroupAppend,
     BFormSelect,
+    BFormDatepicker,
     // validations
     ValidationProvider,
     ValidationObserver,
     FormWizard,
     TabContent,
     ToastificationContent,
+    vSelect,
   },
   directives: {
     Ripple,
   },
   mixins: [togglePasswordVisibility],
   data() {
+    const now = new Date()
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    // 15th two months prior
+    const minDate = new Date(today)
+    minDate.setMonth(minDate.getMonth() - 2)
+    minDate.setDate(15)
+    // 15th in two months
+    const maxDate = new Date(today)
+    maxDate.setMonth(maxDate.getMonth() + 2)
+    maxDate.setDate(15)
     return {
+      min: minDate,
+      max: maxDate,
       dataregister: {
         company_legal_name: '',
         dba: '',
@@ -660,6 +683,7 @@ export default {
         zip: '',
         code_of_cc: '',
       },
+      credito: '',
       enviados: [],
       status: '',
       username: '',
@@ -670,22 +694,9 @@ export default {
       required,
       email,
       options: [
-        {
-          value: null,
-          text: 'Please select an item'
-        },
-        {
-          value: 'amex',
-          text: 'Amex'
-        },
-        {
-          value: 'visa',
-          text: 'Visa'
-        },
-        {
-          value: 'etc',
-          text: 'etc'
-        },
+        {title: 'Amex'},
+        {title: 'Visa'},
+        {title: 'etc'},
       ],
     }
   },
@@ -743,7 +754,8 @@ export default {
           })
     },
     formSubmitted() {
-      axios.post('https://Amera-test.herokuapp.com/api/v1/ca/auth/register', this.dataregister, {
+      this.dataregister.type_of_cc = this.credito.title;
+      axios.post('https://Amera-test.herokuapp.com/api/v1/auth/ca/register', this.dataregister, {
         headers: {
           'X-Requested-With': 'XMLHttpRequest'
         }
@@ -867,5 +879,7 @@ export default {
 
 <style lang="scss">
 @import "@core/scss/vue/pages/page-auth.scss";
+@import '@core/scss/vue/libs/vue-select.scss';
 @import "src/assets/scss/variables/variables-components.scss";
+
 </style>

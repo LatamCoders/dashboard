@@ -187,7 +187,7 @@
 
 <script>
 /* eslint-disable global-require */
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import {ValidationProvider, ValidationObserver} from 'vee-validate'
 import VuexyLogo from '@core/layouts/components/Logo.vue'
 import {
   BRow,
@@ -204,8 +204,8 @@ import {
   BForm,
   BButton,
 } from 'bootstrap-vue'
-import { required, email } from '@validations'
-import { togglePasswordVisibility } from '@core/mixins/ui/forms'
+import {required, email} from '@validations'
+import {togglePasswordVisibility} from '@core/mixins/ui/forms'
 import store from '@/store/index'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import axios from 'axios'
@@ -257,42 +257,81 @@ export default {
   methods: {
     validationForm() {
       this.$refs.loginValidation.validate()
-          // .then(success => {
-          //   if (success) {
-          //     this.$toast({
-          //       component: ToastificationContent,
-          //       props: {
-          //         title: 'Form Submitted',
-          //         icon: 'EditIcon',
-          //         variant: 'success',
-          //       },
-          //     })
-          //   }
-          // })
-      axios.post('https://Amera-test.herokuapp.com/api/v1/ca/auth/login', {
-            'email': this.userEmail,
-            'password': this.password,
-          }, {
-            headers: {
-              'X-Requested-With': 'XMLHttpRequest',
+      // .then(success => {
+      //   if (success) {
+      //     this.$toast({
+      //       component: ToastificationContent,
+      //       props: {
+      //         title: 'Form Submitted',
+      //         icon: 'EditIcon',
+      //         variant: 'success',
+      //       },
+      //     })
+      //   }
+      // })
+      if (this.userEmail === "" || this.password === "") {
+        this.$swal({
+          icon: 'error',
+          title: 'Error, fill in the fields',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
+        });
+      } else {
+        axios.post('https://Amera-test.herokuapp.com/api/v1/auth/ca/login', {
+              'email': this.userEmail,
+              'password': this.password,
+            }, {
+              headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+              }
             }
+        ).then((res) => {
+          if (res.data.data) {
+            this.$swal({
+              title: res.data.message,
+              icon: 'success',
+              customClass: {
+                confirmButton: 'btn btn-primary',
+              },
+              buttonsStyling: false,
+            })
+            setTimeout(function () {
+              console.log('bien')
+            }, 400);
+            this.$router.push({'name': 'home-corporate-acount'})
+            console.log(res.data.data)
+
+          } else {
+            console.log(res.data.data)
           }
-      ).then((res) => {
-        if (res.data.data) {
-          this.$router.push({'name': 'home-corporate-acount'})
-          console.log('bien')
-        } else if (res.data.status === 404){
-          this.$toast({
-            component: ToastificationContent,
-            props: {
-              title: 'Form No Submitted',
-              icon: 'EditIcon',
-              variant: 'error',
-            },
-          })
-          console.log(res.data.data)
-        }
-      })
+        })
+            .catch((res) => {
+              this.$swal({
+                title: 'Error, wrong email or password',
+                icon: 'error',
+                customClass: {
+                  confirmButton: 'btn btn-primary',
+                },
+                buttonsStyling: false,
+              })
+              console.log(res.message)
+            });
+      }
+      //     .catch((res) => {
+      //   if (res.data.status === 500) {
+      //     this.$toast({
+      //       component: ToastificationContent,
+      //       props: {
+      //         title: res.data.data,
+      //         icon: 'EditIcon',
+      //         variant: 'error',
+      //       },
+      //     })
+      //     console.log(res.data.data)
+      //   }
+      // })
     },
   },
 }

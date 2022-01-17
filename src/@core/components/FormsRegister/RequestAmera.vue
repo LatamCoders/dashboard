@@ -10,7 +10,6 @@
         class="steps-transparent mb-3 d-lg-flex d-xl-flex d-md-flex justify-content-center flex-xl-column formcreatepatient"
         @on-complete="formSubmitted"
         style="background-color: #fff"
-
     >
       <!-- account detail tab -->
       <tab-content
