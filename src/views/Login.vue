@@ -257,18 +257,6 @@ export default {
   methods: {
     validationForm() {
       this.$refs.loginValidation.validate()
-      // .then(success => {
-      //   if (success) {
-      //     this.$toast({
-      //       component: ToastificationContent,
-      //       props: {
-      //         title: 'Form Submitted',
-      //         icon: 'EditIcon',
-      //         variant: 'success',
-      //       },
-      //     })
-      //   }
-      // })
       if (this.userEmail === "" || this.password === "") {
         this.$swal({
           icon: 'error',
@@ -306,32 +294,18 @@ export default {
           } else {
             console.log(res.data.data)
           }
-        })
-            .catch((res) => {
-              this.$swal({
-                title: 'Error, wrong email or password',
-                icon: 'error',
-                customClass: {
-                  confirmButton: 'btn btn-primary',
-                },
-                buttonsStyling: false,
-              })
-              console.log(res.message)
-            });
+        }).catch((res) => {
+          this.$swal({
+            title: 'Error, wrong email or password',
+            icon: 'error',
+            customClass: {
+              confirmButton: 'btn btn-primary',
+            },
+            buttonsStyling: false,
+          })
+          console.log(res.message)
+        });
       }
-      //     .catch((res) => {
-      //   if (res.data.status === 500) {
-      //     this.$toast({
-      //       component: ToastificationContent,
-      //       props: {
-      //         title: res.data.data,
-      //         icon: 'EditIcon',
-      //         variant: 'error',
-      //       },
-      //     })
-      //     console.log(res.data.data)
-      //   }
-      // })
     },
   },
 }
