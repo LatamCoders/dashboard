@@ -24,11 +24,13 @@ const router = new VueRouter({
             active: true,
           },
         ],
+        requiresAuth: true,
+        permission: '2'
       },
     },
     {
-      path: '/home-corporate-acount',
-      name: 'home-corporate-acount',
+      path: '/home-corporate-account',
+      name: 'home-corporate-account',
       component: () => import('@/views/Pages/HomeCorporateAcount.vue'),
       meta: {
         pageTitle: 'Home Corporative',
@@ -38,6 +40,8 @@ const router = new VueRouter({
             active: true,
           },
         ],
+        requiresAuth: true,
+        permission: '3'
       },
     },
     {

@@ -62,7 +62,7 @@
                 >
                   <b-form-input
                       id="login-email"
-                      v-model="userEmail"
+                      v-model="person.userEmail"
                       :state="errors.length > 0 ? false:null"
                       name="login-email"
                       placeholder="john@example.com"
@@ -90,7 +90,7 @@
                   >
                     <b-form-input
                         id="login-password"
-                        v-model="password"
+                        v-model="person.password"
                         :state="errors.length > 0 ? false:null"
                         class="form-control-merge"
                         :type="passwordFieldType"
@@ -233,8 +233,10 @@ export default {
   data() {
     return {
       status: '',
-      password: '',
-      userEmail: '',
+      person: {
+        password: '',
+        userEmail: '',
+      },
       sideImg: require('@/assets/images/pages/login-v2.svg'),
       // validation rulesimport store from '@/store/index'
       required,
@@ -257,7 +259,7 @@ export default {
   methods: {
     validationForm() {
       this.$refs.loginValidation.validate()
-      if (this.userEmail === "" || this.password === "") {
+      if (this.person.userEmail === "" || this.person.password === "") {
         this.$swal({
           icon: 'error',
           title: 'Error, fill in the fields',
@@ -267,44 +269,40 @@ export default {
           buttonsStyling: false,
         });
       } else {
-        axios.post('https://Amera-test.herokuapp.com/api/v1/auth/ca/login', {
-              'email': this.userEmail,
-              'password': this.password,
-            }, {
-              headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-              }
-            }
-        ).then((res) => {
-          if (res.data.data) {
-            this.$swal({
-              title: res.data.message,
-              icon: 'success',
-              customClass: {
-                confirmButton: 'btn btn-primary',
-              },
-              buttonsStyling: false,
-            })
-            setTimeout(function () {
-              console.log('bien')
-            }, 400);
-            this.$router.push({'name': 'home-corporate-acount'})
-            console.log(res.data.data)
+        this.$store.dispatch("Users/retrieveToken", this.person)
+            .then((res) => {
+              this.$store.dispatch("Users/userData")
+                  .then(() => {
+                    this.$router.push({name: 'home-corporate-account'});
+                  }).catch((error) => console.log(error))
+              if (res.data.data) {
+                this.$swal({
+                  title: res.data.message,
+                  icon: 'success',
+                  customClass: {
+                    confirmButton: 'btn btn-primary',
+                  },
+                  buttonsStyling: false,
+                })
+                setTimeout(function () {
+                  console.log('bien')
+                }, 400);
 
-          } else {
-            console.log(res.data.data)
-          }
-        }).catch((res) => {
-          this.$swal({
-            title: 'Error, wrong email or password',
-            icon: 'error',
-            customClass: {
-              confirmButton: 'btn btn-primary',
-            },
-            buttonsStyling: false,
-          })
-          console.log(res.message)
-        });
+              } else {
+                console.log(res.data.data)
+              }
+            })
+            .catch((res) => {
+              this.$swal({
+                title: 'Error, wrong email or password',
+                icon: 'error',
+                customClass: {
+                  confirmButton: 'btn btn-primary',
+                },
+                buttonsStyling: false,
+              })
+              console.log(res.message)
+            });
       }
     },
   },
