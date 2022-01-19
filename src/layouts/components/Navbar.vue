@@ -30,9 +30,9 @@
         <template #button-content>
           <div class="d-sm-flex d-none user-nav">
             <p class="user-name font-weight-bolder mb-0">
-              Orlando Health
+              {{ $store.getters["Users/userData"].amera_user.name }}
             </p>
-            <span class="user-status">Corporate account</span>
+            <span class="user-status"> {{ $store.getters["Users/userData"].amera_user.role.role }} </span>
           </div>
           <b-avatar
               size="40"
@@ -103,6 +103,7 @@ import {
   BLink, BNavbarNav, BNavItemDropdown, BDropdownItem, BDropdownDivider, BAvatar,
 } from 'bootstrap-vue'
 import DarkToggler from '@core/layouts/components/app-navbar/components/DarkToggler.vue'
+import {email, required} from "@core/utils/validations/validations";
 
 export default {
   components: {
@@ -115,6 +116,9 @@ export default {
 
     // Navbar Components
     DarkToggler,
+  },
+  data() {
+    return {}
   },
   props: {
     toggleVerticalMenuActive: {
