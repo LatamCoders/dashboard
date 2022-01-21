@@ -6,27 +6,19 @@
       <template #aside>
         <b-avatar
             ref="previewEl"
-            :src="userData.avatar"
-            :text="avatarText(userData.fullName)"
-            :variant="`light-${resolveUserRoleVariant(userData.role)}`"
+            src="@/assets/images/avatars/13-small.png"
             size="90px"
             rounded
         />
       </template>
       <h4 class="mb-1">
-        {{ userData.fullName }}
+        {{ userData.name }}
       </h4>
       <div class="d-flex flex-wrap">
         <b-button
             variant="primary"
-            @click="$refs.refInputEl.click()"
+
         >
-          <input
-              ref="refInputEl"
-              type="file"
-              class="d-none"
-              @input="inputImageRenderer"
-          >
           <span class="d-none d-sm-inline">Update</span>
           <feather-icon
               icon="EditIcon"
@@ -34,6 +26,7 @@
           />
         </b-button>
         <b-button
+            v-if="userData.role.id === 2"
             variant="outline-secondary"
             class="ml-1"
         >
@@ -49,19 +42,19 @@
     <!-- User Info: Input Fields -->
     <b-form>
       <b-row>
-
         <!-- Field: Username -->
         <b-col
             cols="12"
-            md="4"
+            md="3"
         >
           <b-form-group
-              label="Username"
-              label-for="username"
+              label="Company Legal Name"
+
           >
             <b-form-input
-                id="username"
-                v-model="userData.username"
+                v-model="userData.corporate_account.company_legal_name"
+                disabled
+
             />
           </b-form-group>
         </b-col>
@@ -69,15 +62,14 @@
         <!-- Field: Full Name -->
         <b-col
             cols="12"
-            md="4"
+            md="3"
         >
           <b-form-group
-              label="Name"
-              label-for="full-name"
+              label="DBA"
           >
             <b-form-input
-                id="full-name"
-                v-model="userData.fullName"
+                v-model="userData.corporate_account.dba"
+                disabled
             />
           </b-form-group>
         </b-col>
@@ -85,56 +77,14 @@
         <!-- Field: Email -->
         <b-col
             cols="12"
-            md="4"
+            md="3"
         >
           <b-form-group
-              label="Email"
-              label-for="email"
+              label="Company Type"
           >
             <b-form-input
-                id="email"
-                v-model="userData.email"
-                type="email"
-            />
-          </b-form-group>
-        </b-col>
-
-        <!-- Field: Status -->
-        <b-col
-            cols="12"
-            md="4"
-        >
-          <b-form-group
-              label="Status"
-              label-for="user-status"
-          >
-            <v-select
-                v-model="userData.status"
-                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                :options="statusOptions"
-                :reduce="val => val.value"
-                :clearable="false"
-                input-id="user-status"
-            />
-          </b-form-group>
-        </b-col>
-
-        <!-- Field: Role -->
-        <b-col
-            cols="12"
-            md="4"
-        >
-          <b-form-group
-              label="User Role"
-              label-for="user-role"
-          >
-            <v-select
-                v-model="userData.role"
-                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                :options="roleOptions"
-                :reduce="val => val.value"
-                :clearable="false"
-                input-id="user-role"
+                v-model="userData.corporate_account.company_type"
+                disabled
             />
           </b-form-group>
         </b-col>
@@ -142,15 +92,78 @@
         <!-- Field: Email -->
         <b-col
             cols="12"
-            md="4"
+            md="3"
         >
           <b-form-group
-              label="Company"
-              label-for="company"
+              label="TIN"
           >
             <b-form-input
-                id="company"
-                v-model="userData.company"
+              v-model="userData.corporate_account.tin"
+              disabled
+            />
+          </b-form-group>
+        </b-col>
+
+      </b-row>
+      <b-row>
+        <!-- Field: Username -->
+        <b-col
+            cols="12"
+            md="3"
+        >
+          <b-form-group
+              label="Nature of Business"
+
+          >
+            <b-form-input
+                v-model="userData.corporate_account.nature_of_business"
+                disabled
+
+            />
+          </b-form-group>
+        </b-col>
+
+        <!-- Field: Full Name -->
+        <b-col
+            cols="12"
+            md="3"
+        >
+          <b-form-group
+              label="Contract start Date"
+          >
+            <b-form-input
+                v-model="userData.corporate_account.contract_start_date"
+                disabled
+            />
+          </b-form-group>
+        </b-col>
+
+        <!-- Field: Email -->
+        <b-col
+            cols="12"
+            md="3"
+        >
+          <b-form-group
+              label="Office Location Address"
+          >
+            <b-form-input
+                v-model="userData.corporate_account.office_location_address"
+                disabled
+            />
+          </b-form-group>
+        </b-col>
+
+        <!-- Field: Email -->
+        <b-col
+            cols="12"
+            md="3"
+        >
+          <b-form-group
+              label="Billing Address"
+          >
+            <b-form-input
+                v-model="userData.corporate_account.billing_address"
+                disabled
             />
           </b-form-group>
         </b-col>
@@ -158,50 +171,22 @@
       </b-row>
     </b-form>
 
-    <!-- PERMISSION TABLE -->
-    <b-card
-        no-body
-        class="border mt-1"
-    >
-      <b-card-header class="p-1">
-        <b-card-title class="font-medium-2">
-          <feather-icon
-              icon="LockIcon"
-              size="18"
-          />
-          <span class="align-middle ml-50">Permission</span>
-        </b-card-title>
-      </b-card-header>
-      <b-table
-          striped
-          responsive
-          class="mb-0"
-          :items="permissionsData"
-      >
-        <template #cell(module)="data">
-          {{ data.value }}
-        </template>
-        <template #cell()="data">
-          <b-form-checkbox :checked="data.value" />
-        </template>
-      </b-table>
-    </b-card>
 
     <!-- Action Buttons -->
-    <b-button
-        variant="primary"
-        class="mb-1 mb-sm-0 mr-0 mr-sm-1"
-        :block="$store.getters['app/currentBreakPoint'] === 'xs'"
-    >
-      Save Changes
-    </b-button>
-    <b-button
-        variant="outline-secondary"
-        type="reset"
-        :block="$store.getters['app/currentBreakPoint'] === 'xs'"
-    >
-      Reset
-    </b-button>
+<!--    <b-button-->
+<!--        variant="primary"-->
+<!--        class="mb-1 mb-sm-0 mr-0 mr-sm-1"-->
+<!--        :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
+<!--    >-->
+<!--      Save Changes-->
+<!--    </b-button>-->
+<!--    <b-button-->
+<!--        variant="outline-secondary"-->
+<!--        type="reset"-->
+<!--        :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
+<!--    >-->
+<!--      Reset-->
+<!--    </b-button>-->
   </div>
 </template>
 
@@ -233,88 +218,15 @@ export default {
     vSelect,
   },
   props: {
-    userData: {
-      type: Object,
-      required: true,
-    },
+    userData: {},
   },
-  setup(props) {
-    const { resolveUserRoleVariant } = useUsersList()
-
-    const roleOptions = [
-      { label: 'Admin', value: 'admin' },
-      { label: 'Author', value: 'author' },
-      { label: 'Editor', value: 'editor' },
-      { label: 'Maintainer', value: 'maintainer' },
-      { label: 'Subscriber', value: 'subscriber' },
-    ]
-
-    const statusOptions = [
-      { label: 'Pending', value: 'pending' },
-      { label: 'Active', value: 'active' },
-      { label: 'Inactive', value: 'inactive' },
-    ]
-
-    const permissionsData = [
-      {
-        module: 'Admin',
-        read: true,
-        write: false,
-        create: false,
-        delete: false,
-      },
-      {
-        module: 'Staff',
-        read: false,
-        write: true,
-        create: false,
-        delete: false,
-      },
-      {
-        module: 'Author',
-        read: true,
-        write: false,
-        create: true,
-        delete: false,
-      },
-      {
-        module: 'Contributor',
-        read: false,
-        write: false,
-        create: false,
-        delete: false,
-      },
-      {
-        module: 'User',
-        read: false,
-        write: false,
-        create: false,
-        delete: true,
-      },
-    ]
-
-    // ? Demo Purpose => Update image on click of update
-    const refInputEl = ref(null)
-    const previewEl = ref(null)
-
-    const { inputImageRenderer } = useInputImageRenderer(refInputEl, base64 => {
-      // eslint-disable-next-line no-param-reassign
-      props.userData.avatar = base64
-    })
-
+  setup() {
     return {
-      resolveUserRoleVariant,
-      avatarText,
-      roleOptions,
-      statusOptions,
-      permissionsData,
-
-      //  ? Demo - Update Image on click of update button
-      refInputEl,
-      previewEl,
-      inputImageRenderer,
     }
   },
+  // mounted() {
+  //   console.log(this.userData)
+  // }
 }
 </script>
 

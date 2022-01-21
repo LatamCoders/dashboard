@@ -1,4 +1,3 @@
-
 import createPersistedState from "vuex-persistedstate";
 import SecureLS from "secure-ls";
 import axios from "axios";
@@ -9,7 +8,7 @@ export const Users = {
     namespaced: true,
     state: {
         token: null,
-        user: {}
+        user: {},
     },
     getters: {
         loggedIn(state) {
@@ -17,7 +16,7 @@ export const Users = {
         },
         userData(state) {
             return state.user
-        }
+        },
     },
     mutations: {
         retrieveToken(state, token) {
@@ -35,22 +34,22 @@ export const Users = {
     },
     actions: {
         retrieveToken(context, payload) {
+            let url = '';
+            url = payload.loginType === 'admin' ? 'auth/admin/login' : 'auth/ca/login';
+
             return new Promise((resolve, reject) => {
-                axios.post('auth/ca/login', {
-                          email: payload.userEmail,
-                          password: payload.password
-                        }, {
-                          headers: {
-                            'X-Requested-With': 'XMLHttpRequest',
-                          }
-                        }
-                    )
+                axios.post(url, {
+                        email: payload.userEmail,
+                        password: payload.password
+                    }
+                )
                     .then(response => {
                         // console.log(response)
                         // console.log(resolve)
                         const token = response.data.data.access_token;
                         // console.log(token)
                         context.commit('retrieveToken', token);
+                        context.commit('userData', response.data.data);
                         resolve(response)
                     })
                     .catch(error => {
@@ -58,41 +57,33 @@ export const Users = {
                     })
             })
         },
-        userData(context) {
-            let auth = 'Bearer' + context.state.token
-            axios.get('ca/1/profile', {'headers': {'X-Requested-With': 'XMLHttpRequest','Authorization': auth}})
-                .then((response) => {
-                    let data = response.data.data;
-                    // console.log(data)
-                    context.commit('userData', data)
-                })
-                .catch((error) => {
-                    console.log(error.response)
-                });
+        destroyToken(context, payload) {
+            if (context.getters.loggedIn) {
+                let url = '';
+                url = payload.loginType === 'admin' ? 'auth/admin/login' : 'auth/ca/login';
 
-        },
-    },
-
-    destroyToken(context) {
-        if (context.getters.loggedIn) {
-
-            return new Promise((resolve, reject) => {
-                axios.post('auth/ca/logout', '', {
-                    headers: {Authorization: "Bearer" + context.state.token}
-                })
-                    .then(response => {
-                        context.commit('destroyToken');
-                        context.commit('destroyUser');
-
-                        resolve(response)
+                return new Promise((resolve, reject) => {
+                    axios.post(url, '', {
+                        headers: {Authorization: "Bearer " + context.state.token}
                     })
-                    .catch(error => {
-                        context.commit('destroyUser');
+                        .then(response => {
+                            context.commit('destroyToken');
+                            context.commit('destroyUser');
 
-                        reject(error)
-                    })
-            })
+                            localStorage.removeItem('us_ri_td');
+
+                            resolve(response)
+                        })
+                        .catch(error => {
+                            context.commit('destroyUser');
+                            localStorage.removeItem('us_ri_td');
+
+                            reject(error)
+                        })
+                })
+            }
         }
+
     }
 }
 export const userState = createPersistedState({

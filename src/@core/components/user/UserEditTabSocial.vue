@@ -23,26 +23,27 @@
                 :id="socialField.dataField"
                 v-model="userDataSocial[socialField.dataField]"
                 type="url"
+                disabled
             />
           </b-input-group>
         </b-form-group>
       </b-col>
 
-      <b-col class="mt-2">
-        <b-button
-            variant="primary"
-            class="mb-1 mb-sm-0 mr-0 mr-sm-1"
-            :block="$store.getters['app/currentBreakPoint'] === 'xs'"
-        >
-          Save Changes
-        </b-button>
-        <b-button
-            variant="outline-secondary"
-            :block="$store.getters['app/currentBreakPoint'] === 'xs'"
-        >
-          Reset
-        </b-button>
-      </b-col>
+<!--      <b-col class="mt-2">-->
+<!--        <b-button-->
+<!--            variant="primary"-->
+<!--            class="mb-1 mb-sm-0 mr-0 mr-sm-1"-->
+<!--            :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
+<!--        >-->
+<!--          Save Changes-->
+<!--        </b-button>-->
+<!--        <b-button-->
+<!--            variant="outline-secondary"-->
+<!--            :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
+<!--        >-->
+<!--          Reset-->
+<!--        </b-button>-->
+<!--      </b-col>-->
     </b-row>
   </b-form>
 </template>

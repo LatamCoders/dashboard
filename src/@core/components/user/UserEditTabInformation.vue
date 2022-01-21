@@ -23,14 +23,11 @@
             lg="4"
         >
           <b-form-group
-              label="Birth Date"
-              label-for="birth-date"
+              label="Telephone Number"
           >
-            <flat-pickr
-                v-model="userDataInfo.dob"
-                class="form-control"
-                :config="{ dateFormat: 'Y-m-d'}"
-                placeholder="YYYY-MM-DD"
+            <b-form-input
+                v-model="infoUser.telephone_number"
+                disabled
             />
           </b-form-group>
         </b-col>
@@ -42,12 +39,13 @@
             lg="4"
         >
           <b-form-group
-              label="Mobile"
-              label-for="mobile"
+              label="Fax Number"
+
           >
             <b-form-input
-                id="mobile"
-                v-model="userDataInfo.mobile"
+
+                v-model="infoUser.fax_number"
+                disabled
             />
           </b-form-group>
         </b-col>
@@ -59,12 +57,11 @@
             lg="4"
         >
           <b-form-group
-              label="Website"
-              label-for="website"
+              label="Email"
           >
             <b-form-input
-                id="website"
-                v-model="userDataInfo.website"
+                disabled
+                v-model="infoUser.email"
             />
           </b-form-group>
         </b-col>
@@ -76,15 +73,11 @@
             lg="4"
         >
           <b-form-group
-              label="Language"
-              label-for="language"
+              label="Website"
           >
-            <v-select
-                v-model="userDataInfo.language"
-                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                :options="languageOptions"
-                :clearable="false"
-                input-id="language"
+            <b-form-input
+                v-model="infoUser.website"
+                disabled
             />
           </b-form-group>
         </b-col>
@@ -96,15 +89,12 @@
             lg="4"
         >
           <b-form-group
-              label="Gender"
-              label-for="gender"
-              label-class="mb-1"
+              label="Contact Name"
           >
-            <b-form-radio-group
+            <b-form-input
                 id="gender"
-                v-model="userDataInfo.gender"
-                :options="genderOptions"
-                value="male"
+                v-model="infoUser.contact_name"
+                disabled
             />
           </b-form-group>
         </b-col>
@@ -116,14 +106,12 @@
             lg="4"
         >
           <b-form-group
-              label="Contact Options"
-              label-for="contact-options"
-              label-class="mb-1"
+              label="Contact Number"
+
           >
-            <b-form-checkbox-group
-                id="contact-options"
-                v-model="userDataInfo.contactOptions"
-                :options="contactOptionsOptions"
+            <b-form-input
+                v-model="infoUser.contact_number"
+                disabled
             />
           </b-form-group>
         </b-col>
@@ -150,12 +138,11 @@
             lg="4"
         >
           <b-form-group
-              label="Address Line 1"
-              label-for="address-line-1"
+              label="Additional Contact Name"
           >
             <b-form-input
-                id="address-line-1"
-                v-model="userDataInfo.addressLine1"
+                v-model="infoUser.additional_contact_name"
+                disabled
             />
           </b-form-group>
         </b-col>
@@ -167,13 +154,12 @@
             lg="4"
         >
           <b-form-group
-              label="Address Line 2"
-              label-for="address-line-2"
+              label="Additional Contact Title"
           >
             <b-form-input
-                id="address-line-2"
-                v-model="userDataInfo.addressLine2"
+                v-model="infoUser.additional_contact_title"
                 placeholder="Los Santos"
+                disabled
             />
           </b-form-group>
         </b-col>
@@ -185,14 +171,11 @@
             lg="4"
         >
           <b-form-group
-              label="Postcode"
-              label-for="postcode"
+              label="Additional Contact Number"
           >
             <b-form-input
-                id="postcode"
-                v-model="userDataInfo.postcode"
-                type="number"
-                placeholder="597626"
+                v-model="infoUser.additional_contact_number"
+                disabled
             />
           </b-form-group>
         </b-col>
@@ -204,70 +187,35 @@
             lg="4"
         >
           <b-form-group
-              label="City"
-              label-for="city"
+              label="Additional Contact Email"
           >
             <b-form-input
                 id="city"
-                v-model="userDataInfo.city"
+                v-model="infoUser.additional_contact_email"
+                disabled
             />
           </b-form-group>
         </b-col>
 
-        <!-- Field: State -->
-        <b-col
-            cols="12"
-            md="6"
-            lg="4"
-        >
-          <b-form-group
-              label="State"
-              label-for="state"
-          >
-            <b-form-input
-                id="state"
-                v-model="userDataInfo.state"
-                placeholder="Manhattan"
-            />
-          </b-form-group>
-        </b-col>
-
-        <!-- Field: Country -->
-        <b-col
-            cols="12"
-            md="6"
-            lg="4"
-        >
-          <b-form-group
-              label="Country"
-              label-for="country"
-          >
-            <b-form-input
-                id="country"
-                v-model="userDataInfo.country"
-                placeholder="United States"
-            />
-          </b-form-group>
-        </b-col>
       </b-row>
 
-      <b-row class="mt-2">
-        <b-col>
-          <b-button
-              variant="primary"
-              class="mb-1 mb-sm-0 mr-0 mr-sm-1"
-              :block="$store.getters['app/currentBreakPoint'] === 'xs'"
-          >
-            Save Changes
-          </b-button>
-          <b-button
-              variant="outline-secondary"
-              :block="$store.getters['app/currentBreakPoint'] === 'xs'"
-          >
-            Reset
-          </b-button>
-        </b-col>
-      </b-row>
+<!--      <b-row class="mt-2">-->
+<!--        <b-col>-->
+<!--          <b-button-->
+<!--              variant="primary"-->
+<!--              class="mb-1 mb-sm-0 mr-0 mr-sm-1"-->
+<!--              :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
+<!--          >-->
+<!--            Save Changes-->
+<!--          </b-button>-->
+<!--          <b-button-->
+<!--              variant="outline-secondary"-->
+<!--              :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
+<!--          >-->
+<!--            Reset-->
+<!--          </b-button>-->
+<!--        </b-col>-->
+<!--      </b-row>-->
     </b-form>
   </div>
 </template>
@@ -277,53 +225,21 @@ import {
   BRow, BCol, BForm, BFormGroup, BFormInput, BFormRadioGroup, BFormCheckboxGroup, BButton,
 } from 'bootstrap-vue'
 import flatPickr from 'vue-flatpickr-component'
-import { ref } from '@vue/composition-api'
+import {ref} from '@vue/composition-api'
 import vSelect from 'vue-select'
 
 export default {
   components: {
     BRow, BCol, BForm, BFormGroup, flatPickr, BFormInput, vSelect, BFormRadioGroup, BFormCheckboxGroup, BButton,
   },
-  setup() {
-    const userDataInfo = ref({
-      dob: null,
-      mobile: '+6595895857',
-      website: 'https://rowboat.com/insititious/Angelo',
-      language: 'French',
-      gender: 'female',
-      contactOptions: ['Email', 'Message'],
-      addressLine1: 'A-65, Belvedere Streets',
-      addressLine2: '',
-      postcode: '',
-      city: 'New York',
-      state: '',
-      country: '',
-    })
-
-    const languageOptions = [
-      'English',
-      'Spanish',
-      'French',
-      'Russian',
-      'German',
-      'Arabic',
-      'Sanskrit',
-    ]
-
-    const genderOptions = [
-      { text: 'Male', value: 'male' },
-      { text: 'Female', value: 'female' },
-    ]
-
-    const contactOptionsOptions = ['Email', 'Message', 'Phone']
-
-    return {
-      userDataInfo,
-      languageOptions,
-      genderOptions,
-      contactOptionsOptions,
-    }
+  props: {
+    infoUser: {},
   },
+  setup() {
+  },
+  // mounted() {
+  //   console.log(this.infoUser)
+  // }
 }
 </script>
 

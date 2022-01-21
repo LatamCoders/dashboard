@@ -64,7 +64,7 @@
           :items="navMenuItems"
           class="navigation navigation-main"
       />
-      <div style="position: absolute;top: 85%;margin-left: 16px;">
+      <div style="position: absolute;top: 85%;margin-left: 16px;" v-if="this.$store.getters['Users/userData'].user.role.id === 3">
         <router-link to="/">
           <h4 style="color: white; font-size: 1.1rem; font-weight: lighter">Chat: </h4>
         </router-link>

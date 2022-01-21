@@ -1,3 +1,5 @@
+
+
 export default [
     {
         title: 'Dashboard corporative',
@@ -19,19 +21,38 @@ export default [
         ],
     },
     // {
-    //   title: 'Clients',
-    //   route: 'second-page',
-    //   icon: 'UserIcon',
-    //   children: [
-    //     {
-    //       title: 'Profiles',
-    //       route: '',
+    //     title: 'Booking center',
+    //     route: 'home-corporate-acount',
+    //     icon: 'HomeIcon',
+    //     meta: {
+    //         requiresAuth: true,
+    //         permission: '2'
     //     },
-    //     {
-    //       title: 'Call/Chat center',
-    //       route: '/',
-    //     },
-    //   ],
+    //     children: [
+    //         {
+    //             title: 'Trips',
+    //             route: 'trips',
+    //         },
+    //         {
+    //             title: 'Booking and tracking',
+    //             route: 'booking-and-tracking',
+    //         },
+    //     ],
+    // },
+    // {
+    //     title: 'Clients',
+    //     route: 'second-page',
+    //     icon: 'UserIcon',
+    //     children: [
+    //         {
+    //             title: 'Profiles',
+    //             route: '',
+    //         },
+    //         {
+    //             title: 'Call/Chat center',
+    //             route: '/',
+    //         },
+    //     ],
     // },
     // {
     //   title: 'Providers',

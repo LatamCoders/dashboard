@@ -30,7 +30,8 @@ require('@/assets/scss/style.scss')
 
 Vue.config.productionTip = false
 
-axios.defaults.baseURL = 'https://Amera-test.herokuapp.com/api/v1/'
+axios.defaults.baseURL = 'https://Amera-test.herokuapp.com/api/v1/';
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 // Redirect if not login
 router.beforeEach((to, from, next) => {
@@ -49,7 +50,7 @@ router.beforeEach((to, from, next) => {
 
   //Entrar corporate account
   if (to.matched.some(record => record.meta.permission === '3')) {
-    if (store.getters["Users/userData"].amera_user.role.id === 3) {
+    if (store.getters["Users/userData"].user.role.id === 3) {
       next()
     } else {
       next({
@@ -62,7 +63,7 @@ router.beforeEach((to, from, next) => {
 
   /*Entrar si es admin*/
   if (to.matched.some(record => record.meta.permission === '2')) {
-    if (store.getters["Users/userData"].id === 2) {
+    if (store.getters["Users/userDataAdmin"].user.role.id  === 2) {
       next()
     } else {
       next({

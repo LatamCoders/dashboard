@@ -17,7 +17,7 @@
           </h2>
           <div class="breadcrumb-wrapper">
             <b-breadcrumb>
-              <b-breadcrumb-item to="/home-corporate-account">
+              <b-breadcrumb-item to="home-corporate-account">
                 <feather-icon
                   icon="HomeIcon"
                   size="16"

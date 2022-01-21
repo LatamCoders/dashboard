@@ -34,6 +34,12 @@
             lg="12"
             class="px-xl-2 mx-auto form-login"
         >
+
+          <b-row class="mb-1" v-if="btnUser !== ''">
+            <b-button class="mx-1 btn-icon sigin" v-model="atras" @click="retornarInicio">
+              <feather-icon icon="ArrowLeftIcon"/>
+            </b-button>
+          </b-row>
           <b-card-title
               title-tag="h2"
               class="font-weight-bold mb-1"
@@ -44,94 +50,198 @@
             Please sign-in to your account and start the adventure
           </b-card-text>
 
-          <!-- form -->
-          <validation-observer ref="loginValidation">
-            <b-form
-                class="auth-login-form mt-2"
-                @submit.prevent
-            >
-              <!-- email -->
-              <b-form-group
-                  label="Email"
-                  label-for="login-email"
-              >
-                <validation-provider
-                    #default="{ errors }"
-                    name="Email"
-                    rules="required|email"
-                >
-                  <b-form-input
-                      id="login-email"
-                      v-model="person.userEmail"
-                      :state="errors.length > 0 ? false:null"
-                      name="login-email"
-                      placeholder="john@example.com"
-                  />
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
-              </b-form-group>
 
-              <!-- forgot password -->
-              <b-form-group>
-                <div class="d-flex justify-content-between">
-                  <label for="login-password">Password</label>
-                  <b-link :to="{name:'forgot-password'}">
-                    <small class="colors-login">Forgot Password?</small>
-                  </b-link>
-                </div>
-                <validation-provider
-                    #default="{ errors }"
-                    name="Password"
-                    rules="required"
+          <b-card-text v-if="btnUser === ''">
+            <b-row>
+              <b-col class="d-flex" style="justify-content: space-around">
+                <b-button class="sigin" @click="btnUser = 'admin'">I'm admin</b-button>
+                <b-button class="sigin" @click="btnUser = 'CA'">I'm corporate account</b-button>
+              </b-col>
+            </b-row>
+          </b-card-text>
+
+          <!-- form Admin -->
+          <transition name="fade" mode="out-in">
+            <validation-observer ref="loginValidation" v-if="btnUser === 'admin'">
+
+              <b-form
+                  class="auth-login-form mt-2"
+                  @submit.prevent
+              >
+                <!-- email -->
+                <b-form-group
+                    label="Email"
+                    label-for="login-email"
                 >
-                  <b-input-group
-                      class="input-group-merge"
-                      :class="errors.length > 0 ? 'is-invalid':null"
+                  <validation-provider
+                      #default="{ errors }"
+                      name="Email"
+                      rules="required|email"
                   >
                     <b-form-input
-                        id="login-password"
-                        v-model="person.password"
+                        id="login-email"
+                        v-model="person.userEmail"
                         :state="errors.length > 0 ? false:null"
-                        class="form-control-merge"
-                        :type="passwordFieldType"
-                        name="login-password"
-                        placeholder="············"
+                        name="login-email"
+                        placeholder="john@example.com"
                     />
-                    <b-input-group-append is-text>
-                      <feather-icon
-                          class="cursor-pointer"
-                          :icon="passwordToggleIcon"
-                          @click="togglePasswordVisibility"
+                    <small class="text-danger">{{ errors[0] }}</small>
+                  </validation-provider>
+                </b-form-group>
+
+                <!-- forgot password -->
+                <b-form-group>
+                  <div class="d-flex justify-content-between">
+                    <label for="login-password">Password</label>
+                    <b-link :to="{name:'forgot-password'}">
+                      <small class="colors-login">Forgot Password?</small>
+                    </b-link>
+                  </div>
+                  <validation-provider
+                      #default="{ errors }"
+                      name="Password"
+                      rules="required"
+                  >
+                    <b-input-group
+                        class="input-group-merge"
+                        :class="errors.length > 0 ? 'is-invalid':null"
+                    >
+                      <b-form-input
+                          id="login-password"
+                          v-model="person.password"
+                          :state="errors.length > 0 ? false:null"
+                          class="form-control-merge"
+                          :type="passwordFieldType"
+                          name="login-password"
+                          placeholder="············"
                       />
-                    </b-input-group-append>
-                  </b-input-group>
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
-              </b-form-group>
+                      <b-input-group-append is-text>
+                        <feather-icon
+                            class="cursor-pointer"
+                            :icon="passwordToggleIcon"
+                            @click="togglePasswordVisibility"
+                        />
+                      </b-input-group-append>
+                    </b-input-group>
+                    <small class="text-danger">{{ errors[0] }}</small>
+                  </validation-provider>
+                </b-form-group>
 
-              <!-- checkbox -->
-              <b-form-group>
-                <b-form-checkbox
-                    id="remember-me"
-                    v-model="status"
-                    name="checkbox-1"
+                <!-- checkbox -->
+                <b-form-group>
+                  <b-form-checkbox
+                      id="remember-me"
+                      v-model="status"
+                      name="checkbox-1"
+                  >
+                    Remember Me
+                  </b-form-checkbox>
+                </b-form-group>
+
+                <!-- submit buttons -->
+                <b-button
+                    type="submit"
+                    variant="primary"
+                    block
+                    @click="validationForm"
+                    class="sigin"
                 >
-                  Remember Me
-                </b-form-checkbox>
-              </b-form-group>
+                  Sign in
+                </b-button>
+              </b-form>
+            </validation-observer>
+          </transition>
 
-              <!-- submit buttons -->
-              <b-button
-                  type="submit"
-                  variant="primary"
-                  block
-                  @click="validationForm"
-                  class="sigin"
+          <!-- form corporate account -->
+          <transition name="fade" mode="out-in">
+            <validation-observer ref="loginValidation" v-if="btnUser === 'CA'">
+              <b-form
+                  class="auth-login-form mt-2"
+                  @submit.prevent
               >
-                Sign in
-              </b-button>
-            </b-form>
-          </validation-observer>
+                <!-- email -->
+                <b-form-group
+                    label="Email"
+                    label-for="login-email"
+                >
+                  <validation-provider
+                      #default="{ errors }"
+                      name="Email"
+                      rules="required|email"
+                  >
+                    <b-form-input
+                        id="login-email"
+                        v-model="person.userEmail"
+                        :state="errors.length > 0 ? false:null"
+                        name="login-email"
+                        placeholder="john@example.com"
+                    />
+                    <small class="text-danger">{{ errors[0] }}</small>
+                  </validation-provider>
+                </b-form-group>
+
+                <!-- forgot password -->
+                <b-form-group>
+                  <div class="d-flex justify-content-between">
+                    <label for="login-password">Password</label>
+                    <b-link :to="{name:'forgot-password'}">
+                      <small class="colors-login">Forgot Password?</small>
+                    </b-link>
+                  </div>
+                  <validation-provider
+                      #default="{ errors }"
+                      name="Password"
+                      rules="required"
+                  >
+                    <b-input-group
+                        class="input-group-merge"
+                        :class="errors.length > 0 ? 'is-invalid':null"
+                    >
+                      <b-form-input
+                          id="login-password"
+                          v-model="person.password"
+                          :state="errors.length > 0 ? false:null"
+                          class="form-control-merge"
+                          :type="passwordFieldType"
+                          name="login-password"
+                          placeholder="············"
+                      />
+                      <b-input-group-append is-text>
+                        <feather-icon
+                            class="cursor-pointer"
+                            :icon="passwordToggleIcon"
+                            @click="togglePasswordVisibility"
+                        />
+                      </b-input-group-append>
+                    </b-input-group>
+                    <small class="text-danger">{{ errors[0] }}</small>
+                  </validation-provider>
+                </b-form-group>
+
+                <!-- checkbox -->
+                <b-form-group>
+                  <b-form-checkbox
+                      id="remember-me"
+                      v-model="status"
+                      name="checkbox-1"
+                  >
+                    Remember Me
+                  </b-form-checkbox>
+                </b-form-group>
+
+                <!-- submit buttons -->
+                <b-button
+                    type="submit"
+                    variant="primary"
+                    block
+                    @click="validationForm"
+                    class="sigin"
+                >
+                  Sign in
+                </b-button>
+              </b-form>
+            </validation-observer>
+          </transition>
 
           <b-card-text class="text-center mt-2">
             <span>New on our platform? </span>
@@ -236,7 +346,12 @@ export default {
       person: {
         password: '',
         userEmail: '',
+        loginType: '',
       },
+      viewFormCorporate: false,
+      viewFormAdmin: false,
+      btnUser: '',
+      atras: false,
       sideImg: require('@/assets/images/pages/login-v2.svg'),
       // validation rulesimport store from '@/store/index'
       required,
@@ -256,6 +371,12 @@ export default {
       return this.sideImg
     },
   },
+  watch: {
+    btnUser() {
+      this.person.loginType = this.btnUser;
+    }
+  },
+
   methods: {
     validationForm() {
       this.$refs.loginValidation.validate()
@@ -269,13 +390,14 @@ export default {
           buttonsStyling: false,
         });
       } else {
+        this.$swal({
+          title: 'Please, wait...',
+          didOpen: () => {
+            this.$swal.showLoading();
+          }
+        });
         this.$store.dispatch("Users/retrieveToken", this.person)
             .then((res) => {
-              this.$store.dispatch("Users/userData")
-                  .then(() => {
-                    this.$router.push({name: 'home-corporate-account'});
-                  }).catch((error) => console.log(error))
-              if (res.data.data) {
                 this.$swal({
                   title: res.data.message,
                   icon: 'success',
@@ -284,25 +406,31 @@ export default {
                   },
                   buttonsStyling: false,
                 })
-                setTimeout(function () {
-                  console.log('bien')
-                }, 400);
-
-              } else {
-                console.log(res.data.data)
+              if(this.person.loginType === 'admin') {
+                this.$router.push({ name: 'home-admin'})
+              }else {
+                this.$router.push({ name: 'home-corporate-account'})
               }
             })
-            .catch((res) => {
+            .catch((err) => {
               this.$swal({
-                title: 'Error, wrong email or password',
+                title: `Error, ${err.response.data.data}`,
                 icon: 'error',
                 customClass: {
                   confirmButton: 'btn btn-primary',
                 },
                 buttonsStyling: false,
               })
-              console.log(res.message)
+              console.log(err.message)
             });
+      }
+    },
+    retornarInicio() {
+      this.atras = true
+      if (this.atras === true) {
+        this.btnUser = "";
+        this.person.userEmail = "";
+        this.person.password = "";
       }
     },
   },
@@ -312,4 +440,13 @@ export default {
 <style lang="scss">
 @import '@core/scss/vue/pages/page-auth.scss';
 @import "src/assets/scss/variables/variables-components.scss";
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .1ms;
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
+{
+  opacity: 0;
+}
 </style>

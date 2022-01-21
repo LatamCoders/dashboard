@@ -29,10 +29,10 @@
       >
         <template #button-content>
           <div class="d-sm-flex d-none user-nav">
-            <p class="user-name font-weight-bolder mb-0">
-              {{ $store.getters["Users/userData"].amera_user.name }}
+            <p class="user-name font-weight-bolder mb-0" >
+              {{ $store.getters["Users/userData"].user.name }}
             </p>
-            <span class="user-status"> {{ $store.getters["Users/userData"].amera_user.role.role }} </span>
+            <span class="user-status"> {{ $store.getters["Users/userData"].user.role.role }} </span>
           </div>
           <b-avatar
               size="40"
