@@ -2,7 +2,7 @@
   <div
       id="user-profile"
   >
-    <component :is="info.corporate_account === undefined ? 'div' : 'b-card'">
+    <component :is="info.corporate_account === undefined ? 'b-card' : 'b-card'">
 
       <!-- Alert: No item found -->
 <!--      <b-alert-->
@@ -15,7 +15,7 @@
 <!--      </b-alert>-->
 
       <b-tabs
-          v-if="info.corporate_account"
+          v-if="info.corporate_account || info.amera_admin"
           pills
       >
 
@@ -36,7 +36,7 @@
         </b-tab>
 
         <!-- Tab: Information -->
-        <b-tab>
+        <b-tab v-if="info.role.id === 3">
           <template #title>
             <feather-icon
                 icon="InfoIcon"
@@ -51,16 +51,16 @@
         </b-tab>
 
         <!-- Tab: Social -->
-        <b-tab>
+        <b-tab v-if="info.role.id === 3">
           <template #title>
             <feather-icon
                 icon="Share2Icon"
                 size="16"
                 class="mr-0 mr-sm-50"
             />
-            <span class="d-none d-sm-inline">Social</span>
+            <span class="d-none d-sm-inline">Payment method</span>
           </template>
-          <user-edit-tab-social class="mt-2 pt-75"/>
+          <user-edit-tab-social :info-payment="info.corporate_account.corporate_account_payment_method" class="mt-2 pt-75"/>
         </b-tab>
       </b-tabs>
     </component>

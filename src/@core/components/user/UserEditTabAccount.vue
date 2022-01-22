@@ -11,9 +11,12 @@
             rounded
         />
       </template>
-      <h4 class="mb-1">
-        {{ userData.name }}
+      <h4 class="">
+        {{ userData.name }} ( <span style="font-size: 0.9rem">
+        {{ userData.email }}
+      </span>)
       </h4>
+
       <div class="d-flex flex-wrap">
         <b-button
             variant="primary"
@@ -25,22 +28,59 @@
               class="d-inline d-sm-none"
           />
         </b-button>
-        <b-button
-            v-if="userData.role.id === 2"
-            variant="outline-secondary"
-            class="ml-1"
-        >
-          <span class="d-none d-sm-inline">Remove</span>
-          <feather-icon
-              icon="TrashIcon"
-              class="d-inline d-sm-none"
-          />
-        </b-button>
+<!--        <b-button-->
+<!--            v-if="userData.role.id === 2"-->
+<!--            variant="outline-secondary"-->
+<!--            class="ml-1"-->
+<!--        >-->
+<!--          <span class="d-none d-sm-inline">Remove</span>-->
+<!--          <feather-icon-->
+<!--              icon="TrashIcon"-->
+<!--              class="d-inline d-sm-none"-->
+<!--          />-->
+<!--        </b-button>-->
       </div>
     </b-media>
 
-    <!-- User Info: Input Fields -->
-    <b-form>
+    <!-- form Admin -->
+    <b-form v-if="userData.role.id === 2">
+      <b-row>
+        <!-- Field: Username -->
+        <b-col
+            cols="12"
+            md="3"
+        >
+          <b-form-group
+              label="Company Legal Name"
+
+          >
+            <b-form-input
+                v-model="userData.amera_admin.name"
+                disabled
+
+            />
+          </b-form-group>
+        </b-col>
+
+        <!-- Field: Full Name -->
+        <b-col
+            cols="12"
+            md="3"
+        >
+          <b-form-group
+              label="DBA"
+          >
+            <b-form-input
+                v-model="userData.amera_admin.email"
+                disabled
+            />
+          </b-form-group>
+        </b-col>
+      </b-row>
+    </b-form>
+
+       <!-- form corporate -->
+    <b-form v-if="userData.role.id === 3">
       <b-row>
         <!-- Field: Username -->
         <b-col
@@ -98,8 +138,8 @@
               label="TIN"
           >
             <b-form-input
-              v-model="userData.corporate_account.tin"
-              disabled
+                v-model="userData.corporate_account.tin"
+                disabled
             />
           </b-form-group>
         </b-col>
@@ -173,26 +213,38 @@
 
 
     <!-- Action Buttons -->
-<!--    <b-button-->
-<!--        variant="primary"-->
-<!--        class="mb-1 mb-sm-0 mr-0 mr-sm-1"-->
-<!--        :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
-<!--    >-->
-<!--      Save Changes-->
-<!--    </b-button>-->
-<!--    <b-button-->
-<!--        variant="outline-secondary"-->
-<!--        type="reset"-->
-<!--        :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
-<!--    >-->
-<!--      Reset-->
-<!--    </b-button>-->
+    <!--    <b-button-->
+    <!--        variant="primary"-->
+    <!--        class="mb-1 mb-sm-0 mr-0 mr-sm-1"-->
+    <!--        :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
+    <!--    >-->
+    <!--      Save Changes-->
+    <!--    </b-button>-->
+    <!--    <b-button-->
+    <!--        variant="outline-secondary"-->
+    <!--        type="reset"-->
+    <!--        :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
+    <!--    >-->
+    <!--      Reset-->
+    <!--    </b-button>-->
   </div>
 </template>
 
 <script>
 import {
-  BButton, BMedia, BAvatar, BRow, BCol, BFormGroup, BFormInput, BForm, BTable, BCard, BCardHeader, BCardTitle, BFormCheckbox,
+  BButton,
+  BMedia,
+  BAvatar,
+  BRow,
+  BCol,
+  BFormGroup,
+  BFormInput,
+  BForm,
+  BTable,
+  BCard,
+  BCardHeader,
+  BCardTitle,
+  BFormCheckbox,
 } from 'bootstrap-vue'
 import { avatarText } from '@core/utils/filter'
 import vSelect from 'vue-select'
@@ -221,8 +273,7 @@ export default {
     userData: {},
   },
   setup() {
-    return {
-    }
+    return {}
   },
   // mounted() {
   //   console.log(this.userData)

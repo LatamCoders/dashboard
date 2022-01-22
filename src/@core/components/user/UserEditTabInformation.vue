@@ -124,7 +124,7 @@
             size="19"
         />
         <h4 class="mb-0 ml-50">
-          Address
+          Additional info
         </h4>
       </div>
 

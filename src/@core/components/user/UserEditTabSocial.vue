@@ -1,51 +1,107 @@
 <template>
-  <b-form>
-    <b-row>
-      <b-col
-          v-for="socialField in socialInputs"
-          :key="socialField.dataField"
-          cols="12"
-          md="6"
-          lg="4"
-      >
-        <b-form-group
-            :label="socialField.label"
-            :label-for="socialField.dataField"
+  <div>
+    <!-- Header: Personal Info -->
+    <div class="d-flex">
+      <feather-icon
+          icon="UserIcon"
+          size="19"
+      />
+      <h4 class="mb-0 ml-50">
+        Payment method
+      </h4>
+    </div>
+
+    <b-form class="mt-1">
+      <b-row>
+        <b-col
+            cols="12"
+            md="6"
+            lg="4"
         >
-          <b-input-group class="input-group-merge">
-            <b-input-group-prepend is-text>
-              <feather-icon
-                  size="16"
-                  :icon="socialField.icon"
-              />
-            </b-input-group-prepend>
+          <b-form-group
+              label="Name on cc"
+          >
             <b-form-input
-                :id="socialField.dataField"
-                v-model="userDataSocial[socialField.dataField]"
-                type="url"
+                v-model="infoPayment.name_on_cc"
                 disabled
             />
-          </b-input-group>
-        </b-form-group>
-      </b-col>
+          </b-form-group>
+        </b-col>
+        <b-col
+            cols="12"
+            md="6"
+            lg="4"
+        >
+          <b-form-group
+              label="cc Number"
+          >
+            <b-form-input
+                v-model="infoPayment.cc_number"
+                disabled
+            />
+          </b-form-group>
+        </b-col>
+        <b-col
+            cols="12"
+            md="6"
+            lg="4"
+        >
+          <b-form-group
+              label="Type of cc"
+          >
+            <b-form-input
+                v-model="infoPayment.type_of_cc"
+                disabled
+            />
+          </b-form-group>
+        </b-col>
+        <b-col
+            cols="12"
+            md="6"
+            lg="4"
+        >
+          <b-form-group
+              label="ZIP"
+          >
+            <b-form-input
+                v-model="infoPayment.zip"
+                disabled
+            />
+          </b-form-group>
+        </b-col>
+        <b-col
+            cols="12"
+            md="6"
+            lg="4"
+        >
+          <b-form-group
+              label="Code of cc"
+          >
+            <b-form-input
+                v-model="infoPayment.code_of_cc"
+                disabled
+            />
+          </b-form-group>
+        </b-col>
 
-<!--      <b-col class="mt-2">-->
-<!--        <b-button-->
-<!--            variant="primary"-->
-<!--            class="mb-1 mb-sm-0 mr-0 mr-sm-1"-->
-<!--            :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
-<!--        >-->
-<!--          Save Changes-->
-<!--        </b-button>-->
-<!--        <b-button-->
-<!--            variant="outline-secondary"-->
-<!--            :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
-<!--        >-->
-<!--          Reset-->
-<!--        </b-button>-->
-<!--      </b-col>-->
-    </b-row>
-  </b-form>
+        <!--      <b-col class="mt-2">-->
+        <!--        <b-button-->
+        <!--            variant="primary"-->
+        <!--            class="mb-1 mb-sm-0 mr-0 mr-sm-1"-->
+        <!--            :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
+        <!--        >-->
+        <!--          Save Changes-->
+        <!--        </b-button>-->
+        <!--        <b-button-->
+        <!--            variant="outline-secondary"-->
+        <!--            :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
+        <!--        >-->
+        <!--          Reset-->
+        <!--        </b-button>-->
+        <!--      </b-col>-->
+      </b-row>
+    </b-form>
+  </div>
 </template>
 
 <script>
@@ -55,7 +111,17 @@ import {
 
 export default {
   components: {
-    BRow, BCol, BForm, BFormGroup, BFormInput, BButton, BInputGroup, BInputGroupPrepend,
+    BRow,
+    BCol,
+    BForm,
+    BFormGroup,
+    BFormInput,
+    BButton,
+    BInputGroup,
+    BInputGroupPrepend,
+  },
+  props: {
+    infoPayment: {},
   },
   setup() {
     const userDataSocial = {
@@ -106,6 +172,9 @@ export default {
       socialInputs,
     }
   },
+  // mounted() {
+  //   console.log(this.infoPayment)
+  // }
 }
 </script>
 
