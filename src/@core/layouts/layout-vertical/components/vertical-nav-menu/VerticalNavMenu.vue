@@ -61,7 +61,13 @@
         @ps-scroll-y="evt => { shallShadowBottom = evt.srcElement.scrollTop > 0 }"
     >
       <vertical-nav-menu-items
+          v-if="this.$store.getters['Users/userData'].user.role.id === 3"
           :items="navMenuItems"
+          class="navigation navigation-main"
+      />
+      <vertical-nav-menu-items
+          v-if="this.$store.getters['Users/userData'].user.role.id === 2"
+          :items="navMenuItemsAdmin"
           class="navigation navigation-main"
       />
       <div style="position: absolute;top: 85%;margin-left: 16px;" v-if="this.$store.getters['Users/userData'].user.role.id === 3">
@@ -82,7 +88,8 @@
 </template>
 
 <script>
-import navMenuItems from '@/navigation/vertical'
+import navMenuItems from '@/navigation/vertical/index.js'
+import navMenuItemsAdmin from '@/navigation/vertical/infocontact.js'
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import {BLink, BImg} from 'bootstrap-vue'
 import {provide, computed, ref} from '@vue/composition-api'
@@ -137,6 +144,7 @@ export default {
 
     return {
       navMenuItems,
+      navMenuItemsAdmin,
       perfectScrollbarSettings,
       isVerticalMenuCollapsed,
       collapseTogglerIcon,

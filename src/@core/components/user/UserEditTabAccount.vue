@@ -51,7 +51,7 @@
             md="3"
         >
           <b-form-group
-              label="Company Legal Name"
+              label="Name"
 
           >
             <b-form-input
@@ -68,7 +68,7 @@
             md="3"
         >
           <b-form-group
-              label="DBA"
+              label="Email"
           >
             <b-form-input
                 v-model="userData.amera_admin.email"

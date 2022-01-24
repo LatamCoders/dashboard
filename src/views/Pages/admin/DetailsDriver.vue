@@ -3,152 +3,70 @@
       id="user-profile"
   >
     <b-card>
-      <b-row>
-        <b-col class="d-flex">
-          <b-img
-              style="border-radius: 5px"
-              src="@/assets/images/avatars/6-small.png"
-          ></b-img>
-          <div class="cols-12 col-xl-8">
-            <span class="name-corporative">Jhon alphon</span>
-            <div>
-              <b-button
-                  class="mt-2 ml-1"
-                  variant="success"
-              >Pass
-              </b-button>
-              <b-button
-                  class="mt-2 ml-1"
-                  variant="danger"
-              >To refuse
-              </b-button>
-            </div>
-          </div>
-        </b-col>
-      </b-row>
-      <b-row class="mt-5">
-        <b-col md="4">
-          <b-form-group
-              label="Name"
-          >
-            <b-form-input
-                value="Jhon alphon"
-                disabled
+      <b-tabs
+          pills
+          class="mb-2"
+      >
+
+        <!-- Tab: Account -->
+        <b-tab active>
+          <template #title>
+            <feather-icon
+                icon="UserIcon"
+                size="16"
+                class="mr-0 mr-sm-50"
             />
-          </b-form-group>
-        </b-col>
-        <b-col md="4">
-          <b-form-group
-              label="Email"
-          >
-            <b-form-input
-                value="Dickerson@mail.com"
-                disabled
+            <span class="d-none d-sm-inline">Account</span>
+          </template>
+          <user-details-account
+              class="mt-2 pt-75"
+          />
+        </b-tab>
+
+        <!-- Tab: Information -->
+        <b-tab>
+          <template #title>
+            <feather-icon
+                icon="InfoIcon"
+                size="16"
+                class="mr-0 mr-sm-50"
             />
-          </b-form-group>
-        </b-col>
-        <b-col md="4">
-          <b-form-group
-              label="DBA"
-          >
-            <b-form-input
-                value="658921"
-                disabled
+            <span class="d-none d-sm-inline">Vehicle</span>
+          </template>
+          <user-details-vehicle-driver
+              :user-vehicle="infoUser"
+              class="mt-2 pt-75"
+          />
+        </b-tab>
+
+        <!-- Tab: Social -->
+        <b-tab>
+          <template #title>
+            <feather-icon
+                icon="Share2Icon"
+                size="16"
+                class="mr-0 mr-sm-50"
             />
-          </b-form-group>
-        </b-col>
-      </b-row>
-      <b-row class="mt-2">
-        <b-col md="4">
-          <b-form-group
-              label="Company Type"
-          >
-            <b-form-input
-                value="Driver"
-                disabled
-            />
-          </b-form-group>
-        </b-col>
-        <b-col md="4">
-          <b-form-group
-              label="Home Address"
-          >
-            <b-form-input
-                value="New york city"
-                disabled
-            />
-          </b-form-group>
-        </b-col>
-        <b-col md="4">
-          <b-form-group
-              label="Date Of Birds"
-          >
-            <b-form-input
-                value="03/08/2022"
-                disabled
-            />
-          </b-form-group>
-        </b-col>
-      </b-row>
-      <b-row class="mt-2">
-        <b-col md="4">
-          <b-form-group
-              label="Telephone Number"
-          >
-            <b-form-input
-                value="6555122"
-                disabled
-            />
-          </b-form-group>
-        </b-col>
-        <b-col md="4">
-          <b-form-group
-              label="Fax Number"
-          >
-            <b-form-input
-                value="6522222"
-                disabled
-            />
-          </b-form-group>
-        </b-col>
-        <b-col md="4">
-          <b-form-group
-              label="Documents"
-          >
-            <b-form-file id="file-default"/>
-          </b-form-group>
-        </b-col>
-        <b-col md="4">
-          <b-form-group
-              label="Vehicle images">
-            <div class="d-flex"
-                 style="gap: 10px"
-            >
-              <div>
-                <b-img
-                    style="border-radius: 5px"
-                    src="@/assets/images/avatars/6-small.png"
-                ></b-img>
-              </div>
-              <div>
-                <b-img
-                    style="border-radius: 5px"
-                    src="@/assets/images/avatars/6-small.png"
-                ></b-img>
-              </div>
-            </div>
-          </b-form-group>
-        </b-col>
-      </b-row>
+            <span class="d-none d-sm-inline">Driver documents</span>
+          </template>
+          <user-details-driver-documents class="mt-2 pt-75"/>
+        </b-tab>
+      </b-tabs>
     </b-card>
   </div>
 </template>
 
 <script>
-import { BRow, BCol, BCard, BImg, BButton, BFormGroup, BFormInput, BFormFile, } from 'bootstrap-vue'
+import { BRow, BCol, BCard, BImg, BButton, BFormGroup, BFormInput, BFormFile, BTabs, BTab, } from 'bootstrap-vue'
+import UserDetailsVehicleDriver from "@core/components/user-approve-driver/UserDetailsVehicleDriver";
+import UserDetailsAccount from "@core/components/user-approve-driver/UserDetailsAccount";
+import UserDetailsDriverDocuments from "@core/components/user-approve-driver/UserDetailsDriverDocuments";
 /* eslint-disable global-require */
 export default {
   components: {
+    UserDetailsDriverDocuments,
+    UserDetailsAccount,
+    UserDetailsVehicleDriver,
     BRow,
     BCol,
     BCard,
@@ -157,9 +75,19 @@ export default {
     BFormGroup,
     BFormInput,
     BFormFile,
+    BTabs,
+    BTab,
   },
   data() {
-    return {}
+    return {
+      infoUser: {
+        type_car: 'Mazda',
+        color: 'Red',
+        year: '2000',
+        plate_number: 'n25154s',
+        vin_number: '45544445',
+      },
+    }
   },
   created() {
   },
