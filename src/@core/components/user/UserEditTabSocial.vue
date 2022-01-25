@@ -3,7 +3,7 @@
     <!-- Header: Personal Info -->
     <div class="d-flex">
       <feather-icon
-          icon="UserIcon"
+          icon="CreditCardIcon"
           size="19"
       />
       <h4 class="mb-0 ml-50">
@@ -19,7 +19,7 @@
             lg="4"
         >
           <b-form-group
-              label="Name on cc"
+              label="Name on Credit Card"
           >
             <b-form-input
                 v-model="infoPayment.name_on_cc"
@@ -33,7 +33,7 @@
             lg="4"
         >
           <b-form-group
-              label="cc Number"
+              label="Card Number"
           >
             <b-form-input
                 v-model="infoPayment.cc_number"
@@ -47,7 +47,7 @@
             lg="4"
         >
           <b-form-group
-              label="Type of cc"
+              label="Type of credit card"
           >
             <b-form-input
                 v-model="infoPayment.type_of_cc"

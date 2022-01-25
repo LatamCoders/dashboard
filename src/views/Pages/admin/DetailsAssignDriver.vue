@@ -31,10 +31,8 @@
           <b-col md="4">
             <b-form-group
                 label="Name"
-                label-for="i-name"
             >
               <b-form-input
-                  id="i-name"
                   value="Orlando"
                   disabled
                   style="font-weight: bold"
@@ -44,10 +42,8 @@
           <b-col md="4">
             <b-form-group
                 label="Last Name"
-                label-for="i-lastname"
             >
               <b-form-input
-                  id="i-lastname"
                   value="Health"
                   disabled
                   style="font-weight: bold"
@@ -57,10 +53,8 @@
           <b-col md="4">
             <b-form-group
                 label="Contact Number"
-                label-for="i-contactn"
             >
               <b-form-input
-                  id="i-contactn"
                   value="231217848"
                   disabled
                   style="font-weight: bold"
@@ -70,10 +64,8 @@
           <b-col md="4">
             <b-form-group
                 label="Email"
-                label-for="i-email"
             >
               <b-form-input
-                  id="i-email"
                   type="email"
                   value="orlandohealth@gmail.com"
                   disabled
@@ -104,41 +96,43 @@
                 label="Name"
             >
               <b-form-input
-                  placeholder="John"
+                  value="John"
+                  disabled
+                  style="font-weight: bold"
               />
             </b-form-group>
           </b-col>
           <b-col md="4">
             <b-form-group
-                label-for="i-last-name"
                 label="Last Name"
             >
               <b-form-input
-                  id="i-last-name"
-                  placeholder="John"
+                  value="John"
+                  disabled
+                  style="font-weight: bold"
               />
             </b-form-group>
           </b-col>
           <b-col md="4">
             <b-form-group
-                label-for="i-contact-number"
                 label="Contact Number"
             >
               <b-form-input
-                  id="i-contact-number"
-                  placeholder="15555555554"
+                  value="15555555554"
+                  disabled
+                  style="font-weight: bold"
               />
             </b-form-group>
           </b-col>
           <b-col md="4">
             <b-form-group
                 label="Email"
-                label-for="i-mail"
             >
               <b-form-input
-                  id="i-mail"
                   type="Email"
-                  placeholder="Doe@gmail.com"
+                  value="Doe@gmail.com"
+                  disabled
+                  style="font-weight: bold"
               />
             </b-form-group>
           </b-col>
@@ -163,47 +157,44 @@
           <b-col md="4">
             <b-form-group
                 label="Date of Service"
-                label-for="i-dataservice"
             >
-              <b-form-datepicker
+              <b-form-input
                   v-model="value"
-                  :min="min"
-                  :max="max"
-                  locale="en"
-                  placeholder="8/01/2022"
+                  disabled
+                  style="font-weight: bold"
               />
             </b-form-group>
           </b-col>
           <b-col md="4">
             <b-form-group
                 label="Time of Pickup"
-                label-for="i-time"
             >
               <b-form-input
-                  id="i-time"
-                  placeholder="98 Borough bridge Road, Birmingham"
+                  value="98 Borough bridge Road, Birmingham"
+                  disabled
+                  style="font-weight: bold"
               />
             </b-form-group>
           </b-col>
           <b-col md="4">
             <b-form-group
                 label="Time of Appt"
-                label-for="i-appt"
             >
               <b-form-input
-                  id="i-appt"
-                  placeholder="658921"
+                  value="658921"
+                  disabled
+                  style="font-weight: bold"
               />
             </b-form-group>
           </b-col>
           <b-col md="4">
             <b-form-group
-                label-for="i-city"
                 label="City"
             >
               <b-form-input
-                  id="i-city"
-                  placeholder="Birmingham"
+                  value="Birmingham"
+                  disabled
+                  style="font-weight: bold"
               />
             </b-form-group>
           </b-col>
@@ -211,9 +202,10 @@
             <b-form-group
                 label="Surgery type"
             >
-              <b-form-select
-                  v-model="selectcirujia"
-                  :options="optionscirujia"
+              <b-form-input
+                  disabled
+                  style="font-weight: bold"
+                  value="Endoscopy"
               />
             </b-form-group>
           </b-col>
@@ -222,8 +214,9 @@
                 label="Pickup address"
             >
               <b-form-input
-                  v-model="ubicacion"
-                  placeholder="98 Borough bridge Road, Birmingham"
+                  value="98 Borough bridge Road, Birmingham"
+                  disabled
+                  style="font-weight: bold"
               />
             </b-form-group>
           </b-col>
@@ -231,13 +224,10 @@
             <b-form-group
                 label="Additional stop"
             >
-              <v-select
-                  v-model="seleccionstop"
-                  :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                  multiple
-                  :options="option"
-                  label="title"
-                  placeholder="Please select some item"
+              <b-form-input
+                  style="font-weight: bold"
+                  value="Wait and return"
+                  disabled
               />
             </b-form-group>
           </b-col>
@@ -246,7 +236,9 @@
                 label="Destiny"
             >
               <b-form-input
-                  placeholder="Birmingham"
+                  value="Birmingham"
+                  disabled
+                  style="font-weight: bold"
               />
             </b-form-group>
           </b-col>
@@ -254,12 +246,10 @@
             <b-form-group
                 label="Appointment date"
             >
-              <b-form-datepicker
-                  v-model="appointmentdate"
-                  :min="min"
-                  :max="max"
-                  locale="en"
-                  placeholder="8/01/2022"
+              <b-form-input
+                  value="8/01/2022"
+                  disabled
+                  style="font-weight: bold"
               />
             </b-form-group>
           </b-col>
@@ -267,15 +257,68 @@
             <b-form-group
                 label="Appointment time"
             >
-              <b-form-timepicker
-                  id="timepicker-placeholder"
-                  placeholder="Choose a time"
-                  local="en"
-                  v-model="appointmenttime"
+              <b-form-input
+                  value="08:00"
+                  disabled
+                  style="font-weight: bold"
               />
             </b-form-group>
           </b-col>
 
+        </b-row>
+      </tab-content>
+
+      <!-- social link -->
+      <tab-content
+          title="Assign Driver"
+          icon=""
+      >
+        <b-row>
+          <b-col
+              cols="12"
+              class="mb-2"
+          >
+            <h5 class="mb-0">
+              Information driver
+            </h5>
+<!--            <small class="text-muted">Enter Your Social Links</small>-->
+          </b-col>
+          <b-col md="6">
+            <b-form-group
+                label="Twitter"
+            >
+              <b-form-input
+                  placeholder="https://twitter.com/abc"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col md="6">
+            <b-form-group
+                label="Facebook"
+            >
+              <b-form-input
+                  placeholder="https://facebook.com/abc"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col md="6">
+            <b-form-group
+                label="Google+"
+            >
+              <b-form-input
+                  placeholder="https://plus.google.com/abc"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col md="6">
+            <b-form-group
+                label="LinkedIn"
+            >
+              <b-form-input
+                  placeholder="https://linkedin.com/abc"
+              />
+            </b-form-group>
+          </b-col>
         </b-row>
       </tab-content>
     </form-wizard>
@@ -330,7 +373,7 @@ export default {
     return {
       dir: 'ltr',
       seleccionstop: '',
-      value: '',
+      value: '03/08/2022',
       min: minDate,
       max: maxDate,
       appointment: '',
@@ -345,25 +388,6 @@ export default {
         {title: 'Wait and return'},
         {title: 'Pharmacy stop'},
         {title: 'Additional stop'},
-      ],
-      optionscirujia: [
-        {value: null, text: 'Please select some item'},
-        {value: 'endoscopy', text: 'Endoscopy'},
-        {value: 'colonoscopy', text: 'Colonoscopy'},
-        {value: 'cataract', text: 'Cataract surgery'},
-        {value: 'dentalsurgery', text: 'Dental Surgery'},
-        {value: 'cosmeticsurgery', text: 'Cosmetic Surgery'},
-        {value: 'carpaltunnel', text: 'Carpal Tunnel'},
-        {value: 'surgery', text: 'Surgery'},
-        {value: 'paininjections', text: 'Pain Injections'},
-        {value: 'biopsies', text: 'Biopsies'},
-        {value: 'laparoscopic', text: 'Laparoscopic'},
-        {value: 'sinus', text: 'Sinus'},
-        {value: 'reconstruction', text: 'Reconstruction'},
-        {value: 'shoulderprocedures', text: 'Shoulder Procedures'},
-        {value: 'rology', text: 'Urology'},
-        {value: 'softtissuerepair', text: 'Soft tissue repair'},
-        {value: 'notdisclose', text: 'Prefer not to disclose'},
       ],
     }
   },

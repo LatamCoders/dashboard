@@ -54,7 +54,7 @@
         <b-tab v-if="info.role.id === 3">
           <template #title>
             <feather-icon
-                icon="Share2Icon"
+                icon="CreditCardIcon"
                 size="16"
                 class="mr-0 mr-sm-50"
             />

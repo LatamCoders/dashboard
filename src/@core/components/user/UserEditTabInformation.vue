@@ -120,7 +120,7 @@
       <!-- Header: Personal Info -->
       <div class="d-flex mt-2">
         <feather-icon
-            icon="MapPinIcon"
+            icon="UserPlusIcon"
             size="19"
         />
         <h4 class="mb-0 ml-50">

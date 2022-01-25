@@ -63,42 +63,6 @@
           :fields="fields"
           empty-text="No matching records found"
       >
-
-        <!-- Column: User -->
-        <!--        <template #cell(user)="personas">-->
-        <!--          <b-media vertical-align="center">-->
-        <!--            <template #aside>-->
-        <!--              <b-avatar-->
-        <!--                  size="32"-->
-        <!--                  :src="personas.avatar"-->
-        <!--                  :text="avatarText(personas.first_name)"-->
-        <!--                  :variant="`light-${resolveUserRoleVariant(data.item.last_name)}`"-->
-        <!--                  :to="{ name: 'apps-users-view', params: { id: data.item.age } }"-->
-        <!--              />-->
-        <!--            </template>-->
-        <!--            <b-link-->
-        <!--                :to="{ name: 'apps-users-view', params: { id: data.item.id } }"-->
-        <!--                class="font-weight-bold d-block text-nowrap"-->
-        <!--            >-->
-        <!--              {{ data.item.first_name }}-->
-        <!--            </b-link>-->
-        <!--            <small class="text-muted">@{{ data.item.last_name }}</small>-->
-        <!--          </b-media>-->
-        <!--        </template>-->
-
-        <!-- Column: Role -->
-        <!--        <template #cell(fecha)="data">-->
-        <!--          <div class="text-nowrap">-->
-        <!--            <feather-icon-->
-        <!--                :icon="resolveUserRoleIcon(data.item.fecha)"-->
-        <!--                size="18"-->
-        <!--                class="mr-50"-->
-        <!--                :class="`text-${resolveUserRoleVariant(data.item.fecha)}`"-->
-        <!--            />-->
-        <!--            <span class="align-text-top text-capitalize">{{ data.item.fecha }}</span>-->
-        <!--          </div>-->
-        <!--        </template>-->
-
         <!-- Column: Status -->
         <template #cell(status)="personas">
           <b-badge
@@ -124,9 +88,9 @@
                   class="align-middle text-body"
               />
             </template>
-            <b-dropdown-item :to="{ name: 'details-driver-view', params: { id: personas.id } }">
-              <feather-icon icon="FileTextIcon"/>
-              <span class="align-middle ml-50">Details</span>
+            <b-dropdown-item :to="{ name: 'details-assign-driver', params: { id: personas.id } }">
+              <feather-icon icon="UserCheckIcon"/>
+              <span class="align-middle ml-50">Assign driver</span>
             </b-dropdown-item>
 
             <!--            <b-dropdown-item :to="{ name: 'apps-users-edit', params: { id: personas.id } }">-->
@@ -270,24 +234,25 @@ export default {
       statusFilter,
     } = useUsersList()
     return {
-      fields: ['id', 'NameDriver', 'email', 'tel_number', 'HomeAddress', 'state', 'actions'],
+      fields: ['id', 'Name', 'email', 'tel_number', 'Date_of_service', 'City', 'actions'],
       personas: [
         {
           id: 1,
           email: 'Dickerson@mail.com',
           tel_number: '6555122',
-          HomeAddress: 'New york city',
+          Date_of_service: '03/09/2022',
+          City: 'Oklahoma',
           DateOfTrips: '03/08/2022',
           HomeTelephoneNumber: '358185488',
-          NameDriver: 'Jhon alphon',
+          Name: 'Jhon alphon',
           state: 'Passed',
         },
         {
           id: 2,
           email: 'Larsen@mail.com',
           tel_number: '6225122',
-          HomeAddress: 'Oklahoma',
-          AddressEnd: 'State of california',
+          City: 'Oklahoma',
+          Date_of_service: '03/09/2022',
           DateOfTrips: '01/05/2022',
           NameDriver: 'Will smith',
           HomeTelephoneNumber: '818355488',
