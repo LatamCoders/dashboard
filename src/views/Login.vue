@@ -85,7 +85,7 @@
                         name="login-email"
                         placeholder="john@example.com"
                     />
-                    <small class="text-danger">{{ errors[0] }}</small>
+                    <small v-if="errors[0]" class="text-danger">This field is required</small>
                   </validation-provider>
                 </b-form-group>
 
@@ -123,7 +123,7 @@
                         />
                       </b-input-group-append>
                     </b-input-group>
-                    <small class="text-danger">{{ errors[0] }}</small>
+                    <small v-if="errors[0]" class="text-danger">This field is required</small>
                   </validation-provider>
                 </b-form-group>
 
@@ -383,7 +383,7 @@ export default {
       if (this.person.userEmail === "" || this.person.password === "") {
         this.$swal({
           icon: 'error',
-          title: 'Error, fill in the fields',
+          title: 'Please fill out required fields',
           customClass: {
             confirmButton: 'btn btn-primary',
           },

@@ -71,7 +71,6 @@
                         >
                           <validation-provider
                               #default="{ errors }"
-                              name="company_legal_name"
                               rules="required"
                           >
                             <b-form-input
@@ -80,7 +79,7 @@
                                 :state="errors.length > 0 ? false:null"
                                 type="text"
                             />
-                            <small class="text-danger">{{ errors[0] }}</small>
+                            <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
                         </b-form-group>
                       </b-col>
@@ -95,7 +94,7 @@
                                 v-model="dataregister.dba"
                                 :state="errors.length > 0 ? false:null"
                             />
-                            <small class="text-danger">{{ errors[0] }}</small>
+                            <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
                         </b-form-group>
                       </b-col>
@@ -110,7 +109,7 @@
                                 v-model="dataregister.company_type" placeholder="Corporate"
                                 :state="errors.length > 0 ? false:null"
                             />
-                            <small class="text-danger">{{ errors[0] }}</small>
+                            <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
                         </b-form-group>
                       </b-col>
@@ -125,7 +124,7 @@
                                 v-model="dataregister.tin" placeholder="12967552655455"
                                 :state="errors.length > 0 ? false:null"
                             />
-                            <small class="text-danger">{{ errors[0] }}</small>
+                            <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
                         </b-form-group>
                       </b-col>
@@ -143,7 +142,7 @@
                                 placeholder="local / national"
                                 :state="errors.length > 0 ? false:null"
                             />
-                            <small class="text-danger">{{ errors[0] }}</small>
+                            <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
                         </b-form-group>
                       </b-col>
@@ -164,7 +163,7 @@
                                 placeholder="8/01/2022"
                                 :state="errors.length > 0 ? false:null"
                             />
-                            <small class="text-danger">{{ errors[0] }}</small>
+                            <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
                         </b-form-group>
                       </b-col>
@@ -182,7 +181,7 @@
                                 placeholder="floor and suite"
                                 :state="errors.length > 0 ? false:null"
                             />
-                            <small class="text-danger">{{ errors[0] }}</small>
+                            <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
                         </b-form-group>
                       </b-col>
@@ -200,7 +199,7 @@
                                 placeholder="floor and suite"
                                 :state="errors.length > 0 ? false:null"
                             />
-                            <small class="text-danger">{{ errors[0] }}</small>
+                            <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
                         </b-form-group>
                       </b-col>
@@ -238,7 +237,7 @@
                                 :state="errors.length > 0 ? false:null"
                                 @keypress="isNumber($event)"
                             />
-                            <small class="text-danger">{{ errors[0] }}</small>
+                            <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
                         </b-form-group>
                       </b-col
@@ -255,7 +254,7 @@
                                 :state="errors.length > 0 ? false:null"
                                 @keypress="isNumber($event)"
                             />
-                            <small class="text-danger">{{ errors[0] }}</small>
+                            <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
                         </b-form-group>
                       </b-col>
@@ -272,7 +271,7 @@
                                 placeholder="john.doe@email.com"
                                 :state="errors.length > 0 ? false:null"
                             />
-                            <small class="text-danger">{{ errors[0] }}</small>
+                            <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
                         </b-form-group>
                       </b-col>
@@ -288,7 +287,7 @@
                                 placeholder="www.amera.com"
                                 :state="errors.length > 0 ? false:null"
                             />
-                            <small class="text-danger">{{ errors[0] }}</small>
+                            <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
                         </b-form-group>
                       </b-col>
@@ -306,7 +305,7 @@
                                 placeholder="Jhon doe"
                                 :state="errors.length > 0 ? false:null"
                             />
-                            <small class="text-danger">{{ errors[0] }}</small>
+                            <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
                         </b-form-group>
                       </b-col>
@@ -325,7 +324,7 @@
                                 :state="errors.length > 0 ? false:null"
                                 @keypress="isNumber($event)"
                             />
-                            <small class="text-danger">{{ errors[0] }}</small>
+                            <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
                         </b-form-group>
                       </b-col>
@@ -359,7 +358,7 @@
                                 :state="errors.length > 0 ? false:null"
                                 v-model="dataregister.additional_contact_name"
                             />
-                            <small class="text-danger">{{ errors[0] }}</small>
+                            <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
                         </b-form-group>
                       </b-col>
@@ -376,7 +375,7 @@
                                 :state="errors.length > 0 ? false:null"
                                 v-model="dataregister.additional_contact_title"
                             />
-                            <small class="text-danger">{{ errors[0] }}</small>
+                            <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
                         </b-form-group>
                       </b-col>
@@ -395,7 +394,7 @@
                                 :state="errors.length > 0 ? false:null"
                                 @keypress="isNumber($event)"
                             />
-                            <small class="text-danger">{{ errors[0] }}</small>
+                            <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
                         </b-form-group>
                       </b-col>
@@ -412,7 +411,7 @@
                                 v-model="dataregister.additional_contact_email" placeholder="@"
                                 :state="errors.length > 0 ? false:null"
                             />
-                            <small class="text-danger">{{ errors[0] }}</small>
+                            <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
                         </b-form-group>
                       </b-col>
@@ -434,7 +433,7 @@
                         <small class="text-muted" style="color: #000000d6 !important">Enter Your Credit card</small>
                       </b-col>
                       <b-col md="6">
-                        <b-form-group label="Name on cc">
+                        <b-form-group label="Name on Credit Card">
                           <validation-provider
                               #default="{ errors }"
                               name="name_on_cc"
@@ -445,13 +444,13 @@
                                 v-model="dataregister.name_on_cc"
                                 :state="errors.length > 0 ? false:null"
                             />
-                            <small class="text-danger">{{ errors[0] }}</small>
+                            <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
                         </b-form-group>
                       </b-col>
                       <b-col md="6">
                         <b-form-group
-                            label="cc Numbers"
+                            label="Card Number"
                         >
                           <validation-provider
                               #default="{ errors }"
@@ -464,7 +463,7 @@
                                 :state="errors.length > 0 ? false:null"
                                 @keypress="isNumber($event)"
                             />
-                            <small class="text-danger">{{ errors[0] }}</small>
+                            <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
                         </b-form-group>
                       </b-col>
@@ -485,7 +484,7 @@
                                 placeholder="Select a item"
                                 :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                             />
-                            <small class="text-danger">{{ errors[0] }}</small>
+                            <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
                         </b-form-group>
                       </b-col>
@@ -504,7 +503,7 @@
                                 :state="errors.length > 0 ? false:null"
                                 @keypress="isNumber($event)"
                             />
-                            <small class="text-danger">{{ errors[0] }}</small>
+                            <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
                         </b-form-group>
                       </b-col>
@@ -523,7 +522,7 @@
                                 :state="errors.length > 0 ? false:null"
                                 @keypress="isNumber($event)"
                             />
-                            <small class="text-danger">{{ errors[0] }}</small>
+                            <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
                         </b-form-group>
                       </b-col>
