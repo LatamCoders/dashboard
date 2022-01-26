@@ -20,13 +20,13 @@ export default [
         ],
     },
     {
-        title: 'Clients',
+        title: 'Consult clients',
         route: 'second-page',
         icon: 'UserIcon',
         children: [
             {
-                title: 'Profiles',
-                route: '',
+                title: 'Clients',
+                route: 'clients',
             },
             {
                 title: 'Call/Chat center',

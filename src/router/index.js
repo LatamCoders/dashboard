@@ -174,11 +174,11 @@ const router = new VueRouter({
             },
         },
         {
-            path: '/login-corporative',
-            name: 'login-corporate-acount',
-            component: () => import('@/views/Pages/LoginCorporateAcount.vue'),
+            path: '/clients',
+            name: 'clients',
+            component: () => import('@/views/Pages/admin/Clients.vue'),
             meta: {
-                layout: 'full',
+                pageTitle: 'Clients',
             },
         },
         {

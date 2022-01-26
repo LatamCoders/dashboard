@@ -7,6 +7,7 @@
         :subtitle="null"
         finish-button-text="Submit"
         back-button-text="Previous"
+        ref="registerClient"
         class="steps-transparent mb-3 d-lg-flex d-xl-flex d-md-flex justify-content-center flex-xl-column formcreatepatient"
         @on-complete="formSubmitted"
         style="background-color: #fff"
@@ -14,299 +15,263 @@
       <!-- account detail tab -->
       <tab-content
           title="Account Details"
-          icon=""
+          :before-change="validationForm"
       >
-        <b-row>
-          <b-col
-              cols="12"
-              class="mb-2"
-          >
-            <h5 class="mb-0">
-              Account Details
-            </h5>
-            <small class="text-muted" style="color: #000000d6 !important">
-              Enter Your Account Details.
-            </small>
-          </b-col>
-          <b-col md="4">
-            <b-form-group
-                label="Name"
-                label-for="i-name"
+        <validation-observer
+            ref="accountRules"
+            tag="form"
+        >
+          <b-row>
+            <b-col
+                cols="12"
+                class="mb-2"
             >
-              <b-form-input
-                  id="i-name"
-                  placeholder="johndoe"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="4">
-            <b-form-group
-                label="Last name"
-                label-for="i-lastname"
-            >
-              <b-form-input
-                  id="i-lastname"
-                  placeholder="Doe"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="4">
-            <b-form-group
-                label="Email"
-                label-for="i-maill"
-            >
-              <b-form-input
-                  id="i-maill"
-                  type="Email"
-                  placeholder="Jhon.doe@email.com"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="4">
-            <b-form-group
-                label="Telephone number"
-            >
-              <b-form-input
-                  type="number"
-                  placeholder="33515"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="4">
-            <b-form-group
-                label="Notes"
-            >
-              <b-form-textarea
-                  id="textarea-default"
-                  placeholder="Write here the notes"
-                  rows="3"
-              />
-            </b-form-group>
-          </b-col>
-        </b-row>
+              <h5 class="mb-0">
+                Account Details
+              </h5>
+              <small class="text-muted" style="color: #000000d6 !important">
+                Enter Your Account Details.
+              </small>
+            </b-col>
+            <b-col md="4">
+              <b-form-group
+                  label="Name"
+              >
+                <validation-provider
+                    #default="{ errors }"
+                    rules="required"
+                >
+                  <b-form-input
+                      placeholder="johndoe"
+                      v-model="createdPatient.name"
+                      :state="errors.length > 0 ? false:null"
+                  />
+                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+            <b-col md="4">
+              <b-form-group
+                  label="Last name"
+              >
+                <validation-provider
+                    #default="{ errors }"
+                    rules="required"
+                >
+                  <b-form-input
+                      placeholder="Doe"
+                      v-model="createdPatient.lastname"
+                      :state="errors.length > 0 ? false:null"
+                  />
+                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+            <b-col md="4">
+              <b-form-group
+                  label="Email"
+              >
+                <validation-provider
+                    #default="{ errors }"
+                    rules="required|email"
+                >
+                  <b-form-input
+                      v-model="createdPatient.email"
+                      placeholder="Jhon.doe@email.com"
+                      type="email"
+                      :state="errors.length > 0 ? false:null"
+                  />
+                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+            <b-col md="4">
+              <b-form-group
+                  label="Telephone number"
+              >
+                <validation-provider
+                    #default="{ errors }"
+                    rules="required"
+                >
+                  <b-form-input
+                      v-model="createdPatient.phone_number"
+                      placeholder="33515"
+                      :state="errors.length > 0 ? false:null"
+                      @keypress="isNumber($event)"
+                  />
+                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+            <b-col md="4">
+              <b-form-group
+                  label="Notes"
+              >
+                <validation-provider
+                    #default="{ errors }"
+                    rules="required"
+                >
+                  <b-form-textarea
+                      v-model="createdPatient.note"
+                      placeholder="Write here the notes"
+                      rows="3"
+                      :state="errors.length > 0 ? false:null"
+                  />
+                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+          </b-row>
+        </validation-observer>
       </tab-content>
 
       <!-- personal details -->
       <tab-content
           title="Personal Info"
-          icon=""
+          :before-change="validationFormInfo"
       >
-        <b-row>
-          <b-col
-              cols="12"
-              class="mb-2"
-          >
-            <h5 class="mb-0">
-              Personal Info
-            </h5>
-            <small class="text-muted" style="color: #000000d6 !important">Enter Your Personal Info.</small>
-          </b-col>
-          <b-col md="4">
-            <b-form-group
-                label-for="i-home"
-                label="Home Address"
+        <validation-observer
+            ref="infoRules"
+            tag="form"
+        >
+          <b-row>
+            <b-col
+                cols="12"
+                class="mb-2"
             >
-              <b-form-input
-                  id="i-home"
-                  placeholder="98 Borough bridge Road, Birmingham"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="4">
-            <b-form-group
-                label-for="i-homenumber"
-                label="Home Telephone Number"
-            >
-              <b-form-input
-                  id="i-homenumber"
-                  placeholder="358185488"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="4">
-            <b-form-group
-                label="Gender"
-                class="mb-0"
-            >
-              <div style="display: flex; gap: 10px">
-                <b-form-radio
-                    v-model="selected"
-                    name="Female"
-                    value="Female"
-                    class="custom-control-secondary"
+              <h5 class="mb-0">
+                Personal Info
+              </h5>
+              <small class="text-muted" style="color: #000000d6 !important">Enter Your Personal Info.</small>
+            </b-col>
+            <b-col md="4">
+              <b-form-group
+                  label="Home Address"
+              >
+                <validation-provider
+                    #default="{ errors }"
+                    rules="required"
                 >
-                  Female
-                </b-form-radio>
+                  <b-form-input
+                      v-model="createdPatient.address"
+                      placeholder="98 Borough bridge Road, Birmingham"
+                      :state="errors.length > 0 ? false:null"
+                  />
+                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+            <b-col md="4">
+              <b-form-group
+                  label="Home Telephone Number"
+              >
+                <validation-provider
+                    #default="{ errors }"
+                    rules="required"
+                >
+                  <b-form-input
+                      v-model="createdPatient.home_telephone_number"
+                      placeholder="358185488"
+                      :state="errors.length > 0 ? false:null"
+                      @keypress="isNumber($event)"
+                  />
+                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+            <b-col md="4">
+              <b-form-group
+                  label="City"
+              >
+                <validation-provider
+                    #default="{ errors }"
+                    rules="required"
+                >
+                  <b-form-input
+                      placeholder="Birmingham"
+                      v-model="createdPatient.city"
+                      :state="errors.length > 0 ? false:null"
+                  />
+                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+            <b-col md="4">
+              <b-form-group
+                  label="Date of birth"
+              >
+                <validation-provider
+                    #default="{ errors }"
+                    rules="required"
+                >
+                  <b-form-datepicker
+                      v-model="createdPatient.birthday"
+                      locale="en"
+                      placeholder="18/03/1990"
+                      :state="errors.length > 0 ? false:null"
+                  />
+                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+            <b-col md="4">
+              <b-form-group
+                  label="Gender"
+                  class="mb-0"
+              >
+                <validation-provider
+                    #default="{ errors }"
+                    rules="required"
+                >
+                  <div style="display: flex; gap: 10px">
+                    <b-form-radio
+                        v-model="createdPatient.gender"
+                        name="Female"
+                        value="Female"
+                        class="custom-control-secondary"
+                        :state="errors.length > 0 ? false:null"
+                    >
+                      Female
+                    </b-form-radio>
 
-                <!-- secondary -->
-                <b-form-radio
-                    v-model="selected"
-                    name="Male"
-                    value="Male"
-                    class="custom-control-secondary"
-                >
-                  Male
-                </b-form-radio>
+                    <!-- secondary -->
+                    <b-form-radio
+                        v-model="createdPatient.gender"
+                        name="Male"
+                        value="Male"
+                        class="custom-control-secondary"
+                        :state="errors.length > 0 ? false:null"
+                    >
+                      Male
+                    </b-form-radio>
 
-                <!-- success -->
-                <b-form-radio
-                    v-model="selected"
-                    name="Other"
-                    value="Other"
-                    class="custom-control-secondary"
-                >
-                  Other
-                </b-form-radio>
-              </div>
-            </b-form-group>
-          </b-col>
-          <b-col md="4">
-            <b-form-group
-                label="Date of birth"
-            >
-              <b-form-datepicker
-                  v-model="value"
-                  :min="min"
-                  :max="max"
-                  locale="en"
-                  placeholder="18/03/1990"
-              />
-            </b-form-group>
-          </b-col>
-        </b-row>
+                    <!-- success -->
+                    <b-form-radio
+                        v-model="createdPatient.gender"
+                        name="Other"
+                        value="Other"
+                        class="custom-control-secondary"
+                        :state="errors.length > 0 ? false:null"
+                    >
+                      Other
+                    </b-form-radio>
+                  </div>
+                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+          </b-row>
+        </validation-observer>
       </tab-content>
-
-      <!-- address -->
-      <tab-content
-          title="Address"
-          icon=""
-      >
-        <b-row>
-          <b-col
-              cols="12"
-              class="mb-2"
-          >
-            <h5 class="mb-0">
-              Address
-            </h5>
-            <small class="text-muted" style="color: #000000d6 !important">Enter Your Address.</small>
-          </b-col>
-          <b-col md="4">
-            <b-form-group
-                label="Home address"
-                label-for="i-address"
-            >
-              <b-form-input
-                  id="i-address"
-                  placeholder="98 Borough bridge Road, Birmingham"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="4">
-            <b-form-group
-                label="Home telephone number"
-                label-for="i-landmark"
-            >
-              <b-form-input
-                  id="i-landmark"
-                  placeholder="325654"
-              />
-            </b-form-group>
-          </b-col>
-          <!-- <b-col md="6">
-            <b-form-group
-                label="Pincode"
-                label-for="i-pincode"
-            >
-              <b-form-input
-                  id="i-pincode"
-                  placeholder="658921"
-              />
-            </b-form-group>
-          </b-col> -->
-          <b-col md="4">
-            <b-form-group
-                label-for="i-city"
-                label="City"
-            >
-              <b-form-input
-                  id="i-city"
-                  placeholder="Birmingham"
-              />
-            </b-form-group>
-          </b-col>
-        </b-row>
-      </tab-content>
-
-      <!-- social link -->
-      <!-- <tab-content
-          title="Social Links"
-          icon="feather icon-link"
-      >
-        <b-row>
-          <b-col
-              cols="12"
-              class="mb-2"
-          >
-            <h5 class="mb-0">
-              Social Links
-            </h5>
-            <small class="text-muted">Enter Your Social Links</small>
-          </b-col>
-          <b-col md="6">
-            <b-form-group
-                label="Twitter"
-                label-for="i-twitter"
-            >
-              <b-form-input
-                  id="i-twitter"
-                  placeholder="https://twitter.com/abc"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="6">
-            <b-form-group
-                label="Facebook"
-                label-for="i-facebook"
-            >
-              <b-form-input
-                  id="i-facebook"
-                  placeholder="https://facebook.com/abc"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="6">
-            <b-form-group
-                label="Google+"
-                label-for="i-google-plus"
-            >
-              <b-form-input
-                  id="i-google-plus"
-                  placeholder="https://plus.google.com/abc"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="6">
-            <b-form-group
-                label="LinkedIn"
-                label-for="i-linked-in"
-            >
-              <b-form-input
-                  id="i-linked-in"
-                  placeholder="https://linkedin.com/abc"
-              />
-            </b-form-group>
-          </b-col>
-        </b-row>
-      </tab-content> -->
     </form-wizard>
-
   </div>
 </template>
 
 <script>
 import {FormWizard, TabContent} from 'vue-form-wizard'
 // import vSelect from 'vue-select'
+import {ValidationProvider, ValidationObserver} from 'vee-validate'
+import axios from 'axios'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import {
@@ -334,6 +299,8 @@ export default {
     // vSelect,
     // eslint-disable-next-line vue/no-unused-components
     ToastificationContent,
+    ValidationProvider,
+    ValidationObserver,
   },
   data() {
     const now = new Date()
@@ -348,43 +315,98 @@ export default {
     maxDate.setDate(15)
 
     return {
-      selected: '',
-      value: '',
       min: minDate,
       max: maxDate,
-      selectedContry: 'select_value',
-      selectedLanguage: 'nothing_selected',
-      countryName: [
-        {value: 'select_value', text: 'Select Value'},
-        {value: 'Russia', text: 'Russia'},
-        {value: 'Canada', text: 'Canada'},
-        {value: 'China', text: 'China'},
-        {value: 'United States', text: 'United States'},
-        {value: 'Brazil', text: 'Brazil'},
-        {value: 'Australia', text: 'Australia'},
-        {value: 'India', text: 'India'},
-      ],
-      languageName: [
-        {value: 'nothing_selected', text: 'Nothing Selected'},
-        {value: 'English', text: 'English'},
-        {value: 'Chinese', text: 'Mandarin Chinese'},
-        {value: 'Hindi', text: 'Hindi'},
-        {value: 'Spanish', text: 'Spanish'},
-        {value: 'Arabic', text: 'Arabic'},
-        {value: 'Malay', text: 'Malay'},
-        {value: 'Russian', text: 'Russian'},
-      ],
+      createdPatient: {
+        name: '',
+        lastname: '',
+        email: '',
+        phone_number: '',
+        note: '',
+        gender: '',
+        birthday: '',
+        city: '',
+        address: '',
+      },
     }
   },
   methods: {
+    isNumber: function (evt) {
+      evt = evt ? evt : window.event;
+      var charCode = evt.which ? evt.which : evt.keyCode;
+      if (
+          charCode > 31 &&
+          (charCode < 48 || charCode > 57) &&
+          charCode !== 46
+      ) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
+    },
     formSubmitted() {
-      this.$toast({
-        component: ToastificationContent,
-        props: {
-          title: 'Form Submitted',
-          icon: 'EditIcon',
-          variant: 'success',
-        },
+      // this.$swal({
+      //   title: 'Please, wait...',
+      //   didOpen: () => {
+      //     this.$swal.showLoading();
+      //   }
+      // });
+      this.$http.post('ca/panel/client/add', this.createdPatient)
+          .then((res) => {
+            if (res.data.status === 200) {
+              this.$swal({
+                title: res.data.message,
+                icon: 'success',
+                customClass: {
+                  confirmButton: 'btn btn-primary',
+                },
+                buttonsStyling: false,
+              })
+              this.$refs.registerClient.reset();
+            } else {
+              this.$swal({
+                title: res.data.message,
+                icon: 'success',
+                customClass: {
+                  confirmButton: 'btn btn-primary',
+                },
+                buttonsStyling: false,
+              })
+              console.log(res)
+            }
+          }).catch((res) => {
+        this.$swal({
+          title: res.data.message,
+          icon: 'error',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
+        })
+      })
+    },
+    validationForm() {
+      return new Promise((resolve, reject) => {
+        this.$refs.accountRules.validate()
+            .then(success => {
+              if (success) {
+                resolve(true)
+              } else {
+                reject()
+              }
+            })
+      })
+    },
+    validationFormInfo() {
+      return new Promise((resolve, reject) => {
+        this.$refs.infoRules.validate()
+            .then(success => {
+              if (success) {
+                resolve(true)
+              } else {
+                reject()
+              }
+            })
       })
     },
   },

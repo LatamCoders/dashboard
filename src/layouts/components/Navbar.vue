@@ -18,7 +18,7 @@
 
     <!-- Left Col -->
     <div class="bookmark-wrapper align-items-center flex-grow-1 d-none d-lg-flex">
-<!--      <dark-Toggler class="d-none d-lg-block"/>-->
+      <!--      <dark-Toggler class="d-none d-lg-block"/>-->
     </div>
 
     <b-navbar-nav class="nav align-items-center ml-auto">
@@ -29,7 +29,7 @@
       >
         <template #button-content>
           <div class="d-sm-flex d-none user-nav">
-            <p class="user-name font-weight-bolder mb-0" >
+            <p class="user-name font-weight-bolder mb-0">
               {{ $store.getters["Users/userData"].user.name }}
             </p>
             <span class="user-status"> {{ $store.getters["Users/userData"].user.role.role }} </span>
@@ -83,15 +83,13 @@
         </b-dropdown-item>
 
         <b-dropdown-divider/>
-        <b-dropdown-item link-class="d-flex align-items-center">
-          <router-link to="/">
-            <feather-icon
-                size="16"
-                icon="LogOutIcon"
-                class="mr-50"
-            />
-            <span>Logout</span>
-          </router-link>
+        <b-dropdown-item link-class="d-flex align-items-center" @click="logOut">
+             <feather-icon
+                 size="16"
+                 icon="LogOutIcon"
+                 class="mr-50"
+             />
+             <span>Logout</span>
         </b-dropdown-item>
       </b-nav-item-dropdown>
     </b-navbar-nav>
@@ -100,7 +98,7 @@
 
 <script>
 import {
-  BLink, BNavbarNav, BNavItemDropdown, BDropdownItem, BDropdownDivider, BAvatar,
+  BLink, BNavbarNav, BNavItemDropdown, BDropdownItem, BDropdownDivider, BAvatar, BButton,
 } from 'bootstrap-vue'
 import DarkToggler from '@core/layouts/components/app-navbar/components/DarkToggler.vue'
 import {email, required} from "@core/utils/validations/validations";
@@ -113,12 +111,48 @@ export default {
     BDropdownItem,
     BDropdownDivider,
     BAvatar,
+    BButton,
 
     // Navbar Components
     DarkToggler,
   },
   data() {
     return {}
+  },
+  methods: {
+    logOut() {
+      this.$swal({
+        title: 'Please, wait...',
+        didOpen: () => {
+          this.$swal.showLoading();
+        }
+      });
+      let url = this.$store.getters['Users/userData'].user.role.id === 3 ? 'CA' : 'admin';
+
+      this.$store.dispatch('Users/destroyToken', url)
+      .then(() => {
+        this.$router.push({name: 'login'})
+        this.$swal({
+          icon: 'success',
+          title: 'Logout successfully',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
+        });
+      })
+      .catch((e) => {
+        this.$swal({
+          icon: 'error',
+          title: e.response,
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
+        });
+      })
+
+    }
   },
   props: {
     toggleVerticalMenuActive: {

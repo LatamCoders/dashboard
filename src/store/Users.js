@@ -1,6 +1,7 @@
 import createPersistedState from "vuex-persistedstate";
 import SecureLS from "secure-ls";
 import axios from "axios";
+import axiosIns from "@/libs/axios";
 
 const ls = new SecureLS({encodingType: 'rc4', isCompression: false, encryptionSecret: 's3cr3tPa$$w0rd@123'});
 
@@ -16,6 +17,9 @@ export const Users = {
         },
         userData(state) {
             return state.user
+        },
+        userToken(state) {
+            return state.token
         },
     },
     mutations: {
@@ -38,7 +42,7 @@ export const Users = {
             url = payload.loginType === 'admin' ? 'auth/admin/login' : 'auth/ca/login';
 
             return new Promise((resolve, reject) => {
-                axios.post(url, {
+                this._vm.$http.post(url, {
                         email: payload.userEmail,
                         password: payload.password
                     }
@@ -60,23 +64,27 @@ export const Users = {
         destroyToken(context, payload) {
             if (context.getters.loggedIn) {
                 let url = '';
-                url = payload.loginType === 'admin' ? 'auth/admin/login' : 'auth/ca/login';
+                url = payload.loginType === 'admin' ? 'auth/admin/logout' : 'auth/ca/logout';
 
                 return new Promise((resolve, reject) => {
-                    axios.post(url, '', {
-                        headers: {Authorization: "Bearer " + context.state.token}
-                    })
+                    this._vm.$http.post(url, '')
                         .then(response => {
                             context.commit('destroyToken');
                             context.commit('destroyUser');
 
                             localStorage.removeItem('us_ri_td');
 
+                            delete this._vm.$http.defaults.headers.common['Authorization'];
+
                             resolve(response)
                         })
                         .catch(error => {
+                            /*context.commit('destroyToken');
                             context.commit('destroyUser');
+
                             localStorage.removeItem('us_ri_td');
+
+                            delete this._vm.$http.defaults.headers.common['Authorization'];*/
 
                             reject(error)
                         })

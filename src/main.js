@@ -14,6 +14,7 @@ import './global-components'
 import '@/libs/portal-vue'
 import '@/libs/toastification'
 import '@/libs/sweet-alerts'
+import axiosIns from "@/libs/axios";
 
 // BSV Plugin Registration
 Vue.use(ToastPlugin)
@@ -30,8 +31,11 @@ require('@/assets/scss/style.scss')
 
 Vue.config.productionTip = false
 
-axios.defaults.baseURL = 'https://Amera-test.herokuapp.com/api/v1/';
-axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+axiosIns.interceptors.request.use((config) => {
+  config.headers.Authorization = `Bearer ${store.getters['Users/userToken']}`
+  return config;
+})
+
 
 // Redirect if not login
 router.beforeEach((to, from, next) => {

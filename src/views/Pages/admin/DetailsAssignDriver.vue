@@ -5,7 +5,7 @@
         color="#7367F0"
         :title="null"
         :subtitle="null"
-        finish-button-text="Request"
+        finish-button-text="Assign"
         back-button-text="Previous"
         class="steps-transparent mb-3 d-lg-flex d-xl-flex d-md-flex justify-content-center flex-xl-column formcreatepatient"
         @on-complete="formSubmitted"
@@ -129,7 +129,6 @@
                 label="Email"
             >
               <b-form-input
-                  type="Email"
                   value="Doe@gmail.com"
                   disabled
                   style="font-weight: bold"
@@ -281,41 +280,74 @@
             <h5 class="mb-0">
               Information driver
             </h5>
-<!--            <small class="text-muted">Enter Your Social Links</small>-->
+            <!--            <small class="text-muted">Enter Your Social Links</small>-->
+          </b-col>
+          <b-col md="6">
+            <span style="display: block; margin-bottom: calc(0.438rem + 1px)">Select a driver</span>
+            <b-input-group class="input-group-merge"
+                label=""
+            >
+              <b-input-group-prepend is-text>
+                <feather-icon icon="SearchIcon"/>
+              </b-input-group-prepend>
+              <b-form-input
+                  type="search"
+                  placeholder="Jean frank"
+                  v-model="buscar"
+              />
+            </b-input-group>
           </b-col>
           <b-col md="6">
             <b-form-group
-                label="Twitter"
+                label="Selected driver"
             >
               <b-form-input
-                  placeholder="https://twitter.com/abc"
+                  placeholder="Jean frank"
+                  v-model="escogido"
               />
             </b-form-group>
           </b-col>
           <b-col md="6">
             <b-form-group
-                label="Facebook"
+                label="Email"
             >
               <b-form-input
-                  placeholder="https://facebook.com/abc"
+                  value="jeanfrank@gmail.com"
+                  disabled
+                  style="font-weight: bold"
               />
             </b-form-group>
           </b-col>
           <b-col md="6">
             <b-form-group
-                label="Google+"
+                label="Phone number"
             >
               <b-form-input
-                  placeholder="https://plus.google.com/abc"
+                  value="32225544"
+                  disabled
+                  style="font-weight: bold"
               />
             </b-form-group>
           </b-col>
           <b-col md="6">
             <b-form-group
-                label="LinkedIn"
+                label="Model vehicle"
             >
               <b-form-input
-                  placeholder="https://linkedin.com/abc"
+                  value="Corolla"
+                  disabled
+                  style="font-weight: bold"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col md="6">
+            <b-form-group
+                label="Plate number"
+            >
+              <b-form-input
+                  value="n25154s"
+                  disabled
+                  style="font-weight: bold"
               />
             </b-form-group>
           </b-col>
@@ -340,6 +372,8 @@ import {
   BFormSelect,
   BFormDatepicker,
   BFormTimepicker,
+  BInputGroupPrepend,
+  BInputGroup,
 } from 'bootstrap-vue'
 // import { codeIconInfo } from './code'
 // import vSelect from 'vue-select'
@@ -355,6 +389,8 @@ export default {
     BFormSelect,
     BFormDatepicker,
     BFormTimepicker,
+    BInputGroup,
+    BInputGroupPrepend,
     vSelect,
     // eslint-disable-next-line vue/no-unused-components
     ToastificationContent,
@@ -389,6 +425,42 @@ export default {
         {title: 'Pharmacy stop'},
         {title: 'Additional stop'},
       ],
+      buscar: '',
+      escogido: this.buscar,
+      listado: [
+        {
+          id: "1",
+          nombre: "Sandshrew",
+          fortaleza: "Veneno",
+          debilidad: "Agua",
+          tipo: "Tierra",
+          img: "a.png"
+        },
+        {
+          id: "2",
+          nombre: "Squirtle",
+          fortaleza: "Fuego",
+          debilidad: "Electricidad",
+          tipo: "Agua",
+          img: "b.png"
+        },
+        {
+          id: "3",
+          nombre: "Charmander",
+          fortaleza: "Fuego",
+          debilidad: "Agua",
+          tipo: "Fuego",
+          img: "c.png"
+        },
+        {
+          id: "4",
+          nombre: "Caterpie",
+          fortaleza: "Planta",
+          debilidad: "Fuego",
+          tipo: "Bicho",
+          img: "d.png"
+        },
+      ],
     }
   },
   methods: {
@@ -403,6 +475,13 @@ export default {
       })
     },
   },
+  computed: {
+    items() {
+      return this.listado.filter(item => {
+        return item.nombre.toLowerCase().includes(this.buscar.toLowerCase());
+      });
+    },
+  }
 }
 </script>
 
