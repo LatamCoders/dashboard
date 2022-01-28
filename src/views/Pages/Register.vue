@@ -78,6 +78,8 @@
                                 placeholder="johndoe"
                                 :state="errors.length > 0 ? false:null"
                                 type="text"
+                                pattern="^[A-Za-z]+$"
+                                maxlength="30"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -93,6 +95,7 @@
                             <b-form-input
                                 v-model="dataregister.dba"
                                 :state="errors.length > 0 ? false:null"
+                                maxlength="20"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -108,6 +111,7 @@
                             <b-form-input
                                 v-model="dataregister.company_type" placeholder="Corporate"
                                 :state="errors.length > 0 ? false:null"
+                                maxlength="30"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -123,6 +127,8 @@
                             <b-form-input
                                 v-model="dataregister.tin" placeholder="12967552655455"
                                 :state="errors.length > 0 ? false:null"
+                                @keypress="isNumber($event)"
+                                maxlength="15"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -141,6 +147,7 @@
                                 v-model="dataregister.nature_of_business"
                                 placeholder="local / national"
                                 :state="errors.length > 0 ? false:null"
+                                maxlength="30"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -180,6 +187,7 @@
                                 v-model="dataregister.office_location_address"
                                 placeholder="floor and suite"
                                 :state="errors.length > 0 ? false:null"
+                                maxlength="30"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -198,6 +206,7 @@
                                 v-model="dataregister.billing_address"
                                 placeholder="floor and suite"
                                 :state="errors.length > 0 ? false:null"
+                                maxlength="20"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -236,6 +245,7 @@
                                 placeholder="038555555"
                                 :state="errors.length > 0 ? false:null"
                                 @keypress="isNumber($event)"
+                                maxlength="10"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -253,6 +263,7 @@
                                 v-model="dataregister.fax_number" placeholder="155926969"
                                 :state="errors.length > 0 ? false:null"
                                 @keypress="isNumber($event)"
+                                maxlength="9"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -270,6 +281,7 @@
                                 type="email"
                                 placeholder="john.doe@email.com"
                                 :state="errors.length > 0 ? false:null"
+                                maxlength="30"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -286,6 +298,7 @@
                                 v-model="dataregister.website"
                                 placeholder="www.amera.com"
                                 :state="errors.length > 0 ? false:null"
+                                maxlength="30"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -304,6 +317,7 @@
                                 v-model="dataregister.contact_name"
                                 placeholder="Jhon doe"
                                 :state="errors.length > 0 ? false:null"
+                                maxlength="30"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -323,6 +337,7 @@
                                 placeholder="05656366"
                                 :state="errors.length > 0 ? false:null"
                                 @keypress="isNumber($event)"
+                                maxlength="10"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -357,6 +372,7 @@
                             <b-form-input
                                 :state="errors.length > 0 ? false:null"
                                 v-model="dataregister.additional_contact_name"
+                                maxlength="30"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -374,6 +390,7 @@
                             <b-form-input
                                 :state="errors.length > 0 ? false:null"
                                 v-model="dataregister.additional_contact_title"
+                                maxlength="30"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -393,6 +410,7 @@
                                 placeholder="658921"
                                 :state="errors.length > 0 ? false:null"
                                 @keypress="isNumber($event)"
+                                maxlength="10"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -410,6 +428,7 @@
                             <b-form-input
                                 v-model="dataregister.additional_contact_email" placeholder="@"
                                 :state="errors.length > 0 ? false:null"
+                                maxlength="30"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -443,6 +462,7 @@
                                 placeholder="Jhon Doe"
                                 v-model="dataregister.name_on_cc"
                                 :state="errors.length > 0 ? false:null"
+                                maxlength="30"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -462,6 +482,7 @@
                                 placeholder="1111 2222 1111 2222 11"
                                 :state="errors.length > 0 ? false:null"
                                 @keypress="isNumber($event)"
+                                maxlength="18"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -502,6 +523,7 @@
                                 placeholder="130008"
                                 :state="errors.length > 0 ? false:null"
                                 @keypress="isNumber($event)"
+                                maxlength="9"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -521,6 +543,7 @@
                                 placeholder="1303"
                                 :state="errors.length > 0 ? false:null"
                                 @keypress="isNumber($event)"
+                                maxlength="4"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -762,14 +785,14 @@ export default {
           .then((res) => {
             if (res.data.status === 200) {
               this.$swal({
-                title: 'It has been successfully registered',
+                title: 'Corporate account saved',
                 icon: 'success',
                 customClass: {
                   confirmButton: 'btn btn-primary',
                 },
                 buttonsStyling: false,
               })
-              this.$refs.registerForm.reset();
+              this.$router.push({name: 'login'})
 
               //clear form
                   this.dataregister.company_legal_name = '',
@@ -798,7 +821,7 @@ export default {
               // console.log('bien')
             } else {
               this.$swal({
-                title: 'Could not register',
+                title: res.data.message,
                 icon: 'error',
                 customClass: {
                   confirmButton: 'btn btn-primary',
@@ -808,7 +831,16 @@ export default {
 
               // console.log(res.data.data)
             }
-          })
+          }).catch((error) => {
+        this.$swal({
+          title: error.data.message,
+          icon: 'error',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
+        })
+      })
 
       // this.enviados = this.dataregister;
       // console.log(this.enviados)

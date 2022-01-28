@@ -8,8 +8,9 @@
         finish-button-text="Request"
         back-button-text="Previous"
         class="steps-transparent mb-3 d-lg-flex d-xl-flex d-md-flex justify-content-center flex-xl-column formcreatepatient"
-        @on-complete="formSubmitted"
+        @on-complete="formRequest"
         style="background-color: #fff"
+        ref="requestTrip"
     >
       <!-- account detail tab -->
       <tab-content
@@ -31,11 +32,9 @@
           <b-col md="4">
             <b-form-group
                 label="Name"
-                label-for="i-name"
             >
               <b-form-input
-                  id="i-name"
-                  value="Orlando"
+                  v-model="dataCa.name"
                   disabled
                   style="font-weight: bold"
               />
@@ -43,12 +42,10 @@
           </b-col>
           <b-col md="4">
             <b-form-group
-                label="Last Name"
-                label-for="i-lastname"
+                label="Company name"
             >
               <b-form-input
-                  id="i-lastname"
-                  value="Health"
+                  v-model="dataCa.corporate_account.company_legal_name"
                   disabled
                   style="font-weight: bold"
               />
@@ -57,11 +54,9 @@
           <b-col md="4">
             <b-form-group
                 label="Contact Number"
-                label-for="i-contactn"
             >
               <b-form-input
-                  id="i-contactn"
-                  value="231217848"
+                  v-model="dataCa.corporate_account.corporate_account_personal_info.telephone_number"
                   disabled
                   style="font-weight: bold"
               />
@@ -70,12 +65,9 @@
           <b-col md="4">
             <b-form-group
                 label="Email"
-                label-for="i-email"
             >
               <b-form-input
-                  id="i-email"
-                  type="email"
-                  value="orlandohealth@gmail.com"
+                  v-model="dataCa.email"
                   disabled
                   style="font-weight: bold"
               />
@@ -87,196 +79,286 @@
       <!-- personal details -->
       <tab-content
           title="Patient  Info"
-          icon=""
+          :before-change="validationForm"
       >
-        <b-row>
-          <b-col
-              cols="12"
-              class="mb-2"
-          >
-            <h5 class="mb-0">
-              Patient information
-            </h5>
-            <small class="text-muted" style="color: #000000d6 !important">Enter patient information.</small>
-          </b-col>
-          <b-col md="4">
-            <b-form-group
-                label="Name"
+        <validation-observer
+            ref="accountRules"
+            tag="form"
+        >
+          <b-row>
+            <b-col
+                cols="12"
+                class="mb-2"
             >
-              <b-form-input
-                  placeholder="John"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="4">
-            <b-form-group
-                label-for="i-last-name"
-                label="Last Name"
-            >
-              <b-form-input
-                  id="i-last-name"
-                  placeholder="John"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="4">
-            <b-form-group
-                label-for="i-contact-number"
-                label="Contact Number"
-            >
-              <b-form-input
-                  id="i-contact-number"
-                  placeholder="15555555554"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="4">
-            <b-form-group
-                label="Email"
-                label-for="i-mail"
-            >
-              <b-form-input
-                  id="i-mail"
-                  type="Email"
-                  placeholder="Doe@gmail.com"
-              />
-            </b-form-group>
-          </b-col>
-        </b-row>
+              <h5 class="mb-0">
+                Patient information
+              </h5>
+              <small class="text-muted" style="color: #000000d6 !important">Enter patient information.</small>
+            </b-col>
+            <b-col md="4">
+              <b-form-group
+                  label="Name"
+              >
+                <validation-provider
+                    #default="{ errors }"
+                    rules="required"
+                >
+                  <v-select
+                      v-model="idpaciente"
+                      label="name"
+                      :options="lispatient"
+                      :reduce="c => `${c.id}`"
+                      :state="errors.length > 0 ? false:null"
+                  >
+                    <template #option="{name, lastname}">
+                      {{ name }} {{ lastname }}
+                    </template>
+                  </v-select>
+                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+            <b-col md="4">
+              <b-form-group
+                  label="Last Name"
+              >
+                <b-form-input
+                    placeholder="John"
+                    v-model="lispatient[0].lastname"
+                    disabled
+
+                />
+              </b-form-group>
+            </b-col>
+            <b-col md="4">
+              <b-form-group
+                  label="Contact Number"
+              >
+                <validation-provider
+                    #default="{ errors }"
+                    rules="required"
+                >
+                  <b-form-input
+                      v-model="lispatient[0].phone_number"
+                      :state="errors.length > 0 ? false:null"
+                      disabled
+                  />
+                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+            <b-col md="4">
+              <b-form-group
+                  label="Email"
+              >
+                <validation-provider
+                    #default="{ errors }"
+                    rules="required|email"
+                >
+                  <b-form-input
+                      v-model="lispatient[Number(idpaciente)].email"
+                      placeholder="Doe@gmail.com"
+                      :state="errors.length > 0 ? false:null"
+                      disabled
+                  />
+                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+          </b-row>
+        </validation-observer>
       </tab-content>
 
       <!-- address -->
       <tab-content
           title="Preschedule"
-          icon=""
+          :before-change="validationFormInfo"
       >
-        <b-row>
-          <b-col
-              cols="12"
-              class="mb-2"
-          >
-            <h5 class="mb-0">
-              Preschedule date
-            </h5>
-            <small class="text-muted"></small>
-          </b-col>
-          <b-col md="4">
-            <b-form-group
-                label="Date of Service"
-                label-for="i-dataservice"
+        <validation-observer
+            ref="infoRules"
+            tag="form"
+        >
+          <b-row>
+            <b-col
+                cols="12"
+                class="mb-2"
             >
-              <b-form-datepicker
-                  v-model="value"
-                  :min="min"
-                  :max="max"
-                  locale="en"
-                  placeholder="8/01/2022"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="4">
-            <b-form-group
-                label="Time of Pickup"
-                label-for="i-time"
-            >
-              <b-form-input
-                  id="i-time"
-                  placeholder="98 Borough bridge Road, Birmingham"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="4">
-            <b-form-group
-                label="Time of Appt"
-                label-for="i-appt"
-            >
-              <b-form-input
-                  id="i-appt"
-                  placeholder="658921"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="4">
-            <b-form-group
-                label-for="i-city"
-                label="City"
-            >
-              <b-form-input
-                  id="i-city"
-                  placeholder="Birmingham"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="4">
-            <b-form-group
-                label="Surgery type"
-            >
-              <b-form-select
-                  v-model="selectcirujia"
-                  :options="optionscirujia"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="4">
-            <b-form-group
-                label="Pickup address"
-            >
-              <b-form-input
-                  v-model="ubicacion"
-                  placeholder="98 Borough bridge Road, Birmingham"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="4">
-            <b-form-group
-                label="Additional stop"
-            >
-              <v-select
-                  v-model="seleccionstop"
-                  :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                  multiple
-                  :options="option"
-                  label="title"
-                  placeholder="Please select some item"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="4" v-if="seleccionstop">
-            <b-form-group
-                label="Destiny"
-            >
-              <b-form-input
-                  placeholder="Birmingham"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="4">
-            <b-form-group
-                label="Appointment date"
-            >
-              <b-form-datepicker
-                  v-model="appointmentdate"
-                  :min="min"
-                  :max="max"
-                  locale="en"
-                  placeholder="8/01/2022"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="4">
-            <b-form-group
-                label="Appointment time"
-            >
-              <b-form-timepicker
-                  id="timepicker-placeholder"
-                  placeholder="Choose a time"
-                  local="en"
-                  v-model="appointmenttime"
-              />
-            </b-form-group>
-          </b-col>
-
-        </b-row>
+              <h5 class="mb-0">
+                Preschedule date
+              </h5>
+              <small class="text-muted"></small>
+            </b-col>
+            <b-col md="4">
+              <b-form-group
+                  label="Date of Service"
+              >
+                <validation-provider
+                    #default="{ errors }"
+                    rules="required"
+                >
+                  <b-form-datepicker
+                      v-model="fecha"
+                      :min="min"
+                      :max="max"
+                      locale="en"
+                      placeholder="8/01/2022"
+                      :state="errors.length > 0 ? false:null"
+                  />
+                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+            <b-col md="4">
+              <b-form-group
+                  label="Time of Pickup"
+              >
+                <validation-provider
+                    #default="{ errors }"
+                    rules="required"
+                >
+                  <b-form-timepicker
+                      locale='en'
+                      v-model="tiempo"
+                      :state="errors.length > 0 ? false:null"
+                  />
+                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+            <b-col md="4">
+              <b-form-group
+                  label="Time of Appt"
+              >
+                <validation-provider
+                    #default="{ errors }"
+                    rules="required"
+                >
+                  <b-form-timepicker
+                      locale='en'
+                      placeholder="658921"
+                      :state="errors.length > 0 ? false:null"
+                      v-model="dataCa.appoinment_datetime"
+                  />
+                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+            <b-col md="4">
+              <b-form-group
+                  label="City"
+              >
+                <validation-provider
+                    #default="{ errors }"
+                    rules="required"
+                >
+                  <b-form-input
+                      placeholder="Birmingham"
+                      v-model="dataCa.city"
+                      :state="errors.length > 0 ? false:null"
+                  />
+                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+            <b-col md="4">
+              <b-form-group
+                  label="Surgery type"
+              >
+                <validation-provider
+                    #default="{ errors }"
+                    rules="required"
+                >
+                  <b-form-select
+                      v-model="dataCa.surgery_type"
+                      :options="optionscirujia"
+                      :state="errors.length > 0 ? false:null"
+                  />
+                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+            <b-col md="4">
+              <b-form-group
+                  label="Pickup address"
+              >
+                <validation-provider
+                    #default="{ errors }"
+                    rules="required"
+                >
+                  <b-form-input
+                      v-model="dataCa.to"
+                      placeholder="98 Borough bridge Road, Birmingham"
+                      :state="errors.length > 0 ? false:null"
+                  />
+                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+            <b-col md="4">
+              <b-form-group
+                  label="Additional stop"
+              >
+                <v-select
+                    v-model="seleccionstop"
+                    :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                    multiple
+                    :options="option"
+                    label="title"
+                    placeholder="Please select some item"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col md="4" v-if="seleccionstop">
+              <b-form-group
+                  label="Destiny"
+              >
+                <b-form-input
+                    placeholder="Birmingham"
+                    v-model="dataCa.from"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col md="4">
+              <b-form-group
+                  label="Appointment date"
+              >
+                <validation-provider
+                    #default="{ errors }"
+                    rules="required"
+                >
+                  <b-form-datepicker
+                      v-model="dataCa.appoinment_datetime"
+                      :min="min"
+                      :max="max"
+                      locale="en"
+                      placeholder="8/01/2022"
+                      :state="errors.length > 0 ? false:null"
+                  />
+                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+            <b-col md="4">
+              <b-form-group
+                  label="Appointment time"
+              >
+                <validation-provider
+                    #default="{ errors }"
+                    rules="required"
+                >
+                  <b-form-timepicker
+                      id="timepicker-placeholder"
+                      placeholder="Choose a time"
+                      local="en"
+                      v-model="appointmenttime"
+                      :state="errors.length > 0 ? false:null"
+                  />
+                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+          </b-row>
+        </validation-observer>
       </tab-content>
     </form-wizard>
 
@@ -286,7 +368,7 @@
 <script>
 import {FormWizard, TabContent} from 'vue-form-wizard'
 import vSelect from 'vue-select'
-
+import {ValidationProvider, ValidationObserver} from 'vee-validate'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import {
@@ -315,6 +397,8 @@ export default {
     vSelect,
     // eslint-disable-next-line vue/no-unused-components
     ToastificationContent,
+    ValidationProvider,
+    ValidationObserver,
   },
   data() {
     const now = new Date()
@@ -329,8 +413,24 @@ export default {
     maxDate.setDate(15)
     return {
       dir: 'ltr',
+      dataCa: {
+        selfpay_id: '',
+        emailpatient: '',
+        booking_date: '',
+        pickup_time: '',
+        appoinment_datetime: '',
+        contac_number: '',
+        surgery_type: '',
+        city: '',
+        from: '',
+        to: '',
+      },
+      lispatient: [],
       seleccionstop: '',
-      value: '',
+      idpaciente: '',
+      fecha: '',
+      tiempo: '',
+
       min: minDate,
       max: maxDate,
       appointment: '',
@@ -368,17 +468,65 @@ export default {
     }
   },
   methods: {
-    formSubmitted() {
-      this.$toast({
-        component: ToastificationContent,
-        props: {
-          title: 'Form Submitted',
-          icon: 'EditIcon',
-          variant: 'success',
-        },
+    validationForm() {
+      return new Promise((resolve, reject) => {
+        this.$refs.accountRules.validate()
+            .then(success => {
+              if (success) {
+                resolve(true)
+              } else {
+                reject()
+              }
+            })
       })
     },
+    validationFormInfo() {
+      return new Promise((resolve, reject) => {
+        this.$refs.infoRules.validate()
+            .then(success => {
+              if (success) {
+                resolve(true)
+              } else {
+                reject()
+              }
+            })
+      })
+    },
+    formRequest() {
+      this.$swal({
+        title: 'Please, wait...',
+        didOpen: () => {
+          this.$swal.showLoading();
+        }
+      });
+      this.dataCa.selfpay_id = Number(this.idpaciente);
+      this.dataCa.booking_date = this.fecha + ' ' + this.tiempo;
+      // this.dataCa.appoinment_datetime = this.
+      console.log(this.dataCa)
+     // this.$http.post('ca/panel/booking/add', this.dataCa)
+    },
   },
+  watch: {
+    namepatient() {
+       this.valornumerico = Number(this.dataCa.namepatient);
+      console.log (this.valornumerico)
+    }
+
+  },
+  beforeMount() {
+    this.dataCa = this.$store.getters["Users/userData"].user;
+  },
+  mounted() {
+    // this.lispatient =
+    this.$http.get(`ca/${ this.$store.getters["Users/userData"].user.id }/panel/client/search`)
+        .then((res) => {
+          if (res.data.message) {
+            this.lispatient = res.data.data;
+            console.log(this.lispatient)
+          }
+        })
+
+  }
 }
 </script>
 

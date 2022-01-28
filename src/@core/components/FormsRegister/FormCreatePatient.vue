@@ -107,18 +107,11 @@
               <b-form-group
                   label="Notes"
               >
-                <validation-provider
-                    #default="{ errors }"
-                    rules="required"
-                >
                   <b-form-textarea
                       v-model="createdPatient.note"
                       placeholder="Write here the notes"
                       rows="3"
-                      :state="errors.length > 0 ? false:null"
                   />
-                  <small class="text-danger" v-if="errors[0]">This field is required</small>
-                </validation-provider>
               </b-form-group>
             </b-col>
           </b-row>
@@ -327,6 +320,7 @@ export default {
         birthday: '',
         city: '',
         address: '',
+        ca_id: '',
       },
     }
   },
@@ -345,12 +339,13 @@ export default {
       }
     },
     formSubmitted() {
-      // this.$swal({
-      //   title: 'Please, wait...',
-      //   didOpen: () => {
-      //     this.$swal.showLoading();
-      //   }
-      // });
+      this.$swal({
+        title: 'Please, wait...',
+        didOpen: () => {
+          this.$swal.showLoading();
+        }
+      });
+      this.createdPatient.ca_id = this.$store.getters["Users/userData"].user.id;
       this.$http.post('ca/panel/client/add', this.createdPatient)
           .then((res) => {
             if (res.data.status === 200) {
@@ -363,10 +358,21 @@ export default {
                 buttonsStyling: false,
               })
               this.$refs.registerClient.reset();
+
+              //clear form register
+                  this.createdPatient.name = '',
+                  this.createdPatient.lastname = '',
+                  this.createdPatient.email = '',
+                  this.createdPatient.phone_number = '',
+                  this.createdPatient.note = '',
+                  this.createdPatient.gender = '',
+                  this.createdPatient.birthday = '',
+                  this.createdPatient.city = '',
+                  this.createdPatient.address = ''
             } else {
               this.$swal({
                 title: res.data.message,
-                icon: 'success',
+                icon: 'error',
                 customClass: {
                   confirmButton: 'btn btn-primary',
                 },
