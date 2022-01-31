@@ -812,7 +812,7 @@ export default {
           .then((res) => {
             if (res.data.status === 200) {
               this.$swal({
-                title: 'Corporate account saved',
+                title: 'Corporate account created',
                 icon: 'success',
                 customClass: {
                   confirmButton: 'btn btn-primary',
