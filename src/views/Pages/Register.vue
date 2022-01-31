@@ -80,6 +80,7 @@
                                 type="text"
                                 pattern="^[A-Za-z]+$"
                                 maxlength="30"
+                                @keypress="isText"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -96,6 +97,8 @@
                                 v-model="dataregister.dba"
                                 :state="errors.length > 0 ? false:null"
                                 maxlength="20"
+                                type="text"
+                                @keypress="isText"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -112,6 +115,7 @@
                                 v-model="dataregister.company_type" placeholder="Corporate"
                                 :state="errors.length > 0 ? false:null"
                                 maxlength="30"
+                                @keypress="isText"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -148,6 +152,7 @@
                                 placeholder="local / national"
                                 :state="errors.length > 0 ? false:null"
                                 maxlength="30"
+                                @keypress="isText"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -188,6 +193,7 @@
                                 placeholder="floor and suite"
                                 :state="errors.length > 0 ? false:null"
                                 maxlength="30"
+                                @keypress="isDirection"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -207,6 +213,7 @@
                                 placeholder="floor and suite"
                                 :state="errors.length > 0 ? false:null"
                                 maxlength="20"
+                                @keypress="isDirection"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -318,6 +325,7 @@
                                 placeholder="Jhon doe"
                                 :state="errors.length > 0 ? false:null"
                                 maxlength="30"
+                                @keypress="isText"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -373,6 +381,7 @@
                                 :state="errors.length > 0 ? false:null"
                                 v-model="dataregister.additional_contact_name"
                                 maxlength="30"
+                                @keypress="isText"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -391,6 +400,7 @@
                                 :state="errors.length > 0 ? false:null"
                                 v-model="dataregister.additional_contact_title"
                                 maxlength="30"
+                                @keypress="isText"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -463,6 +473,7 @@
                                 v-model="dataregister.name_on_cc"
                                 :state="errors.length > 0 ? false:null"
                                 maxlength="30"
+                                @keypress="isText"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -531,7 +542,7 @@
                       </b-col>
                       <b-col md="6">
                         <b-form-group
-                            label="Code to cc"
+                            label="Code to cvv"
                         >
                           <validation-provider
                               #default="{ errors }"
@@ -738,7 +749,7 @@ export default {
   methods: {
     isNumber: function (evt) {
       evt = evt ? evt : window.event;
-      var charCode = evt.which ? evt.which : evt.keyCode;
+      let charCode = evt.which ? evt.which : evt.keyCode;
       if (
           charCode > 31 &&
           (charCode < 48 || charCode > 57) &&
@@ -747,6 +758,22 @@ export default {
         evt.preventDefault();
       } else {
         return true;
+      }
+    },
+    isText: function (event) {
+      let regex = new RegExp("^[a-zA-Z ]+$");
+      let key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+      if (!regex.test(key)) {
+        event.preventDefault();
+        return false;
+      }
+    },
+    isDirection: function (event) {
+      let regex = new RegExp("^[a-zA-Z0-9 ]+$");
+      let key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+      if (!regex.test(key)) {
+        event.preventDefault();
+        return false;
       }
     },
     register() {
