@@ -1,5 +1,5 @@
 <template>
-  <div class="auth-wrapper auth-v2">
+  <div class="auth-wrapper auth-v2" oncopy="return false" onpaste="return false">
     <b-row class="auth-inner m-0">
       <!-- Brand logo-->
       <b-link class="brand-logo">
@@ -624,6 +624,7 @@ import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import VuexyLogo from '@core/layouts/components/Logo.vue'
 import axios from 'axios'
 import Ripple from 'vue-ripple-directive'
+import * as Card from "card";
 import {
   BRow,
   BCol,
@@ -920,6 +921,22 @@ export default {
             })
       })
     },
+  },
+  mounted() {
+    new Card({
+      form: "dataregister",
+      formSelectors: {
+        cc_number: "input#cc-number",
+        name_on_cc: "input#cc-name",
+        code_of_cc: "input#cc-cvv"
+      },
+      formatting: true,
+      placeholders: {
+        cc_number: "•••• •••• •••• ••••",
+        name_on_cc: "Nome Completo",
+        code_of_cc: "•••"
+      }
+    });
   },
   // mounted() {
   //   this.$swal({

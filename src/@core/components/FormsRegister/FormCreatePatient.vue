@@ -45,6 +45,8 @@
                       placeholder="johndoe"
                       v-model="createdPatient.name"
                       :state="errors.length > 0 ? false:null"
+                      @keypress="isText"
+                      maxlength="40"
                   />
                   <small class="text-danger" v-if="errors[0]">This field is required</small>
                 </validation-provider>
@@ -62,6 +64,8 @@
                       placeholder="Doe"
                       v-model="createdPatient.lastname"
                       :state="errors.length > 0 ? false:null"
+                      @keypress="isText"
+                      maxlength="40"
                   />
                   <small class="text-danger" v-if="errors[0]">This field is required</small>
                 </validation-provider>
@@ -98,6 +102,7 @@
                       placeholder="33515"
                       :state="errors.length > 0 ? false:null"
                       @keypress="isNumber($event)"
+                      maxlength="11"
                   />
                   <small class="text-danger" v-if="errors[0]">This field is required</small>
                 </validation-provider>
@@ -149,6 +154,7 @@
                       v-model="createdPatient.address"
                       placeholder="98 Borough bridge Road, Birmingham"
                       :state="errors.length > 0 ? false:null"
+                      maxlength="40"
                   />
                   <small class="text-danger" v-if="errors[0]">This field is required</small>
                 </validation-provider>
@@ -167,6 +173,7 @@
                       placeholder="358185488"
                       :state="errors.length > 0 ? false:null"
                       @keypress="isNumber($event)"
+                      maxlenght="10"
                   />
                   <small class="text-danger" v-if="errors[0]">This field is required</small>
                 </validation-provider>
@@ -336,6 +343,14 @@ export default {
         evt.preventDefault();
       } else {
         return true;
+      }
+    },
+    isText: function (event) {
+      let regex = new RegExp("^[a-zA-Z ]+$");
+      let key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+      if (!regex.test(key)) {
+        event.preventDefault();
+        return false;
       }
     },
     formSubmitted() {

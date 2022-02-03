@@ -124,7 +124,7 @@
               >
                 <b-form-input
                     placeholder="John"
-                    v-model="lispatient[0].lastname"
+                    v-model="lispatient[0]"
                     disabled
 
                 />
