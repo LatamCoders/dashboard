@@ -1,5 +1,6 @@
 <template>
   <div class="cols-12 col-xl-12 "
+       oncopy="return false" onpaste="return false"
        style="margin: 0 auto">
     <form-wizard
         color="#7367F0"
@@ -84,6 +85,7 @@
                       placeholder="Jhon.doe@email.com"
                       type="email"
                       :state="errors.length > 0 ? false:null"
+                      maxlength="50"
                   />
                   <small class="text-danger" v-if="errors[0]">This field is required</small>
                 </validation-provider>
@@ -155,6 +157,7 @@
                       placeholder="98 Borough bridge Road, Birmingham"
                       :state="errors.length > 0 ? false:null"
                       maxlength="40"
+                      @keypress="isDirection"
                   />
                   <small class="text-danger" v-if="errors[0]">This field is required</small>
                 </validation-provider>
@@ -173,7 +176,7 @@
                       placeholder="358185488"
                       :state="errors.length > 0 ? false:null"
                       @keypress="isNumber($event)"
-                      maxlenght="10"
+                      maxlength="10"
                   />
                   <small class="text-danger" v-if="errors[0]">This field is required</small>
                 </validation-provider>
@@ -191,6 +194,8 @@
                       placeholder="Birmingham"
                       v-model="createdPatient.city"
                       :state="errors.length > 0 ? false:null"
+                      maxlength="50"
+                      @keypress="isDirection"
                   />
                   <small class="text-danger" v-if="errors[0]">This field is required</small>
                 </validation-provider>
@@ -353,6 +358,14 @@ export default {
         return false;
       }
     },
+    isDirection: function (event) {
+      let regex = new RegExp("^[a-zA-Z0-9 ]+$");
+      let key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+      if (!regex.test(key)) {
+        event.preventDefault();
+        return false;
+      }
+    },
     formSubmitted() {
       this.$swal({
         title: 'Please, wait...',
@@ -395,16 +408,17 @@ export default {
               })
               console.log(res)
             }
-          }).catch((res) => {
-        this.$swal({
-          title: res.data.message,
-          icon: 'error',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-          },
-          buttonsStyling: false,
-        })
-      })
+          })
+          .catch((res) => {
+          this.$swal({
+            title: res.message,
+            icon: 'error',
+            customClass: {
+              confirmButton: 'btn btn-primary',
+            },
+            buttonsStyling: false,
+          })
+         })
     },
     validationForm() {
       return new Promise((resolve, reject) => {
