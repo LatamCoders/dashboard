@@ -70,6 +70,11 @@
           :items="navMenuItemsAdmin"
           class="navigation navigation-main"
       />
+      <vertical-nav-menu-items
+          v-if="this.$store.getters['Users/userData'].user.role.id === 1"
+          :items="navMenuItemsSuper"
+          class="navigation navigation-main"
+      />
       <div style="position: absolute;top: 85%;margin-left: 16px;" v-if="this.$store.getters['Users/userData'].user.role.id === 3">
         <router-link to="/">
           <h4 style="color: white; font-size: 1.1rem; font-weight: lighter">Chat: </h4>
@@ -90,6 +95,7 @@
 <script>
 import navMenuItems from '@/navigation/vertical/index.js'
 import navMenuItemsAdmin from '@/navigation/vertical/infocontact.js'
+import navMenuItemsSuper from '@/navigation/vertical/infosuperadmin.js'
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import {BLink, BImg} from 'bootstrap-vue'
 import {provide, computed, ref} from '@vue/composition-api'
@@ -145,6 +151,7 @@ export default {
     return {
       navMenuItems,
       navMenuItemsAdmin,
+      navMenuItemsSuper,
       perfectScrollbarSettings,
       isVerticalMenuCollapsed,
       collapseTogglerIcon,

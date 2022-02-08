@@ -149,6 +149,14 @@ const router = new VueRouter({
             },
         },
         {
+            path: '/providers/details-provider',
+            name: 'details-provider',
+            component: () => import('@/views/Pages/admin/DetailsProviders.vue'),
+            meta: {
+                pageTitle: 'Details provider',
+            },
+        },
+        {
             path: '/reports',
             name: 'reports',
             component: () => import('@/views/Pages/admin/Reports.vue'),
