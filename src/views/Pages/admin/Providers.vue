@@ -86,18 +86,6 @@
         <!--          </b-media>-->
         <!--        </template>-->
 
-        <!-- Column: Role -->
-        <!--        <template #cell(fecha)="data">-->
-        <!--          <div class="text-nowrap">-->
-        <!--            <feather-icon-->
-        <!--                :icon="resolveUserRoleIcon(data.item.fecha)"-->
-        <!--                size="18"-->
-        <!--                class="mr-50"-->
-        <!--                :class="`text-${resolveUserRoleVariant(data.item.fecha)}`"-->
-        <!--            />-->
-        <!--            <span class="align-text-top text-capitalize">{{ data.item.fecha }}</span>-->
-        <!--          </div>-->
-        <!--        </template>-->
 
         <!-- Column: Status -->
         <template #cell(status)="personas">
@@ -206,6 +194,7 @@ import UsersListFilters from '/src/@core/components/infoClients/UsersListFilters
 import useUsersList from '/src/@core/components/infoClients/useUsersList'
 import userStoreModule from '@core/components/users-view/userStoreModule'
 import UserListAddNew from '@core/components/infoClients/UserListAddNew'
+
 
 export default {
   components: {

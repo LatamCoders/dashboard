@@ -271,6 +271,7 @@ export default {
       statusFilter,
     } = useUsersList()
     return {
+      listClients: {},
       fields: ['id', 'NameDriver', 'email', 'tel_number', 'HomeAddress', 'state', 'actions'],
       personas: [
         {
@@ -345,7 +346,10 @@ export default {
     }
   },
   // mounted() {
-  //   this.perPageOptions = this.$http.get('admin/ca/list')
+  //   this.$http.get('admin/ca/list').then((response) => {
+  //     this.listClients = response.data
+  //     console.log(this.listClients)
+  //   })
   // }
 }
 </script>

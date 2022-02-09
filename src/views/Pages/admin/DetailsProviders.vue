@@ -18,8 +18,7 @@
             />
             <span class="d-none d-sm-inline">Account</span>
           </template>
-          <user-edit-tab-account
-              :user-data="info"
+          <user-view-profile-provider
               class="mt-2 pt-75"
           />
         </b-tab>
@@ -61,6 +60,7 @@ import {BRow, BCol, BCard, BImg, BButton, BFormGroup, BFormInput, BTabs, BTab, B
 import UserEditTabAccount from "@core/components/user/UserEditTabAccount";
 import UserEditTabInformation from "@core/components/user/UserEditTabInformation";
 import UserEditTabSocial from "@core/components/user/UserEditTabSocial";
+import UserViewProfileProvider from '@core/components/user-details-providers/UserViewProfileProvider'
 
 /* eslint-disable global-require */
 export default {
@@ -78,6 +78,7 @@ export default {
     BAlert,
 
     //componente
+    UserViewProfileProvider,
     UserEditTabAccount,
     UserEditTabInformation,
     UserEditTabSocial,
