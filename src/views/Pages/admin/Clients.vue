@@ -59,56 +59,11 @@
           class="position-relative"
           responsive
           primary-key="id"
-          :items="personas"
+          :items="person"
           :fields="fields"
           empty-text="No matching records found"
       >
 
-        <!-- Column: User -->
-        <!--        <template #cell(user)="personas">-->
-        <!--          <b-media vertical-align="center">-->
-        <!--            <template #aside>-->
-        <!--              <b-avatar-->
-        <!--                  size="32"-->
-        <!--                  :src="personas.avatar"-->
-        <!--                  :text="avatarText(personas.first_name)"-->
-        <!--                  :variant="`light-${resolveUserRoleVariant(data.item.last_name)}`"-->
-        <!--                  :to="{ name: 'apps-users-view', params: { id: data.item.age } }"-->
-        <!--              />-->
-        <!--            </template>-->
-        <!--            <b-link-->
-        <!--                :to="{ name: 'apps-users-view', params: { id: data.item.id } }"-->
-        <!--                class="font-weight-bold d-block text-nowrap"-->
-        <!--            >-->
-        <!--              {{ data.item.first_name }}-->
-        <!--            </b-link>-->
-        <!--            <small class="text-muted">@{{ data.item.last_name }}</small>-->
-        <!--          </b-media>-->
-        <!--        </template>-->
-
-        <!-- Column: Role -->
-        <!--        <template #cell(fecha)="data">-->
-        <!--          <div class="text-nowrap">-->
-        <!--            <feather-icon-->
-        <!--                :icon="resolveUserRoleIcon(data.item.fecha)"-->
-        <!--                size="18"-->
-        <!--                class="mr-50"-->
-        <!--                :class="`text-${resolveUserRoleVariant(data.item.fecha)}`"-->
-        <!--            />-->
-        <!--            <span class="align-text-top text-capitalize">{{ data.item.fecha }}</span>-->
-        <!--          </div>-->
-        <!--        </template>-->
-
-        <!-- Column: Status -->
-        <template #cell(status)="personas">
-          <b-badge
-              pill
-              :variant="`light-${resolveUserStatusVariant(personas.status)}`"
-              class="text-capitalize"
-          >
-            {{ personas.status }}
-          </b-badge>
-        </template>
 
         <!-- Column: Actions -->
         <template #cell(actions)="personas">
@@ -189,6 +144,7 @@
         </b-row>
       </div>
     </b-card>
+
   </div>
 </template>
 
@@ -272,7 +228,14 @@ export default {
     } = useUsersList()
     return {
       listClients: {},
-      fields: ['id', 'NameDriver', 'email', 'tel_number', 'HomeAddress', 'state', 'actions'],
+      person: [],
+      // fields: [
+      //   {text: 'id', value: 'id'},
+      //   {text: 'company_legal_name'},
+      //   {text: 'dba'},
+      //   {text: 'company_type'},
+      // ],
+      fields: [ 'id', 'company_legal_name', 'dba', 'company_type', 'tin', 'nature_of_business', 'contract_start_date', 'actions'],
       personas: [
         {
           id: 1,
@@ -345,12 +308,16 @@ export default {
       statusFilter,
     }
   },
-  // mounted() {
-  //   this.$http.get('admin/ca/list').then((response) => {
-  //     this.listClients = response.data
-  //     console.log(this.listClients)
-  //   })
-  // }
+  mounted() {
+    this.$http.get('/admin/panel/ca/list').then((response) => {
+      this.listClients = response.data.data;
+      let clie;
+      for (clie of this.listClients) {
+        this.person = clie;
+        console.log(this.person)
+      }
+    }).catch((res) => console.log(res.data))
+  }
 }
 </script>
 
