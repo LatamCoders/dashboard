@@ -23,9 +23,7 @@
           >
             <label>Show</label>
             <v-select
-                v-model="perPage"
-                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                :options="perPageOptions"
+
                 :clearable="false"
                 class="per-page-selector d-inline-block mx-50"
             />
@@ -39,7 +37,7 @@
           >
             <div class="d-flex align-items-center justify-content-end">
               <b-form-input
-                  v-model="searchQuery"
+
                   class="d-inline-block mr-1"
                   placeholder="Search..."
               />
@@ -55,11 +53,11 @@
       </div>
 
       <b-table
-          ref="refUserListTable"
+
           class="position-relative"
           responsive
           primary-key="id"
-          :items="person"
+          :items="listClients"
           :fields="fields"
           empty-text="No matching records found"
       >
@@ -79,7 +77,7 @@
                   class="align-middle text-body"
               />
             </template>
-            <b-dropdown-item :to="{ name: 'details-driver-view', params: { id: personas.id } }">
+            <b-dropdown-item :to="{ name: 'details-provider', params: { id: listClients.id } }">
               <feather-icon icon="FileTextIcon"/>
               <span class="align-middle ml-50">Details</span>
             </b-dropdown-item>
@@ -96,17 +94,14 @@
           </b-dropdown>
         </template>
       </b-table>
-      <div class="mx-2 mb-2">
+      <div class="mx-2 mb-2 pt-2" >
         <b-row>
-
           <b-col
               cols="12"
               sm="6"
               class="d-flex align-items-center justify-content-center justify-content-sm-start"
           >
-            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{
-                dataMeta.of
-              }} entries</span>
+            <span class="text-muted">All clients {{ listClients.length }} </span>
           </b-col>
           <!-- Pagination -->
           <b-col
@@ -116,9 +111,9 @@
           >
 
             <b-pagination
-                v-model="currentPage"
-                :total-rows="totalUsers"
-                :per-page="perPage"
+
+                total-rows="12"
+                per-page="12"
                 first-number
                 last-number
                 class="mb-0 mt-1 mt-sm-0"
@@ -144,7 +139,6 @@
         </b-row>
       </div>
     </b-card>
-
   </div>
 </template>
 
@@ -157,10 +151,7 @@ import vSelect from 'vue-select'
 import store from '@/store'
 import {ref, onUnmounted} from '@vue/composition-api'
 import {avatarText} from '@core/utils/filter'
-// import UsersListFilters from './UsersListFilters.vue'
-import UsersListFilters from '/src/@core/components/infoClients/UsersListFilters.vue'
-import useUsersList from '/src/@core/components/infoClients/useUsersList'
-import userStoreModule from '@core/components/users-view/userStoreModule'
+
 import UserListAddNew from '@core/components/infoClients/UserListAddNew'
 
 export default {
@@ -181,142 +172,22 @@ export default {
     BPagination,
     vSelect,
   },
-  setup() {
-    const USER_APP_STORE_MODULE_NAME = 'app-user'
-    // Register module
-    if (!store.hasModule(USER_APP_STORE_MODULE_NAME)) store.registerModule(USER_APP_STORE_MODULE_NAME, userStoreModule)
-    // UnRegister on leave
-    onUnmounted(() => {
-      if (store.hasModule(USER_APP_STORE_MODULE_NAME)) store.unregisterModule(USER_APP_STORE_MODULE_NAME)
-    })
-    const isAddNewUserSidebarActive = ref(false)
-    const statusOptions = [
-      {
-        label: 'Pending',
-        value: 'pending'
-      },
-      {
-        label: 'Active',
-        value: 'active'
-      },
-      {
-        label: 'Inactive',
-        value: 'inactive'
-      },
-    ]
-    const {
-      fetchUsers,
-      tableColumns,
-      perPage,
-      currentPage,
-      totalUsers,
-      dataMeta,
-      perPageOptions,
-      searchQuery,
-      sortBy,
-      isSortDirDesc,
-      refUserListTable,
-      refetchData,
-      // UI
-      resolveUserRoleVariant,
-      resolveUserRoleIcon,
-      resolveUserStatusVariant,
-      // Extra Filters
-      roleFilter,
-      planFilter,
-      statusFilter,
-    } = useUsersList()
+
+  data() {
     return {
-      listClients: {},
-      person: [],
-      // fields: [
-      //   {text: 'id', value: 'id'},
-      //   {text: 'company_legal_name'},
-      //   {text: 'dba'},
-      //   {text: 'company_type'},
-      // ],
+      listClients: [],
       fields: [ 'id', 'company_legal_name', 'dba', 'company_type', 'tin', 'nature_of_business', 'contract_start_date', 'actions'],
-      personas: [
-        {
-          id: 1,
-          email: 'Dickerson@mail.com',
-          tel_number: '6555122',
-          HomeAddress: 'New york city',
-          DateOfTrips: '03/08/2022',
-          HomeTelephoneNumber: '358185488',
-          NameDriver: 'Jhon alphon',
-          state: 'Passed',
-        },
-        {
-          id: 2,
-          email: 'Larsen@mail.com',
-          tel_number: '6225122',
-          HomeAddress: 'Oklahoma',
-          AddressEnd: 'State of california',
-          DateOfTrips: '01/05/2022',
-          NameDriver: 'Will smith',
-          HomeTelephoneNumber: '818355488',
-          state: 'Passed',
-        },
-        {
-          id: 3,
-          email: 'Geneva@mail.com',
-          tel_number: '3225122',
-          HomeAddress: 'Arizona',
-          AddressEnd: 'State of california',
-          DateOfTrips: '03/09/2022',
-          NameDriver: 'Jean Paul',
-          HomeTelephoneNumber: '488358185',
-          state: 'Passed',
-        },
-        {
-          id: 4,
-          email: 'Jami.carney@mail.com',
-          tel_number: '311155122',
-          HomeAddress: 'Texas',
-          AddressEnd: 'State of california',
-          DateOfTrips: '23/11/2022',
-          NameDriver: 'Albert Austin',
-          HomeTelephoneNumber: '354885818',
-          state: 'Passed',
-        },
-      ],
-      // Sidebar
-      isAddNewUserSidebarActive,
-      fetchUsers,
-      tableColumns,
-      perPage,
-      currentPage,
-      totalUsers,
-      dataMeta,
-      perPageOptions,
-      searchQuery,
-      sortBy,
-      isSortDirDesc,
-      refUserListTable,
-      refetchData,
-      // Filter
-      avatarText,
-      // UI
-      resolveUserRoleVariant,
-      resolveUserRoleIcon,
-      resolveUserStatusVariant,
-      statusOptions,
-      // Extra Filters
-      roleFilter,
-      planFilter,
-      statusFilter,
+    }
+  },
+  methods: {
+    getClientes() {
+      this.$http.get('/admin/panel/ca/list').then((response) => {
+        this.listClients = response.data.data;
+      }).catch((res) => console.log(res.data))
     }
   },
   mounted() {
-    this.$http.get('/admin/panel/ca/list').then((response) => {
-      this.listClients = response.data.data;
-      let clie;
-      for (clie of this.listClients) {
-        this.person = clie;
-        console.log(this.person)
-      }
-    }).catch((res) => console.log(res.data))
+   this.getClientes();
   }
 }
 </script>

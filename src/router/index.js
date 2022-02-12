@@ -149,7 +149,7 @@ const router = new VueRouter({
             },
         },
         {
-            path: '/providers/details-provider',
+            path: '/providers/details-provider/:id',
             name: 'details-provider',
             component: () => import('@/views/Pages/admin/DetailsProviders.vue'),
             meta: {
