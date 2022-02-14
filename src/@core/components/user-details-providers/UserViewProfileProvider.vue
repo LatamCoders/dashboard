@@ -1,6 +1,6 @@
 <template>
   <div>
-
+{{ $route.params.id }}
     <!-- Media -->
     <b-media class="mb-2">
       <template #aside>
@@ -12,9 +12,9 @@
         />
       </template>
       <h4 class="">
-<!--        {{ userData.name }} ( <span style="font-size: 0.9rem">-->
-<!--        {{ userData.email }}-->
-<!--      </span>)-->
+        {{ dataProvider }} ( <span style="font-size: 0.9rem">
+        {{ dataProvider }}
+      </span>)
       </h4>
 
       <div class="d-flex flex-wrap">
@@ -263,6 +263,7 @@ export default {
   },
   props: {
     userData: {},
+    dataProvider: {}
   },
   setup() {
     return {}

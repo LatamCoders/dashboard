@@ -151,6 +151,7 @@ const router = new VueRouter({
         {
             path: '/providers/details-provider/:id',
             name: 'details-provider',
+            props: true,
             component: () => import('@/views/Pages/admin/DetailsProviders.vue'),
             meta: {
                 pageTitle: 'Details provider',

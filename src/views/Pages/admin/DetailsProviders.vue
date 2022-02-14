@@ -2,6 +2,7 @@
   <div
       id="user-profile"
   >
+
     <component :is="info.corporate_account === undefined ? 'b-card' : 'b-card'">
       <b-tabs
           v-if="info.corporate_account || info.amera_admin"
@@ -19,6 +20,7 @@
             <span class="d-none d-sm-inline">Account</span>
           </template>
           <user-view-profile-provider
+              :data-Provider="id"
               class="mt-2 pt-75"
           />
         </b-tab>
@@ -83,13 +85,16 @@ export default {
     UserEditTabInformation,
     UserEditTabSocial,
   },
+  props: {
+    id: {},
+  },
   data() {
     return {
       info: {},
     }
   },
   created() {
-
+console.log(this.infoUserView)
   },
   mounted() {
     this.info = this.$store.getters["Users/userData"].user;
