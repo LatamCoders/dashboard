@@ -91,6 +91,7 @@ export default {
   data() {
     return {
       info: {},
+      id: this.$route.params.id,
     }
   },
   created() {

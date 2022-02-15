@@ -77,7 +77,7 @@
                   class="align-middle text-body"
               />
             </template>
-            <b-dropdown-item :to="{ path: '/providers/details-provider/', params: { id: listClients.id }}">
+            <b-dropdown-item :to="{ path: '/providers/details-provider/1', params: { id: listClients }}">
               <feather-icon icon="FileTextIcon"/>
               <span class="align-middle ml-50">Details</span>
             </b-dropdown-item>

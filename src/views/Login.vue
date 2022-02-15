@@ -406,7 +406,8 @@ export default {
                   },
                   buttonsStyling: false,
                 })
-              if(this.person.loginType === 'admin') {
+              // if(this.person.loginType === 'admin') {
+              if(res.data.data.user.role.id === 2) {
                 this.$router.push({ name: 'home-admin'})
               }else {
                 this.$router.push({ name: 'home-corporate-account'})
