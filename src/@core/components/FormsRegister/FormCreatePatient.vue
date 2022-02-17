@@ -153,6 +153,7 @@
                     rules="required"
                 >
                   <b-form-input
+                      id="autocomplete"
                       v-model="createdPatient.address"
                       placeholder="98 Borough bridge Road, Birmingham"
                       :state="errors.length > 0 ? false:null"
@@ -288,6 +289,7 @@ import {
   BFormDatepicker,
   BFormTextarea,
 } from 'bootstrap-vue'
+import searchDirection from "@/libs/searchDirection";
 // import { codeIconInfo } from './code'
 
 export default {
@@ -307,6 +309,7 @@ export default {
     ValidationProvider,
     ValidationObserver,
   },
+  mixins: [searchDirection],
   data() {
     const now = new Date()
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
@@ -373,7 +376,7 @@ export default {
           this.$swal.showLoading();
         }
       });
-      this.createdPatient.ca_id = this.$store.getters["Users/userData"].user.id;
+      this.createdPatient.ca_id = this.$store.getters["Users/userData"].user.corporate_account.id;
       this.$http.post('ca/panel/client/add', this.createdPatient)
           .then((res) => {
             if (res.data.status === 200) {
@@ -444,6 +447,15 @@ export default {
             })
       })
     },
+    // getAutoCompletar(){
+    //   let autocomplete;
+    //
+    //   function initAutocomplete () {
+    //     autocomplete = new google.maps.places.Autocomplete(
+    //
+    //     )
+    //   }
+    // }
   },
 }
 </script>

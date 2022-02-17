@@ -124,7 +124,7 @@
               >
                 <b-form-input
                     placeholder="John"
-                    v-model="lispatient[0]"
+                    v-model="lispatient[0].lastname"
                     disabled
 
                 />
@@ -327,7 +327,7 @@
                     rules="required"
                 >
                   <b-form-datepicker
-                      v-model="dataCa.appoinment_datetime"
+                      v-model="appointmentdate"
                       :min="min"
                       :max="max"
                       locale="en"
@@ -414,28 +414,33 @@ export default {
     return {
       dir: 'ltr',
       dataCa: {
-        selfpay_id: '',
-        emailpatient: '',
         booking_date: '',
-        pickup_time: '',
-        appoinment_datetime: '',
-        contac_number: '',
-        surgery_type: '',
-        city: '',
         from: '',
         to: '',
+        status: '',
+        pickup_time: '',
+        city: '',
+        surgery_type: '',
+        appoinment_datetime: '',
+        selfpay_id: '',
+        from_coordinates: '',
+        to_coordinates: '',
+
+
+        emailpatient: '',
+        contac_number: '',
       },
       lispatient: [],
       seleccionstop: '',
       idpaciente: '',
       fecha: '',
       tiempo: '',
-
+      appointmentdate: '',
+      appointmenttime: '',
       min: minDate,
       max: maxDate,
       appointment: '',
-      appointmentdate: '',
-      appointmenttime: '',
+
       selectcirujia: null,
       selected: null,
       ubicacion: '',
@@ -493,17 +498,43 @@ export default {
       })
     },
     formRequest() {
+      this.dataCa.selfpay_id = Number(this.idpaciente);
+      this.dataCa.booking_date = this.fecha + ' ' + this.tiempo;
+      this.dataCa.appoinment_datetime = this.appointmentdate + ' ' + this.appointmenttime;
       this.$swal({
         title: 'Please, wait...',
         didOpen: () => {
           this.$swal.showLoading();
         }
       });
-      this.dataCa.selfpay_id = Number(this.idpaciente);
-      this.dataCa.booking_date = this.fecha + ' ' + this.tiempo;
+
       // this.dataCa.appoinment_datetime = this.
       console.log(this.dataCa)
-     // this.$http.post('ca/panel/booking/add', this.dataCa)
+     // this.$http.post('ca/panel/booking/add', this.dataCa).then((response) =>{
+     //   if (response.data.status === 200) {
+     //     this.$swal({
+     //       title: response.data.message,
+     //       icon: 'success',
+     //       customClass: {
+     //         confirmButton: 'btn btn-primary',
+     //       },
+     //       buttonsStyling: false,
+     //     })
+     //
+     //     //clear form
+     //   } else {
+     //     this.$swal({
+     //       title: response.data.message,
+     //       icon: 'error',
+     //       customClass: {
+     //         confirmButton: 'btn btn-primary',
+     //       },
+     //       buttonsStyling: false,
+     //     })
+     //
+     //     // console.log(res.data.data)
+     //   }
+     // })
     },
   },
   watch: {
@@ -518,7 +549,7 @@ export default {
   },
   mounted() {
     // this.lispatient =
-    this.$http.get(`ca/${ this.$store.getters["Users/userData"].user.id }/panel/client/search`)
+    this.$http.get(`ca/${ this.$store.getters["Users/userData"].user.corporate_account.id }/panel/client/search`)
         .then((res) => {
           if (res.data.message) {
             this.lispatient = res.data.data;
