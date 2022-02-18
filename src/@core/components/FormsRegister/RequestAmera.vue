@@ -110,6 +110,7 @@
                       :options="lispatient"
                       :reduce="c => `${c.id}`"
                       :state="errors.length > 0 ? false:null"
+
                   >
                     <template #option="{name, lastname}">
                       {{ name }} {{ lastname }}
@@ -238,7 +239,7 @@
                       locale="en"
                       placeholder="658921"
                       :state="errors.length > 0 ? false:null"
-                      v-model="dataCa.appoinment_datetime"
+                      v-model="dataCa.pickup_time"
                   />
                   <small class="text-danger" v-if="errors[0]">This field is required</small>
                 </validation-provider>
@@ -367,9 +368,9 @@
 </template>
 
 <script>
-import { FormWizard, TabContent } from 'vue-form-wizard'
+import {FormWizard, TabContent} from 'vue-form-wizard'
 import vSelect from 'vue-select'
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import {ValidationProvider, ValidationObserver} from 'vee-validate'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import {
@@ -432,7 +433,7 @@ export default {
       },
       lispatient: [],
       seleccionstop: '',
-      idpaciente: '',
+      idpaciente: 0,
       fecha: '',
       tiempo: '',
       appointmentdate: '',
@@ -456,9 +457,9 @@ export default {
       selectedContry: 'select_value',
       selectedLanguage: 'nothing_selected',
       option: [
-        { title: 'Wait and return' },
-        { title: 'Pharmacy stop' },
-        { title: 'Additional stop' },
+        {title: 'Wait and return'},
+        {title: 'Pharmacy stop'},
+        {title: 'Additional stop'},
       ],
       optionscirujia: [
         {
@@ -570,31 +571,49 @@ export default {
 
       // this.dataCa.appoinment_datetime = this.
       console.log(this.dataCa)
-      // this.$http.post('ca/panel/booking/add', this.dataCa).then((response) =>{
-      //   if (response.data.status === 200) {
-      //     this.$swal({
-      //       title: response.data.message,
-      //       icon: 'success',
-      //       customClass: {
-      //         confirmButton: 'btn btn-primary',
-      //       },
-      //       buttonsStyling: false,
-      //     })
-      //
-      //     //clear form
-      //   } else {
-      //     this.$swal({
-      //       title: response.data.message,
-      //       icon: 'error',
-      //       customClass: {
-      //         confirmButton: 'btn btn-primary',
-      //       },
-      //       buttonsStyling: false,
-      //     })
-      //
-      //     // console.log(res.data.data)
-      //   }
-      // })
+      this.$http.post('ca/panel/booking/add', this.dataCa).then((response) => {
+        if (response.data.status === 200) {
+          this.$swal({
+            title: response.data.message,
+            icon: 'success',
+            customClass: {
+              confirmButton: 'btn btn-primary',
+            },
+            buttonsStyling: false,
+          })
+          this.$refs.requestTrip.reset();
+          //clear form
+              this.dataCa.booking_date = '',
+              this.dataCa.from = '',
+              this.dataCa.to = '',
+              this.dataCa.pickup_time = '',
+              this.dataCa.city = '',
+              this.dataCa.surgery_type = '',
+              this.dataCa.appoinment_datetime = '',
+              this.dataCa.selfpay_id = '',
+              this.dataCa.from_coordinates = '',
+              this.dataCa.to_coordinates = '',
+              this.fecha = '',
+              this.tiempo = '',
+              this.appointmentdate = '',
+              this.appointmenttime = '',
+              this.seleccionstop = ''
+        } else {
+          this.$swal({
+            title: response.data.message,
+            icon: 'error',
+            customClass: {
+              confirmButton: 'btn btn-primary',
+            },
+            buttonsStyling: false,
+          })
+
+          // console.log(res.data.data)
+        }
+      })
+    },
+    getInfo(){
+      this.dataCa = this.$store.getters['Users/userData'].user
     },
   },
   computed: {
@@ -613,12 +632,12 @@ export default {
       // }
       for (let lispatientKey of this.lispatient) {
         console.log(lispatientKey.id)
-        if (lispatientKey.id === lispatientKey.id){
+        if (lispatientKey.id === lispatientKey.id) {
           let arrat = this.lispatient
           console.log(arrat)
-          for (let ki of arrat){
+          for (let ki of arrat) {
             console.log(ki.id)
-            if(ki.id === lispatientKey.id){
+            if (ki.id === lispatientKey.id) {
               console.log(ki.lastname)
             }
             // let otro = arrat.indexOf(lispatientKey.id)
@@ -663,25 +682,26 @@ export default {
       this.valornumerico = Number(this.dataCa.namepatient)
       console.log(this.valornumerico)
     },
-    idpaciente(){
+    idpaciente() {
       //encontrar el id en la lista de pacientes
       for (this.getid in this.lispatient) {
-        this.objetoB.push(parseInt(this.getid.id))
+        this.objetoB.push(parseInt(this.getid))
         // this.objetoB.ides = this.getid.id;
         console.log(this.objetoB)
       }
       //encontrar posicion de la persona seleccionada
-      for (let animal of this.objetoB){
-        this.encontrado = this.objetoB.indexOf(parseInt(this.idpaciente))
+      for (let animal of this.objetoB) {
+        console.log(animal)
+        this.encontrado = this.objetoB.indexOf(parseInt(this.getid))
         console.log(this.encontrado)
       }
-      //validar si el id encontrado y el seleccionado son los mismos
-      if (parseInt(this.getid.id) === parseInt(this.idpaciente)){
-       this.nuevoarr = this.lispatient
+      // validar si el id encontrado y el seleccionado son los mismos
+      if (parseInt(this.getid)) {
+        this.nuevoarr = this.lispatient
         console.log(this.nuevoarr)
-        for (this.compararid of this.nuevoarr){
+        for (this.compararid of this.nuevoarr) {
           console.log(this.compararid.id)
-          if(this.compararid.id === this.getid.id ){
+          if (this.compararid.id === this.getid.id) {
             this.lastnombre = this.compararid.lastname;
             console.log(this.compararid.lastname)
           }
@@ -692,10 +712,12 @@ export default {
     }
 
   },
+
   beforeMount() {
-    this.dataCa = this.$store.getters['Users/userData'].user
+    this.getInfo();
   },
   mounted() {
+    // this.getInfo();
     // this.lispatient =
     this.$http.get(`ca/${this.$store.getters['Users/userData'].user.corporate_account.id}/panel/client/search`)
         .then((res) => {

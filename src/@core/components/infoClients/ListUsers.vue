@@ -27,9 +27,9 @@
           >
             <label>Show</label>
             <v-select
-                v-model="perPage"
+
                 :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                :options="perPageOptions"
+
                 :clearable="false"
                 class="per-page-selector d-inline-block mx-50"
             />
@@ -43,13 +43,13 @@
           >
             <div class="d-flex align-items-center justify-content-end">
               <b-form-input
-                  v-model="searchQuery"
+
                   class="d-inline-block mr-1"
                   placeholder="Search..."
               />
               <b-button
                   variant="primary"
-                  @click="isAddNewUserSidebarActive = true"
+
               >
                 <span class="text-nowrap">Search</span>
               </b-button>
@@ -64,56 +64,12 @@
           class="position-relative"
           responsive
           primary-key="id"
-          :items="personas"
+          :items="listClients"
           empty-text="No matching records found"
-          :sort-desc.sync="isSortDirDesc"
+
       >
 
-        <!-- Column: User -->
-        <template #cell(user)="data">
-          <b-media vertical-align="center">
-            <template #aside>
-              <b-avatar
-                  size="32"
-                  :src="data.item.avatar"
-                  :text="avatarText(data.item.first_name)"
-                  :variant="`light-${resolveUserRoleVariant(data.item.last_name)}`"
-                  :to="{ name: 'apps-users-view', params: { id: data.item.age } }"
-              />
-            </template>
-            <b-link
-                :to="{ name: 'apps-users-view', params: { id: data.item.id } }"
-                class="font-weight-bold d-block text-nowrap"
-            >
-              {{ data.item.first_name }}
-            </b-link>
-            <small class="text-muted">@{{ data.item.last_name }}</small>
-          </b-media>
-        </template>
 
-        <!-- Column: Role -->
-        <!--        <template #cell(fecha)="data">-->
-        <!--          <div class="text-nowrap">-->
-        <!--            <feather-icon-->
-        <!--                :icon="resolveUserRoleIcon(data.item.fecha)"-->
-        <!--                size="18"-->
-        <!--                class="mr-50"-->
-        <!--                :class="`text-${resolveUserRoleVariant(data.item.fecha)}`"-->
-        <!--            />-->
-        <!--            <span class="align-text-top text-capitalize">{{ data.item.fecha }}</span>-->
-        <!--          </div>-->
-        <!--        </template>-->
-
-        <!-- Column: Status -->
-        <template #cell(status)="data">
-          <b-badge
-              pill
-              :variant="`light-${resolveUserStatusVariant(data.item.status)}`"
-              class="text-capitalize"
-          >
-            {{ data.item.status }}
-          </b-badge>
-        </template>
 
         <!-- Column: Actions -->
         <template #cell(actions)="data">
@@ -156,7 +112,7 @@
               sm="6"
               class="d-flex align-items-center justify-content-center justify-content-sm-start"
           >
-            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{ dataMeta.of }} entries</span>
+<!--            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{ dataMeta.of }} entries</span>-->
           </b-col>
           <!-- Pagination -->
           <b-col
@@ -166,9 +122,7 @@
           >
 
             <b-pagination
-                v-model="currentPage"
-                :total-rows="totalUsers"
-                :per-page="perPage"
+
                 first-number
                 last-number
                 class="mb-0 mt-1 mt-sm-0"
@@ -203,13 +157,13 @@ import {
   BBadge, BDropdown, BDropdownItem, BPagination,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
-import store from '@/store'
-import { ref, onUnmounted } from '@vue/composition-api'
-import { avatarText } from '@core/utils/filter'
+// import store from '@/store'
+// import { ref, onUnmounted } from '@vue/composition-api'
+// import { avatarText } from '@core/utils/filter'
 // import UsersListFilters from './UsersListFilters.vue'
 import UsersListFilters from '/src/@core/components/infoClients/UsersListFilters.vue'
-import useUsersList from '/src/@core/components/infoClients/useUsersList'
-import userStoreModule from '@core/components/users-view/userStoreModule'
+// import useUsersList from '/src/@core/components/infoClients/useUsersList'
+// import userStoreModule from '@core/components/users-view/userStoreModule'
 import UserListAddNew from '@core/components/infoClients/UserListAddNew'
 
 export default {
@@ -232,107 +186,22 @@ export default {
 
     vSelect,
   },
-  setup() {
-    const USER_APP_STORE_MODULE_NAME = 'app-user'
-
-    // Register module
-    if (!store.hasModule(USER_APP_STORE_MODULE_NAME)) store.registerModule(USER_APP_STORE_MODULE_NAME, userStoreModule)
-
-    // UnRegister on leave
-    onUnmounted(() => {
-      if (store.hasModule(USER_APP_STORE_MODULE_NAME)) store.unregisterModule(USER_APP_STORE_MODULE_NAME)
-    })
-
-    const isAddNewUserSidebarActive = ref(false)
-
-    const roleOptions = [
-      { label: 'Admin', value: 'admin' },
-      { label: 'Author', value: 'author' },
-      { label: 'Editor', value: 'editor' },
-      { label: 'Maintainer', value: 'maintainer' },
-      { label: 'Subscriber', value: 'subscriber' },
-    ]
-
-    const planOptions = [
-      { label: 'Basic', value: 'basic' },
-      { label: 'Company', value: 'company' },
-      { label: 'Enterprise', value: 'enterprise' },
-      { label: 'Team', value: 'team' },
-    ]
-
-    const statusOptions = [
-      { label: 'Pending', value: 'pending' },
-      { label: 'Active', value: 'active' },
-      { label: 'Inactive', value: 'inactive' },
-    ]
-
-    const {
-      fetchUsers,
-      tableColumns,
-      perPage,
-      currentPage,
-      totalUsers,
-      dataMeta,
-      perPageOptions,
-      searchQuery,
-      sortBy,
-      isSortDirDesc,
-      refUserListTable,
-      refetchData,
-
-      // UI
-      resolveUserRoleVariant,
-      resolveUserRoleIcon,
-      resolveUserStatusVariant,
-
-      // Extra Filters
-      roleFilter,
-      planFilter,
-      statusFilter,
-    } = useUsersList()
-
+  data() {
     return {
-      personas: [
-        { first_name: 'Dickerson', last_name: 'Macdonald', email: 'Dickerson@mail.com', tel_number: '6555122', Gender: 'Male', DateOfBirth: '03/08/1990', HomeAddress: 'New york city', HomeTelephoneNumber: '358185488'},
-        { first_name: 'Larsen', last_name: 'Shaw', email: 'Larsen@mail.com', tel_number: '6225122', Gender: 'Male', DateOfBirth: '03/08/1980', HomeAddress: 'Oklahoma', HomeTelephoneNumber: '818355488' },
-        { first_name: 'Geneva', last_name: 'Wilson', email: 'Geneva@mail.com', tel_number: '3225122', Gender: 'Female', DateOfBirth: '03/08/1975', HomeAddress: 'Arizona', HomeTelephoneNumber: '488358185'},
-        { first_name: 'Jami', last_name: 'Carney', email: 'Jami.carney@mail.com', tel_number: '311155122', Gender: 'Female', DateOfBirth: '03/08/1981', HomeAddress: 'Texas', HomeTelephoneNumber: '354885818' }
-      ],
-
-      // Sidebar
-      isAddNewUserSidebarActive,
-
-      fetchUsers,
-      tableColumns,
-      perPage,
-      currentPage,
-      totalUsers,
-      dataMeta,
-      perPageOptions,
-      searchQuery,
-      sortBy,
-      isSortDirDesc,
-      refUserListTable,
-      refetchData,
-
-      // Filter
-      avatarText,
-
-      // UI
-      resolveUserRoleVariant,
-      resolveUserRoleIcon,
-      resolveUserStatusVariant,
-
-      roleOptions,
-      planOptions,
-      statusOptions,
-
-      // Extra Filters
-      roleFilter,
-      planFilter,
-      statusFilter,
+      listClients: [],
+      fields: [ 'id', 'company_legal_name', 'dba', 'company_type', 'tin', 'nature_of_business', 'contract_start_date', 'actions'],
     }
   },
+  methods: {
+    getClientes() {
+      this.$http.get(`ca/${this.$store.getters['Users/userData'].user.corporate_account.id}/panel/client/search`).then((response) => {
+        this.listClients = response.data.data;
+      }).catch((res) => console.log(res.data))
+    }
+  },
+  mounted() {
+    this.getClientes();
+  }
 }
 </script>
 
