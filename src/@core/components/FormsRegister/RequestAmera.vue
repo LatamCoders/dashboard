@@ -1,6 +1,7 @@
 <template>
   <div class="cols-12 col-xl-12 "
-       style="margin: 0 auto">
+       style="margin: 0 auto"
+  >
     <form-wizard
         color="#7367F0"
         :title="null"
@@ -124,7 +125,7 @@
               >
                 <b-form-input
                     placeholder="John"
-                    v-model="lispatient[0].lastname"
+                    v-model="lastnombre"
                     disabled
 
                 />
@@ -156,7 +157,7 @@
                     rules="required|email"
                 >
                   <b-form-input
-                      v-model="lispatient[Number(idpaciente)].email"
+                      v-model="lispatient[0].email"
                       placeholder="Doe@gmail.com"
                       :state="errors.length > 0 ? false:null"
                       disabled
@@ -217,7 +218,7 @@
                     rules="required"
                 >
                   <b-form-timepicker
-                      locale='en'
+                      locale="en"
                       v-model="tiempo"
                       :state="errors.length > 0 ? false:null"
                   />
@@ -234,7 +235,7 @@
                     rules="required"
                 >
                   <b-form-timepicker
-                      locale='en'
+                      locale="en"
                       placeholder="658921"
                       :state="errors.length > 0 ? false:null"
                       v-model="dataCa.appoinment_datetime"
@@ -366,9 +367,9 @@
 </template>
 
 <script>
-import {FormWizard, TabContent} from 'vue-form-wizard'
+import { FormWizard, TabContent } from 'vue-form-wizard'
 import vSelect from 'vue-select'
-import {ValidationProvider, ValidationObserver} from 'vee-validate'
+import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import {
@@ -426,7 +427,6 @@ export default {
         from_coordinates: '',
         to_coordinates: '',
 
-
         emailpatient: '',
         contac_number: '',
       },
@@ -441,34 +441,94 @@ export default {
       max: maxDate,
       appointment: '',
 
+      //nuevo agregado
+      lastnombre: '',
+      getid: 0,
+      compararid: '',
+      nuevoarr: '',
+      objetoB: [],
+      encontrado: '',
+      //fin nuevo agregado
+
       selectcirujia: null,
       selected: null,
       ubicacion: '',
       selectedContry: 'select_value',
       selectedLanguage: 'nothing_selected',
       option: [
-        {title: 'Wait and return'},
-        {title: 'Pharmacy stop'},
-        {title: 'Additional stop'},
+        { title: 'Wait and return' },
+        { title: 'Pharmacy stop' },
+        { title: 'Additional stop' },
       ],
       optionscirujia: [
-        {value: null, text: 'Please select some item'},
-        {value: 'endoscopy', text: 'Endoscopy'},
-        {value: 'colonoscopy', text: 'Colonoscopy'},
-        {value: 'cataract', text: 'Cataract surgery'},
-        {value: 'dentalsurgery', text: 'Dental Surgery'},
-        {value: 'cosmeticsurgery', text: 'Cosmetic Surgery'},
-        {value: 'carpaltunnel', text: 'Carpal Tunnel'},
-        {value: 'surgery', text: 'Surgery'},
-        {value: 'paininjections', text: 'Pain Injections'},
-        {value: 'biopsies', text: 'Biopsies'},
-        {value: 'laparoscopic', text: 'Laparoscopic'},
-        {value: 'sinus', text: 'Sinus'},
-        {value: 'reconstruction', text: 'Reconstruction'},
-        {value: 'shoulderprocedures', text: 'Shoulder Procedures'},
-        {value: 'rology', text: 'Urology'},
-        {value: 'softtissuerepair', text: 'Soft tissue repair'},
-        {value: 'notdisclose', text: 'Prefer not to disclose'},
+        {
+          value: null,
+          text: 'Please select some item'
+        },
+        {
+          value: 'endoscopy',
+          text: 'Endoscopy'
+        },
+        {
+          value: 'colonoscopy',
+          text: 'Colonoscopy'
+        },
+        {
+          value: 'cataract',
+          text: 'Cataract surgery'
+        },
+        {
+          value: 'dentalsurgery',
+          text: 'Dental Surgery'
+        },
+        {
+          value: 'cosmeticsurgery',
+          text: 'Cosmetic Surgery'
+        },
+        {
+          value: 'carpaltunnel',
+          text: 'Carpal Tunnel'
+        },
+        {
+          value: 'surgery',
+          text: 'Surgery'
+        },
+        {
+          value: 'paininjections',
+          text: 'Pain Injections'
+        },
+        {
+          value: 'biopsies',
+          text: 'Biopsies'
+        },
+        {
+          value: 'laparoscopic',
+          text: 'Laparoscopic'
+        },
+        {
+          value: 'sinus',
+          text: 'Sinus'
+        },
+        {
+          value: 'reconstruction',
+          text: 'Reconstruction'
+        },
+        {
+          value: 'shoulderprocedures',
+          text: 'Shoulder Procedures'
+        },
+        {
+          value: 'rology',
+          text: 'Urology'
+        },
+        {
+          value: 'softtissuerepair',
+          text: 'Soft tissue repair'
+        },
+        {
+          value: 'notdisclose',
+          text: 'Prefer not to disclose'
+        },
       ],
     }
   },
@@ -498,61 +558,149 @@ export default {
       })
     },
     formRequest() {
-      this.dataCa.selfpay_id = Number(this.idpaciente);
-      this.dataCa.booking_date = this.fecha + ' ' + this.tiempo;
-      this.dataCa.appoinment_datetime = this.appointmentdate + ' ' + this.appointmenttime;
+      this.dataCa.selfpay_id = Number(this.idpaciente)
+      this.dataCa.booking_date = this.fecha + ' ' + this.tiempo
+      this.dataCa.appoinment_datetime = this.appointmentdate + ' ' + this.appointmenttime
       this.$swal({
         title: 'Please, wait...',
         didOpen: () => {
-          this.$swal.showLoading();
+          this.$swal.showLoading()
         }
-      });
+      })
 
       // this.dataCa.appoinment_datetime = this.
       console.log(this.dataCa)
-     // this.$http.post('ca/panel/booking/add', this.dataCa).then((response) =>{
-     //   if (response.data.status === 200) {
-     //     this.$swal({
-     //       title: response.data.message,
-     //       icon: 'success',
-     //       customClass: {
-     //         confirmButton: 'btn btn-primary',
-     //       },
-     //       buttonsStyling: false,
-     //     })
-     //
-     //     //clear form
-     //   } else {
-     //     this.$swal({
-     //       title: response.data.message,
-     //       icon: 'error',
-     //       customClass: {
-     //         confirmButton: 'btn btn-primary',
-     //       },
-     //       buttonsStyling: false,
-     //     })
-     //
-     //     // console.log(res.data.data)
-     //   }
-     // })
+      // this.$http.post('ca/panel/booking/add', this.dataCa).then((response) =>{
+      //   if (response.data.status === 200) {
+      //     this.$swal({
+      //       title: response.data.message,
+      //       icon: 'success',
+      //       customClass: {
+      //         confirmButton: 'btn btn-primary',
+      //       },
+      //       buttonsStyling: false,
+      //     })
+      //
+      //     //clear form
+      //   } else {
+      //     this.$swal({
+      //       title: response.data.message,
+      //       icon: 'error',
+      //       customClass: {
+      //         confirmButton: 'btn btn-primary',
+      //       },
+      //       buttonsStyling: false,
+      //     })
+      //
+      //     // console.log(res.data.data)
+      //   }
+      // })
     },
+  },
+  computed: {
+    infopersonaselec() {
+      // let valor;
+      // for ( valor in this.lispatient) {
+      //   if(valor.id === this.idpaciente){
+      //     console.log('hola')
+      //   }else {
+      //     console.log('nada')
+      //   }
+      // }
+      // console.log([this.lispatient])
+      // for(let i of this.lispatient ){
+      //   console.log(i)
+      // }
+      for (let lispatientKey of this.lispatient) {
+        console.log(lispatientKey.id)
+        if (lispatientKey.id === lispatientKey.id){
+          let arrat = this.lispatient
+          console.log(arrat)
+          for (let ki of arrat){
+            console.log(ki.id)
+            if(ki.id === lispatientKey.id){
+              console.log(ki.lastname)
+            }
+            // let otro = arrat.indexOf(lispatientKey.id)
+            // console.log(otro)
+          }
+          console.log(arrat)
+        }
+      }
+      // for (let argument of this.lispatient) {
+      //   let prueba = this.lispatient.indexOf(parseInt(this.idpaciente))
+      //   console.log(prueba)
+      //
+      //   console.log(argument.lastname)
+      // }
+
+      // for(let i = 0; i < this.lispatient.length; i++){
+      //   for (let j of this.lispatient[i].lastname) {
+      //     console.log({ j })
+      //   }
+      //   // console.log(i)
+      //   for(let valor = 0; valor < this.lispatient[i].lastname; valor++) {
+      //     console.log(valor)
+      //   }
+      //   // if (i.id === this.idpaciente){
+      //   //   console.log(i.lastname)
+      //   // }
+      //   // valor = this.lispatient.indexOf(i)
+      //   console.log(i)
+      // }
+      // valor =  this.lispatient.reduce(c => c.lastname)
+      //  console.log([valor])
+      //  valor = this.lispatient.indexOf(this.idpaciente)
+      //  console.log(valor)
+      //  valor = Object.assign(this.lispatient)
+      //  console.log(valor)
+      //  const obj = {...this.lispatient};
+      //  console.log(obj);
+    }
   },
   watch: {
     namepatient() {
-       this.valornumerico = Number(this.dataCa.namepatient);
-      console.log (this.valornumerico)
+      this.valornumerico = Number(this.dataCa.namepatient)
+      console.log(this.valornumerico)
+    },
+    idpaciente(){
+      //encontrar el id en la lista de pacientes
+      for (this.getid in this.lispatient) {
+        this.objetoB.push(parseInt(this.getid.id))
+        // this.objetoB.ides = this.getid.id;
+        console.log(this.objetoB)
+      }
+      //encontrar posicion de la persona seleccionada
+      for (let animal of this.objetoB){
+        this.encontrado = this.objetoB.indexOf(parseInt(this.idpaciente))
+        console.log(this.encontrado)
+      }
+      //validar si el id encontrado y el seleccionado son los mismos
+      if (parseInt(this.getid.id) === parseInt(this.idpaciente)){
+       this.nuevoarr = this.lispatient
+        console.log(this.nuevoarr)
+        for (this.compararid of this.nuevoarr){
+          console.log(this.compararid.id)
+          if(this.compararid.id === this.getid.id ){
+            this.lastnombre = this.compararid.lastname;
+            console.log(this.compararid.lastname)
+          }
+          // let otro = arrat.indexOf(lispatientKey.id)
+          // console.log(otro)
+        }
+      }
     }
 
   },
   beforeMount() {
-    this.dataCa = this.$store.getters["Users/userData"].user;
+    this.dataCa = this.$store.getters['Users/userData'].user
   },
   mounted() {
     // this.lispatient =
-    this.$http.get(`ca/${ this.$store.getters["Users/userData"].user.corporate_account.id }/panel/client/search`)
+    this.$http.get(`ca/${this.$store.getters['Users/userData'].user.corporate_account.id}/panel/client/search`)
         .then((res) => {
           if (res.data.message) {
-            this.lispatient = res.data.data;
+            this.lispatient = res.data.data
             console.log(this.lispatient)
           }
         })
