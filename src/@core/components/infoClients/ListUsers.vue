@@ -1,13 +1,6 @@
 <template>
 
   <div>
-
-    <user-list-add-new
-        :is-add-new-user-sidebar-active.sync="isAddNewUserSidebarActive"
-
-        :plan-options="planOptions"
-        @refetch-data="refetchData"
-    />
     <!-- Table Container Card -->
     <b-card
         no-body
@@ -43,16 +36,16 @@
           >
             <div class="d-flex align-items-center justify-content-end">
               <b-form-input
-
+                  v-model="search"
                   class="d-inline-block mr-1"
                   placeholder="Search..."
               />
-              <b-button
-                  variant="primary"
-
-              >
-                <span class="text-nowrap">Search</span>
-              </b-button>
+<!--              <b-button-->
+<!--                  variant="primary"-->
+<!--                  @click="items"-->
+<!--              >-->
+<!--                <span class="text-nowrap">Search</span>-->
+<!--              </b-button>-->
             </div>
           </b-col>
         </b-row>
@@ -66,9 +59,10 @@
           primary-key="id"
           :items="listClients"
           empty-text="No matching records found"
-
+          :fields="fields"
+          :filter="search"
+          perPage="6"
       >
-
 
 
         <!-- Column: Actions -->
@@ -86,20 +80,20 @@
                   class="align-middle text-body"
               />
             </template>
-            <b-dropdown-item :to="{ name: 'apps-users-view', params: { id: data.item.id } }">
-              <feather-icon icon="FileTextIcon" />
+            <b-dropdown-item :to="{ name: 'profile', params: { id: data.item.id } }">
+              <feather-icon icon="FileTextIcon"/>
               <span class="align-middle ml-50">Details</span>
             </b-dropdown-item>
 
-            <b-dropdown-item :to="{ name: 'apps-users-edit', params: { id: data.item.id } }">
-              <feather-icon icon="EditIcon" />
-              <span class="align-middle ml-50">Edit</span>
-            </b-dropdown-item>
+<!--            <b-dropdown-item :to="{ name: 'apps-users-edit', params: { id: data.item.id } }">-->
+<!--              <feather-icon icon="EditIcon"/>-->
+<!--              <span class="align-middle ml-50">Edit</span>-->
+<!--            </b-dropdown-item>-->
 
-            <b-dropdown-item>
-              <feather-icon icon="TrashIcon" />
-              <span class="align-middle ml-50">Delete</span>
-            </b-dropdown-item>
+<!--            <b-dropdown-item>-->
+<!--              <feather-icon icon="TrashIcon"/>-->
+<!--              <span class="align-middle ml-50">Delete</span>-->
+<!--            </b-dropdown-item>-->
           </b-dropdown>
         </template>
 
@@ -112,7 +106,7 @@
               sm="6"
               class="d-flex align-items-center justify-content-center justify-content-sm-start"
           >
-<!--            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{ dataMeta.of }} entries</span>-->
+            <!--            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{ dataMeta.of }} entries</span>-->
           </b-col>
           <!-- Pagination -->
           <b-col
@@ -189,7 +183,8 @@ export default {
   data() {
     return {
       listClients: [],
-      fields: [ 'id', 'company_legal_name', 'dba', 'company_type', 'tin', 'nature_of_business', 'contract_start_date', 'actions'],
+      search: '',
+      fields: ['client_id', 'name', 'lastname', 'gender', 'birthday', 'phone_number', 'email', 'address', 'city', 'actions'],
     }
   },
   methods: {
@@ -197,10 +192,19 @@ export default {
       this.$http.get(`ca/${this.$store.getters['Users/userData'].user.corporate_account.id}/panel/client/search`).then((response) => {
         this.listClients = response.data.data;
       }).catch((res) => console.log(res.data))
-    }
+    },
+
   },
+  // computed: {
+  //   item(){
+  //     return this.listClients.filter(item => {
+  //       console.log( item.name.toLowerCase().includes(this.search.toLowerCase()))
+  //     });
+  //   }
+  // },
   mounted() {
     this.getClientes();
+
   }
 }
 </script>

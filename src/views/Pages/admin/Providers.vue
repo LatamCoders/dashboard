@@ -64,28 +64,6 @@
           empty-text="No matching records found"
       >
 
-        <!-- Column: User -->
-        <!--        <template #cell(user)="personas">-->
-        <!--          <b-media vertical-align="center">-->
-        <!--            <template #aside>-->
-        <!--              <b-avatar-->
-        <!--                  size="32"-->
-        <!--                  :src="personas.avatar"-->
-        <!--                  :text="avatarText(personas.first_name)"-->
-        <!--                  :variant="`light-${resolveUserRoleVariant(data.item.last_name)}`"-->
-        <!--                  :to="{ name: 'apps-users-view', params: { id: data.item.age } }"-->
-        <!--              />-->
-        <!--            </template>-->
-        <!--            <b-link-->
-        <!--                :to="{ name: 'apps-users-view', params: { id: data.item.id } }"-->
-        <!--                class="font-weight-bold d-block text-nowrap"-->
-        <!--            >-->
-        <!--              {{ data.item.first_name }}-->
-        <!--            </b-link>-->
-        <!--            <small class="text-muted">@{{ data.item.last_name }}</small>-->
-        <!--          </b-media>-->
-        <!--        </template>-->
-
 
         <!-- Column: Status -->
         <template #cell(status)="personas">
