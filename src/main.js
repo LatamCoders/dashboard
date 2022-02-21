@@ -7,6 +7,7 @@ import router from './router'
 import store from './store/index'
 import App from './App.vue'
 
+import * as VueGoogleMaps from "vue2-google-maps"
 // Global Components
 import './global-components'
 
@@ -22,6 +23,14 @@ Vue.use(ModalPlugin)
 
 // Composition API
 Vue.use(VueCompositionAPI)
+
+// integración mapa
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: "GOOGLE MAP API KEY GOES HERE",
+    libraries: "places"
+  }
+});
 
 // import core styles
 require('@core/scss/core.scss')
