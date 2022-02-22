@@ -388,6 +388,8 @@ export default {
     },
     initMarker(loc) {
       this.existingPlace = loc
+      this.createdPatient.city = this.existingPlace.formatted_address
+      console.log(this.createdPatient.city)
     },
     addLocationMarker() {
       if (this.existingPlace) {
@@ -399,8 +401,13 @@ export default {
         this.locPlaces.push(this.existingPlace)
         this.center = marker
         this.existingPlace = null
+        this.createdPatient.city = this.existingPlace;
+
       }
+
+      this.createdPatient.city = this.existingPlace;
     },
+
     locateGeoLocation: function () {
       navigator.geolocation.getCurrentPosition(res => {
         this.center = {
@@ -410,7 +417,7 @@ export default {
       })
     },
     formSubmitted() {
-      this.createdPatient.city = this.existingPlace.formatted_address;
+      this.createdPatient.city = this.existingPlace;
       this.addLocationMarker();
 
       // this.getDirectionmap();

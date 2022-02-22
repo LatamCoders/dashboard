@@ -28,7 +28,9 @@ Vue.use(VueCompositionAPI)
 Vue.use(VueGoogleMaps, {
   load: {
     key: "AIzaSyC1dIJmjEeVHml0mLlTmYeVqQBKCeNcNBw",
-    libraries: "places"
+    libraries: "places",
+    v: 3.38,
+    openNow:true
   }
 });
 

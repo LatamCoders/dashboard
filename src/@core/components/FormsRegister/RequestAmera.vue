@@ -253,6 +253,9 @@
                     #default="{ errors }"
                     rules="required"
                 >
+<!--                  <gmap-autocomplete class="form-control" placeholder="Birmingham" @place_changed="initMarker">-->
+<!--                  </gmap-autocomplete>-->
+
                   <b-form-input
                       placeholder="Birmingham"
                       v-model="dataCa.city"
@@ -287,12 +290,14 @@
                     #default="{ errors }"
                     rules="required"
                 >
+<!--                  <gmap-autocomplete class="form-control" placeholder="Birmingham" @place_changed="initMarkerTo">-->
+<!--                  </gmap-autocomplete>-->
                   <b-form-input
                       v-model="dataCa.to"
                       placeholder="98 Borough bridge Road, Birmingham"
                       :state="errors.length > 0 ? false:null"
                   />
-                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+<!--                  <small class="text-danger" v-if="errors[0]">This field is required</small>-->
                 </validation-provider>
               </b-form-group>
             </b-col>
@@ -314,6 +319,8 @@
               <b-form-group
                   label="Destiny"
               >
+<!--                <gmap-autocomplete class="form-control" placeholder="Birmingham" @place_changed="initMarkerFrom">-->
+<!--                </gmap-autocomplete>-->
                 <b-form-input
                     placeholder="Birmingham"
                     v-model="dataCa.from"
@@ -431,6 +438,20 @@ export default {
         emailpatient: '',
         contac_number: '',
       },
+      //tomar dirección de api google
+      getlocationlong: '',
+      getlocationlati: '',
+
+      getlocationFromLong: '',
+      getlocationFromLati: '',
+
+      center: {
+        lat: 39.7837304,
+        lng: -100.4458825
+      },
+      locationMarkers: [],
+      locPlaces: [],
+      existingPlace: {},
       lispatient: [],
       seleccionstop: '',
       idpaciente: 0,
@@ -558,18 +579,58 @@ export default {
             })
       })
     },
+    initMarker(loc) {
+      this.existingPlace = loc
+      this.dataCa.city = this.existingPlace.formatted_address
+      console.log(this.dataCa.city)
+    },
+    initMarkerTo(loc) {
+      this.existingPlace = loc
+      this.dataCa.to = this.existingPlace.formatted_address
+      this.dataCa.to_coordinates = this.existingPlace.geometry.viewport.ub.h +','+ this.existingPlace.geometry.viewport.Qa.h
+      console.log(this.dataCa.to)
+      console.log(this.dataCa.to_coordinates)
+    },
+    initMarkerFrom(loc){
+      this.existingPlace = loc
+      this.dataCa.from = this.existingPlace.formatted_address
+      this.dataCa.from_coordinates = this.existingPlace.geometry.viewport.ub.h +','+ this.existingPlace.geometry.viewport.Qa.h
+      console.log(this.dataCa.from)
+      console.log(this.dataCa.from_coordinates)
+    },
+    addLocationMarker() {
+      if (this.existingPlace) {
+        const marker = {
+          lat: this.existingPlace.geometry.location.lat(),
+          lng: this.existingPlace.geometry.location.lng()
+        }
+        this.locationMarkers.push({ position: marker })
+        this.locPlaces.push(this.existingPlace)
+        this.center = marker
+        this.existingPlace = null
+      }
+    },
+
+    locateGeoLocation: function () {
+      navigator.geolocation.getCurrentPosition(res => {
+        this.center = {
+          lat: res.coords.latitude,
+          lng: res.coords.longitude
+        }
+      })
+    },
     formRequest() {
-      this.dataCa.selfpay_id = Number(this.idpaciente)
-      this.dataCa.booking_date = this.fecha + ' ' + this.tiempo
-      this.dataCa.appoinment_datetime = this.appointmentdate + ' ' + this.appointmenttime
       this.$swal({
         title: 'Please, wait...',
         didOpen: () => {
           this.$swal.showLoading()
         }
       })
+      this.dataCa.selfpay_id = parseInt(this.idpaciente);
+      this.dataCa.booking_date = this.fecha + ' ' + this.tiempo;
+      this.dataCa.appoinment_datetime = this.appointmentdate + ' ' + this.appointmenttime;
+      // this.addLocationMarker();
 
-      // this.dataCa.appoinment_datetime = this.
       console.log(this.dataCa)
       this.$http.post('ca/panel/booking/add', this.dataCa).then((response) => {
         if (response.data.status === 200) {
@@ -719,6 +780,7 @@ export default {
   mounted() {
     // this.getInfo();
     // this.lispatient =
+    this.locateGeoLocation();
     this.$http.get(`ca/${this.$store.getters['Users/userData'].user.corporate_account.id}/panel/client/search`)
         .then((res) => {
           if (res.data.message) {
@@ -726,6 +788,7 @@ export default {
             console.log(this.lispatient)
           }
         })
+
 
   }
 }

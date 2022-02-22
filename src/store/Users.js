@@ -38,11 +38,11 @@ export const Users = {
     },
     actions: {
         retrieveToken(context, payload) {
-            let url = '';
-            url = payload.loginType === 'admin' ? 'auth/admin/login' : 'auth/ca/login';
+            // let url = '';
+            // url = payload.loginType === 'admin' ? 'auth/admin/login' : 'auth/ca/login';
 
             return new Promise((resolve, reject) => {
-                this._vm.$http.post(url, {
+                this._vm.$http.post('auth/users/login', {
                         email: payload.userEmail,
                         password: payload.password
                     }
@@ -63,11 +63,9 @@ export const Users = {
         },
         destroyToken(context, payload) {
             if (context.getters.loggedIn) {
-                let url = '';
-                url = payload.loginType === 'admin' ? 'auth/admin/logout' : 'auth/ca/logout';
 
                 return new Promise((resolve, reject) => {
-                    this._vm.$http.post(url, '')
+                    this._vm.$http.post('auth/users/logout', '')
                         .then(response => {
                             context.commit('destroyToken');
                             context.commit('destroyUser');

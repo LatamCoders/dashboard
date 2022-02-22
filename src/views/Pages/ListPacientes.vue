@@ -1,7 +1,7 @@
 <template>
   <div>
     <ListUsers></ListUsers>
-    <AddGoogleMap></AddGoogleMap>
+<!--    <AddGoogleMap></AddGoogleMap>-->
   </div>
 </template>
 
@@ -14,7 +14,7 @@ import AddGoogleMap from '@core/components/AddGoogleMap'
 export default {
   components: {
     ListUsers,
-    AddGoogleMap,
+    // AddGoogleMap,
   },
   data() {
     return {}
