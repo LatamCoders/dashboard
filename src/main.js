@@ -27,7 +27,7 @@ Vue.use(VueCompositionAPI)
 // integración mapa
 Vue.use(VueGoogleMaps, {
   load: {
-    key: "GOOGLE MAP API KEY GOES HERE",
+    key: "AIzaSyC1dIJmjEeVHml0mLlTmYeVqQBKCeNcNBw",
     libraries: "places"
   }
 });

@@ -1,7 +1,8 @@
 <template>
   <div class="cols-12 col-xl-12 "
        oncopy="return false" onpaste="return false"
-       style="margin: 0 auto">
+       style="margin: 0 auto"
+  >
     <form-wizard
         color="#7367F0"
         :title="null"
@@ -114,11 +115,11 @@
               <b-form-group
                   label="Notes"
               >
-                  <b-form-textarea
-                      v-model="createdPatient.note"
-                      placeholder="Write here the notes"
-                      rows="3"
-                  />
+                <b-form-textarea
+                    v-model="createdPatient.note"
+                    placeholder="Write here the notes"
+                    rows="3"
+                />
               </b-form-group>
             </b-col>
           </b-row>
@@ -191,14 +192,23 @@
                     #default="{ errors }"
                     rules="required"
                 >
-                  <b-form-input
-                      placeholder="Birmingham"
-                      v-model="createdPatient.city"
-                      :state="errors.length > 0 ? false:null"
-                      maxlength="50"
-                      @keypress="isDirection"
-                  />
-                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+                  <gmap-autocomplete class="form-control" placeholder="Birmingham" @place_changed="initMarker">
+                    <!--                    <b-form-input-->
+                    <!--                    placeholder="Birmingham"-->
+                    <!--                    v-model="createdPatient.city"-->
+                    <!--                    :state="errors.length > 0 ? false:null"-->
+                    <!--                    maxlength="50"-->
+                    <!--                    @keypress="isDirection"-->
+                    <!--                    />-->
+                  </gmap-autocomplete>
+                  <!--                  <b-form-input-->
+                  <!--                      placeholder="Birmingham"-->
+                  <!--                      v-model="createdPatient.city"-->
+                  <!--                      :state="errors.length > 0 ? false:null"-->
+                  <!--                      maxlength="50"-->
+                  <!--                      @keypress="isDirection"-->
+                  <!--                  />-->
+                  <!--                  <small class="text-danger" v-if="errors[0]">This field is required</small>-->
                 </validation-provider>
               </b-form-group>
             </b-col>
@@ -274,9 +284,9 @@
 </template>
 
 <script>
-import {FormWizard, TabContent} from 'vue-form-wizard'
+import { FormWizard, TabContent } from 'vue-form-wizard'
 // import vSelect from 'vue-select'
-import {ValidationProvider, ValidationObserver} from 'vee-validate'
+import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import axios from 'axios'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
@@ -289,7 +299,7 @@ import {
   BFormDatepicker,
   BFormTextarea,
 } from 'bootstrap-vue'
-import searchDirection from "@/libs/searchDirection";
+import searchDirection from '@/libs/searchDirection'
 // import { codeIconInfo } from './code'
 
 export default {
@@ -325,6 +335,13 @@ export default {
     return {
       min: minDate,
       max: maxDate,
+      center: {
+        lat: 39.7837304,
+        lng: -100.4458825
+      },
+      locationMarkers: [],
+      locPlaces: [],
+      existingPlace: {},
       createdPatient: {
         name: '',
         lastname: '',
@@ -341,87 +358,114 @@ export default {
   },
   methods: {
     isNumber: function (evt) {
-      evt = evt ? evt : window.event;
-      var charCode = evt.which ? evt.which : evt.keyCode;
+      evt = evt ? evt : window.event
+      var charCode = evt.which ? evt.which : evt.keyCode
       if (
           charCode > 31 &&
           (charCode < 48 || charCode > 57) &&
           charCode !== 46
       ) {
-        evt.preventDefault();
+        evt.preventDefault()
       } else {
-        return true;
+        return true
       }
     },
     isText: function (event) {
-      let regex = new RegExp("^[a-zA-Z ]+$");
-      let key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+      let regex = new RegExp('^[a-zA-Z ]+$')
+      let key = String.fromCharCode(!event.charCode ? event.which : event.charCode)
       if (!regex.test(key)) {
-        event.preventDefault();
-        return false;
+        event.preventDefault()
+        return false
       }
     },
     isDirection: function (event) {
-      let regex = new RegExp("^[a-zA-Z0-9 ]+$");
-      let key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+      let regex = new RegExp('^[a-zA-Z0-9 ]+$')
+      let key = String.fromCharCode(!event.charCode ? event.which : event.charCode)
       if (!regex.test(key)) {
-        event.preventDefault();
-        return false;
+        event.preventDefault()
+        return false
       }
     },
-    formSubmitted() {
-      this.$swal({
-        title: 'Please, wait...',
-        didOpen: () => {
-          this.$swal.showLoading();
+    initMarker(loc) {
+      this.existingPlace = loc
+    },
+    addLocationMarker() {
+      if (this.existingPlace) {
+        const marker = {
+          lat: this.existingPlace.geometry.location.lat(),
+          lng: this.existingPlace.geometry.location.lng()
         }
-      });
-      this.createdPatient.ca_id = this.$store.getters["Users/userData"].user.corporate_account.id;
-      this.$http.post('ca/panel/client/add', this.createdPatient)
-          .then((res) => {
-            if (res.data.status === 200) {
-              this.$swal({
-                title: res.data.message,
-                icon: 'success',
-                customClass: {
-                  confirmButton: 'btn btn-primary',
-                },
-                buttonsStyling: false,
-              })
-              this.$refs.registerClient.reset();
+        this.locationMarkers.push({ position: marker })
+        this.locPlaces.push(this.existingPlace)
+        this.center = marker
+        this.existingPlace = null
+      }
+    },
+    locateGeoLocation: function () {
+      navigator.geolocation.getCurrentPosition(res => {
+        this.center = {
+          lat: res.coords.latitude,
+          lng: res.coords.longitude
+        }
+      })
+    },
+    formSubmitted() {
+      this.createdPatient.city = this.existingPlace.formatted_address;
+      this.addLocationMarker();
 
-              //clear form register
-                  this.createdPatient.name = '',
-                  this.createdPatient.lastname = '',
-                  this.createdPatient.email = '',
-                  this.createdPatient.phone_number = '',
-                  this.createdPatient.note = '',
-                  this.createdPatient.gender = '',
-                  this.createdPatient.birthday = '',
-                  this.createdPatient.city = '',
-                  this.createdPatient.address = ''
-            } else {
-              this.$swal({
-                title: res.data.message,
-                icon: 'error',
-                customClass: {
-                  confirmButton: 'btn btn-primary',
-                },
-                buttonsStyling: false,
-              })
-              console.log(res)
-            }
-          })
-          .catch((res) => {
-          this.$swal({
-            title: res.message,
-            icon: 'error',
-            customClass: {
-              confirmButton: 'btn btn-primary',
-            },
-            buttonsStyling: false,
-          })
-         })
+      // this.getDirectionmap();
+      // this.$swal({
+      //   title: 'Please, wait...',
+      //   didOpen: () => {
+      //     this.$swal.showLoading()
+      //   }
+      // })
+      // this.createdPatient.ca_id = this.$store.getters['Users/userData'].user.corporate_account.id
+      // this.$http.post('ca/panel/client/add', this.createdPatient)
+      //     .then((res) => {
+      //       if (res.data.status === 200) {
+      //         this.$swal({
+      //           title: res.data.message,
+      //           icon: 'success',
+      //           customClass: {
+      //             confirmButton: 'btn btn-primary',
+      //           },
+      //           buttonsStyling: false,
+      //         })
+      //         this.$refs.registerClient.reset()
+      //
+      //         //clear form register
+      //         this.createdPatient.name = '',
+      //             this.createdPatient.lastname = '',
+      //             this.createdPatient.email = '',
+      //             this.createdPatient.phone_number = '',
+      //             this.createdPatient.note = '',
+      //             this.createdPatient.gender = '',
+      //             this.createdPatient.birthday = '',
+      //             this.createdPatient.city = '',
+      //             this.createdPatient.address = ''
+      //       } else {
+      //         this.$swal({
+      //           title: res.data.message,
+      //           icon: 'error',
+      //           customClass: {
+      //             confirmButton: 'btn btn-primary',
+      //           },
+      //           buttonsStyling: false,
+      //         })
+      //         console.log(res)
+      //       }
+      //     })
+      //     .catch((res) => {
+      //       this.$swal({
+      //         title: res.message,
+      //         icon: 'error',
+      //         customClass: {
+      //           confirmButton: 'btn btn-primary',
+      //         },
+      //         buttonsStyling: false,
+      //       })
+      //     })
     },
     validationForm() {
       return new Promise((resolve, reject) => {
@@ -447,15 +491,9 @@ export default {
             })
       })
     },
-    // getAutoCompletar(){
-    //   let autocomplete;
-    //
-    //   function initAutocomplete () {
-    //     autocomplete = new google.maps.places.Autocomplete(
-    //
-    //     )
-    //   }
-    // }
+  },
+  mounted() {
+    this.locateGeoLocation()
   },
 }
 </script>
