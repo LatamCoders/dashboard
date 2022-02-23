@@ -21,6 +21,10 @@ export default [
         ],
     },
     {
+        title: 'Booked trips',
+        icon: 'MapPinIcon'
+    },
+    {
         title: 'Support',
         route: '/',
         icon: 'GridIcon',

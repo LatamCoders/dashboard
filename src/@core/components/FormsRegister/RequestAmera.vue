@@ -286,19 +286,16 @@
               <b-form-group
                   label="Pickup address"
               >
-                <validation-provider
-                    #default="{ errors }"
-                    rules="required"
-                >
-<!--                  <gmap-autocomplete class="form-control" placeholder="Birmingham" @place_changed="initMarkerTo">-->
-<!--                  </gmap-autocomplete>-->
-                  <b-form-input
-                      v-model="dataCa.to"
-                      placeholder="98 Borough bridge Road, Birmingham"
-                      :state="errors.length > 0 ? false:null"
-                  />
+
+                  <gmap-autocomplete class="form-control" placeholder="Birmingham" @place_changed="initMarkerTo">
+                  </gmap-autocomplete>
+<!--                  <b-form-input-->
+<!--                      v-model="dataCa.to"-->
+<!--                      placeholder="98 Borough bridge Road, Birmingham"-->
+<!--                      :state="errors.length > 0 ? false:null"-->
+<!--                  />-->
 <!--                  <small class="text-danger" v-if="errors[0]">This field is required</small>-->
-                </validation-provider>
+
               </b-form-group>
             </b-col>
             <b-col md="4">
@@ -319,12 +316,13 @@
               <b-form-group
                   label="Destiny"
               >
-<!--                <gmap-autocomplete class="form-control" placeholder="Birmingham" @place_changed="initMarkerFrom">-->
-<!--                </gmap-autocomplete>-->
-                <b-form-input
-                    placeholder="Birmingham"
-                    v-model="dataCa.from"
-                />
+                <gmap-autocomplete class="form-control" placeholder="Birmingham" @place_changed="initMarkerFrom">
+                </gmap-autocomplete>
+<!--                <b-form-input-->
+<!--                    id="autocompletar"-->
+<!--                    placeholder="Birmingham"-->
+<!--                    v-model="dataCa.from"-->
+<!--                />-->
               </b-form-group>
             </b-col>
             <b-col md="4">
@@ -789,6 +787,9 @@ export default {
           }
         })
 
+    // new google.maps.places.Autocomplete(
+    //     document.getElementById('autocompletar')
+    // )
 
   }
 }

@@ -1,13 +1,6 @@
 <template>
 
   <div>
-
-    <!--    <user-list-add-new-->
-    <!--        :is-add-new-user-sidebar-active.sync="isAddNewUserSidebarActive"-->
-    <!--        :plan-options="planOptions"-->
-    <!--        @refetch-data="refetchData"-->
-    <!--    />-->
-    <!-- Table Container Card -->
     <b-card
         no-body
         class="mb-0"
@@ -23,10 +16,8 @@
           >
             <label>Show</label>
             <v-select
-                v-model="perPage"
-                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                :options="perPageOptions"
-                :clearable="false"
+
+
                 class="per-page-selector d-inline-block mx-50"
             />
             <label>entries</label>
@@ -39,15 +30,10 @@
           >
             <div class="d-flex align-items-center justify-content-end">
               <b-form-input
-                  v-model="searchQuery"
                   class="d-inline-block mr-1"
                   placeholder="Search..."
+                  v-model="search"
               />
-              <b-button
-                  variant="primary"
-              >
-                <span class="text-nowrap">Search</span>
-              </b-button>
             </div>
           </b-col>
         </b-row>
@@ -59,57 +45,12 @@
           class="position-relative"
           responsive
           primary-key="id"
-          :items="personas"
+          :items="listDrivers"
           :fields="fields"
           empty-text="No matching records found"
+          :filter="search"
+          perPage="6"
       >
-
-        <!-- Column: User -->
-        <!--        <template #cell(user)="personas">-->
-        <!--          <b-media vertical-align="center">-->
-        <!--            <template #aside>-->
-        <!--              <b-avatar-->
-        <!--                  size="32"-->
-        <!--                  :src="personas.avatar"-->
-        <!--                  :text="avatarText(personas.first_name)"-->
-        <!--                  :variant="`light-${resolveUserRoleVariant(data.item.last_name)}`"-->
-        <!--                  :to="{ name: 'apps-users-view', params: { id: data.item.age } }"-->
-        <!--              />-->
-        <!--            </template>-->
-        <!--            <b-link-->
-        <!--                :to="{ name: 'apps-users-view', params: { id: data.item.id } }"-->
-        <!--                class="font-weight-bold d-block text-nowrap"-->
-        <!--            >-->
-        <!--              {{ data.item.first_name }}-->
-        <!--            </b-link>-->
-        <!--            <small class="text-muted">@{{ data.item.last_name }}</small>-->
-        <!--          </b-media>-->
-        <!--        </template>-->
-
-        <!-- Column: Role -->
-        <!--        <template #cell(fecha)="data">-->
-        <!--          <div class="text-nowrap">-->
-        <!--            <feather-icon-->
-        <!--                :icon="resolveUserRoleIcon(data.item.fecha)"-->
-        <!--                size="18"-->
-        <!--                class="mr-50"-->
-        <!--                :class="`text-${resolveUserRoleVariant(data.item.fecha)}`"-->
-        <!--            />-->
-        <!--            <span class="align-text-top text-capitalize">{{ data.item.fecha }}</span>-->
-        <!--          </div>-->
-        <!--        </template>-->
-
-        <!-- Column: Status -->
-        <template #cell(status)="personas">
-          <b-badge
-              pill
-              :variant="`light-${resolveUserStatusVariant(personas.status)}`"
-              class="text-capitalize"
-          >
-            {{ personas.status }}
-          </b-badge>
-        </template>
-
         <!-- Column: Actions -->
         <template #cell(actions)="personas">
           <b-dropdown
@@ -124,7 +65,7 @@
                   class="align-middle text-body"
               />
             </template>
-            <b-dropdown-item :to="{ name: 'details-driver-view', params: { id: personas.id } }">
+            <b-dropdown-item :to="{ name: 'details-driver-view' }">
               <feather-icon icon="FileTextIcon"/>
               <span class="align-middle ml-50">Details</span>
             </b-dropdown-item>
@@ -149,9 +90,9 @@
               sm="6"
               class="d-flex align-items-center justify-content-center justify-content-sm-start"
           >
-            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{
-                dataMeta.of
-              }} entries</span>
+<!--            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{-->
+<!--                dataMeta.of-->
+<!--              }} entries</span>-->
           </b-col>
           <!-- Pagination -->
           <b-col
@@ -161,8 +102,7 @@
           >
 
             <b-pagination
-                v-model="currentPage"
-                :total-rows="totalUsers"
+
                 :per-page="perPage"
                 first-number
                 last-number
@@ -198,13 +138,7 @@ import {
   BBadge, BDropdown, BDropdownItem, BPagination,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
-import store from '@/store'
-import { ref, onUnmounted } from '@vue/composition-api'
-import { avatarText } from '@core/utils/filter'
-// import UsersListFilters from './UsersListFilters.vue'
-import UsersListFilters from '/src/@core/components/infoClients/UsersListFilters.vue'
-import useUsersList from '/src/@core/components/infoClients/useUsersList'
-import userStoreModule from '@core/components/users-view/userStoreModule'
+
 import UserListAddNew from '@core/components/infoClients/UserListAddNew'
 export default {
   components: {
@@ -224,125 +158,25 @@ export default {
     BPagination,
     vSelect,
   },
-  setup() {
-    const USER_APP_STORE_MODULE_NAME = 'app-user'
-    // Register module
-    if (!store.hasModule(USER_APP_STORE_MODULE_NAME)) store.registerModule(USER_APP_STORE_MODULE_NAME, userStoreModule)
-    // UnRegister on leave
-    onUnmounted(() => {
-      if (store.hasModule(USER_APP_STORE_MODULE_NAME)) store.unregisterModule(USER_APP_STORE_MODULE_NAME)
-    })
-    const isAddNewUserSidebarActive = ref(false)
-    const statusOptions = [
-      {
-        label: 'Pending',
-        value: 'pending'
-      },
-      {
-        label: 'Active',
-        value: 'active'
-      },
-      {
-        label: 'Inactive',
-        value: 'inactive'
-      },
-    ]
-    const {
-      fetchUsers,
-      tableColumns,
-      perPage,
-      currentPage,
-      totalUsers,
-      dataMeta,
-      perPageOptions,
-      searchQuery,
-      sortBy,
-      isSortDirDesc,
-      refUserListTable,
-      refetchData,
-      // UI
-      resolveUserRoleVariant,
-      resolveUserRoleIcon,
-      resolveUserStatusVariant,
-      // Extra Filters
-      roleFilter,
-      planFilter,
-      statusFilter,
-    } = useUsersList()
+  data() {
     return {
-      fields: ['id', 'NameDriver', 'email', 'tel_number', 'HomeAddress', 'state', 'actions'],
-      personas: [
-        {
-          id: 1,
-          email: 'Dickerson@mail.com',
-          tel_number: '6555122',
-          HomeAddress: 'New york city',
-          DateOfTrips: '03/08/2022',
-          HomeTelephoneNumber: '358185488',
-          NameDriver: 'Jhon alphon',
-          state: 'Passed',
-        },
-        {
-          id: 2,
-          email: 'Larsen@mail.com',
-          tel_number: '6225122',
-          HomeAddress: 'Oklahoma',
-          AddressEnd: 'State of california',
-          DateOfTrips: '01/05/2022',
-          NameDriver: 'Will smith',
-          HomeTelephoneNumber: '818355488',
-          state: 'Passed',
-        },
-        {
-          id: 3,
-          email: 'Geneva@mail.com',
-          tel_number: '3225122',
-          HomeAddress: 'Arizona',
-          AddressEnd: 'State of california',
-          DateOfTrips: '03/09/2022',
-          NameDriver: 'Jean Paul',
-          HomeTelephoneNumber: '488358185',
-          state: 'Passed',
-        },
-        {
-          id: 4,
-          email: 'Jami.carney@mail.com',
-          tel_number: '311155122',
-          HomeAddress: 'Texas',
-          AddressEnd: 'State of california',
-          DateOfTrips: '23/11/2022',
-          NameDriver: 'Albert Austin',
-          HomeTelephoneNumber: '354885818',
-          state: 'Passed',
-        },
-      ],
-      // Sidebar
-      isAddNewUserSidebarActive,
-      fetchUsers,
-      tableColumns,
-      perPage,
-      currentPage,
-      totalUsers,
-      dataMeta,
-      perPageOptions,
-      searchQuery,
-      sortBy,
-      isSortDirDesc,
-      refUserListTable,
-      refetchData,
-      // Filter
-      avatarText,
-      // UI
-      resolveUserRoleVariant,
-      resolveUserRoleIcon,
-      resolveUserStatusVariant,
-      statusOptions,
-      // Extra Filters
-      roleFilter,
-      planFilter,
-      statusFilter,
+      currentPage: '',
+      perPage: 0,
+      listDrivers: [],
+      search: '',
+      fields: ['driver_id', 'name', 'lastname', 'gender', 'phone_number', 'phone_number_verified_at', 'email', 'email_verified_at', 'address',  'actions'],
     }
   },
+  methods: {
+    getDrivers() {
+      this.$http.get(`admin/panel/driver/list`).then((response) => {
+        this.listDrivers = response.data.data;
+      }).catch((res) => console.log(res.data))
+    },
+  },
+  mounted() {
+    this.getDrivers();
+  }
 }
 </script>
 

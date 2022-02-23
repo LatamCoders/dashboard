@@ -188,28 +188,25 @@
               <b-form-group
                   label="City"
               >
-                <validation-provider
-                    #default="{ errors }"
-                    rules="required"
-                >
-                  <gmap-autocomplete class="form-control" placeholder="Birmingham" @place_changed="initMarker">
-                    <!--                    <b-form-input-->
-                    <!--                    placeholder="Birmingham"-->
-                    <!--                    v-model="createdPatient.city"-->
-                    <!--                    :state="errors.length > 0 ? false:null"-->
-                    <!--                    maxlength="50"-->
-                    <!--                    @keypress="isDirection"-->
-                    <!--                    />-->
-                  </gmap-autocomplete>
-                  <!--                  <b-form-input-->
-                  <!--                      placeholder="Birmingham"-->
-                  <!--                      v-model="createdPatient.city"-->
-                  <!--                      :state="errors.length > 0 ? false:null"-->
-                  <!--                      maxlength="50"-->
-                  <!--                      @keypress="isDirection"-->
-                  <!--                  />-->
-                  <!--                  <small class="text-danger" v-if="errors[0]">This field is required</small>-->
-                </validation-provider>
+
+                <gmap-autocomplete class="form-control" placeholder="Birmingham" @place_changed="initMarker">
+                  <!--                    <b-form-input-->
+                  <!--                    placeholder="Birmingham"-->
+                  <!--                    v-model="createdPatient.city"-->
+                  <!--                    :state="errors.length > 0 ? false:null"-->
+                  <!--                    maxlength="50"-->
+                  <!--                    @keypress="isDirection"-->
+                  <!--                    />-->
+                </gmap-autocomplete>
+                <!--                  <b-form-input-->
+                <!--                      placeholder="Birmingham"-->
+                <!--                      v-model="createdPatient.city"-->
+                <!--                      :state="errors.length > 0 ? false:null"-->
+                <!--                      maxlength="50"-->
+                <!--                      @keypress="isDirection"-->
+                <!--                  />-->
+                <!--                  <small class="text-danger" v-if="errors[0]">This field is required</small>-->
+
               </b-form-group>
             </b-col>
             <b-col md="4">
@@ -401,13 +398,9 @@ export default {
         this.locPlaces.push(this.existingPlace)
         this.center = marker
         this.existingPlace = null
-        this.createdPatient.city = this.existingPlace;
 
       }
-
-      this.createdPatient.city = this.existingPlace;
     },
-
     locateGeoLocation: function () {
       navigator.geolocation.getCurrentPosition(res => {
         this.center = {
@@ -417,62 +410,58 @@ export default {
       })
     },
     formSubmitted() {
-      this.createdPatient.city = this.existingPlace;
-      this.addLocationMarker();
+      this.$swal({
+        title: 'Please, wait...',
+        didOpen: () => {
+          this.$swal.showLoading()
+        }
+      })
+      this.createdPatient.ca_id = this.$store.getters['Users/userData'].user.corporate_account.id
+      this.$http.post('ca/panel/client/add', this.createdPatient)
+          .then((res) => {
+            if (res.data.status === 200) {
+              this.$swal({
+                title: res.data.message,
+                icon: 'success',
+                customClass: {
+                  confirmButton: 'btn btn-primary',
+                },
+                buttonsStyling: false,
+              })
+              this.$refs.registerClient.reset()
 
-      // this.getDirectionmap();
-      // this.$swal({
-      //   title: 'Please, wait...',
-      //   didOpen: () => {
-      //     this.$swal.showLoading()
-      //   }
-      // })
-      // this.createdPatient.ca_id = this.$store.getters['Users/userData'].user.corporate_account.id
-      // this.$http.post('ca/panel/client/add', this.createdPatient)
-      //     .then((res) => {
-      //       if (res.data.status === 200) {
-      //         this.$swal({
-      //           title: res.data.message,
-      //           icon: 'success',
-      //           customClass: {
-      //             confirmButton: 'btn btn-primary',
-      //           },
-      //           buttonsStyling: false,
-      //         })
-      //         this.$refs.registerClient.reset()
-      //
-      //         //clear form register
-      //         this.createdPatient.name = '',
-      //             this.createdPatient.lastname = '',
-      //             this.createdPatient.email = '',
-      //             this.createdPatient.phone_number = '',
-      //             this.createdPatient.note = '',
-      //             this.createdPatient.gender = '',
-      //             this.createdPatient.birthday = '',
-      //             this.createdPatient.city = '',
-      //             this.createdPatient.address = ''
-      //       } else {
-      //         this.$swal({
-      //           title: res.data.message,
-      //           icon: 'error',
-      //           customClass: {
-      //             confirmButton: 'btn btn-primary',
-      //           },
-      //           buttonsStyling: false,
-      //         })
-      //         console.log(res)
-      //       }
-      //     })
-      //     .catch((res) => {
-      //       this.$swal({
-      //         title: res.message,
-      //         icon: 'error',
-      //         customClass: {
-      //           confirmButton: 'btn btn-primary',
-      //         },
-      //         buttonsStyling: false,
-      //       })
-      //     })
+              //clear form register
+              this.createdPatient.name = '',
+                  this.createdPatient.lastname = '',
+                  this.createdPatient.email = '',
+                  this.createdPatient.phone_number = '',
+                  this.createdPatient.note = '',
+                  this.createdPatient.gender = '',
+                  this.createdPatient.birthday = '',
+                  this.createdPatient.city = '',
+                  this.createdPatient.address = ''
+            } else {
+              this.$swal({
+                title: res.data.message,
+                icon: 'error',
+                customClass: {
+                  confirmButton: 'btn btn-primary',
+                },
+                buttonsStyling: false,
+              })
+              console.log(res)
+            }
+          })
+          .catch((res) => {
+            this.$swal({
+              title: res.message,
+              icon: 'error',
+              customClass: {
+                confirmButton: 'btn btn-primary',
+              },
+              buttonsStyling: false,
+            })
+          })
     },
     validationForm() {
       return new Promise((resolve, reject) => {

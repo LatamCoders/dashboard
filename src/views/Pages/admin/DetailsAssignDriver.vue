@@ -10,6 +10,7 @@
         class="steps-transparent mb-3 d-lg-flex d-xl-flex d-md-flex justify-content-center flex-xl-column formcreatepatient"
         @on-complete="formSubmitted"
         style="background-color: #fff"
+        ref="assignDriver"
     >
       <!-- account detail tab -->
       <tab-content
@@ -284,18 +285,27 @@
           </b-col>
           <b-col md="6">
             <span style="display: block; margin-bottom: calc(0.438rem + 1px)">Select a driver</span>
-            <b-input-group class="input-group-merge"
-                label=""
-            >
-              <b-input-group-prepend is-text>
-                <feather-icon icon="SearchIcon"/>
-              </b-input-group-prepend>
-              <b-form-input
-                  type="search"
-                  placeholder="Jean frank"
-                  v-model="buscar"
-              />
-            </b-input-group>
+              <v-select
+                  v-model="idDriver"
+                  label="name"
+                  :options="listDrivers"
+                  :reduce="c => `${c.driver_id}`"
+              >
+<!--                <b-input-group-prepend is-text>-->
+<!--                  <feather-icon icon="SearchIcon"/>-->
+<!--                </b-input-group-prepend>-->
+                <template #option="{name, lastname}">
+                  {{ name }} {{ lastname }}
+                </template>
+                <template #option="{name, lastname}">
+                  {{ name }} {{ lastname }}
+                </template>
+              </v-select>
+<!--              <b-form-input-->
+<!--                  type="search"-->
+<!--                  placeholder="Jean frank"-->
+<!--                  v-model="listDrivers"-->
+<!--              />-->
           </b-col>
           <b-col md="6">
             <b-form-group
@@ -426,6 +436,8 @@ export default {
         {title: 'Additional stop'},
       ],
       buscar: '',
+      listDrivers: [],
+      idDriver: '',
       escogido: this.buscar,
       listado: [
         {
@@ -463,17 +475,49 @@ export default {
       ],
     }
   },
+  watch: {
+    idDriver() {
+      return parseInt(this.idDriver)
+    }
+  },
   methods: {
     formSubmitted() {
-      this.$toast({
-        component: ToastificationContent,
-        props: {
-          title: 'Form Submitted',
-          icon: 'EditIcon',
-          variant: 'success',
-        },
+      this.$swal({
+        title: 'Please, wait...',
+        didOpen: () => {
+          this.$swal.showLoading()
+        }
       })
+      this.$http.post(`admin/panel/booking/1/assignDriver/${this.idDriver}`)
+          .then((response) => {
+            if(response.data.status === 200) {
+              this.$swal({
+                title: response.data.message,
+                icon: 'success',
+                customClass: {
+                  confirmButton: 'btn btn-primary',
+                },
+                buttonsStyling: false,
+              })
+              this.$refs.assignDriver.reset();
+            }else {
+              this.$swal({
+                title: response.data.message,
+                icon: 'error',
+                customClass: {
+                  confirmButton: 'btn btn-primary',
+                },
+                buttonsStyling: false,
+              })
+            }
+          }).catch((error) => {console.log(error.message)})
     },
+    getDrivers() {
+      this.$http.get(`admin/panel/driver/list`).then((response) => {
+        this.listDrivers = response.data.data;
+      }).catch((res) => console.log(res.data))
+    },
+
   },
   computed: {
     items() {
@@ -481,6 +525,9 @@ export default {
         return item.nombre.toLowerCase().includes(this.buscar.toLowerCase());
       });
     },
+  },
+  created() {
+    this.getDrivers()
   }
 }
 </script>
