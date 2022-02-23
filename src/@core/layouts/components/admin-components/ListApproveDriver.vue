@@ -52,7 +52,7 @@
           perPage="6"
       >
         <!-- Column: Actions -->
-        <template #cell(actions)="personas">
+        <template #cell(actions)="personas"  v-slot:item.actions="{ item }">
           <b-dropdown
               variant="link"
               no-caret

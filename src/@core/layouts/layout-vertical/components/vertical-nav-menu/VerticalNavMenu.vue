@@ -133,6 +133,18 @@ export default {
 
     const {skin} = useAppConfig()
 
+    let menuit = ref();
+
+    function itemMenu (){
+      menuit = navMenuItems.filter(permiso => permiso === this.$store.getters['Users/userData'].user.role.id === 1)
+    }
+
+    // computed(){
+    //   navMenuItems (){
+    //     navMenuItems.filter(this.$store.getters['Users/userData'].user.role.id === 1)
+    //   }
+    // }
+
     // Shadow bottom is UI specific and can be removed by user => It's not in `useVerticalNavMenu`
     const shallShadowBottom = ref(false)
 

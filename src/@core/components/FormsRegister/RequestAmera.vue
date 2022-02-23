@@ -314,7 +314,7 @@
             </b-col>
             <b-col md="4" v-if="seleccionstop">
               <b-form-group
-                  label="Destiny"
+                  label="Destination"
               >
                 <gmap-autocomplete class="form-control" placeholder="Birmingham" @place_changed="initMarkerFrom">
                 </gmap-autocomplete>

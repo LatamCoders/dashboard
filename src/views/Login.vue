@@ -409,6 +409,8 @@ export default {
               // if(this.person.loginType === 'admin') {
               if(res.data.data.user.role.id === 2) {
                 this.$router.push({ name: 'home-admin'})
+              }else if(res.data.data.user.role.id === 1){
+                this.$router.push({ name: 'home-admin'})
               }else {
                 this.$router.push({ name: 'home-corporate-account'})
               }

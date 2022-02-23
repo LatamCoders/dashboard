@@ -21,7 +21,7 @@ export default [
         ],
     },
     {
-        title: 'Booked trips',
+        title: 'Bookings',
         icon: 'MapPinIcon'
     },
     {

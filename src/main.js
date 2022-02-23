@@ -88,6 +88,18 @@ router.beforeEach((to, from, next) => {
   } else {
     next()
   }
+  /*Entrar si es super-admin*/
+  if (to.matched.some(record => record.meta.permission === '1')) {
+    if (store.getters["Users/userDataAdmin"].user.role.id === 1) {
+      next()
+    } else {
+      next({
+        name: 'login',
+      })
+    }
+  } else {
+    next()
+  }
 
 });
 
