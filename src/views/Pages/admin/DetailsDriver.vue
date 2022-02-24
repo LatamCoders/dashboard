@@ -19,6 +19,7 @@
             <span class="d-none d-sm-inline">Account</span>
           </template>
           <user-details-account
+              :user-data="infoUser"
               class="mt-2 pt-75"
           />
         </b-tab>
@@ -81,23 +82,13 @@ export default {
   data() {
     return {
       infoUser: {
-        type_car: 'Mazda',
-        color: 'Red',
-        year: '2000',
-        plate_number: 'n25154s',
-        vin_number: '45544445',
       },
     }
   },
   methods: {
     getInformationDriver() {
-      this.infoUser = this.$route.params.listDrivers
+      this.infoUser = this.$route.params.item
       console.log(this.infoUser)
-      // this.$http.get(`admin/panel/${this.$route.params.driver_id}`)
-      //     .then((response) => {
-      //       this.infoUser = response.data.data
-      //     })
-      // console.log('hola')
     }
   },
   mounted() {

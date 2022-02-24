@@ -1,6 +1,5 @@
 <template>
   <div>
-{{ $route.params.id }}
     <!-- Media -->
     <b-media class="mb-2">
       <template #aside>
@@ -12,15 +11,15 @@
         />
       </template>
       <h4 class="">
-        {{ dataProvider }} ( <span style="font-size: 0.9rem">
-        {{ dataProvider }}
+        {{ dataProvider.amera_user.name }} ( <span style="font-size: 0.9rem">
+        {{ dataProvider.amera_user.email }}
       </span>)
       </h4>
 
       <div class="d-flex flex-wrap">
         <b-button
-            variant="primary"
-
+            :variant="inhabilitar === true ? 'primary' : 'outline-secondary'"
+            @click="inhabilitar = false"
         >
           <span class="d-none d-sm-inline">Update</span>
           <feather-icon
@@ -28,22 +27,22 @@
               class="d-inline d-sm-none"
           />
         </b-button>
-        <!--        <b-button-->
-        <!--            v-if="userData.role.id === 2"-->
-        <!--            variant="outline-secondary"-->
-        <!--            class="ml-1"-->
-        <!--        >-->
-        <!--          <span class="d-none d-sm-inline">Remove</span>-->
-        <!--          <feather-icon-->
-        <!--              icon="TrashIcon"-->
-        <!--              class="d-inline d-sm-none"-->
-        <!--          />-->
-        <!--        </b-button>-->
+        <b-button
+            v-if="dataProvider.amera_user.role.id === 3 && inhabilitar ===  false"
+            :variant="inhabilitar === true ? 'primary' : 'primary' "
+            class="ml-1"
+        >
+          <span class="d-none d-sm-inline">Saved</span>
+          <feather-icon
+              icon="TrashIcon"
+              class="d-inline d-sm-none"
+          />
+        </b-button>
       </div>
     </b-media>
 
     <!-- form Admin -->
-    <b-form >
+    <b-form>
       <b-row>
         <!-- Field: Username -->
         <b-col
@@ -56,7 +55,7 @@
           >
             <b-form-input
                 disabled
-
+                v-model="dataProvider.amera_user.name"
             />
           </b-form-group>
         </b-col>
@@ -70,15 +69,44 @@
               label="Email"
           >
             <b-form-input
-                disabled
+                :disabled="inhabilitar === true"
+                v-model="dataProvider.amera_user.email"
             />
+          </b-form-group>
+        </b-col>
+
+        <!-- Field: role -->
+        <b-col
+            cols="12"
+            md="3"
+        >
+          <b-form-group
+              label="Role"
+          >
+            <template v-if="inhabilitar === true">
+              <b-form-input
+                  v-model="dataProvider.amera_user.role.role"
+                  :disabled="inhabilitar === true"
+              />
+            </template>
+
+            <template v-if="inhabilitar === false">
+              <v-select
+                  :disabled="inhabilitar === true"
+                  :options="option"
+                  v-model="roleid"
+                  label="Role"
+                  :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+              />
+            </template>
+
           </b-form-group>
         </b-col>
       </b-row>
     </b-form>
 
     <!-- form corporate -->
-    <b-form >
+    <b-form>
       <b-row>
         <!-- Field: Username -->
         <b-col
@@ -90,7 +118,7 @@
 
           >
             <b-form-input
-
+                v-model="dataProvider.company_legal_name"
                 disabled
 
             />
@@ -107,6 +135,7 @@
           >
             <b-form-input
                 disabled
+                v-model="dataProvider.dba"
             />
           </b-form-group>
         </b-col>
@@ -120,7 +149,7 @@
               label="Company Type"
           >
             <b-form-input
-
+                v-model="dataProvider.company_type"
                 disabled
             />
           </b-form-group>
@@ -136,6 +165,7 @@
           >
             <b-form-input
                 disabled
+                v-model="dataProvider.tin"
             />
           </b-form-group>
         </b-col>
@@ -153,7 +183,7 @@
           >
             <b-form-input
                 disabled
-
+                v-model="dataProvider.nature_of_business"
             />
           </b-form-group>
         </b-col>
@@ -168,6 +198,7 @@
           >
             <b-form-input
                 disabled
+                v-model="dataProvider.contract_start_date"
             />
           </b-form-group>
         </b-col>
@@ -182,6 +213,7 @@
           >
             <b-form-input
                 disabled
+                v-model="dataProvider.office_location_address"
             />
           </b-form-group>
         </b-col>
@@ -196,6 +228,7 @@
           >
             <b-form-input
                 disabled
+                v-model="dataProvider.billing_address"
             />
           </b-form-group>
         </b-col>
@@ -205,20 +238,20 @@
 
 
     <!-- Action Buttons -->
-    <!--    <b-button-->
-    <!--        variant="primary"-->
-    <!--        class="mb-1 mb-sm-0 mr-0 mr-sm-1"-->
-    <!--        :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
-    <!--    >-->
-    <!--      Save Changes-->
-    <!--    </b-button>-->
-    <!--    <b-button-->
-    <!--        variant="outline-secondary"-->
-    <!--        type="reset"-->
-    <!--        :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
-    <!--    >-->
-    <!--      Reset-->
-    <!--    </b-button>-->
+    <!--        <b-button-->
+    <!--            variant="primary"-->
+    <!--            class="mb-1 mb-sm-0 mr-0 mr-sm-1"-->
+    <!--            :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
+    <!--        >-->
+    <!--          Save Changes-->
+    <!--        </b-button>-->
+    <!--        <b-button-->
+    <!--            variant="outline-secondary"-->
+    <!--            type="reset"-->
+    <!--            :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
+    <!--        >-->
+    <!--          Reset-->
+    <!--        </b-button>-->
   </div>
 </template>
 
@@ -238,10 +271,10 @@ import {
   BCardTitle,
   BFormCheckbox,
 } from 'bootstrap-vue'
-import { avatarText } from '@core/utils/filter'
+import {avatarText} from '@core/utils/filter'
 import vSelect from 'vue-select'
-import { useInputImageRenderer } from '@core/comp-functions/forms/form-utils'
-import { ref } from '@vue/composition-api'
+import {useInputImageRenderer} from '@core/comp-functions/forms/form-utils'
+import {ref} from '@vue/composition-api'
 // import useUsersList from '/src/@core/components/user/users-list/useUsersList'
 
 export default {
@@ -262,15 +295,22 @@ export default {
     vSelect,
   },
   props: {
-    userData: {},
-    dataProvider: {}
+    dataProvider: {},
   },
-  setup() {
-    return {}
+  data() {
+    return {
+      inhabilitar: true,
+      roleid: '',
+      option: [
+        {label: 'Admin', code: '2'},
+        {label: 'Corporate account', code: '3'},
+        {label: 'Super Admin', code: '1'},
+      ],
+    }
   },
-  // mounted() {
-  //   console.log(this.userData)
-  // }
+  mounted() {
+    console.log(this.dataProvider)
+  }
 }
 </script>
 

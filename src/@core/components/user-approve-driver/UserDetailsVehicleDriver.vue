@@ -11,7 +11,6 @@
         Vehicle Information
       </h4>
     </div>
-
     <!-- Form: Personal Info Form -->
     <b-form class="mt-1">
       <b-row>
@@ -26,7 +25,7 @@
               label="Model"
           >
             <b-form-input
-              v-model="userVehicle.type_car"
+              v-model="userVehicle.vehicle.model"
               disabled
           />
 
@@ -45,7 +44,7 @@
           >
             <b-form-input
 
-                v-model="userVehicle.color"
+                v-model="userVehicle.vehicle.color"
                 disabled
             />
           </b-form-group>
@@ -62,7 +61,7 @@
           >
             <b-form-input
                 disabled
-                v-model="userVehicle.year"
+                v-model="userVehicle.vehicle.year"
             />
           </b-form-group>
         </b-col>
@@ -77,7 +76,7 @@
               label="Plate number"
           >
             <b-form-input
-                v-model="userVehicle.plate_number"
+                v-model="userVehicle.vehicle.plate_number"
                 disabled
             />
           </b-form-group>
@@ -93,7 +92,7 @@
               label="VIN number"
           >
             <b-form-input
-                v-model="userVehicle.vin_number"
+                v-model="userVehicle.vehicle.vin_number"
                 disabled
             />
           </b-form-group>
@@ -181,23 +180,23 @@
 
       </b-row>
 
-      <!--      <b-row class="mt-2">-->
-      <!--        <b-col>-->
-      <!--          <b-button-->
-      <!--              variant="primary"-->
-      <!--              class="mb-1 mb-sm-0 mr-0 mr-sm-1"-->
-      <!--              :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
-      <!--          >-->
-      <!--            Save Changes-->
-      <!--          </b-button>-->
-      <!--          <b-button-->
-      <!--              variant="outline-secondary"-->
-      <!--              :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
-      <!--          >-->
-      <!--            Reset-->
-      <!--          </b-button>-->
-      <!--        </b-col>-->
-      <!--      </b-row>-->
+      <b-row class="mt-2">
+        <b-col>
+          <b-button
+              variant="primary"
+              class="mb-1 mb-sm-0 mr-0 mr-sm-1"
+              :block="$store.getters['app/currentBreakPoint'] === 'xs'"
+          >
+            Save Changes
+          </b-button>
+          <b-button
+              variant="outline-secondary"
+              :block="$store.getters['app/currentBreakPoint'] === 'xs'"
+          >
+            Reset
+          </b-button>
+        </b-col>
+      </b-row>
     </b-form>
   </div>
 </template>
@@ -215,16 +214,16 @@ export default {
     BRow, BCol, BForm, BFormGroup, flatPickr, BFormInput, vSelect, BFormRadioGroup, BFormCheckboxGroup, BButton, BImg,
   },
   props: {
-    userVehicle: {},
+    userVehicle: [],
   },
   data() {
     return {
     }
   },
+  mounted() {
+    console.log(this.userVehicle)
 
-  // mounted() {
-  //   console.log(this.infoUser)
-  // }
+  }
 }
 </script>
 

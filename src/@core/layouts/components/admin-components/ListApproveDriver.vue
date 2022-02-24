@@ -74,7 +74,7 @@
             </template>
             <b-list-group  style="padding: 2px; margin-bottom: 2px" dense rounded>
               <router-link class="urlPagina"
-                           :to="{ name: 'details-driver-view', params: { driver_id: item.driver_id, listDrivers: listDrivers } }"
+                           :to="{ name: 'details-driver-view', params: { driver_id: item.driver_id, item: item } }"
               >
                 <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
                   <b-list-group-item class="font-weight-bold"
@@ -235,9 +235,6 @@ export default {
       this.$http.get(`admin/panel/driver/list`)
           .then((response) => {
             this.listDrivers = response.data.data
-            this.detailDrivers = response.data.data
-            // for (this.detailDrivers of this.listDrivers){
-            console.log(this.detailDrivers)
           })
           .catch((res) => console.log(res.data))
     },

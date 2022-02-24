@@ -1,12 +1,6 @@
 <template>
 
   <div>
-
-    <!--    <user-list-add-new-->
-    <!--        :is-add-new-user-sidebar-active.sync="isAddNewUserSidebarActive"-->
-    <!--        :plan-options="planOptions"-->
-    <!--        @refetch-data="refetchData"-->
-    <!--    />-->
     <!-- Table Container Card -->
     <b-card
         no-body
@@ -37,15 +31,10 @@
           >
             <div class="d-flex align-items-center justify-content-end">
               <b-form-input
-
+                  v-model="search"
                   class="d-inline-block mr-1"
                   placeholder="Search..."
               />
-              <b-button
-                  variant="primary"
-              >
-                <span class="text-nowrap">Search</span>
-              </b-button>
             </div>
           </b-col>
         </b-row>
@@ -59,16 +48,18 @@
           primary-key="id"
           :items="listClients"
           :fields="fields"
+          :filter="search"
           empty-text="No matching records found"
       >
 
-
         <!-- Column: Actions -->
-        <template #cell(actions)="personas">
+        <template #cell(actions)="{ item }">
           <b-dropdown
               variant="link"
               no-caret
               :right="$store.state.appConfig.isRTL"
+              transition="scale-transition"
+              :offset-y="true"
           >
             <template #button-content>
               <feather-icon
@@ -77,24 +68,77 @@
                   class="align-middle text-body"
               />
             </template>
-            <b-dropdown-item :to="{ path: '/providers/details-provider/1', params: { id: listClients }}">
-              <feather-icon icon="FileTextIcon"/>
-              <span class="align-middle ml-50">Details</span>
-            </b-dropdown-item>
-
-            <!--            <b-dropdown-item :to="{ name: 'apps-users-edit', params: { id: personas.id } }">-->
-            <!--              <feather-icon icon="EditIcon"/>-->
-            <!--              <span class="align-middle ml-50">Edit</span>-->
-            <!--            </b-dropdown-item>-->
-
-            <b-dropdown-item>
-              <feather-icon icon="TrashIcon"/>
-              <span class="align-middle ml-50">Delete</span>
-            </b-dropdown-item>
+            <template style="padding: 0" v-slot:activator="{ on, attrs }">
+              <b-btn color="primary" v-bind="attrs" v-on="on" icon ripple>
+              </b-btn>
+            </template>
+            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
+              <router-link class="urlPagina"
+                           :to="{ name: 'details-provider', params: { id: item.id, item: item } }"
+              >
+                <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
+                  <b-list-group-item class="font-weight-bold"
+                                     style="border: none; padding: 5px"
+                  >
+                    <feather-icon icon="FileTextIcon"/>
+                    Details
+                  </b-list-group-item
+                  >
+                </b-list-group-item>
+              </router-link>
+            </b-list-group>
+            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
+              <router-link class="urlPagina"
+                           :to="{ name: 'details-provider', params: { id: item.id } }"
+              >
+                <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
+                  <b-list-group-item class="font-weight-bold"
+                                     style="border: none; padding: 5px"
+                  >
+                    <feather-icon icon="TrashIcon"/>
+                    Delete
+                  </b-list-group-item
+                  >
+                </b-list-group-item>
+              </router-link>
+            </b-list-group>
           </b-dropdown>
         </template>
+
+
+        <!--        <template #cell(actions)="personas">-->
+        <!--          <b-dropdown-->
+        <!--              variant="link"-->
+        <!--              no-caret-->
+        <!--              :right="$store.state.appConfig.isRTL"-->
+        <!--          >-->
+        <!--            <template #button-content>-->
+        <!--              <feather-icon-->
+        <!--                  icon="MoreVerticalIcon"-->
+        <!--                  size="16"-->
+        <!--                  class="align-middle text-body"-->
+        <!--              />-->
+        <!--            </template>-->
+        <!--            <b-dropdown-item :to="{ path: '/providers/details-provider/1', params: { id: listClients }}">-->
+        <!--              <feather-icon icon="FileTextIcon"/>-->
+        <!--              <span class="align-middle ml-50">Details</span>-->
+        <!--            </b-dropdown-item>-->
+
+        <!--            &lt;!&ndash;            <b-dropdown-item :to="{ name: 'apps-users-edit', params: { id: personas.id } }">&ndash;&gt;-->
+        <!--            &lt;!&ndash;              <feather-icon icon="EditIcon"/>&ndash;&gt;-->
+        <!--            &lt;!&ndash;              <span class="align-middle ml-50">Edit</span>&ndash;&gt;-->
+        <!--            &lt;!&ndash;            </b-dropdown-item>&ndash;&gt;-->
+
+        <!--            <b-dropdown-item>-->
+        <!--              <feather-icon icon="TrashIcon"/>-->
+        <!--              <span class="align-middle ml-50">Delete</span>-->
+        <!--            </b-dropdown-item>-->
+        <!--          </b-dropdown>-->
+        <!--        </template>-->
+
+
       </b-table>
-      <div class="mx-2 mb-2 pt-2" >
+      <div class="mx-2 mb-2 pt-2">
         <b-row>
           <b-col
               cols="12"
@@ -145,7 +189,7 @@
 <script>
 import {
   BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
-  BBadge, BDropdown, BDropdownItem, BPagination,
+  BBadge, BDropdown, BDropdownItem, BPagination, BListGroup, BListGroupItem,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 import store from '@/store'
@@ -170,13 +214,16 @@ export default {
     BDropdown,
     BDropdownItem,
     BPagination,
+    BListGroup,
+    BListGroupItem,
     vSelect,
   },
 
   data() {
     return {
       listClients: [],
-      fields: [ 'id', 'company_legal_name', 'dba', 'company_type', 'tin', 'nature_of_business', 'contract_start_date', 'actions'],
+      search: '',
+      fields: ['id', 'company_legal_name', 'dba', 'company_type', 'tin', 'nature_of_business', 'contract_start_date', 'actions'],
     }
   },
   methods: {
@@ -187,7 +234,7 @@ export default {
     }
   },
   mounted() {
-   this.getClientes();
+    this.getClientes();
   }
 }
 </script>
@@ -195,6 +242,27 @@ export default {
 <style lang="scss" scoped>
 .per-page-selector {
   width: 90px;
+}
+.urlPagina {
+  text-decoration: none;
+}
+
+.urlPagina::before {
+  background-color: currentColor !important;
+  bottom: 0;
+  content: "";
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+  transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+}
+
+.box {
+  box-shadow: 0px 14px 20px 0px rgba(143, 143, 143, 0.2) !important;
 }
 </style>
 

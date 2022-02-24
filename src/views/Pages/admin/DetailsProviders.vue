@@ -3,9 +3,8 @@
       id="user-profile"
   >
 
-    <component :is="info.corporate_account === undefined ? 'b-card' : 'b-card'">
+    <component :is=" 'b-card'">
       <b-tabs
-          v-if="info.corporate_account || info.amera_admin"
           pills
       >
 
@@ -20,7 +19,7 @@
             <span class="d-none d-sm-inline">Account</span>
           </template>
           <user-view-profile-provider
-              :data-Provider="id"
+              :data-provider="infoUserProviders"
               class="mt-2 pt-75"
           />
         </b-tab>
@@ -36,6 +35,7 @@
             <span class="d-none d-sm-inline">Information</span>
           </template>
           <user-edit-tab-information
+              :info-user="infoUserProviders"
               class="mt-2 pt-75"/>
         </b-tab>
 
@@ -85,20 +85,23 @@ export default {
     UserEditTabInformation,
     UserEditTabSocial,
   },
-  props: {
-    id: {},
-  },
+
   data() {
     return {
       info: {},
-      id: this.$route.params.id,
+      infoUserProviders: {},
+
+      roleid: '',
     }
   },
-  created() {
-console.log(this.infoUserView)
+  methods: {
+    getProviders() {
+      this.infoUserProviders = this.$route.params.item
+      console.log(this.infoUserProviders)
+    }
   },
   mounted() {
-    this.info = this.$store.getters["Users/userData"].user;
+    this.getProviders()
     // console.log(this.info)
   }
 }

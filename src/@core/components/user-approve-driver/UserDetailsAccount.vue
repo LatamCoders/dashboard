@@ -12,7 +12,7 @@
         />
       </template>
       <h4 class="">
-        <span class="name-corporative">Jhon alphon</span>
+        <span class="name-corporative">{{ userData.name + ' ' + userData.lastname }}</span>
       </h4>
 
       <div class="d-flex flex-wrap">
@@ -47,7 +47,7 @@
               label="Name"
           >
             <b-form-input
-                value="Jhon alphon"
+                v-model="userData.name +' '+ userData.lastname "
                 disabled
             />
           </b-form-group>
@@ -57,7 +57,7 @@
               label="Gender"
           >
             <b-form-input
-                value="M"
+                v-model="userData.gender"
                 disabled
             />
           </b-form-group>
@@ -67,7 +67,7 @@
               label="Birthday"
           >
             <b-form-input
-                value="03/08/1970"
+                v-model="userData.birthday"
                 disabled
             />
           </b-form-group>
@@ -79,7 +79,7 @@
               label="Phone_number"
           >
             <b-form-input
-                value="3025555555"
+                v-model="userData.phone_number"
                 disabled
             />
           </b-form-group>
@@ -89,7 +89,7 @@
               label="Email"
           >
             <b-form-input
-                value="jose@jose.com"
+                v-model="userData.email"
                 disabled
             />
           </b-form-group>
@@ -99,7 +99,7 @@
               label="Address"
           >
             <b-form-input
-                value="New york city"
+                v-model="userData.address"
                 disabled
             />
           </b-form-group>
@@ -109,20 +109,20 @@
 
 
     <!-- Action Buttons -->
-    <!--    <b-button-->
-    <!--        variant="primary"-->
-    <!--        class="mb-1 mb-sm-0 mr-0 mr-sm-1"-->
-    <!--        :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
-    <!--    >-->
-    <!--      Save Changes-->
-    <!--    </b-button>-->
-    <!--    <b-button-->
-    <!--        variant="outline-secondary"-->
-    <!--        type="reset"-->
-    <!--        :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
-    <!--    >-->
-    <!--      Reset-->
-    <!--    </b-button>-->
+        <b-button
+            variant="primary"
+            class="mb-1 mb-sm-0 mr-0 mr-sm-1"
+            :block="$store.getters['app/currentBreakPoint'] === 'xs'"
+        >
+          Update
+        </b-button>
+<!--        <b-button-->
+<!--            variant="outline-secondary"-->
+<!--            type="reset"-->
+<!--            :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
+<!--        >-->
+<!--          Reset-->
+<!--        </b-button>-->
   </div>
 </template>
 
