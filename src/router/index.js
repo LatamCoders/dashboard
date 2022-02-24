@@ -133,8 +133,9 @@ const router = new VueRouter({
             },
         },
         {
-            path: '/booking/approve-drivers/details',
+            path: '/booking/approve-drivers/:driver_id/details',
             name: 'details-driver-view',
+            props: true,
             component: () => import('@/views/Pages/admin/DetailsDriver.vue'),
             meta: {
                 pageTitle: 'Details driver',

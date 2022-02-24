@@ -222,8 +222,6 @@ export default {
     }
   },
 
-  setup() {
-  },
   // mounted() {
   //   console.log(this.infoUser)
   // }

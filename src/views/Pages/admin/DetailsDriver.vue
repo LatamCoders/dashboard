@@ -89,6 +89,20 @@ export default {
       },
     }
   },
+  methods: {
+    getInformationDriver() {
+      this.infoUser = this.$route.params.listDrivers
+      console.log(this.infoUser)
+      // this.$http.get(`admin/panel/${this.$route.params.driver_id}`)
+      //     .then((response) => {
+      //       this.infoUser = response.data.data
+      //     })
+      // console.log('hola')
+    }
+  },
+  mounted() {
+    this.getInformationDriver()
+  },
   created() {
   },
 }

@@ -52,11 +52,14 @@
           perPage="6"
       >
         <!-- Column: Actions -->
-        <template #cell(actions)="personas"  v-slot:item.actions="{ item }">
+
+        <template #cell(actions)="{ item }">
           <b-dropdown
               variant="link"
               no-caret
               :right="$store.state.appConfig.isRTL"
+              transition="scale-transition"
+              :offset-y="true"
           >
             <template #button-content>
               <feather-icon
@@ -65,22 +68,78 @@
                   class="align-middle text-body"
               />
             </template>
-            <b-dropdown-item :to="{ name: 'details-driver-view' }">
-              <feather-icon icon="FileTextIcon"/>
-              <span class="align-middle ml-50">Details</span>
-            </b-dropdown-item>
-
-            <!--            <b-dropdown-item :to="{ name: 'apps-users-edit', params: { id: personas.id } }">-->
-            <!--              <feather-icon icon="EditIcon"/>-->
-            <!--              <span class="align-middle ml-50">Edit</span>-->
-            <!--            </b-dropdown-item>-->
-
-            <b-dropdown-item >
-              <feather-icon icon="TrashIcon"/>
-              <span class="align-middle ml-50">Delete</span>
-            </b-dropdown-item>
+            <template style="padding: 0"  v-slot:activator="{ on, attrs }">
+              <b-btn color="primary" v-bind="attrs" v-on="on" icon ripple>
+              </b-btn>
+            </template>
+            <b-list-group  style="padding: 2px; margin-bottom: 2px" dense rounded>
+              <router-link class="urlPagina"
+                           :to="{ name: 'details-driver-view', params: { driver_id: item.driver_id, listDrivers: listDrivers } }"
+              >
+                <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
+                  <b-list-group-item class="font-weight-bold"
+                                     style="border: none; padding: 5px"
+                  >
+                    <feather-icon icon="FileTextIcon"/>
+                    Details
+                  </b-list-group-item
+                  >
+                </b-list-group-item>
+              </router-link>
+            </b-list-group>
+            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
+              <router-link class="urlPagina"
+                           :to="{ name: 'details-driver-view', params: { driver_id: item.driver_id } }"
+              >
+                <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
+                  <b-list-group-item class="font-weight-bold"
+                                     style="border: none; padding: 5px"
+                  >
+                    <feather-icon icon="TrashIcon"/>
+                    Delete
+                  </b-list-group-item
+                  >
+                </b-list-group-item>
+              </router-link>
+            </b-list-group>
           </b-dropdown>
         </template>
+
+
+        <!--        <template #cell(actions)="item" v-slot:item.actions="{ item }" v-for="(driverid, key) in listDrivers">-->
+        <!--          <b-dropdown-->
+        <!--              :key="key"-->
+        <!--              variant="link"-->
+        <!--              no-caret-->
+        <!--              :right="$store.state.appConfig.isRTL"-->
+        <!--          >-->
+        <!--            <template #button-content>-->
+        <!--              <feather-icon-->
+        <!--                  icon="MoreVerticalIcon"-->
+        <!--                  size="16"-->
+        <!--                  class="align-middle text-body"-->
+        <!--              />-->
+        <!--            </template>-->
+        <!--            <template>-->
+        <!--              <b-dropdown-item>-->
+        <!--                <router-link :to="{ name: 'details-driver-view', params: { driver_id: item.driverid } }">-->
+        <!--                  <feather-icon icon="FileTextIcon"/>-->
+        <!--                  <span class="align-middle ml-50">Details</span>-->
+        <!--                </router-link>-->
+        <!--              </b-dropdown-item>-->
+        <!--            </template>-->
+
+        <!--            &lt;!&ndash;            <b-dropdown-item :to="{ name: 'apps-users-edit', params: { id: personas.id } }">&ndash;&gt;-->
+        <!--            &lt;!&ndash;              <feather-icon icon="EditIcon"/>&ndash;&gt;-->
+        <!--            &lt;!&ndash;              <span class="align-middle ml-50">Edit</span>&ndash;&gt;-->
+        <!--            &lt;!&ndash;            </b-dropdown-item>&ndash;&gt;-->
+
+        <!--            <b-dropdown-item>-->
+        <!--              <feather-icon icon="TrashIcon"/>-->
+        <!--              <span class="align-middle ml-50">Delete</span>-->
+        <!--            </b-dropdown-item>-->
+        <!--          </b-dropdown>-->
+        <!--        </template>-->
       </b-table>
       <div class="mx-2 mb-2">
         <b-row>
@@ -90,9 +149,9 @@
               sm="6"
               class="d-flex align-items-center justify-content-center justify-content-sm-start"
           >
-<!--            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{-->
-<!--                dataMeta.of-->
-<!--              }} entries</span>-->
+            <!--            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{-->
+            <!--                dataMeta.of-->
+            <!--              }} entries</span>-->
           </b-col>
           <!-- Pagination -->
           <b-col
@@ -135,11 +194,12 @@
 <script>
 import {
   BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
-  BBadge, BDropdown, BDropdownItem, BPagination,
+  BBadge, BDropdown, BDropdownItem, BPagination, BListGroup, BListGroupItem,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 
 import UserListAddNew from '@core/components/infoClients/UserListAddNew'
+
 export default {
   components: {
     UserListAddNew,
@@ -156,6 +216,8 @@ export default {
     BDropdown,
     BDropdownItem,
     BPagination,
+    BListGroup,
+    BListGroupItem,
     vSelect,
   },
   data() {
@@ -163,19 +225,25 @@ export default {
       currentPage: '',
       perPage: 0,
       listDrivers: [],
+      detailDrivers: {},
       search: '',
-      fields: ['driver_id', 'name', 'lastname', 'gender', 'phone_number', 'phone_number_verified_at', 'email', 'email_verified_at', 'address',  'actions'],
+      fields: ['driver_id', 'name', 'lastname', 'gender', 'phone_number', 'phone_number_verified_at', 'email', 'email_verified_at', 'address', 'actions'],
     }
   },
   methods: {
     getDrivers() {
-      this.$http.get(`admin/panel/driver/list`).then((response) => {
-        this.listDrivers = response.data.data;
-      }).catch((res) => console.log(res.data))
+      this.$http.get(`admin/panel/driver/list`)
+          .then((response) => {
+            this.listDrivers = response.data.data
+            this.detailDrivers = response.data.data
+            // for (this.detailDrivers of this.listDrivers){
+            console.log(this.detailDrivers)
+          })
+          .catch((res) => console.log(res.data))
     },
   },
   mounted() {
-    this.getDrivers();
+    this.getDrivers()
   }
 }
 </script>
@@ -188,4 +256,26 @@ export default {
 
 <style lang="scss">
 @import '@core/scss/vue/libs/vue-select.scss';
+
+.urlPagina {
+  text-decoration: none;
+}
+
+.urlPagina::before {
+  background-color: currentColor !important;
+  bottom: 0;
+  content: "";
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+  transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+}
+
+.box {
+  box-shadow: 0px 14px 20px 0px rgba(143, 143, 143, 0.2) !important;
+}
 </style>
