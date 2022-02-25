@@ -1,6 +1,7 @@
 <template>
   <div class="cols-12 col-xl-12 "
-       style="margin: 0 auto">
+       style="margin: 0 auto"
+  >
     <form-wizard
         color="#7367F0"
         :title="null"
@@ -13,69 +14,69 @@
         ref="assignDriver"
     >
       <!-- account detail tab -->
-      <tab-content
-          title="Applicant"
-          icon=""
-      >
-        <b-row>
-          <b-col
-              cols="12"
-              class="mb-2"
-          >
-            <h5 class="mb-0">
-              Ordered by
-            </h5>
-            <small class="text-muted">
+      <!--      <tab-content-->
+      <!--          title="Applicant"-->
+      <!--          icon=""-->
+      <!--      >-->
+      <!--        <b-row>-->
+      <!--          <b-col-->
+      <!--              cols="12"-->
+      <!--              class="mb-2"-->
+      <!--          >-->
+      <!--            <h5 class="mb-0">-->
+      <!--              Ordered by-->
+      <!--            </h5>-->
+      <!--            <small class="text-muted">-->
 
-            </small>
-          </b-col>
-          <b-col md="4">
-            <b-form-group
-                label="Name"
-            >
-              <b-form-input
-                  value="Orlando"
-                  disabled
-                  style="font-weight: bold"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="4">
-            <b-form-group
-                label="Last Name"
-            >
-              <b-form-input
-                  value="Health"
-                  disabled
-                  style="font-weight: bold"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="4">
-            <b-form-group
-                label="Contact Number"
-            >
-              <b-form-input
-                  value="231217848"
-                  disabled
-                  style="font-weight: bold"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="4">
-            <b-form-group
-                label="Email"
-            >
-              <b-form-input
-                  type="email"
-                  value="orlandohealth@gmail.com"
-                  disabled
-                  style="font-weight: bold"
-              />
-            </b-form-group>
-          </b-col>
-        </b-row>
-      </tab-content>
+      <!--            </small>-->
+      <!--          </b-col>-->
+      <!--          <b-col md="4">-->
+      <!--            <b-form-group-->
+      <!--                label="Name"-->
+      <!--            >-->
+      <!--              <b-form-input-->
+      <!--                  value="Orlando"-->
+      <!--                  disabled-->
+      <!--                  style="font-weight: bold"-->
+      <!--              />-->
+      <!--            </b-form-group>-->
+      <!--          </b-col>-->
+      <!--          <b-col md="4">-->
+      <!--            <b-form-group-->
+      <!--                label="Last Name"-->
+      <!--            >-->
+      <!--              <b-form-input-->
+      <!--                  value="Health"-->
+      <!--                  disabled-->
+      <!--                  style="font-weight: bold"-->
+      <!--              />-->
+      <!--            </b-form-group>-->
+      <!--          </b-col>-->
+      <!--          <b-col md="4">-->
+      <!--            <b-form-group-->
+      <!--                label="Contact Number"-->
+      <!--            >-->
+      <!--              <b-form-input-->
+      <!--                  value="231217848"-->
+      <!--                  disabled-->
+      <!--                  style="font-weight: bold"-->
+      <!--              />-->
+      <!--            </b-form-group>-->
+      <!--          </b-col>-->
+      <!--          <b-col md="4">-->
+      <!--            <b-form-group-->
+      <!--                label="Email"-->
+      <!--            >-->
+      <!--              <b-form-input-->
+      <!--                  type="email"-->
+      <!--                  value="orlandohealth@gmail.com"-->
+      <!--                  disabled-->
+      <!--                  style="font-weight: bold"-->
+      <!--              />-->
+      <!--            </b-form-group>-->
+      <!--          </b-col>-->
+      <!--        </b-row>-->
+      <!--      </tab-content>-->
 
       <!-- personal details -->
       <tab-content
@@ -97,7 +98,7 @@
                 label="Name"
             >
               <b-form-input
-                  value="John"
+                  v-model="infoPatient.self_pay.name"
                   disabled
                   style="font-weight: bold"
               />
@@ -108,7 +109,7 @@
                 label="Last Name"
             >
               <b-form-input
-                  value="John"
+                  v-model="infoPatient.self_pay.lastname"
                   disabled
                   style="font-weight: bold"
               />
@@ -119,7 +120,7 @@
                 label="Contact Number"
             >
               <b-form-input
-                  value="15555555554"
+                  v-model="infoPatient.self_pay.phone_number"
                   disabled
                   style="font-weight: bold"
               />
@@ -130,7 +131,7 @@
                 label="Email"
             >
               <b-form-input
-                  value="Doe@gmail.com"
+                  v-model="infoPatient.self_pay.email"
                   disabled
                   style="font-weight: bold"
               />
@@ -156,10 +157,10 @@
           </b-col>
           <b-col md="4">
             <b-form-group
-                label="Date of Service"
+                label="Date of Service and Hour"
             >
               <b-form-input
-                  v-model="value"
+                  v-model="infoPatient.booking_date"
                   disabled
                   style="font-weight: bold"
               />
@@ -170,7 +171,7 @@
                 label="Time of Pickup"
             >
               <b-form-input
-                  value="98 Borough bridge Road, Birmingham"
+                  v-model="infoPatient.pickup_time"
                   disabled
                   style="font-weight: bold"
               />
@@ -192,7 +193,7 @@
                 label="City"
             >
               <b-form-input
-                  value="Birmingham"
+                  v-model="infoPatient.city"
                   disabled
                   style="font-weight: bold"
               />
@@ -205,7 +206,7 @@
               <b-form-input
                   disabled
                   style="font-weight: bold"
-                  value="Endoscopy"
+                  v-model="infoPatient.surgery_type"
               />
             </b-form-group>
           </b-col>
@@ -214,14 +215,15 @@
                 label="Pickup address"
             >
               <b-form-input
-                  value="98 Borough bridge Road, Birmingham"
+                  v-model="infoPatient.from"
                   disabled
                   style="font-weight: bold"
               />
             </b-form-group>
           </b-col>
-          <b-col md="4">
+          <b-col md="4"   v-if="infoPatient.additional_service.length > 0">
             <b-form-group
+
                 label="Additional stop"
             >
               <b-form-input
@@ -244,26 +246,26 @@
           </b-col>
           <b-col md="4">
             <b-form-group
-                label="Appointment date"
+                label="Appointment date and time"
             >
               <b-form-input
-                  value="8/01/2022"
+                  v-model="infoPatient.appoinment_datetime"
                   disabled
                   style="font-weight: bold"
               />
             </b-form-group>
           </b-col>
-          <b-col md="4">
-            <b-form-group
-                label="Appointment time"
-            >
-              <b-form-input
-                  value="08:00"
-                  disabled
-                  style="font-weight: bold"
-              />
-            </b-form-group>
-          </b-col>
+<!--          <b-col md="4">-->
+<!--            <b-form-group-->
+<!--                label="Appointment time"-->
+<!--            >-->
+<!--              <b-form-input-->
+<!--                  value="08:00"-->
+<!--                  disabled-->
+<!--                  style="font-weight: bold"-->
+<!--              />-->
+<!--            </b-form-group>-->
+<!--          </b-col>-->
 
         </b-row>
       </tab-content>
@@ -285,27 +287,27 @@
           </b-col>
           <b-col md="6">
             <span style="display: block; margin-bottom: calc(0.438rem + 1px)">Select a driver</span>
-              <v-select
-                  v-model="idDriver"
-                  label="name"
-                  :options="listDrivers"
-                  :reduce="c => `${c.driver_id}`"
-              >
-<!--                <b-input-group-prepend is-text>-->
-<!--                  <feather-icon icon="SearchIcon"/>-->
-<!--                </b-input-group-prepend>-->
-                <template #option="{name, lastname}">
-                  {{ name }} {{ lastname }}
-                </template>
-                <template #option="{name, lastname}">
-                  {{ name }} {{ lastname }}
-                </template>
-              </v-select>
-<!--              <b-form-input-->
-<!--                  type="search"-->
-<!--                  placeholder="Jean frank"-->
-<!--                  v-model="listDrivers"-->
-<!--              />-->
+            <v-select
+                v-model="idDriver"
+                label="name"
+                :options="listDrivers"
+                :reduce="c => `${c.driver_id}`"
+            >
+              <!--                <b-input-group-prepend is-text>-->
+              <!--                  <feather-icon icon="SearchIcon"/>-->
+              <!--                </b-input-group-prepend>-->
+              <template #option="{name, lastname}">
+                {{ name }} {{ lastname }}
+              </template>
+              <template #option="{name, lastname}">
+                {{ name }} {{ lastname }}
+              </template>
+            </v-select>
+            <!--              <b-form-input-->
+            <!--                  type="search"-->
+            <!--                  placeholder="Jean frank"-->
+            <!--                  v-model="listDrivers"-->
+            <!--              />-->
           </b-col>
           <b-col md="6">
             <b-form-group
@@ -369,7 +371,7 @@
 </template>
 
 <script>
-import {FormWizard, TabContent} from 'vue-form-wizard'
+import { FormWizard, TabContent } from 'vue-form-wizard'
 import vSelect from 'vue-select'
 
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
@@ -431,46 +433,50 @@ export default {
       selectedContry: 'select_value',
       selectedLanguage: 'nothing_selected',
       option: [
-        {title: 'Wait and return'},
-        {title: 'Pharmacy stop'},
-        {title: 'Additional stop'},
+        { title: 'Wait and return' },
+        { title: 'Pharmacy stop' },
+        { title: 'Additional stop' },
       ],
       buscar: '',
       listDrivers: [],
       idDriver: '',
       escogido: this.buscar,
+
+      //get info route patient
+      infoPatient: {},
+
       listado: [
         {
-          id: "1",
-          nombre: "Sandshrew",
-          fortaleza: "Veneno",
-          debilidad: "Agua",
-          tipo: "Tierra",
-          img: "a.png"
+          id: '1',
+          nombre: 'Sandshrew',
+          fortaleza: 'Veneno',
+          debilidad: 'Agua',
+          tipo: 'Tierra',
+          img: 'a.png'
         },
         {
-          id: "2",
-          nombre: "Squirtle",
-          fortaleza: "Fuego",
-          debilidad: "Electricidad",
-          tipo: "Agua",
-          img: "b.png"
+          id: '2',
+          nombre: 'Squirtle',
+          fortaleza: 'Fuego',
+          debilidad: 'Electricidad',
+          tipo: 'Agua',
+          img: 'b.png'
         },
         {
-          id: "3",
-          nombre: "Charmander",
-          fortaleza: "Fuego",
-          debilidad: "Agua",
-          tipo: "Fuego",
-          img: "c.png"
+          id: '3',
+          nombre: 'Charmander',
+          fortaleza: 'Fuego',
+          debilidad: 'Agua',
+          tipo: 'Fuego',
+          img: 'c.png'
         },
         {
-          id: "4",
-          nombre: "Caterpie",
-          fortaleza: "Planta",
-          debilidad: "Fuego",
-          tipo: "Bicho",
-          img: "d.png"
+          id: '4',
+          nombre: 'Caterpie',
+          fortaleza: 'Planta',
+          debilidad: 'Fuego',
+          tipo: 'Bicho',
+          img: 'd.png'
         },
       ],
     }
@@ -490,7 +496,7 @@ export default {
       })
       this.$http.post(`admin/panel/booking/1/assignDriver/${this.idDriver}`)
           .then((response) => {
-            if(response.data.status === 200) {
+            if (response.data.status === 200) {
               this.$swal({
                 title: response.data.message,
                 icon: 'success',
@@ -499,10 +505,10 @@ export default {
                 },
                 buttonsStyling: false,
               })
-              this.$refs.assignDriver.reset();
-            }else {
+              this.$refs.assignDriver.reset()
+            } else {
               this.$swal({
-                title: response.data.message,
+                title: response.data,
                 icon: 'error',
                 customClass: {
                   confirmButton: 'btn btn-primary',
@@ -510,24 +516,44 @@ export default {
                 buttonsStyling: false,
               })
             }
-          }).catch((error) => {console.log(error.message)})
+          })
+          .catch((error) => {
+            this.$swal({
+              title: error.message,
+              icon: 'error',
+              customClass: {
+                confirmButton: 'btn btn-primary',
+              },
+              buttonsStyling: false,
+            })
+            console.log(error.message)
+          })
     },
     getDrivers() {
-      this.$http.get(`admin/panel/driver/list`).then((response) => {
-        this.listDrivers = response.data.data;
-      }).catch((res) => console.log(res.data))
+      this.$http.get(`admin/panel/driver/list`)
+          .then((response) => {
+            this.listDrivers = response.data.data
+          })
+          .catch((res) => console.log(res.data))
     },
+    getPatients() {
+      this.infoPatient = this.$route.params.item;
+    }
 
   },
   computed: {
     items() {
       return this.listado.filter(item => {
-        return item.nombre.toLowerCase().includes(this.buscar.toLowerCase());
-      });
+        return item.nombre.toLowerCase()
+            .includes(this.buscar.toLowerCase())
+      })
     },
   },
   created() {
     this.getDrivers()
+  },
+  mounted() {
+    this.getPatients()
   }
 }
 </script>

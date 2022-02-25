@@ -125,8 +125,9 @@ const router = new VueRouter({
             },
         },
         {
-            path: '/booking/assign-driver/details-assign-driver',
+            path: '/booking/assign-driver/details-assign-driver/:booking_id',
             name: 'details-assign-driver',
+            props: true,
             component: () => import('@/views/Pages/admin/DetailsAssignDriver.vue'),
             meta: {
                 pageTitle: 'Details assign driver',

@@ -1,20 +1,17 @@
 <template>
 
   <div>
-
-    <!--    <user-list-add-new-->
-    <!--        :is-add-new-user-sidebar-active.sync="isAddNewUserSidebarActive"-->
-    <!--        :plan-options="planOptions"-->
-    <!--        @refetch-data="refetchData"-->
-    <!--    />-->
     <!-- Table Container Card -->
     <b-card
         no-body
         class="mb-0"
     >
+
       <div class="m-2">
+
         <!-- Table Top -->
         <b-row>
+
           <!-- Per Page -->
           <b-col
               cols="12"
@@ -23,10 +20,7 @@
           >
             <label>Show</label>
             <v-select
-                v-model="perPage"
-                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                :options="perPageOptions"
-                :clearable="false"
+
                 class="per-page-selector d-inline-block mx-50"
             />
             <label>entries</label>
@@ -43,11 +37,6 @@
                   class="d-inline-block mr-1"
                   placeholder="Search..."
               />
-              <b-button
-                  variant="primary"
-              >
-                <span class="text-nowrap">Search</span>
-              </b-button>
             </div>
           </b-col>
         </b-row>
@@ -59,27 +48,21 @@
           class="position-relative"
           responsive
           primary-key="id"
-          :items="personas"
-          :fields="fields"
+          :items="listClients"
           empty-text="No matching records found"
+          show-empty
+          :fields="fields"
+          :filter="searchQuery"
+          :perPage="perPage"
       >
-        <!-- Column: Status -->
-        <template #cell(status)="personas">
-          <b-badge
-              pill
-              :variant="`light-${resolveUserStatusVariant(personas.status)}`"
-              class="text-capitalize"
-          >
-            {{ personas.status }}
-          </b-badge>
-        </template>
-
         <!-- Column: Actions -->
-        <template #cell(actions)="personas">
+        <template #cell(actions)="{ item }">
           <b-dropdown
               variant="link"
               no-caret
               :right="$store.state.appConfig.isRTL"
+              transition="scale-transition"
+              :offset-y="true"
           >
             <template #button-content>
               <feather-icon
@@ -88,22 +71,43 @@
                   class="align-middle text-body"
               />
             </template>
-            <b-dropdown-item :to="{ name: 'details-assign-driver', params: { id: personas.id } }">
-              <feather-icon icon="UserCheckIcon"/>
-              <span class="align-middle ml-50">Assign driver</span>
-            </b-dropdown-item>
-
-            <!--            <b-dropdown-item :to="{ name: 'apps-users-edit', params: { id: personas.id } }">-->
-            <!--              <feather-icon icon="EditIcon"/>-->
-            <!--              <span class="align-middle ml-50">Edit</span>-->
-            <!--            </b-dropdown-item>-->
-
-            <b-dropdown-item >
-              <feather-icon icon="TrashIcon"/>
-              <span class="align-middle ml-50">Delete</span>
-            </b-dropdown-item>
+            <template style="padding: 0"  v-slot:activator="{ on, attrs }">
+              <b-btn color="primary" v-bind="attrs" v-on="on" icon ripple>
+              </b-btn>
+            </template>
+            <b-list-group  style="padding: 2px; margin-bottom: 2px" dense rounded>
+              <router-link class="urlPagina"
+                           :to="{ name: 'details-assign-driver', params: { booking_id: item.booking_id, item: item } }"
+              >
+                <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
+                  <b-list-group-item class="font-weight-bold"
+                                     style="border: none; padding: 5px"
+                  >
+                    <feather-icon icon="FileTextIcon"/>
+                    Details
+                  </b-list-group-item
+                  >
+                </b-list-group-item>
+              </router-link>
+            </b-list-group>
+            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
+              <router-link class="urlPagina"
+                           :to="{ name: 'details-driver-view' }"
+              >
+                <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
+                  <b-list-group-item class="font-weight-bold"
+                                     style="border: none; padding: 5px"
+                  >
+                    <feather-icon icon="TrashIcon"/>
+                    Delete
+                  </b-list-group-item
+                  >
+                </b-list-group-item>
+              </router-link>
+            </b-list-group>
           </b-dropdown>
         </template>
+
       </b-table>
       <div class="mx-2 mb-2">
         <b-row>
@@ -113,9 +117,9 @@
               sm="6"
               class="d-flex align-items-center justify-content-center justify-content-sm-start"
           >
-            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{
-                dataMeta.of
-              }} entries</span>
+            <!--            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{-->
+            <!--                dataMeta.of-->
+            <!--              }} entries</span>-->
           </b-col>
           <!-- Pagination -->
           <b-col
@@ -125,9 +129,9 @@
           >
 
             <b-pagination
+                :per-page="perPage"
                 v-model="currentPage"
                 :total-rows="totalUsers"
-                :per-page="perPage"
                 first-number
                 last-number
                 class="mb-0 mt-1 mt-sm-0"
@@ -159,16 +163,11 @@
 <script>
 import {
   BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
-  BBadge, BDropdown, BDropdownItem, BPagination,
+  BBadge, BDropdown, BDropdownItem, BPagination, BListGroup, BListGroupItem,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
-import store from '@/store'
-import { ref, onUnmounted } from '@vue/composition-api'
-import { avatarText } from '@core/utils/filter'
+
 // import UsersListFilters from './UsersListFilters.vue'
-import UsersListFilters from '/src/@core/components/infoClients/UsersListFilters.vue'
-import useUsersList from '/src/@core/components/infoClients/useUsersList'
-import userStoreModule from '@core/components/users-view/userStoreModule'
 import UserListAddNew from '@core/components/infoClients/UserListAddNew'
 export default {
   components: {
@@ -186,134 +185,63 @@ export default {
     BDropdown,
     BDropdownItem,
     BPagination,
+    BListGroup,
+    BListGroupItem,
     vSelect,
   },
-  setup() {
-    const USER_APP_STORE_MODULE_NAME = 'app-user'
-    // Register module
-    if (!store.hasModule(USER_APP_STORE_MODULE_NAME)) store.registerModule(USER_APP_STORE_MODULE_NAME, userStoreModule)
-    // UnRegister on leave
-    onUnmounted(() => {
-      if (store.hasModule(USER_APP_STORE_MODULE_NAME)) store.unregisterModule(USER_APP_STORE_MODULE_NAME)
-    })
-    const isAddNewUserSidebarActive = ref(false)
-    const statusOptions = [
-      {
-        label: 'Pending',
-        value: 'pending'
-      },
-      {
-        label: 'Active',
-        value: 'active'
-      },
-      {
-        label: 'Inactive',
-        value: 'inactive'
-      },
-    ]
-    const {
-      fetchUsers,
-      tableColumns,
-      perPage,
-      currentPage,
-      totalUsers,
-      dataMeta,
-      perPageOptions,
-      searchQuery,
-      sortBy,
-      isSortDirDesc,
-      refUserListTable,
-      refetchData,
-      // UI
-      resolveUserRoleVariant,
-      resolveUserRoleIcon,
-      resolveUserStatusVariant,
-      // Extra Filters
-      roleFilter,
-      planFilter,
-      statusFilter,
-    } = useUsersList()
+  data() {
     return {
-      fields: ['id', 'Name', 'email', 'tel_number', 'Date_of_service', 'City', 'actions'],
-      personas: [
-        {
-          id: 1,
-          email: 'Dickerson@mail.com',
-          tel_number: '6555122',
-          Date_of_service: '03/09/2022',
-          City: 'Oklahoma',
-          DateOfTrips: '03/08/2022',
-          HomeTelephoneNumber: '358185488',
-          Name: 'Jhon alphon',
-          state: 'Passed',
-        },
-        {
-          id: 2,
-          email: 'Larsen@mail.com',
-          tel_number: '6225122',
-          City: 'Oklahoma',
-          Date_of_service: '03/09/2022',
-          DateOfTrips: '01/05/2022',
-          NameDriver: 'Will smith',
-          HomeTelephoneNumber: '818355488',
-          state: 'Passed',
-        },
-        {
-          id: 3,
-          email: 'Geneva@mail.com',
-          tel_number: '3225122',
-          HomeAddress: 'Arizona',
-          AddressEnd: 'State of california',
-          DateOfTrips: '03/09/2022',
-          NameDriver: 'Jean Paul',
-          HomeTelephoneNumber: '488358185',
-          state: 'Passed',
-        },
-        {
-          id: 4,
-          email: 'Jami.carney@mail.com',
-          tel_number: '311155122',
-          HomeAddress: 'Texas',
-          AddressEnd: 'State of california',
-          DateOfTrips: '23/11/2022',
-          NameDriver: 'Albert Austin',
-          HomeTelephoneNumber: '354885818',
-          state: 'Passed',
-        },
-      ],
-      // Sidebar
-      isAddNewUserSidebarActive,
-      fetchUsers,
-      tableColumns,
-      perPage,
-      currentPage,
-      totalUsers,
-      dataMeta,
-      perPageOptions,
-      searchQuery,
-      sortBy,
-      isSortDirDesc,
-      refUserListTable,
-      refetchData,
-      // Filter
-      avatarText,
-      // UI
-      resolveUserRoleVariant,
-      resolveUserRoleIcon,
-      resolveUserStatusVariant,
-      statusOptions,
-      // Extra Filters
-      roleFilter,
-      planFilter,
-      statusFilter,
+      listClients: [],
+      perPage: 6,
+      currentPage: 1 ,
+      totalUsers: 0,
+      valortotal: 0,
+      searchQuery: '',
+      fields: ['selfpay_id', 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime',  'city', 'actions'],
     }
   },
+  methods: {
+    getClientes() {
+      this.$http.get(`admin/panel/booking/list?status=0`).then((response) => {
+        this.listClients = response.data.data;
+        this.valortotal = this.listClients.length;
+        this.totalUsers = this.valortotal;
+        this.perPage = this.valortotal;
+
+      }).catch((res) => console.log(res.data))
+    },
+
+  },
+  mounted() {
+    this.getClientes();
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 .per-page-selector {
   width: 90px;
+}
+.urlPagina {
+  text-decoration: none;
+}
+
+.urlPagina::before {
+  background-color: currentColor !important;
+  bottom: 0;
+  content: "";
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+  transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+}
+
+.box {
+  box-shadow: 0px 14px 20px 0px rgba(143, 143, 143, 0.2) !important;
 }
 </style>
 
