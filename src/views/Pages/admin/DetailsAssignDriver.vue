@@ -177,17 +177,17 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="4">
-            <b-form-group
-                label="Time of Appt"
-            >
-              <b-form-input
-                  value="658921"
-                  disabled
-                  style="font-weight: bold"
-              />
-            </b-form-group>
-          </b-col>
+<!--          <b-col md="4">-->
+<!--            <b-form-group-->
+<!--                label="Time of Appt"-->
+<!--            >-->
+<!--              <b-form-input-->
+<!--                  value="658921"-->
+<!--                  disabled-->
+<!--                  style="font-weight: bold"-->
+<!--              />-->
+<!--            </b-form-group>-->
+<!--          </b-col>-->
           <b-col md="4">
             <b-form-group
                 label="City"
@@ -494,9 +494,8 @@ export default {
           this.$swal.showLoading()
         }
       })
-      this.$http.post(`admin/panel/booking/1/assignDriver/${this.idDriver}`)
+      this.$http.post(`admin/panel/booking/${this.infoPatient.id}/assignDriver/${this.idDriver}`)
           .then((response) => {
-            if (response.data.status === 200) {
               this.$swal({
                 title: response.data.message,
                 icon: 'success',
@@ -506,27 +505,17 @@ export default {
                 buttonsStyling: false,
               })
               this.$refs.assignDriver.reset()
-            } else {
-              this.$swal({
-                title: response.data,
-                icon: 'error',
-                customClass: {
-                  confirmButton: 'btn btn-primary',
-                },
-                buttonsStyling: false,
-              })
-            }
+
           })
           .catch((error) => {
             this.$swal({
-              title: error.message,
+              title: error.response.data.data,
               icon: 'error',
               customClass: {
                 confirmButton: 'btn btn-primary',
               },
               buttonsStyling: false,
             })
-            console.log(error.message)
           })
     },
     getDrivers() {
