@@ -38,6 +38,17 @@
               class="d-inline d-sm-none"
           />
         </b-button>
+        <b-button
+            :variant="inhabilitar === true ? 'primary' : 'primary' "
+            class="ml-1"
+            @click="aprobarCA"
+        >
+          <span class="d-none d-sm-inline">Approve</span>
+          <feather-icon
+              icon="TrashIcon"
+              class="d-inline d-sm-none"
+          />
+        </b-button>
       </div>
     </b-media>
 
@@ -91,13 +102,20 @@
             </template>
 
             <template v-if="inhabilitar === false">
-              <v-select
+              <b-form-select
                   :disabled="inhabilitar === true"
-                  :options="option"
-                  v-model="roleid"
-                  label="Role"
+                  v-model="changeStatus.userId"
+                  :options="option" label="Role"
                   :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-              />
+              >
+              </b-form-select>
+              <!--              <v-select-->
+              <!--                  :disabled="inhabilitar === true"-->
+              <!--                  :options="option"-->
+              <!--                  v-model="roleid"-->
+              <!--                  label="Role"-->
+              <!--                  :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"-->
+              <!--              />-->
             </template>
 
           </b-form-group>
@@ -270,11 +288,12 @@ import {
   BCardHeader,
   BCardTitle,
   BFormCheckbox,
+  BFormSelect,
 } from 'bootstrap-vue'
-import {avatarText} from '@core/utils/filter'
+import { avatarText } from '@core/utils/filter'
 import vSelect from 'vue-select'
-import {useInputImageRenderer} from '@core/comp-functions/forms/form-utils'
-import {ref} from '@vue/composition-api'
+import { useInputImageRenderer } from '@core/comp-functions/forms/form-utils'
+import { ref } from '@vue/composition-api'
 // import useUsersList from '/src/@core/components/user/users-list/useUsersList'
 
 export default {
@@ -292,6 +311,7 @@ export default {
     BCardHeader,
     BCardTitle,
     BFormCheckbox,
+    BFormSelect,
     vSelect,
   },
   props: {
@@ -300,12 +320,49 @@ export default {
   data() {
     return {
       inhabilitar: true,
-      roleid: '',
+      changeStatus: {
+        userId: '',
+      },
       option: [
-        {label: 'Admin', code: '2'},
-        {label: 'Corporate account', code: '3'},
-        {label: 'Super Admin', code: '1'},
+        {
+          text: 'Super Admin',
+          value: 1
+        },
+        {
+          text: 'Admin',
+          value: 2
+        },
+        {
+          text: 'Corporate account',
+          value: 3
+        },
       ],
+    }
+  },
+  methods: {
+    aprobarCA() {
+     this.changeStatus.userId = this.dataProvider.amera_user.id;
+      this.$http.post('admin/panel/users/change-user-status', this.changeStatus)
+          .then((response) => {
+            this.$swal({
+              title: response.data.message,
+              icon: 'success',
+              customClass: {
+                confirmButton: 'btn btn-primary',
+              },
+              buttonsStyling: false,
+            })
+          })
+          .catch((error) => {
+            this.$swal({
+              title: error.response.data.data,
+              icon: 'error',
+              customClass: {
+                confirmButton: 'btn btn-primary',
+              },
+              buttonsStyling: false,
+            })
+          })
     }
   },
   mounted() {
