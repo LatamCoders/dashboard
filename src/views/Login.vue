@@ -35,11 +35,6 @@
             class="px-xl-2 mx-auto form-login"
         >
 
-<!--          <b-row class="mb-1" v-if="btnUser !== ''">-->
-<!--            <b-button class="mx-1 btn-icon sigin" v-model="atras" @click="retornarInicio">-->
-<!--              <feather-icon icon="ArrowLeftIcon"/>-->
-<!--            </b-button>-->
-<!--          </b-row>-->
           <b-card-title
               title-tag="h2"
               class="font-weight-bold mb-1"
@@ -49,16 +44,6 @@
           <b-card-text class="mb-2">
             Please sign-in to your account and start the adventure
           </b-card-text>
-
-
-<!--          <b-card-text v-if="btnUser === ''">-->
-<!--            <b-row>-->
-<!--              <b-col class="d-flex" style="justify-content: space-around">-->
-<!--                <b-button class="sigin" @click="btnUser = 'admin'">I'm admin</b-button>-->
-<!--                <b-button class="sigin" @click="btnUser = 'CA'">I'm corporate account</b-button>-->
-<!--              </b-col>-->
-<!--            </b-row>-->
-<!--          </b-card-text>-->
 
           <!-- form Admin -->
           <transition name="fade" mode="out-in">
@@ -151,98 +136,6 @@
               </b-form>
             </validation-observer>
           </transition>
-
-          <!-- form corporate account -->
-<!--          <transition name="fade" mode="out-in">-->
-<!--            <validation-observer ref="loginValidation" v-if="btnUser === 'CA'">-->
-<!--              <b-form-->
-<!--                  class="auth-login-form mt-2"-->
-<!--                  @submit.prevent-->
-<!--              >-->
-<!--                &lt;!&ndash; email &ndash;&gt;-->
-<!--                <b-form-group-->
-<!--                    label="Email"-->
-<!--                    label-for="login-email"-->
-<!--                >-->
-<!--                  <validation-provider-->
-<!--                      #default="{ errors }"-->
-<!--                      name="Email"-->
-<!--                      rules="required|email"-->
-<!--                  >-->
-<!--                    <b-form-input-->
-<!--                        id="login-email"-->
-<!--                        v-model="person.userEmail"-->
-<!--                        :state="errors.length > 0 ? false:null"-->
-<!--                        name="login-email"-->
-<!--                        placeholder="john@example.com"-->
-<!--                    />-->
-<!--                    <small class="text-danger">{{ errors[0] }}</small>-->
-<!--                  </validation-provider>-->
-<!--                </b-form-group>-->
-
-<!--                &lt;!&ndash; forgot password &ndash;&gt;-->
-<!--                <b-form-group>-->
-<!--                  <div class="d-flex justify-content-between">-->
-<!--                    <label for="login-password">Password</label>-->
-<!--                    <b-link :to="{name:'forgot-password'}">-->
-<!--                      <small class="colors-login">Forgot Password?</small>-->
-<!--                    </b-link>-->
-<!--                  </div>-->
-<!--                  <validation-provider-->
-<!--                      #default="{ errors }"-->
-<!--                      name="Password"-->
-<!--                      rules="required"-->
-<!--                  >-->
-<!--                    <b-input-group-->
-<!--                        class="input-group-merge"-->
-<!--                        :class="errors.length > 0 ? 'is-invalid':null"-->
-<!--                    >-->
-<!--                      <b-form-input-->
-<!--                          id="login-password"-->
-<!--                          v-model="person.password"-->
-<!--                          :state="errors.length > 0 ? false:null"-->
-<!--                          class="form-control-merge"-->
-<!--                          :type="passwordFieldType"-->
-<!--                          name="login-password"-->
-<!--                          placeholder="············"-->
-<!--                      />-->
-<!--                      <b-input-group-append is-text>-->
-<!--                        <feather-icon-->
-<!--                            class="cursor-pointer"-->
-<!--                            :icon="passwordToggleIcon"-->
-<!--                            @click="togglePasswordVisibility"-->
-<!--                        />-->
-<!--                      </b-input-group-append>-->
-<!--                    </b-input-group>-->
-<!--                    <small class="text-danger">{{ errors[0] }}</small>-->
-<!--                  </validation-provider>-->
-<!--                </b-form-group>-->
-
-<!--                &lt;!&ndash; checkbox &ndash;&gt;-->
-<!--                <b-form-group>-->
-<!--                  <b-form-checkbox-->
-<!--                      id="remember-me"-->
-<!--                      v-model="status"-->
-<!--                      name="checkbox-1"-->
-<!--                  >-->
-<!--                    Remember Me-->
-<!--                  </b-form-checkbox>-->
-<!--                </b-form-group>-->
-
-<!--                &lt;!&ndash; submit buttons &ndash;&gt;-->
-<!--                <b-button-->
-<!--                    type="submit"-->
-<!--                    variant="primary"-->
-<!--                    block-->
-<!--                    @click="validationForm"-->
-<!--                    class="sigin"-->
-<!--                >-->
-<!--                  Sign in-->
-<!--                </b-button>-->
-<!--              </b-form>-->
-<!--            </validation-observer>-->
-<!--          </transition>-->
-
           <b-card-text class="text-center mt-2">
             <span>New on our platform? </span>
             <b-link :to="{name:'register'}">

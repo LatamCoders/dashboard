@@ -100,6 +100,9 @@ const router = new VueRouter({
                 pageTitle: 'Reservation to accepted',
             },
         },
+        //Rutas para booking
+
+        /*************** INITIO RUTA PARA BOOKING  *******************/
         {
             path: '/booking',
             name: 'booking-and-tracking',
@@ -142,16 +145,22 @@ const router = new VueRouter({
                 pageTitle: 'Details driver',
             },
         },
+        /*************** END RUTA PARA BOOKING   *******************/
+
+      //Rutas para opción del admin ver clientes
+
+      /*************** INITIO RUTA PARA CLIENT PROVED   *******************/
         {
-            path: '/providers',
+            path: '/clients/providers',
             name: 'providers',
+            props: true,
             component: () => import('@/views/Pages/admin/Providers.vue'),
             meta: {
-                pageTitle: 'Providers',
+                pageTitle: 'Providers drivers',
             },
         },
         {
-            path: '/providers/details-provider/:id',
+            path: '/clients/providers/:driver_id/details-provider',
             name: 'details-provider',
             props: true,
             component: () => import('@/views/Pages/admin/DetailsProviders.vue'),
@@ -159,6 +168,29 @@ const router = new VueRouter({
                 pageTitle: 'Details provider',
             },
         },
+        /*************** END RUTA PARA CLIENTE PROVEEDOR   *******************/
+
+        /*************** INITIO RUTA PARA CLIENT CORPORATE ACCOUNT   *******************/
+        {
+            path: '/clients/corporate-account',
+            name: 'clients',
+            component: () => import('@/views/Pages/admin/Clients.vue'),
+            meta: {
+                pageTitle: 'Corporate accounts',
+            },
+        },
+        {
+            path: '/clients/corporate-account/details-corporate-account/:id',
+            name: 'details-corporate-account',
+            props: true,
+            component: () => import('@/views/Pages/admin/DetailsClientsCorporateAccount.vue'),
+            meta: {
+                pageTitle: 'Details corporate account',
+            },
+        },
+        /*************** END RUTA PARA CLIENT CORPORATE ACCOUNT   *******************/
+
+
         {
             path: '/reports',
             name: 'reports',
@@ -167,6 +199,65 @@ const router = new VueRouter({
                 pageTitle: 'Reports',
             },
         },
+
+        /*************** INITIO ROUTE FOR REGISTERS  *******************/
+        {
+            path: '/register',
+            name: 'register',
+            component: () => import('@/views/Pages/Register.vue'),
+            meta: {
+                layout: 'full',
+            },
+        },
+        {
+            path: '/create-admin',
+            name: 'create-admin',
+            component: () => import('@/views/Pages/superadmin/CreateAdmin.vue'),
+            meta: {
+                pageTitle: 'Create admin',
+            },
+        },
+
+        /*************** END ROUTE FOR REGISTERS   *******************/
+        {
+            path: '/forgot-password',
+            name: 'forgot-password',
+            component: () => import('@/views/Pages/ForgotPassword.vue'),
+            meta: {
+                layout: 'full',
+            },
+        },
+        {
+            path: '/register-acount-corporative',
+            name: 'register-corporative',
+            component: () => import('@/views/Pages/RegisterCorporateAcount.vue'),
+            meta: {
+                layout: 'full',
+            },
+        },
+
+
+        {
+            path: '/profile',
+            name: 'profile',
+            component: () => import('@/views/Pages/profile/Profile.vue'),
+        },
+        {
+            path: '/profile/:client_id',
+            name: 'profile-patient',
+            props: true,
+            component: () => import('@/views/Pages/profile/ProfilePatient.vue'),
+        },
+        {
+            path: '/billing',
+            name: 'billing',
+            component: () => import('@/views/Pages/Billing.vue'),
+        },
+        // {
+        //     path: '/',
+        //     name: 'page-construction',
+        //     component: () => import('@/views/error/PageConstruction.vue'),
+        // },
         {
             path: '/',
             name: 'login',
@@ -184,41 +275,9 @@ const router = new VueRouter({
             },
         },
         {
-            path: '/clients',
-            name: 'clients',
-            component: () => import('@/views/Pages/admin/Clients.vue'),
-            meta: {
-                pageTitle: 'Clients',
-            },
-        },
-        {
             path: '/error-404',
             name: 'error-404',
             component: () => import('@/views/error/Error404.vue'),
-            meta: {
-                layout: 'full',
-            },
-        },
-        {
-            path: '/register',
-            name: 'register',
-            component: () => import('@/views/Pages/Register.vue'),
-            meta: {
-                layout: 'full',
-            },
-        },
-        {
-            path: '/register-acount-corporative',
-            name: 'register-corporative',
-            component: () => import('@/views/Pages/RegisterCorporateAcount.vue'),
-            meta: {
-                layout: 'full',
-            },
-        },
-        {
-            path: '/forgot-password',
-            name: 'forgot-password',
-            component: () => import('@/views/Pages/ForgotPassword.vue'),
             meta: {
                 layout: 'full',
             },
@@ -230,16 +289,6 @@ const router = new VueRouter({
             meta: {
                 layout: 'full',
             },
-        },
-        {
-            path: '/profile',
-            name: 'profile',
-            component: () => import('@/views/Pages/profile/Profile.vue'),
-        },
-        {
-            path: '/billing',
-            name: 'billing',
-            component: () => import('@/views/Pages/Billing.vue'),
         },
         {
             path: '*',

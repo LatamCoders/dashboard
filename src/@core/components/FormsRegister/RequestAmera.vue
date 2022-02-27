@@ -141,7 +141,7 @@
                     rules="required"
                 >
                   <b-form-input
-                      v-model="lispatient[0].phone_number"
+                      :v-model="lispatient == '' ? lastnombre : lispatient[0].phone_number"
                       :state="errors.length > 0 ? false:null"
                       disabled
                   />
@@ -158,7 +158,7 @@
                     rules="required|email"
                 >
                   <b-form-input
-                      v-model="lispatient[0].email"
+                      :v-model="lispatient == '' ? lastnombre : lispatient[0].email"
                       placeholder="Doe@gmail.com"
                       :state="errors.length > 0 ? false:null"
                       disabled

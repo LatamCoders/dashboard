@@ -22,16 +22,17 @@ export default [
     },
     {
         title: 'Bookings',
-        icon: 'MapPinIcon'
+        icon: 'MapPinIcon',
+        route: 'page-construction'
     },
     {
         title: 'Support',
-        route: '/',
+        route: '/page-construction',
         icon: 'GridIcon',
         children: [
             {
                 title: 'Difficult cases',
-                route: '/',
+                route: 'page-construction',
             },
         ],
     },

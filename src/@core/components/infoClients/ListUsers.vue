@@ -58,21 +58,23 @@
           responsive
           primary-key="id"
           :items="listClients"
-          empty-text="No matching records found"
+          empty-text="No patients found"
           :fields="fields"
           :filter="search"
           perPage="6"
+          show-empty
       >
 
 
         <!-- Column: Actions -->
-        <template #cell(actions)="data">
+        <template #cell(actions)="{ item }">
           <b-dropdown
               variant="link"
               no-caret
               :right="$store.state.appConfig.isRTL"
+              transition="scale-transition"
+              :offset-y="true"
           >
-
             <template #button-content>
               <feather-icon
                   icon="MoreVerticalIcon"
@@ -80,20 +82,40 @@
                   class="align-middle text-body"
               />
             </template>
-            <b-dropdown-item :to="{ name: 'profile', params: { id: data.item.id } }">
-              <feather-icon icon="FileTextIcon"/>
-              <span class="align-middle ml-50">Details</span>
-            </b-dropdown-item>
-
-<!--            <b-dropdown-item :to="{ name: 'apps-users-edit', params: { id: data.item.id } }">-->
-<!--              <feather-icon icon="EditIcon"/>-->
-<!--              <span class="align-middle ml-50">Edit</span>-->
-<!--            </b-dropdown-item>-->
-
-<!--            <b-dropdown-item>-->
-<!--              <feather-icon icon="TrashIcon"/>-->
-<!--              <span class="align-middle ml-50">Delete</span>-->
-<!--            </b-dropdown-item>-->
+            <template style="padding: 0"  v-slot:activator="{ on, attrs }">
+              <b-btn color="primary" v-bind="attrs" v-on="on" icon ripple>
+              </b-btn>
+            </template>
+            <b-list-group  style="padding: 2px; margin-bottom: 2px" dense rounded>
+              <router-link class="urlPagina"
+                           :to="{ name: 'profile-patient', params: { client_id: item.client_id, item: item } }"
+              >
+                <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
+                  <b-list-group-item class="font-weight-bold"
+                                     style="border: none; padding: 5px"
+                  >
+                    <feather-icon icon="FileTextIcon"/>
+                    Details
+                  </b-list-group-item
+                  >
+                </b-list-group-item>
+              </router-link>
+            </b-list-group>
+            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
+              <router-link class="urlPagina"
+                           :to="{ name: 'profile' }"
+              >
+                <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
+                  <b-list-group-item class="font-weight-bold"
+                                     style="border: none; padding: 5px"
+                  >
+                    <feather-icon icon="TrashIcon"/>
+                    Delete
+                  </b-list-group-item
+                  >
+                </b-list-group-item>
+              </router-link>
+            </b-list-group>
           </b-dropdown>
         </template>
 
@@ -148,16 +170,9 @@
 <script>
 import {
   BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
-  BBadge, BDropdown, BDropdownItem, BPagination,
+  BBadge, BDropdown, BDropdownItem, BPagination,BListGroup, BListGroupItem,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
-// import store from '@/store'
-// import { ref, onUnmounted } from '@vue/composition-api'
-// import { avatarText } from '@core/utils/filter'
-// import UsersListFilters from './UsersListFilters.vue'
-import UsersListFilters from '/src/@core/components/infoClients/UsersListFilters.vue'
-// import useUsersList from '/src/@core/components/infoClients/useUsersList'
-// import userStoreModule from '@core/components/users-view/userStoreModule'
 import UserListAddNew from '@core/components/infoClients/UserListAddNew'
 
 export default {
@@ -177,9 +192,11 @@ export default {
     BDropdown,
     BDropdownItem,
     BPagination,
-
+    BListGroup,
+    BListGroupItem,
     vSelect,
   },
+  name: 'ListUsers',
   data() {
     return {
       listClients: [],
@@ -212,6 +229,36 @@ export default {
 <style lang="scss" scoped>
 .per-page-selector {
   width: 90px;
+}.urlPagina {
+   text-decoration: none;
+ }
+
+ .urlPagina:hover {
+   background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
+   color: #fff;
+ }
+
+ .list-group-item:hover {
+   background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
+   color: #fff !important;
+ }
+
+.urlPagina::before {
+  //background-color: currentColor !important;
+  bottom: 0;
+  content: "";
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+  transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+}
+
+.box {
+  box-shadow: 0 14px 20px 0 rgba(143, 143, 143, 0.2) !important;
 }
 </style>
 

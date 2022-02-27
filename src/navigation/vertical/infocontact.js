@@ -25,8 +25,12 @@ export default [
         icon: 'UserIcon',
         children: [
             {
-                title: 'Clients',
+                title: 'Corporate accounts',
                 route: 'clients',
+            },
+            {
+                title: 'Providers',
+                route: 'providers',
             },
             {
                 title: 'Call/Chat center',
@@ -34,11 +38,11 @@ export default [
             },
         ],
     },
-    {
-      title: 'Providers',
-      route: 'providers',
-      icon: 'CheckSquareIcon',
-    },
+    // {
+    //   title: 'Providers',
+    //   route: 'providers',
+    //   icon: 'CheckSquareIcon',
+    // },
     {
       title: 'Reports',
       route: '/',

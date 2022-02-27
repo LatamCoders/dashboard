@@ -22,7 +22,12 @@ export default [
   {
     title: 'Assign role',
     route: '/',
-    icon: 'UserIcon'
+    icon: 'UserCheckIcon'
+  },
+  {
+    title: 'Create admin',
+    route: 'create-admin',
+    icon: 'UserPlusIcon'
   },
   {
     title: 'Consult clients',
@@ -30,8 +35,12 @@ export default [
     icon: 'UserIcon',
     children: [
       {
-        title: 'Clients',
+        title: 'Corporate accounts',
         route: 'clients',
+      },
+      {
+        title: 'Providers',
+        route: 'providers',
       },
       {
         title: 'Call/Chat center',
@@ -39,11 +48,7 @@ export default [
       },
     ],
   },
-  {
-    title: 'Providers',
-    route: 'providers',
-    icon: 'CheckSquareIcon',
-  },
+
   {
     title: 'Reports',
     route: '/',

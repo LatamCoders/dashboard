@@ -805,7 +805,7 @@ export default {
     },
     formSubmitted() {
       this.dataregister.type_of_cc = this.credito.title;
-      axios.post('https://Amera-test.herokuapp.com/api/v1/auth/ca/register', this.dataregister, {
+      axios.post('/auth/ca/register', this.dataregister, {
         headers: {
           'X-Requested-With': 'XMLHttpRequest'
         }

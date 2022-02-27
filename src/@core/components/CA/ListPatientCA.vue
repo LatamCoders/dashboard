@@ -1,13 +1,17 @@
 <template>
 
   <div>
+    <!-- Table Container Card -->
     <b-card
         no-body
         class="mb-0"
     >
+
       <div class="m-2">
+
         <!-- Table Top -->
         <b-row>
+
           <!-- Per Page -->
           <b-col
               cols="12"
@@ -17,7 +21,9 @@
             <label>Show</label>
             <v-select
 
+                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
 
+                :clearable="false"
                 class="per-page-selector d-inline-block mx-50"
             />
             <label>entries</label>
@@ -30,10 +36,16 @@
           >
             <div class="d-flex align-items-center justify-content-end">
               <b-form-input
+                  v-model="search"
                   class="d-inline-block mr-1"
                   placeholder="Search..."
-                  v-model="search"
               />
+              <!--              <b-button-->
+              <!--                  variant="primary"-->
+              <!--                  @click="items"-->
+              <!--              >-->
+              <!--                <span class="text-nowrap">Search</span>-->
+              <!--              </b-button>-->
             </div>
           </b-col>
         </b-row>
@@ -45,15 +57,16 @@
           class="position-relative"
           responsive
           primary-key="id"
-          :items="listDrivers"
+          :items="listClients"
+          empty-text="No registered patients found"
           :fields="fields"
-          empty-text="No matching records found"
           :filter="search"
           perPage="6"
           show-empty
       >
-        <!-- Column: Actions -->
 
+
+        <!-- Column: Actions -->
         <template #cell(actions)="{ item }">
           <b-dropdown
               variant="link"
@@ -75,7 +88,7 @@
             </template>
             <b-list-group  style="padding: 2px; margin-bottom: 2px" dense rounded>
               <router-link class="urlPagina"
-                           :to="{ name: 'details-driver-view', params: { driver_id: item.driver_id, item: item } }"
+                           :to="{ name: 'profile-patient', params: { client_id: item.client_id, item: item } }"
               >
                 <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
                   <b-list-group-item class="font-weight-bold"
@@ -90,7 +103,7 @@
             </b-list-group>
             <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
               <router-link class="urlPagina"
-                           :to="{ name: 'details-driver-view', params: { driver_id: item.driver_id } }"
+                           :to="{ name: 'profile' }"
               >
                 <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
                   <b-list-group-item class="font-weight-bold"
@@ -106,41 +119,6 @@
           </b-dropdown>
         </template>
 
-
-        <!--        <template #cell(actions)="item" v-slot:item.actions="{ item }" v-for="(driverid, key) in listDrivers">-->
-        <!--          <b-dropdown-->
-        <!--              :key="key"-->
-        <!--              variant="link"-->
-        <!--              no-caret-->
-        <!--              :right="$store.state.appConfig.isRTL"-->
-        <!--          >-->
-        <!--            <template #button-content>-->
-        <!--              <feather-icon-->
-        <!--                  icon="MoreVerticalIcon"-->
-        <!--                  size="16"-->
-        <!--                  class="align-middle text-body"-->
-        <!--              />-->
-        <!--            </template>-->
-        <!--            <template>-->
-        <!--              <b-dropdown-item>-->
-        <!--                <router-link :to="{ name: 'details-driver-view', params: { driver_id: item.driverid } }">-->
-        <!--                  <feather-icon icon="FileTextIcon"/>-->
-        <!--                  <span class="align-middle ml-50">Details</span>-->
-        <!--                </router-link>-->
-        <!--              </b-dropdown-item>-->
-        <!--            </template>-->
-
-        <!--            &lt;!&ndash;            <b-dropdown-item :to="{ name: 'apps-users-edit', params: { id: personas.id } }">&ndash;&gt;-->
-        <!--            &lt;!&ndash;              <feather-icon icon="EditIcon"/>&ndash;&gt;-->
-        <!--            &lt;!&ndash;              <span class="align-middle ml-50">Edit</span>&ndash;&gt;-->
-        <!--            &lt;!&ndash;            </b-dropdown-item>&ndash;&gt;-->
-
-        <!--            <b-dropdown-item>-->
-        <!--              <feather-icon icon="TrashIcon"/>-->
-        <!--              <span class="align-middle ml-50">Delete</span>-->
-        <!--            </b-dropdown-item>-->
-        <!--          </b-dropdown>-->
-        <!--        </template>-->
       </b-table>
       <div class="mx-2 mb-2">
         <b-row>
@@ -150,9 +128,7 @@
               sm="6"
               class="d-flex align-items-center justify-content-center justify-content-sm-start"
           >
-            <!--            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{-->
-            <!--                dataMeta.of-->
-            <!--              }} entries</span>-->
+            <!--            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{ dataMeta.of }} entries</span>-->
           </b-col>
           <!-- Pagination -->
           <b-col
@@ -163,7 +139,6 @@
 
             <b-pagination
 
-                :per-page="perPage"
                 first-number
                 last-number
                 class="mb-0 mt-1 mt-sm-0"
@@ -195,15 +170,15 @@
 <script>
 import {
   BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
-  BBadge, BDropdown, BDropdownItem, BPagination, BListGroup, BListGroupItem,
+  BBadge, BDropdown, BDropdownItem, BPagination,BListGroup, BListGroupItem,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
-
 import UserListAddNew from '@core/components/infoClients/UserListAddNew'
 
 export default {
   components: {
     UserListAddNew,
+
     BCard,
     BRow,
     BCol,
@@ -221,28 +196,32 @@ export default {
     BListGroupItem,
     vSelect,
   },
-  name: 'ListApproveDriver',
+  name: 'ListPatientCA',
   data() {
     return {
-      currentPage: '',
-      perPage: 0,
-      listDrivers: [],
-      detailDrivers: {},
+      listClients: [],
       search: '',
-      fields: ['driver_id', 'name', 'lastname', 'gender', 'phone_number', 'phone_number_verified_at', 'email', 'email_verified_at', 'address', 'actions'],
+      fields: ['client_id', 'name', 'lastname', 'gender', 'birthday', 'phone_number', 'email', 'address', 'city', 'actions'],
     }
   },
   methods: {
-    getDrivers() {
-      this.$http.get(`admin/panel/driver/list`)
-          .then((response) => {
-            this.listDrivers = response.data.data
-          })
-          .catch((res) => console.log(res.data))
+    getClientes() {
+      this.$http.get(`ca/${this.$route.params.id}/panel/client/search`).then((response) => {
+        this.listClients = response.data.data;
+      }).catch((res) => console.log(res.data))
     },
+
   },
+  // computed: {
+  //   item(){
+  //     return this.listClients.filter(item => {
+  //       console.log( item.name.toLowerCase().includes(this.search.toLowerCase()))
+  //     });
+  //   }
+  // },
   mounted() {
-    this.getDrivers()
+    this.getClientes();
+
   }
 }
 </script>
@@ -250,18 +229,22 @@ export default {
 <style lang="scss" scoped>
 .per-page-selector {
   width: 90px;
+}.urlPagina {
+   text-decoration: none;
+ }
+
+.urlPagina:hover {
+  background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
+  color: #fff;
 }
-</style>
 
-<style lang="scss">
-@import '@core/scss/vue/libs/vue-select.scss';
-
-.urlPagina {
-  text-decoration: none;
+.list-group-item:hover {
+  background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
+  color: #fff !important;
 }
 
 .urlPagina::before {
-  background-color: currentColor !important;
+  //background-color: currentColor !important;
   bottom: 0;
   content: "";
   left: 0;
@@ -275,6 +258,10 @@ export default {
 }
 
 .box {
-  box-shadow: 0px 14px 20px 0px rgba(143, 143, 143, 0.2) !important;
+  box-shadow: 0 14px 20px 0 rgba(143, 143, 143, 0.2) !important;
 }
+</style>
+
+<style lang="scss">
+@import '@core/scss/vue/libs/vue-select.scss';
 </style>
