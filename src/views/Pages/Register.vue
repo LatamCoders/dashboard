@@ -823,29 +823,29 @@ export default {
               this.$router.push({name: 'login'})
 
               //clear form
-                  this.dataregister.company_legal_name = '',
-                  this.dataregister.dba = '',
-                  this.dataregister.company_type = '',
-                  this.dataregister.tin = '',
-                  this.dataregister.nature_of_business = '',
-                  this.dataregister.contract_start_date = '',
-                  this.dataregister.office_location_address = '',
-                  this.dataregister.billing_address = '',
-                  this.dataregister.telephone_number = '',
-                  this.dataregister.fax_number = '',
-                  this.dataregister.email = '',
-                  this.dataregister.website = '',
-                  this.dataregister.contact_name = '',
-                  this.dataregister.contact_number = '',
-                  this.dataregister.additional_contact_name = '',
-                  this.dataregister.additional_contact_title = '',
-                  this.dataregister.additional_contact_number = '',
-                  this.dataregister.additional_contact_email = '',
-                  this.dataregister.name_on_cc = '',
-                  this.dataregister.cc_number = '',
-                  this.dataregister.type_of_cc = '',
-                  this.dataregister.zip = '',
-                  this.dataregister.code_of_cc = ''
+                  this.dataregister.company_legal_name = '';
+                  this.dataregister.dba = '';
+                  this.dataregister.company_type = '';
+                  this.dataregister.tin = '';
+                  this.dataregister.nature_of_business = '';
+                  this.dataregister.contract_start_date = '';
+                  this.dataregister.office_location_address = '';
+                  this.dataregister.billing_address = '';
+                  this.dataregister.telephone_number = '';
+                  this.dataregister.fax_number = '';
+                  this.dataregister.email = '';
+                  this.dataregister.website = '';
+                  this.dataregister.contact_name = '';
+                  this.dataregister.contact_number = '';
+                  this.dataregister.additional_contact_name = '';
+                  this.dataregister.additional_contact_title = '';
+                  this.dataregister.additional_contact_number = '';
+                  this.dataregister.additional_contact_email = '';
+                  this.dataregister.name_on_cc = '';
+                  this.dataregister.cc_number = '';
+                  this.dataregister.type_of_cc = '';
+                  this.dataregister.zip = '';
+                  this.dataregister.code_of_cc = '';
               // console.log('bien')
             } else {
               this.$swal({

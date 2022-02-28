@@ -13,7 +13,8 @@
                 type="submit"
                 variant="primary"
                 class="sigin"
-                to="/create-patient">Create user
+                :to="{ name: 'create-patient' }"
+            >Create user
             </b-button>
           </b-card-text>
         </b-card>
@@ -23,7 +24,8 @@
                 type="submit"
                 variant="primary"
                 class="sigin"
-                to="/all-patient">
+                :to="{ name: 'all-patient' }"
+            >
               View all patient
             </b-button>
           </b-card-text>
@@ -34,7 +36,7 @@
                 type="submit"
                 variant="primary"
                 class="sigin"
-                to="/request-service"
+                :to="{name: 'request-service' }"
             >
               Request
             </b-button>
@@ -46,7 +48,7 @@
 </template>
 
 <script>
-import {BButton, BCard, BCardText, BCol, BRow,} from 'bootstrap-vue'
+import { BButton, BCard, BCardText, BCol, BRow, } from 'bootstrap-vue'
 
 export default {
   components: {
@@ -58,9 +60,7 @@ export default {
 
   },
   data() {
-    return {
-
-    }
+    return {}
   },
 }
 </script>

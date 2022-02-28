@@ -77,7 +77,7 @@
             </template>
             <b-list-group  style="padding: 2px; margin-bottom: 2px" dense rounded>
               <router-link class="urlPagina"
-                           :to="{ name: 'details-driver-view' }"
+                           :to="{ name: 'details-reservation', params: { id: item.id, item} }"
               >
                 <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
                   <b-list-group-item class="font-weight-bold"
@@ -223,6 +223,15 @@ export default {
 }
 .urlPagina {
   text-decoration: none;
+}
+.urlPagina:hover {
+  background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
+  color: #fff;
+}
+
+.list-group-item:hover {
+  background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
+  color: #fff !important;
 }
 
 .urlPagina::before {

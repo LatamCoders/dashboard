@@ -12,7 +12,7 @@
                 type="submit"
                 variant="primary"
                 class="sigin"
-                to="providers"
+                :to="{name: 'providers'}"
             >See
             </b-button>
           </b-card-text>
@@ -33,7 +33,7 @@
                 type="submit"
                 variant="primary"
                 class="sigin"
-                to="/trips/reservation-to-accepted"
+                :to="{name: 'reservation-to-accepted'}"
             >
               View list to accept
             </b-button>
@@ -45,7 +45,7 @@
                 type="submit"
                 variant="primary"
                 class="sigin"
-                to="request-service"
+                :to="{name: 'request-service'}"
             >
               Reserve
             </b-button>

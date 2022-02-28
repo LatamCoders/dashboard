@@ -100,6 +100,15 @@ const router = new VueRouter({
                 pageTitle: 'Reservation to accepted',
             },
         },
+        {
+            path: '/trips/reservation-to-accepted/:id/details-reservation',
+            name: 'details-reservation',
+            props: true,
+            component: () => import('@/views/Pages/admin/DetailsReservation.vue'),
+            meta: {
+                pageTitle: 'Details reservation',
+            },
+        },
         //Rutas para booking
 
         /*************** INITIO RUTA PARA BOOKING  *******************/
@@ -145,6 +154,7 @@ const router = new VueRouter({
                 pageTitle: 'Details driver',
             },
         },
+
         /*************** END RUTA PARA BOOKING   *******************/
 
       //Rutas para opción del admin ver clientes
