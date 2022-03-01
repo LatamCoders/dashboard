@@ -106,7 +106,7 @@
               label="From"
           >
             <b-form-input
-                v-model="dataProvider.from"
+                v-model="reserva.from"
                 disabled
             />
           </b-form-group>
@@ -119,7 +119,7 @@
               label="To"
           >
             <b-form-input
-                v-model="dataProvider.to"
+                v-model="reserva.to.from"
                 disabled
             />
           </b-form-group>
@@ -276,7 +276,14 @@ export default {
     dataProvider: {},
   },
   data() {
-    return {}
+    return {
+      reserva: {
+        from: '',
+        to: {
+          from: '',
+        },
+      },
+    }
   },
   methods: {
     getServiceAditional () {
@@ -285,7 +292,9 @@ export default {
       }
     }
   },
-  mounted() {
+  beforeUpdate() {
+    this.reserva  =  JSON.parse(this.dataProvider.from);
+    this.reserva.to  =  JSON.parse(this.dataProvider.to);
     this.getServiceAditional()
   }
 }

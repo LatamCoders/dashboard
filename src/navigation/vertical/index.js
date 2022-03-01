@@ -23,7 +23,7 @@ export default [
     {
         title: 'Bookings',
         icon: 'MapPinIcon',
-        route: 'page-construction'
+        route: 'bookings'
     },
     {
         title: 'Support',

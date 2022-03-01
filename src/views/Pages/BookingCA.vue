@@ -42,7 +42,6 @@
         </b-row>
 
       </div>
-
       <b-table
           ref="refUserListTable"
           class="position-relative"
@@ -117,9 +116,9 @@
               sm="6"
               class="d-flex align-items-center justify-content-center justify-content-sm-start"
           >
-<!--            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{-->
-<!--                dataMeta.of-->
-<!--              }} entries</span>-->
+            <!--            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{-->
+            <!--                dataMeta.of-->
+            <!--              }} entries</span>-->
           </b-col>
           <!-- Pagination -->
           <b-col
@@ -166,10 +165,9 @@ import {
   BBadge, BDropdown, BDropdownItem, BPagination, BListGroup, BListGroupItem,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
-
-// import UsersListFilters from './UsersListFilters.vue'
 import UserListAddNew from '@core/components/infoClients/UserListAddNew'
 export default {
+  name: 'BookingCA',
   components: {
     UserListAddNew,
     BCard,
@@ -192,17 +190,19 @@ export default {
   data() {
     return {
       listClients: [],
-      perPage: 6,
+      perPage: 50,
       currentPage: 1 ,
       totalUsers: 0,
       valortotal: 0,
       searchQuery: '',
+      user: 0,
       fields: ['selfpay_id', 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime',  'city', 'actions'],
     }
   },
   methods: {
     getClientes() {
-      this.$http.get(`admin/panel/booking/list?status=0`).then((response) => {
+      this.user = parseInt(this.$store.getters["Users/userData"].user.corporate_account.id)
+      this.$http.get(`ca/${this.user}/panel/booking/list`).then((response) => {
         this.listClients = response.data.data;
         this.valortotal = this.listClients.length;
         this.totalUsers = this.valortotal;
@@ -217,7 +217,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .per-page-selector {
   width: 90px;
 }
@@ -251,8 +251,4 @@ export default {
 .box {
   box-shadow: 0px 14px 20px 0px rgba(143, 143, 143, 0.2) !important;
 }
-</style>
-
-<style lang="scss">
-@import '@core/scss/vue/libs/vue-select.scss';
 </style>

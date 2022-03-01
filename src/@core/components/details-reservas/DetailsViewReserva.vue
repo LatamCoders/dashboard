@@ -24,18 +24,18 @@
       </span>)
       </h4>
 
-      <div class="d-flex flex-wrap">
-        <b-button
-            variant="primary"
-            class="ml-1"
-        >
-          <span class="d-none d-sm-inline">Approve</span>
-          <feather-icon
-              icon="TrashIcon"
-              class="d-inline d-sm-none"
-          />
-        </b-button>
-      </div>
+<!--      <div class="d-flex flex-wrap">-->
+<!--        <b-button-->
+<!--            variant="primary"-->
+<!--            class="ml-1"-->
+<!--        >-->
+<!--          <span class="d-none d-sm-inline">Approve</span>-->
+<!--          <feather-icon-->
+<!--              icon="TrashIcon"-->
+<!--              class="d-inline d-sm-none"-->
+<!--          />-->
+<!--        </b-button>-->
+<!--      </div>-->
     </b-media>
 
     <!-- form Admin -->

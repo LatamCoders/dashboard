@@ -215,7 +215,7 @@
                 label="Pickup address"
             >
               <b-form-input
-                  v-model="infoPatient.from"
+                  v-model="reserva.from"
                   disabled
                   style="font-weight: bold"
               />
@@ -311,11 +311,12 @@
           </b-col>
           <b-col md="6">
             <b-form-group
-                label="Selected driver"
+                label="ID driver"
             >
               <b-form-input
                   placeholder="Jean frank"
-                  v-model="escogido"
+                  v-model="idDriver"
+                  disabled
               />
             </b-form-group>
           </b-col>
@@ -325,6 +326,7 @@
             >
               <b-form-input
                   value="jeanfrank@gmail.com"
+                  v-model="listDrivers.email"
                   disabled
                   style="font-weight: bold"
               />
@@ -441,10 +443,16 @@ export default {
       listDrivers: [],
       idDriver: '',
       escogido: this.buscar,
+      iterar:0,
 
       //get info route patient
       infoPatient: {},
-
+      reserva: {
+        from: '',
+        to: {
+          from: '',
+        },
+      },
       listado: [
         {
           id: '1',
@@ -522,6 +530,15 @@ export default {
       this.$http.get(`admin/panel/driver/list`)
           .then((response) => {
             this.listDrivers = response.data.data
+            console.log(this.listDrivers)
+
+            for (this.iterar = 0; this.iterar < this.listDrivers.length ; this.iterar++ ){
+              // console.log(driver)
+              for (let saber in this.listDrivers[this.iterar]){
+                console.log(saber)
+              }
+            }
+
           })
           .catch((res) => console.log(res.data))
     },
@@ -540,6 +557,11 @@ export default {
   },
   created() {
     this.getDrivers()
+  },
+  beforeUpdate() {
+    this.reserva  =  JSON.parse(this.infoPatient.from);
+    this.reserva.to  =  JSON.parse(this.infoPatient.to);
+    this.getServiceAditional()
   },
   mounted() {
     this.getPatients()

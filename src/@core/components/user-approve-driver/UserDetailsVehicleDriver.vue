@@ -4,7 +4,7 @@
     <!-- Header: Personal Info -->
     <div class="d-flex">
       <feather-icon
-          icon="UserIcon"
+          icon="InfoIcon"
           size="19"
       />
       <h4 class="mb-0 ml-50">

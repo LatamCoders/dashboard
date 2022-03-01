@@ -44,7 +44,7 @@
         <b-tab>
           <template #title>
             <feather-icon
-                icon="Share2Icon"
+                icon="FolderIcon"
                 size="16"
                 class="mr-0 mr-sm-50"
             />
@@ -83,12 +83,24 @@ export default {
     return {
       infoUser: {
       },
+      userId: 0,
     }
   },
   methods: {
     getInformationDriver() {
-      this.infoUser = this.$route.params.item
-      console.log(this.infoUser)
+      this.userId = parseInt(this.$route.params.id);
+      this.$http.get(`admin/panel/driver/${this.userId}/info`).then((response) => {
+        this.infoUser = response.data.data;
+      }).catch((error) => {
+        this.$swal({
+          title: error.response.data.data,
+          icon: 'error',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
+        })
+      })
     }
   },
   mounted() {

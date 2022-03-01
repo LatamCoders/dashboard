@@ -141,7 +141,7 @@
                     rules="required"
                 >
                   <b-form-input
-                      :v-model="lispatient == '' ? lastnombre : lispatient[0].phone_number"
+                      v-model="contact"
                       :state="errors.length > 0 ? false:null"
                       disabled
                   />
@@ -158,7 +158,7 @@
                     rules="required|email"
                 >
                   <b-form-input
-                      :v-model="lispatient == '' ? lastnombre : lispatient[0].email"
+                      v-model="getEmailPatient"
                       placeholder="Doe@gmail.com"
                       :state="errors.length > 0 ? false:null"
                       disabled
@@ -253,8 +253,8 @@
                     #default="{ errors }"
                     rules="required"
                 >
-<!--                  <gmap-autocomplete class="form-control" placeholder="Birmingham" @place_changed="initMarker">-->
-<!--                  </gmap-autocomplete>-->
+                  <!--                  <gmap-autocomplete class="form-control" placeholder="Birmingham" @place_changed="initMarker">-->
+                  <!--                  </gmap-autocomplete>-->
 
                   <b-form-input
                       placeholder="Birmingham"
@@ -287,14 +287,14 @@
                   label="Pickup address"
               >
 
-                  <gmap-autocomplete class="form-control" placeholder="Birmingham" @place_changed="initMarkerTo">
-                  </gmap-autocomplete>
-<!--                  <b-form-input-->
-<!--                      v-model="dataCa.to"-->
-<!--                      placeholder="98 Borough bridge Road, Birmingham"-->
-<!--                      :state="errors.length > 0 ? false:null"-->
-<!--                  />-->
-<!--                  <small class="text-danger" v-if="errors[0]">This field is required</small>-->
+                <gmap-autocomplete class="form-control" placeholder="Birmingham" @place_changed="initMarkerTo">
+                </gmap-autocomplete>
+                <!--                  <b-form-input-->
+                <!--                      v-model="dataCa.to"-->
+                <!--                      placeholder="98 Borough bridge Road, Birmingham"-->
+                <!--                      :state="errors.length > 0 ? false:null"-->
+                <!--                  />-->
+                <!--                  <small class="text-danger" v-if="errors[0]">This field is required</small>-->
 
               </b-form-group>
             </b-col>
@@ -318,11 +318,11 @@
               >
                 <gmap-autocomplete class="form-control" placeholder="Birmingham" @place_changed="initMarkerFrom">
                 </gmap-autocomplete>
-<!--                <b-form-input-->
-<!--                    id="autocompletar"-->
-<!--                    placeholder="Birmingham"-->
-<!--                    v-model="dataCa.from"-->
-<!--                />-->
+                <!--                <b-form-input-->
+                <!--                    id="autocompletar"-->
+                <!--                    placeholder="Birmingham"-->
+                <!--                    v-model="dataCa.from"-->
+                <!--                />-->
               </b-form-group>
             </b-col>
             <b-col md="4">
@@ -373,9 +373,9 @@
 </template>
 
 <script>
-import {FormWizard, TabContent} from 'vue-form-wizard'
+import { FormWizard, TabContent } from 'vue-form-wizard'
 import vSelect from 'vue-select'
-import {ValidationProvider, ValidationObserver} from 'vee-validate'
+import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import {
@@ -463,11 +463,9 @@ export default {
 
       //nuevo agregado
       lastnombre: '',
-      getid: 0,
-      compararid: '',
-      nuevoarr: '',
-      objetoB: [],
-      encontrado: '',
+      contact: '',
+      getEmailPatient: '',
+      getInfoPat: [],
       //fin nuevo agregado
 
       selectcirujia: null,
@@ -476,9 +474,9 @@ export default {
       selectedContry: 'select_value',
       selectedLanguage: 'nothing_selected',
       option: [
-        {title: 'Wait and return'},
-        {title: 'Pharmacy stop'},
-        {title: 'Additional stop'},
+        { title: 'Wait and return' },
+        { title: 'Pharmacy stop' },
+        { title: 'Additional stop' },
       ],
       optionscirujia: [
         {
@@ -585,14 +583,14 @@ export default {
     initMarkerTo(loc) {
       this.existingPlace = loc
       this.dataCa.to = this.existingPlace.formatted_address
-      this.dataCa.to_coordinates = this.existingPlace.geometry.viewport.ub.h +','+ this.existingPlace.geometry.viewport.Qa.h
+      this.dataCa.to_coordinates = this.existingPlace.geometry.viewport.ub.h + ',' + this.existingPlace.geometry.viewport.Qa.h
       console.log(this.dataCa.to)
       console.log(this.dataCa.to_coordinates)
     },
-    initMarkerFrom(loc){
+    initMarkerFrom(loc) {
       this.existingPlace = loc
       this.dataCa.from = this.existingPlace.formatted_address
-      this.dataCa.from_coordinates = this.existingPlace.geometry.viewport.ub.h +','+ this.existingPlace.geometry.viewport.Qa.h
+      this.dataCa.from_coordinates = this.existingPlace.geometry.viewport.ub.h + ',' + this.existingPlace.geometry.viewport.Qa.h
       console.log(this.dataCa.from)
       console.log(this.dataCa.from_coordinates)
     },
@@ -624,71 +622,60 @@ export default {
           this.$swal.showLoading()
         }
       })
-      this.dataCa.selfpay_id = parseInt(this.idpaciente);
-      this.dataCa.booking_date = this.fecha + ' ' + this.tiempo;
-      this.dataCa.appoinment_datetime = this.appointmentdate + ' ' + this.appointmenttime;
+      this.dataCa.selfpay_id = parseInt(this.idpaciente)
+      this.dataCa.booking_date = this.fecha + ' ' + this.tiempo
+      this.dataCa.appoinment_datetime = this.appointmentdate + ' ' + this.appointmenttime
       // this.addLocationMarker();
 
       console.log(this.dataCa)
-      this.$http.post('ca/panel/booking/add', this.dataCa).then((response) => {
-        if (response.data.status === 200) {
-          this.$swal({
-            title: response.data.message,
-            icon: 'success',
-            customClass: {
-              confirmButton: 'btn btn-primary',
-            },
-            buttonsStyling: false,
-          })
-          this.$refs.requestTrip.reset();
-          //clear form
+      this.$http.post('ca/panel/booking/add', this.dataCa)
+          .then((response) => {
+            if (response.data.status === 200) {
+              this.$swal({
+                title: response.data.message,
+                icon: 'success',
+                customClass: {
+                  confirmButton: 'btn btn-primary',
+                },
+                buttonsStyling: false,
+              })
+              this.$refs.requestTrip.reset()
+              //clear form
               this.dataCa.booking_date = '',
-              this.dataCa.from = '',
-              this.dataCa.to = '',
-              this.dataCa.pickup_time = '',
-              this.dataCa.city = '',
-              this.dataCa.surgery_type = '',
-              this.dataCa.appoinment_datetime = '',
-              this.dataCa.selfpay_id = '',
-              this.dataCa.from_coordinates = '',
-              this.dataCa.to_coordinates = '',
-              this.fecha = '',
-              this.tiempo = '',
-              this.appointmentdate = '',
-              this.appointmenttime = '',
-              this.seleccionstop = ''
-        } else {
-          this.$swal({
-            title: response.data.message,
-            icon: 'error',
-            customClass: {
-              confirmButton: 'btn btn-primary',
-            },
-            buttonsStyling: false,
-          })
+                  this.dataCa.from = '',
+                  this.dataCa.to = '',
+                  this.dataCa.pickup_time = '',
+                  this.dataCa.city = '',
+                  this.dataCa.surgery_type = '',
+                  this.dataCa.appoinment_datetime = '',
+                  this.dataCa.selfpay_id = '',
+                  this.dataCa.from_coordinates = '',
+                  this.dataCa.to_coordinates = '',
+                  this.fecha = '',
+                  this.tiempo = '',
+                  this.appointmentdate = '',
+                  this.appointmenttime = '',
+                  this.seleccionstop = ''
+            } else {
+              this.$swal({
+                title: response.data.message,
+                icon: 'error',
+                customClass: {
+                  confirmButton: 'btn btn-primary',
+                },
+                buttonsStyling: false,
+              })
 
-          // console.log(res.data.data)
-        }
-      })
+              // console.log(res.data.data)
+            }
+          })
     },
-    getInfo(){
+    getInfo() {
       this.dataCa = this.$store.getters['Users/userData'].user
     },
   },
   computed: {
     infopersonaselec() {
-      // let valor;
-      // for ( valor in this.lispatient) {
-      //   if(valor.id === this.idpaciente){
-      //     console.log('hola')
-      //   }else {
-      //     console.log('nada')
-      //   }
-      // }
-      // console.log([this.lispatient])
-      // for(let i of this.lispatient ){
-      //   console.log(i)
-      // }
       for (let lispatientKey of this.lispatient) {
         console.log(lispatientKey.id)
         if (lispatientKey.id === lispatientKey.id) {
@@ -705,35 +692,6 @@ export default {
           console.log(arrat)
         }
       }
-      // for (let argument of this.lispatient) {
-      //   let prueba = this.lispatient.indexOf(parseInt(this.idpaciente))
-      //   console.log(prueba)
-      //
-      //   console.log(argument.lastname)
-      // }
-
-      // for(let i = 0; i < this.lispatient.length; i++){
-      //   for (let j of this.lispatient[i].lastname) {
-      //     console.log({ j })
-      //   }
-      //   // console.log(i)
-      //   for(let valor = 0; valor < this.lispatient[i].lastname; valor++) {
-      //     console.log(valor)
-      //   }
-      //   // if (i.id === this.idpaciente){
-      //   //   console.log(i.lastname)
-      //   // }
-      //   // valor = this.lispatient.indexOf(i)
-      //   console.log(i)
-      // }
-      // valor =  this.lispatient.reduce(c => c.lastname)
-      //  console.log([valor])
-      //  valor = this.lispatient.indexOf(this.idpaciente)
-      //  console.log(valor)
-      //  valor = Object.assign(this.lispatient)
-      //  console.log(valor)
-      //  const obj = {...this.lispatient};
-      //  console.log(obj);
     }
   },
   watch: {
@@ -742,30 +700,14 @@ export default {
       console.log(this.valornumerico)
     },
     idpaciente() {
-      //encontrar el id en la lista de pacientes
-      for (this.getid in this.lispatient) {
-        this.objetoB.push(parseInt(this.getid))
-        // this.objetoB.ides = this.getid.id;
-        console.log(this.objetoB)
-      }
-      //encontrar posicion de la persona seleccionada
-      for (let animal of this.objetoB) {
-        console.log(animal)
-        this.encontrado = this.objetoB.indexOf(parseInt(this.getid))
-        console.log(this.encontrado)
-      }
-      // validar si el id encontrado y el seleccionado son los mismos
-      if (parseInt(this.getid)) {
-        this.nuevoarr = this.lispatient
-        console.log(this.nuevoarr)
-        for (this.compararid of this.nuevoarr) {
-          console.log(this.compararid.id)
-          if (this.compararid.id === this.getid.id) {
-            this.lastnombre = this.compararid.lastname;
-            console.log(this.compararid.lastname)
-          }
-          // let otro = arrat.indexOf(lispatientKey.id)
-          // console.log(otro)
+      for (let getvalor of this.lispatient){
+        this.getInfoPat = getvalor;
+        if (parseInt(this.idpaciente) === this.getInfoPat.id){
+          let todos = [];
+          todos = this.getInfoPat
+          this.lastnombre = todos.lastname;
+          this.contact = todos.phone_number;
+          this.getEmailPatient = todos.email;
         }
       }
     }
@@ -773,12 +715,12 @@ export default {
   },
 
   beforeMount() {
-    this.getInfo();
+    this.getInfo()
   },
   mounted() {
     // this.getInfo();
     // this.lispatient =
-    this.locateGeoLocation();
+    this.locateGeoLocation()
     this.$http.get(`ca/${this.$store.getters['Users/userData'].user.corporate_account.id}/panel/client/search`)
         .then((res) => {
           if (res.data.message) {
@@ -791,7 +733,7 @@ export default {
     //     document.getElementById('autocompletar')
     // )
 
-  }
+  },
 }
 </script>
 

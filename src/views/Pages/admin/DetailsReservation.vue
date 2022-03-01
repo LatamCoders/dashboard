@@ -88,11 +88,26 @@ export default {
   data() {
     return {
       listReservas: {},
+      reservaId: 0,
     }
   },
   methods: {
     getInfoReserva() {
-      this.listReservas = this.$route.params.item
+      this.reservaId = this.$route.params.id;
+      this.$http.get(`admin/panel/booking/${this.reservaId}/info`).then((response) => {
+        this.listReservas = response.data.data;
+      }).catch((error) => {
+        this.$swal({
+          title: error.response.data.data,
+          icon: 'error',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
+        })
+      })
+      // this.reserva = this.listReservas.from;
+      // console.log(this.reserva)
     }
   },
   mounted() {
