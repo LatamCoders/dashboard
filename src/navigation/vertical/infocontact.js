@@ -34,7 +34,7 @@ export default [
             },
             {
                 title: 'Call/Chat center',
-                route: '/',
+                route: '',
             },
         ],
     },
@@ -45,17 +45,17 @@ export default [
     // },
     {
       title: 'Reports',
-      route: '/',
+      route: '',
       icon: 'CalendarIcon',
     },
     {
         title: 'Support',
-        route: '/',
+        route: '',
         icon: 'GridIcon',
         children: [
             {
                 title: 'Difficult cases',
-                route: '/',
+                route: '',
             },
         ],
     },

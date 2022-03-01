@@ -20,10 +20,7 @@
           >
             <label>Show</label>
             <v-select
-
-                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-
-                :clearable="false"
+                v-model="perPage"
                 class="per-page-selector d-inline-block mx-50"
             />
             <label>entries</label>
@@ -40,12 +37,12 @@
                   class="d-inline-block mr-1"
                   placeholder="Search..."
               />
-<!--              <b-button-->
-<!--                  variant="primary"-->
-<!--                  @click="items"-->
-<!--              >-->
-<!--                <span class="text-nowrap">Search</span>-->
-<!--              </b-button>-->
+              <!--              <b-button-->
+              <!--                  variant="primary"-->
+              <!--                  @click="items"-->
+              <!--              >-->
+              <!--                <span class="text-nowrap">Search</span>-->
+              <!--              </b-button>-->
             </div>
           </b-col>
         </b-row>
@@ -61,7 +58,9 @@
           empty-text="No patients found"
           :fields="fields"
           :filter="search"
-          perPage="6"
+          :per-page="perPage"
+          id="my-table"
+          :current-page="currentPage"
           show-empty
       >
 
@@ -82,11 +81,11 @@
                   class="align-middle text-body"
               />
             </template>
-            <template style="padding: 0"  v-slot:activator="{ on, attrs }">
+            <template style="padding: 0" v-slot:activator="{ on, attrs }">
               <b-btn color="primary" v-bind="attrs" v-on="on" icon ripple>
               </b-btn>
             </template>
-            <b-list-group  style="padding: 2px; margin-bottom: 2px" dense rounded>
+            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
               <router-link class="urlPagina"
                            :to="{ name: 'profile-patient', params: { client_id: item.client_id, item: item } }"
               >
@@ -128,7 +127,9 @@
               sm="6"
               class="d-flex align-items-center justify-content-center justify-content-sm-start"
           >
-            <!--            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{ dataMeta.of }} entries</span>-->
+           <span class="text-muted">Showing {{ perPage }} of {{
+               listClients.length
+             }} entries</span>
           </b-col>
           <!-- Pagination -->
           <b-col
@@ -138,12 +139,15 @@
           >
 
             <b-pagination
-
+                :per-page="perPage"
+                v-model="currentPage"
+                :total-rows="rows"
                 first-number
                 last-number
                 class="mb-0 mt-1 mt-sm-0"
                 prev-class="prev-item"
                 next-class="next-item"
+                aria-controls="my-table"
             >
               <template #prev-text>
                 <feather-icon
@@ -170,7 +174,7 @@
 <script>
 import {
   BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
-  BBadge, BDropdown, BDropdownItem, BPagination,BListGroup, BListGroupItem,
+  BBadge, BDropdown, BDropdownItem, BPagination, BListGroup, BListGroupItem,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 import UserListAddNew from '@core/components/infoClients/UserListAddNew'
@@ -199,6 +203,8 @@ export default {
   name: 'ListUsers',
   data() {
     return {
+      perPage: 5,
+      currentPage: 1,
       listClients: [],
       search: '',
       fields: ['client_id', 'name', 'lastname', 'gender', 'birthday', 'phone_number', 'email', 'address', 'city', 'actions'],
@@ -211,6 +217,11 @@ export default {
       }).catch((res) => console.log(res.data))
     },
 
+  },
+  computed: {
+    rows () {
+      return this.listClients.length
+    }
   },
   // computed: {
   //   item(){
@@ -229,19 +240,21 @@ export default {
 <style lang="scss" scoped>
 .per-page-selector {
   width: 90px;
-}.urlPagina {
-   text-decoration: none;
- }
+}
 
- .urlPagina:hover {
-   background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
-   color: #fff;
- }
+.urlPagina {
+  text-decoration: none;
+}
 
- .list-group-item:hover {
-   background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
-   color: #fff !important;
- }
+.urlPagina:hover {
+  background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
+  color: #fff;
+}
+
+.list-group-item:hover {
+  background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
+  color: #fff !important;
+}
 
 .urlPagina::before {
   //background-color: currentColor !important;

@@ -17,8 +17,7 @@
           >
             <label>Show</label>
             <v-select
-
-                :clearable="false"
+                v-model="perPage"
                 class="per-page-selector d-inline-block mx-50"
             />
             <label>entries</label>
@@ -42,7 +41,7 @@
       </div>
 
       <b-table
-
+          ref="refUserListTable"
           class="position-relative"
           responsive
           primary-key="id"
@@ -50,6 +49,10 @@
           :fields="fields"
           :filter="search"
           empty-text="No matching records found"
+          show-empty
+          :perPage="perPage"
+          id="my-table"
+          :current-page="currentPage"
       >
 
         <!-- Column: Actions -->
@@ -105,38 +108,6 @@
           </b-dropdown>
         </template>
 
-
-        <!--        <template #cell(actions)="personas">-->
-        <!--          <b-dropdown-->
-        <!--              variant="link"-->
-        <!--              no-caret-->
-        <!--              :right="$store.state.appConfig.isRTL"-->
-        <!--          >-->
-        <!--            <template #button-content>-->
-        <!--              <feather-icon-->
-        <!--                  icon="MoreVerticalIcon"-->
-        <!--                  size="16"-->
-        <!--                  class="align-middle text-body"-->
-        <!--              />-->
-        <!--            </template>-->
-        <!--            <b-dropdown-item :to="{ path: '/providers/details-provider/1', params: { id: listClients }}">-->
-        <!--              <feather-icon icon="FileTextIcon"/>-->
-        <!--              <span class="align-middle ml-50">Details</span>-->
-        <!--            </b-dropdown-item>-->
-
-        <!--            &lt;!&ndash;            <b-dropdown-item :to="{ name: 'apps-users-edit', params: { id: personas.id } }">&ndash;&gt;-->
-        <!--            &lt;!&ndash;              <feather-icon icon="EditIcon"/>&ndash;&gt;-->
-        <!--            &lt;!&ndash;              <span class="align-middle ml-50">Edit</span>&ndash;&gt;-->
-        <!--            &lt;!&ndash;            </b-dropdown-item>&ndash;&gt;-->
-
-        <!--            <b-dropdown-item>-->
-        <!--              <feather-icon icon="TrashIcon"/>-->
-        <!--              <span class="align-middle ml-50">Delete</span>-->
-        <!--            </b-dropdown-item>-->
-        <!--          </b-dropdown>-->
-        <!--        </template>-->
-
-
       </b-table>
       <div class="mx-2 mb-2 pt-2">
         <b-row>
@@ -145,7 +116,9 @@
               sm="6"
               class="d-flex align-items-center justify-content-center justify-content-sm-start"
           >
-            <span class="text-muted">All clients {{ listClients.length }} </span>
+            <span class="text-muted">Showing {{ perPage }}  of {{
+                listClients.length
+              }} entries</span>
           </b-col>
           <!-- Pagination -->
           <b-col
@@ -155,14 +128,15 @@
           >
 
             <b-pagination
-
-                total-rows="12"
-                per-page="12"
+                :per-page="perPage"
+                v-model="currentPage"
+                :total-rows="rows"
                 first-number
                 last-number
                 class="mb-0 mt-1 mt-sm-0"
                 prev-class="prev-item"
                 next-class="next-item"
+                aria-controls="my-table"
             >
               <template #prev-text>
                 <feather-icon
@@ -221,6 +195,8 @@ export default {
 
   data() {
     return {
+      perPage: 5,
+      currentPage: 1 ,
       listClients: [],
       search: '',
       fields: ['id', 'company_legal_name', 'dba', 'company_type', 'tin', 'nature_of_business', 'contract_start_date', 'actions'],
@@ -231,6 +207,11 @@ export default {
       this.$http.get('/admin/panel/ca/list').then((response) => {
         this.listClients = response.data.data;
       }).catch((res) => console.log(res.data))
+    }
+  },
+  computed: {
+    rows () {
+      return this.listClients.length
     }
   },
   mounted() {

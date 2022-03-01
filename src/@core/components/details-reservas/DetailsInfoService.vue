@@ -285,17 +285,17 @@ export default {
       },
     }
   },
-  methods: {
-    getServiceAditional () {
-      for (let i = 0;  i < this.dataProvider.length; i++ ){
-        console.log(i)
-      }
-    }
-  },
+  // methods: {
+  //   getServiceAditional () {
+  //     for (let i = 0;  i < this.dataProvider.length; i++ ){
+  //       console.log(i)
+  //     }
+  //   }
+  // },
   beforeUpdate() {
     this.reserva  =  JSON.parse(this.dataProvider.from);
     this.reserva.to  =  JSON.parse(this.dataProvider.to);
-    this.getServiceAditional()
+    // this.getServiceAditional()
   }
 }
 </script>

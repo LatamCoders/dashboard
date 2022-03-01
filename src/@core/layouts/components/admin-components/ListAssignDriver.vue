@@ -20,7 +20,7 @@
           >
             <label>Show</label>
             <v-select
-
+                v-model="perPage"
                 class="per-page-selector d-inline-block mx-50"
             />
             <label>entries</label>
@@ -54,6 +54,8 @@
           :fields="fields"
           :filter="searchQuery"
           :perPage="perPage"
+          id="my-table"
+          :current-page="currentPage"
       >
         <!-- Column: Actions -->
         <template #cell(actions)="{ item }">
@@ -117,9 +119,9 @@
               sm="6"
               class="d-flex align-items-center justify-content-center justify-content-sm-start"
           >
-            <!--            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{-->
-            <!--                dataMeta.of-->
-            <!--              }} entries</span>-->
+          <span class="text-muted">Showing {{ perPage }}  of {{
+              listClients.length
+            }} entries</span>
           </b-col>
           <!-- Pagination -->
           <b-col
@@ -131,12 +133,13 @@
             <b-pagination
                 :per-page="perPage"
                 v-model="currentPage"
-                :total-rows="totalUsers"
+                :total-rows="rows"
                 first-number
                 last-number
                 class="mb-0 mt-1 mt-sm-0"
                 prev-class="prev-item"
                 next-class="next-item"
+                aria-controls="my-table"
             >
               <template #prev-text>
                 <feather-icon
@@ -192,7 +195,7 @@ export default {
   data() {
     return {
       listClients: [],
-      perPage: 6,
+      perPage: 5,
       currentPage: 1 ,
       totalUsers: 0,
       valortotal: 0,
@@ -204,15 +207,16 @@ export default {
     getClientes() {
       this.$http.get(`admin/panel/booking/list?status=0`).then((response) => {
         this.listClients = response.data.data;
-        this.valortotal = this.listClients.length;
-        this.totalUsers = this.valortotal;
-        this.perPage = this.valortotal;
 
       }).catch((res) => console.log(res.data))
     },
 
   },
-
+  computed: {
+    rows () {
+      return this.listClients.length
+    }
+  },
   mounted() {
     this.getClientes();
   }

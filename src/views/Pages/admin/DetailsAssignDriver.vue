@@ -177,17 +177,17 @@
               />
             </b-form-group>
           </b-col>
-<!--          <b-col md="4">-->
-<!--            <b-form-group-->
-<!--                label="Time of Appt"-->
-<!--            >-->
-<!--              <b-form-input-->
-<!--                  value="658921"-->
-<!--                  disabled-->
-<!--                  style="font-weight: bold"-->
-<!--              />-->
-<!--            </b-form-group>-->
-<!--          </b-col>-->
+          <!--          <b-col md="4">-->
+          <!--            <b-form-group-->
+          <!--                label="Time of Appt"-->
+          <!--            >-->
+          <!--              <b-form-input-->
+          <!--                  value="658921"-->
+          <!--                  disabled-->
+          <!--                  style="font-weight: bold"-->
+          <!--              />-->
+          <!--            </b-form-group>-->
+          <!--          </b-col>-->
           <b-col md="4">
             <b-form-group
                 label="City"
@@ -221,7 +221,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="4"   v-if="infoPatient.additional_service.length > 0">
+          <b-col md="4" v-if="infoPatient.additional_service.length > 0">
             <b-form-group
 
                 label="Additional stop"
@@ -255,17 +255,17 @@
               />
             </b-form-group>
           </b-col>
-<!--          <b-col md="4">-->
-<!--            <b-form-group-->
-<!--                label="Appointment time"-->
-<!--            >-->
-<!--              <b-form-input-->
-<!--                  value="08:00"-->
-<!--                  disabled-->
-<!--                  style="font-weight: bold"-->
-<!--              />-->
-<!--            </b-form-group>-->
-<!--          </b-col>-->
+          <!--          <b-col md="4">-->
+          <!--            <b-form-group-->
+          <!--                label="Appointment time"-->
+          <!--            >-->
+          <!--              <b-form-input-->
+          <!--                  value="08:00"-->
+          <!--                  disabled-->
+          <!--                  style="font-weight: bold"-->
+          <!--              />-->
+          <!--            </b-form-group>-->
+          <!--          </b-col>-->
 
         </b-row>
       </tab-content>
@@ -293,9 +293,7 @@
                 :options="listDrivers"
                 :reduce="c => `${c.driver_id}`"
             >
-              <!--                <b-input-group-prepend is-text>-->
-              <!--                  <feather-icon icon="SearchIcon"/>-->
-              <!--                </b-input-group-prepend>-->
+
               <template #option="{name, lastname}">
                 {{ name }} {{ lastname }}
               </template>
@@ -303,11 +301,7 @@
                 {{ name }} {{ lastname }}
               </template>
             </v-select>
-            <!--              <b-form-input-->
-            <!--                  type="search"-->
-            <!--                  placeholder="Jean frank"-->
-            <!--                  v-model="listDrivers"-->
-            <!--              />-->
+
           </b-col>
           <b-col md="6">
             <b-form-group
@@ -315,7 +309,7 @@
             >
               <b-form-input
                   placeholder="Jean frank"
-                  v-model="idDriver"
+                  v-model="drivers.lastname"
                   disabled
               />
             </b-form-group>
@@ -326,7 +320,7 @@
             >
               <b-form-input
                   value="jeanfrank@gmail.com"
-                  v-model="listDrivers.email"
+                  v-model="drivers.email"
                   disabled
                   style="font-weight: bold"
               />
@@ -337,6 +331,7 @@
                 label="Phone number"
             >
               <b-form-input
+                  v-model="drivers.phone_number"
                   value="32225544"
                   disabled
                   style="font-weight: bold"
@@ -348,7 +343,7 @@
                 label="Model vehicle"
             >
               <b-form-input
-                  value="Corolla"
+                  v-model="drivers.vehicle"
                   disabled
                   style="font-weight: bold"
               />
@@ -359,7 +354,7 @@
                 label="Plate number"
             >
               <b-form-input
-                  value="n25154s"
+                  v-model="drivers.vehicle.plate_number"
                   disabled
                   style="font-weight: bold"
               />
@@ -373,7 +368,7 @@
 </template>
 
 <script>
-import { FormWizard, TabContent } from 'vue-form-wizard'
+import {FormWizard, TabContent} from 'vue-form-wizard'
 import vSelect from 'vue-select'
 
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
@@ -393,6 +388,7 @@ import {
 // import vSelect from 'vue-select'
 
 export default {
+  name: 'DetailsAssignDriver',
   components: {
     FormWizard,
     TabContent,
@@ -435,15 +431,17 @@ export default {
       selectedContry: 'select_value',
       selectedLanguage: 'nothing_selected',
       option: [
-        { title: 'Wait and return' },
-        { title: 'Pharmacy stop' },
-        { title: 'Additional stop' },
+        {title: 'Wait and return'},
+        {title: 'Pharmacy stop'},
+        {title: 'Additional stop'},
       ],
       buscar: '',
       listDrivers: [],
       idDriver: '',
+      drivers: {},
+      idDriverconsulta: this.$route.params.id,
       escogido: this.buscar,
-      iterar:0,
+      iterar: 0,
 
       //get info route patient
       infoPatient: {},
@@ -453,45 +451,13 @@ export default {
           from: '',
         },
       },
-      listado: [
-        {
-          id: '1',
-          nombre: 'Sandshrew',
-          fortaleza: 'Veneno',
-          debilidad: 'Agua',
-          tipo: 'Tierra',
-          img: 'a.png'
-        },
-        {
-          id: '2',
-          nombre: 'Squirtle',
-          fortaleza: 'Fuego',
-          debilidad: 'Electricidad',
-          tipo: 'Agua',
-          img: 'b.png'
-        },
-        {
-          id: '3',
-          nombre: 'Charmander',
-          fortaleza: 'Fuego',
-          debilidad: 'Agua',
-          tipo: 'Fuego',
-          img: 'c.png'
-        },
-        {
-          id: '4',
-          nombre: 'Caterpie',
-          fortaleza: 'Planta',
-          debilidad: 'Fuego',
-          tipo: 'Bicho',
-          img: 'd.png'
-        },
-      ],
     }
   },
   watch: {
     idDriver() {
-      return parseInt(this.idDriver)
+      if (this.idDriver !== '') {
+        this.getallDriver()
+      }
     }
   },
   methods: {
@@ -504,15 +470,15 @@ export default {
       })
       this.$http.post(`admin/panel/booking/${this.infoPatient.id}/assignDriver/${this.idDriver}`)
           .then((response) => {
-              this.$swal({
-                title: response.data.message,
-                icon: 'success',
-                customClass: {
-                  confirmButton: 'btn btn-primary',
-                },
-                buttonsStyling: false,
-              })
-              this.$refs.assignDriver.reset()
+            this.$swal({
+              title: response.data.message,
+              icon: 'success',
+              customClass: {
+                confirmButton: 'btn btn-primary',
+              },
+              buttonsStyling: false,
+            })
+            this.$refs.assignDriver.reset()
 
           })
           .catch((error) => {
@@ -530,17 +496,19 @@ export default {
       this.$http.get(`admin/panel/driver/list`)
           .then((response) => {
             this.listDrivers = response.data.data
-            console.log(this.listDrivers)
-
-            for (this.iterar = 0; this.iterar < this.listDrivers.length ; this.iterar++ ){
-              // console.log(driver)
-              for (let saber in this.listDrivers[this.iterar]){
-                console.log(saber)
-              }
-            }
-
+            // console.log(this.listDrivers)
           })
           .catch((res) => console.log(res.data))
+    },
+    getallDriver() {
+      for (this.iterar of this.listDrivers) {
+        this.drivers = this.iterar;
+        // if (this.idDriver === information.idDriver) {
+        //   this.drivers = information;
+        //   console.log(this.drivers)
+        // }
+        console.log(this.drivers)
+      }
     },
     getPatients() {
       this.infoPatient = this.$route.params.item;
@@ -559,9 +527,9 @@ export default {
     this.getDrivers()
   },
   beforeUpdate() {
-    this.reserva  =  JSON.parse(this.infoPatient.from);
-    this.reserva.to  =  JSON.parse(this.infoPatient.to);
-    this.getServiceAditional()
+    this.reserva = JSON.parse(this.infoPatient.from);
+    this.reserva.to = JSON.parse(this.infoPatient.to);
+    // this.getServiceAditional()
   },
   mounted() {
     this.getPatients()

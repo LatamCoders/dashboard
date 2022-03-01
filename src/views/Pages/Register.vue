@@ -805,7 +805,7 @@ export default {
     },
     formSubmitted() {
       this.dataregister.type_of_cc = this.credito.title;
-      axios.post('/auth/ca/register', this.dataregister, {
+      this.$http.post('auth/ca/register', this.dataregister, {
         headers: {
           'X-Requested-With': 'XMLHttpRequest'
         }

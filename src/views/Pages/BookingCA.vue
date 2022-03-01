@@ -20,7 +20,7 @@
           >
             <label>Show</label>
             <v-select
-
+                v-model="perPage"
                 class="per-page-selector d-inline-block mx-50"
             />
             <label>entries</label>
@@ -52,7 +52,9 @@
           show-empty
           :fields="fields"
           :filter="searchQuery"
-          :perPage="perPage"
+          :per-page="perPage"
+          id="my-table"
+          :current-page="currentPage"
       >
         <!-- Column: Actions -->
         <template #cell(actions)="{ item }">
@@ -70,11 +72,11 @@
                   class="align-middle text-body"
               />
             </template>
-            <template style="padding: 0"  v-slot:activator="{ on, attrs }">
+            <template style="padding: 0" v-slot:activator="{ on, attrs }">
               <b-btn color="primary" v-bind="attrs" v-on="on" icon ripple>
               </b-btn>
             </template>
-            <b-list-group  style="padding: 2px; margin-bottom: 2px" dense rounded>
+            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
               <router-link class="urlPagina"
                            :to="{ name: 'details-reservation', params: { id: item.id } }"
               >
@@ -116,9 +118,9 @@
               sm="6"
               class="d-flex align-items-center justify-content-center justify-content-sm-start"
           >
-            <!--            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{-->
-            <!--                dataMeta.of-->
-            <!--              }} entries</span>-->
+                        <span class="text-muted">Showing {{ perPage }} of {{
+                            listClients.length
+                          }} entries</span>
           </b-col>
           <!-- Pagination -->
           <b-col
@@ -130,12 +132,13 @@
             <b-pagination
                 :per-page="perPage"
                 v-model="currentPage"
-                :total-rows="totalUsers"
+                :total-rows="rows"
                 first-number
                 last-number
                 class="mb-0 mt-1 mt-sm-0"
                 prev-class="prev-item"
                 next-class="next-item"
+                aria-controls="my-table"
             >
               <template #prev-text>
                 <feather-icon
@@ -166,6 +169,7 @@ import {
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 import UserListAddNew from '@core/components/infoClients/UserListAddNew'
+
 export default {
   name: 'BookingCA',
   components: {
@@ -190,13 +194,24 @@ export default {
   data() {
     return {
       listClients: [],
-      perPage: 50,
-      currentPage: 1 ,
+      perPage: 5,
+      currentPage: 1,
       totalUsers: 0,
       valortotal: 0,
       searchQuery: '',
+      optionsPerpage: '',
       user: 0,
-      fields: ['selfpay_id', 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime',  'city', 'actions'],
+      fields: ['selfpay_id', 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime', 'city', 'actions'],
+    }
+  },
+  computed: {
+    rows () {
+      return this.listClients.length
+    }
+  },
+  watch: {
+    optionsPerpage() {
+      this.optionsPerpage = this.listClients.length / 2;
     }
   },
   methods: {
@@ -221,9 +236,11 @@ export default {
 .per-page-selector {
   width: 90px;
 }
+
 .urlPagina {
   text-decoration: none;
 }
+
 .urlPagina:hover {
   background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
   color: #fff;

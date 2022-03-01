@@ -16,8 +16,7 @@
           >
             <label>Show</label>
             <v-select
-
-
+                v-model="perPage"
                 class="per-page-selector d-inline-block mx-50"
             />
             <label>entries</label>
@@ -49,8 +48,10 @@
           :fields="fields"
           empty-text="No matching records found"
           :filter="search"
-          perPage="6"
+          :perPage="perPage"
           show-empty
+          id="my-table"
+          :current-page="currentPage"
       >
         <!-- Column: Actions -->
 
@@ -105,42 +106,6 @@
             </b-list-group>
           </b-dropdown>
         </template>
-
-
-        <!--        <template #cell(actions)="item" v-slot:item.actions="{ item }" v-for="(driverid, key) in listDrivers">-->
-        <!--          <b-dropdown-->
-        <!--              :key="key"-->
-        <!--              variant="link"-->
-        <!--              no-caret-->
-        <!--              :right="$store.state.appConfig.isRTL"-->
-        <!--          >-->
-        <!--            <template #button-content>-->
-        <!--              <feather-icon-->
-        <!--                  icon="MoreVerticalIcon"-->
-        <!--                  size="16"-->
-        <!--                  class="align-middle text-body"-->
-        <!--              />-->
-        <!--            </template>-->
-        <!--            <template>-->
-        <!--              <b-dropdown-item>-->
-        <!--                <router-link :to="{ name: 'details-driver-view', params: { driver_id: item.driverid } }">-->
-        <!--                  <feather-icon icon="FileTextIcon"/>-->
-        <!--                  <span class="align-middle ml-50">Details</span>-->
-        <!--                </router-link>-->
-        <!--              </b-dropdown-item>-->
-        <!--            </template>-->
-
-        <!--            &lt;!&ndash;            <b-dropdown-item :to="{ name: 'apps-users-edit', params: { id: personas.id } }">&ndash;&gt;-->
-        <!--            &lt;!&ndash;              <feather-icon icon="EditIcon"/>&ndash;&gt;-->
-        <!--            &lt;!&ndash;              <span class="align-middle ml-50">Edit</span>&ndash;&gt;-->
-        <!--            &lt;!&ndash;            </b-dropdown-item>&ndash;&gt;-->
-
-        <!--            <b-dropdown-item>-->
-        <!--              <feather-icon icon="TrashIcon"/>-->
-        <!--              <span class="align-middle ml-50">Delete</span>-->
-        <!--            </b-dropdown-item>-->
-        <!--          </b-dropdown>-->
-        <!--        </template>-->
       </b-table>
       <div class="mx-2 mb-2">
         <b-row>
@@ -150,9 +115,9 @@
               sm="6"
               class="d-flex align-items-center justify-content-center justify-content-sm-start"
           >
-            <!--            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{-->
-            <!--                dataMeta.of-->
-            <!--              }} entries</span>-->
+             <span class="text-muted">Showing {{ perPage }}  of {{
+                 listDrivers.length
+               }} entries</span>
           </b-col>
           <!-- Pagination -->
           <b-col
@@ -162,13 +127,15 @@
           >
 
             <b-pagination
-
                 :per-page="perPage"
+                v-model="currentPage"
+                :total-rows="rows"
                 first-number
                 last-number
                 class="mb-0 mt-1 mt-sm-0"
                 prev-class="prev-item"
                 next-class="next-item"
+                aria-controls="my-table"
             >
               <template #prev-text>
                 <feather-icon
@@ -224,8 +191,8 @@ export default {
   name: 'ListApproveDriver',
   data() {
     return {
-      currentPage: '',
-      perPage: 0,
+      perPage: 5,
+      currentPage: 1,
       listDrivers: [],
       detailDrivers: {},
       search: '',
@@ -240,6 +207,11 @@ export default {
           })
           .catch((res) => console.log(res.data))
     },
+  },
+  computed: {
+    rows () {
+      return this.listDrivers.length
+    }
   },
   mounted() {
     this.getDrivers()

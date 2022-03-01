@@ -2,7 +2,7 @@
   <div
       id="user-profile"
   >
-    <component :is="infoUser === undefined ? 'b-card' : 'b-card'">
+    <component :is="infoCompleta === undefined ? 'b-card' : 'b-card'">
 
       <b-tabs
           pills
@@ -114,8 +114,8 @@ export default {
         for (let ver of this.listClients){
           this.information = ver;
           if (this.$route.params.id === this.information.id){
-            this.infoCompleta = this.information
-            console.log(this.infoCompleta)
+            this.infoCompleta = this.information;
+            // console.log(this.infoCompleta)
           }
         }
 
