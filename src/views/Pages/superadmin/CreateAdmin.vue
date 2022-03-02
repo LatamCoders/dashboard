@@ -1,14 +1,14 @@
 <template>
-  <div>
-    <b-card>
+  <div class="d-flex justify-content-center">
+    <b-card class="col-lg-9">
       <b-row>
-        <div class="cols-12 col-lg-6 d-flex flex-column">
+        <div class="cols-12 col-lg-5 d-flex flex-column">
           <validation-observer
               ref="accountRules"
               tag="form"
           >
             <div class="d-flex">
-              <b-col lg="4">
+              <b-col lg="9">
                 <b-form-group
                     label="Name admin"
                 >
@@ -25,7 +25,7 @@
                   </validation-provider>
                 </b-form-group>
               </b-col>
-              <b-col lg="4">
+              <b-col lg="9">
                 <b-form-group
                     label="Email"
                 >
@@ -42,7 +42,7 @@
                   </validation-provider>
                 </b-form-group>
               </b-col>
-              <b-col lg="4">
+              <b-col lg="9">
                 <b-form-group
                     label="Role"
                 >
@@ -76,9 +76,7 @@
             </div>
           </validation-observer>
         </div>
-        <b-col lg="6">
-          <h2></h2>
-        </b-col>
+
       </b-row>
     </b-card>
   </div>

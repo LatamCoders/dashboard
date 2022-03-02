@@ -30,18 +30,18 @@
             </b-button>
           </b-card-text>
         </b-card>
-        <b-card class="cols-12 col-xl-3" title="Book a trip">
-          <b-card-text>
-            <b-button
-                type="submit"
-                variant="primary"
-                class="sigin"
-                to="request-service"
-            >
-              Book
-            </b-button>
-          </b-card-text>
-        </b-card>
+<!--        <b-card class="cols-12 col-xl-3" title="Book a trip">-->
+<!--          <b-card-text>-->
+<!--            <b-button-->
+<!--                type="submit"-->
+<!--                variant="primary"-->
+<!--                class="sigin"-->
+<!--                to="request-service"-->
+<!--            >-->
+<!--              Book-->
+<!--            </b-button>-->
+<!--          </b-card-text>-->
+<!--        </b-card>-->
       </b-col>
     </b-row>
   </div>

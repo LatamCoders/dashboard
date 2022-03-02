@@ -20,10 +20,7 @@
           >
             <label>Show</label>
             <v-select
-
-                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-
-                :clearable="false"
+                v-model="perPage"
                 class="per-page-selector d-inline-block mx-50"
             />
             <label>entries</label>
@@ -61,7 +58,9 @@
           empty-text="No registered patients found"
           :fields="fields"
           :filter="search"
-          perPage="6"
+          :per-page="perPage"
+          id="my-table"
+          :current-page="currentPage"
           show-empty
       >
 
@@ -128,7 +127,9 @@
               sm="6"
               class="d-flex align-items-center justify-content-center justify-content-sm-start"
           >
-            <!--            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{ dataMeta.of }} entries</span>-->
+          <span class="text-muted">Showing {{ perPage }} of {{
+              listClients.length
+            }} entries</span>
           </b-col>
           <!-- Pagination -->
           <b-col
@@ -138,12 +139,15 @@
           >
 
             <b-pagination
-
+                :per-page="perPage"
+                v-model="currentPage"
+                :total-rows="rows"
                 first-number
                 last-number
                 class="mb-0 mt-1 mt-sm-0"
                 prev-class="prev-item"
                 next-class="next-item"
+                aria-controls="my-table"
             >
               <template #prev-text>
                 <feather-icon
@@ -200,6 +204,8 @@ export default {
   data() {
     return {
       listClients: [],
+      perPage: 5,
+      currentPage: 1,
       search: '',
       fields: ['client_id', 'name', 'lastname', 'gender', 'birthday', 'phone_number', 'email', 'address', 'city', 'actions'],
     }
@@ -212,16 +218,13 @@ export default {
     },
 
   },
-  // computed: {
-  //   item(){
-  //     return this.listClients.filter(item => {
-  //       console.log( item.name.toLowerCase().includes(this.search.toLowerCase()))
-  //     });
-  //   }
-  // },
+  computed: {
+    rows () {
+      return this.listClients.length
+    }
+  },
   mounted() {
     this.getClientes();
-
   }
 }
 </script>

@@ -115,7 +115,7 @@
               sm="6"
               class="d-flex align-items-center justify-content-center justify-content-sm-start"
           >
-             <span class="text-muted">Showing {{ perPage }}  of {{
+             <span class="text-muted">Showing {{ listDrivers.length }}  of {{
                  listDrivers.length
                }} entries</span>
           </b-col>

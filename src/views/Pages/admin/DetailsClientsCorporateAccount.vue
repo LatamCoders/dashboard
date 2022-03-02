@@ -2,7 +2,7 @@
   <div
       id="user-profile"
   >
-    <component :is="infoCompleta === undefined ? 'b-card' : 'b-card'">
+    <component :is="listClients === undefined ? 'b-card' : 'b-card'">
 
       <b-tabs
           pills
@@ -19,7 +19,7 @@
             <span class="d-none d-sm-inline">Account</span>
           </template>
           <user-profile-client-corporate-acount
-              :user-data="infoCompleta"
+              :user-data="listClients"
               class="mt-2 pt-75"
           />
         </b-tab>
@@ -35,7 +35,7 @@
             <span class="d-none d-sm-inline">Information</span>
           </template>
           <user-edit-tab-information
-              :info-user="infoCompleta.corporate_account_personal_info"
+              :info-user="listClients.corporate_account_personal_info"
               class="mt-2 pt-75"/>
         </b-tab>
 
@@ -49,7 +49,7 @@
             />
             <span class="d-none d-sm-inline">Payment method</span>
           </template>
-          <user-edit-tab-social :info-payment="infoCompleta.corporate_account_payment_method" class="mt-2 pt-75"/>
+          <user-edit-tab-social :info-payment="listClients.corporate_account_payment_method" class="mt-2 pt-75"/>
         </b-tab>
 
         <!-- Tab: Pacientes de la clínica -->
@@ -62,7 +62,7 @@
             />
             <span class="d-none d-sm-inline">Patients</span>
           </template>
-          <list-patient-c-a :info-payment="infoCompleta" class="mt-2 pt-75"/>
+          <list-patient-c-a :info-payment="listClients" class="mt-2 pt-75"/>
         </b-tab>
       </b-tabs>
     </component>
@@ -101,24 +101,15 @@ export default {
   data() {
     return {
       infomation: '',
-      infoCompleta: [],
+      idCA: 0,
+      listClients: [],
     }
   },
   methods: {
     getInformationCorporate() {
-      // this.infoUser = this.$route.params.item
-      // console.log(this.infoUser)
-      this.$http.get('/admin/panel/ca/list').then((response) => {
+      this.idCA = parseInt(this.$route.params.id);
+      this.$http.get(`admin/panel/ca/${this.idCA}/info`).then((response) => {
         this.listClients = response.data.data;
-
-        for (let ver of this.listClients){
-          this.information = ver;
-          if (this.$route.params.id === this.information.id){
-            this.infoCompleta = this.information;
-            // console.log(this.infoCompleta)
-          }
-        }
-
       }).catch((res) => console.log(res.data))
     }
   },

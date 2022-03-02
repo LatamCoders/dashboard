@@ -52,6 +52,21 @@
           </template>
           <user-details-driver-documents class="mt-2 pt-75"/>
         </b-tab>
+
+        <!-- Tab: Reservas -->
+        <b-tab v-if="infoUser.booking !== null">
+          <template #title>
+            <feather-icon
+                icon="TruckIcon"
+                size="16"
+                class="mr-0 mr-sm-50"
+            />
+            <span class="d-none d-sm-inline">Reservas</span>
+          </template>
+          <reservas-asignadas-al-driver
+              :info-payment="infoUser.booking"
+              class="mt-2 pt-75"/>
+        </b-tab>
       </b-tabs>
     </b-card>
   </div>
@@ -62,12 +77,14 @@ import { BRow, BCol, BCard, BImg, BButton, BFormGroup, BFormInput, BFormFile, BT
 import UserDetailsVehicleDriver from "@core/components/user-approve-driver/UserDetailsVehicleDriver";
 import UserDetailsAccount from "@core/components/user-approve-driver/UserDetailsAccount";
 import UserDetailsDriverDocuments from "@core/components/user-approve-driver/UserDetailsDriverDocuments";
+import ReservasAsignadasAlDriver from '@core/components/user-approve-driver/ReservasAsignadasAlDriver'
 /* eslint-disable global-require */
 export default {
   components: {
     UserDetailsDriverDocuments,
     UserDetailsAccount,
     UserDetailsVehicleDriver,
+    ReservasAsignadasAlDriver,
     BRow,
     BCol,
     BCard,

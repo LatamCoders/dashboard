@@ -6,9 +6,12 @@
         no-body
         class="mb-0"
     >
+
       <div class="m-2">
+
         <!-- Table Top -->
         <b-row>
+
           <!-- Per Page -->
           <b-col
               cols="12"
@@ -30,7 +33,7 @@
           >
             <div class="d-flex align-items-center justify-content-end">
               <b-form-input
-                  v-model="search"
+                  v-model="searchQuery"
                   class="d-inline-block mr-1"
                   placeholder="Search..."
               />
@@ -45,16 +48,15 @@
           class="position-relative"
           responsive
           primary-key="id"
-          :items="listClients"
-          :fields="fields"
-          :filter="search"
-          empty-text="No matching records found"
+          :items="infoPayment"
+          empty-text="has no reservations"
           show-empty
+          :fields="fields"
+          :filter="searchQuery"
           :perPage="perPage"
           id="my-table"
           :current-page="currentPage"
       >
-
         <!-- Column: Actions -->
         <template #cell(actions)="{ item }">
           <b-dropdown
@@ -71,13 +73,13 @@
                   class="align-middle text-body"
               />
             </template>
-            <template style="padding: 0" v-slot:activator="{ on, attrs }">
+            <template style="padding: 0"  v-slot:activator="{ on, attrs }">
               <b-btn color="primary" v-bind="attrs" v-on="on" icon ripple>
               </b-btn>
             </template>
-            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
+            <b-list-group  style="padding: 2px; margin-bottom: 2px" dense rounded>
               <router-link class="urlPagina"
-                           :to="{ name: 'details-corporate-account', params: { id: item.id } }"
+                           :to="{ name: 'details-reservation', params: { id: item.id } }"
               >
                 <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
                   <b-list-group-item class="font-weight-bold"
@@ -92,7 +94,7 @@
             </b-list-group>
             <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
               <router-link class="urlPagina"
-                           :to="{ name: 'details-provider', params: { id: item.id } }"
+                           :to="{ name: 'details-driver-view' }"
               >
                 <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
                   <b-list-group-item class="font-weight-bold"
@@ -109,16 +111,17 @@
         </template>
 
       </b-table>
-      <div class="mx-2 mb-2 pt-2">
+      <div class="mx-2 mb-2">
         <b-row>
+
           <b-col
               cols="12"
               sm="6"
               class="d-flex align-items-center justify-content-center justify-content-sm-start"
           >
-            <span class="text-muted">Showing {{ perPage }}  of {{
-                listClients.length
-              }} entries</span>
+          <span class="text-muted">Showing {{ infoPayment.length }}  of {{
+              infoPayment.length
+            }} entries</span>
           </b-col>
           <!-- Pagination -->
           <b-col
@@ -160,19 +163,16 @@
   </div>
 </template>
 
+
 <script>
 import {
   BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
   BBadge, BDropdown, BDropdownItem, BPagination, BListGroup, BListGroupItem,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
-import store from '@/store'
-import {ref, onUnmounted} from '@vue/composition-api'
-import {avatarText} from '@core/utils/filter'
-
 import UserListAddNew from '@core/components/infoClients/UserListAddNew'
-
 export default {
+  name: 'ReservasAsignadasAlDriver',
   components: {
     UserListAddNew,
     BCard,
@@ -192,71 +192,27 @@ export default {
     BListGroupItem,
     vSelect,
   },
-
-  data() {
+  props: {
+    infoPayment: {},
+  },
+  data () {
     return {
       perPage: 5,
       currentPage: 1 ,
-      listClients: [],
-      search: '',
-      fields: ['id', 'company_legal_name', 'dba', 'company_type', 'tin', 'nature_of_business', 'contract_start_date', 'actions'],
-    }
-  },
-  methods: {
-    getClientes() {
-      this.$http.get('/admin/panel/ca/list').then((response) => {
-        this.listClients = response.data.data;
-      }).catch((res) => console.log(res.data))
+      totalUsers: 0,
+      valortotal: 0,
+      searchQuery: '',
+      fields: ['selfpay_id', 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime',  'city', 'actions'],
     }
   },
   computed: {
     rows () {
-      return this.listClients.length
+      return this.infoPayment.length
     }
   },
-  mounted() {
-    this.getClientes();
-  }
 }
 </script>
 
-<style lang="scss" scoped>
-.per-page-selector {
-  width: 90px;
-}
-.urlPagina {
-  text-decoration: none;
-}
+<style scoped>
 
-.urlPagina:hover {
-  background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
-  color: #fff;
-}
-
-.list-group-item:hover {
-  background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
-  color: #fff !important;
-}
-
-.urlPagina::before {
-  background-color: currentColor !important;
-  bottom: 0;
-  content: "";
-  left: 0;
-  opacity: 0;
-  pointer-events: none;
-  position: absolute;
-  right: 0;
-  top: 0;
-  -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
-  transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
-}
-
-.box {
-  box-shadow: 0px 14px 20px 0px rgba(143, 143, 143, 0.2) !important;
-}
-</style>
-
-<style lang="scss">
-@import '@core/scss/vue/libs/vue-select.scss';
 </style>

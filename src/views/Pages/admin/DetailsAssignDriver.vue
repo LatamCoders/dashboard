@@ -297,9 +297,9 @@
               <template #option="{name, lastname}">
                 {{ name }} {{ lastname }}
               </template>
-              <template #option="{name, lastname}">
-                {{ name }} {{ lastname }}
-              </template>
+<!--              <template #option="{name, lastname}">-->
+<!--                {{ name }} {{ lastname }}-->
+<!--              </template>-->
             </v-select>
 
           </b-col>
@@ -343,7 +343,7 @@
                 label="Model vehicle"
             >
               <b-form-input
-                  v-model="drivers.vehicle"
+                  v-model="modelVehicle"
                   disabled
                   style="font-weight: bold"
               />
@@ -351,10 +351,11 @@
           </b-col>
           <b-col md="6">
             <b-form-group
+                v-if="drivers !== null"
                 label="Plate number"
             >
               <b-form-input
-                  v-model="drivers.vehicle.plate_number"
+                  v-model="carPlatenuber"
                   disabled
                   style="font-weight: bold"
               />
@@ -440,7 +441,8 @@ export default {
       idDriver: '',
       drivers: {},
       idDriverconsulta: this.$route.params.id,
-      escogido: this.buscar,
+      carPlatenuber: '',
+      modelVehicle: '',
       iterar: 0,
 
       //get info route patient
@@ -503,25 +505,38 @@ export default {
     getallDriver() {
       for (this.iterar of this.listDrivers) {
         this.drivers = this.iterar;
-        // if (this.idDriver === information.idDriver) {
-        //   this.drivers = information;
-        //   console.log(this.drivers)
-        // }
-        console.log(this.drivers)
       }
+      this.$http.get(`admin/panel/driver/${this.drivers.id}/info`)
+          .then((response) => {
+            this.listDrivers = response.data.data
+            this.modelVehicle = this.listDrivers.vehicle.model;
+            this.carPlatenuber = this.listDrivers.vehicle.plate_number;
+            // console.log(this.listDrivers)
+          })
+          .catch((res) => console.log(res.data))
     },
+
+      // for (this.iterar of this.listDrivers) {
+      //   this.drivers = this.iterar;
+      //   // if (this.idDriver === information.idDriver) {
+      //   //   this.drivers = information;
+      //   //   console.log(this.drivers)
+      //   // }
+      //   console.log(this.drivers)
+      // }
+
     getPatients() {
       this.infoPatient = this.$route.params.item;
     }
 
   },
   computed: {
-    items() {
-      return this.listado.filter(item => {
-        return item.nombre.toLowerCase()
-            .includes(this.buscar.toLowerCase())
-      })
-    },
+    // items() {
+    //   return this.listado.filter(item => {
+    //     return item.nombre.toLowerCase()
+    //         .includes(this.buscar.toLowerCase())
+    //   })
+    // },
   },
   created() {
     this.getDrivers()
