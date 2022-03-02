@@ -149,20 +149,8 @@
               <b-form-group
                   label="Home Address"
               >
-                <validation-provider
-                    #default="{ errors }"
-                    rules="required"
-                >
-                  <b-form-input
-                      id="autocomplete"
-                      v-model="createdPatient.address"
-                      placeholder="98 Borough bridge Road, Birmingham"
-                      :state="errors.length > 0 ? false:null"
-                      maxlength="40"
-                      @keypress="isDirection"
-                  />
-                  <small class="text-danger" v-if="errors[0]">This field is required</small>
-                </validation-provider>
+                <gmap-autocomplete class="form-control" placeholder="Birmingham" @place_changed="initMarker">
+                </gmap-autocomplete>
               </b-form-group>
             </b-col>
             <b-col md="4">
@@ -188,25 +176,20 @@
               <b-form-group
                   label="City"
               >
-
-                <gmap-autocomplete class="form-control" placeholder="Birmingham" @place_changed="initMarker">
-                  <!--                    <b-form-input-->
-                  <!--                    placeholder="Birmingham"-->
-                  <!--                    v-model="createdPatient.city"-->
-                  <!--                    :state="errors.length > 0 ? false:null"-->
-                  <!--                    maxlength="50"-->
-                  <!--                    @keypress="isDirection"-->
-                  <!--                    />-->
-                </gmap-autocomplete>
-                <!--                  <b-form-input-->
-                <!--                      placeholder="Birmingham"-->
-                <!--                      v-model="createdPatient.city"-->
-                <!--                      :state="errors.length > 0 ? false:null"-->
-                <!--                      maxlength="50"-->
-                <!--                      @keypress="isDirection"-->
-                <!--                  />-->
-                <!--                  <small class="text-danger" v-if="errors[0]">This field is required</small>-->
-
+                <validation-provider
+                    #default="{ errors }"
+                    rules="required"
+                >
+                  <b-form-input
+                      id="autocomplete"
+                      v-model="createdPatient.city"
+                      placeholder="98 Borough bridge Road, Birmingham"
+                      :state="errors.length > 0 ? false:null"
+                      maxlength="40"
+                      @keypress="isDirection"
+                  />
+                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+                </validation-provider>
               </b-form-group>
             </b-col>
             <b-col md="4">
@@ -385,8 +368,8 @@ export default {
     },
     initMarker(loc) {
       this.existingPlace = loc
-      this.createdPatient.city = this.existingPlace.formatted_address
-      console.log(this.createdPatient.city)
+      this.createdPatient.address = this.existingPlace.formatted_address
+      console.log(this.createdPatient.address)
     },
     addLocationMarker() {
       if (this.existingPlace) {
