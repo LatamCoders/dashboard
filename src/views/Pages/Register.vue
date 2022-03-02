@@ -20,9 +20,9 @@
       <!-- Register-->
       <b-col lg="7" class="d-flex align-items-center auth-bg px-2 p-lg-5">
         <b-col sm="8" md="6" lg="12" class="px-xl-2 mx-auto form-login">
-          <b-card-title class="mb-1"> Adventure starts here</b-card-title>
+          <b-card-title class="mb-1"> Amera Registration</b-card-title>
           <b-card-text class="mb-2">
-            Make your app management easy and fun!
+            Please fill out your information to register as a Corporate Account
           </b-card-text>
 
           <!-- form -->
@@ -75,12 +75,11 @@
                           >
                             <b-form-input
                                 v-model="dataregister.company_legal_name"
-                                placeholder="johndoe"
+                                placeholder=""
                                 :state="errors.length > 0 ? false:null"
                                 type="text"
                                 pattern="^[A-Za-z]+$"
-                                maxlength="30"
-                                @keypress="isText"
+
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -96,31 +95,31 @@
                             <b-form-input
                                 v-model="dataregister.dba"
                                 :state="errors.length > 0 ? false:null"
-                                maxlength="20"
+
                                 type="text"
-                                @keypress="isText"
+
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
                         </b-form-group>
                       </b-col>
-                      <b-col md="6">
-                        <b-form-group label="Company Type">
-                          <validation-provider
-                              #default="{ errors }"
-                              name="company_type"
-                              rules="required"
-                          >
-                            <b-form-input
-                                v-model="dataregister.company_type" placeholder="Corporate"
-                                :state="errors.length > 0 ? false:null"
-                                maxlength="30"
-                                @keypress="isText"
-                            />
-                            <small class="text-danger" v-if="errors[0]">This field is required</small>
-                          </validation-provider>
-                        </b-form-group>
-                      </b-col>
+                      <!--                      <b-col md="6">-->
+                      <!--                        <b-form-group label="Company Type">-->
+                      <!--                          <validation-provider-->
+                      <!--                              #default="{ errors }"-->
+                      <!--                              name="company_type"-->
+                      <!--                              rules="required"-->
+                      <!--                          >-->
+                      <!--                            <b-form-input-->
+                      <!--                                v-model="dataregister.company_type" placeholder="Corporate"-->
+                      <!--                                :state="errors.length > 0 ? false:null"-->
+                      <!--                                maxlength="30"-->
+                      <!--                                @keypress="isText"-->
+                      <!--                            />-->
+                      <!--                            <small class="text-danger" v-if="errors[0]">This field is required</small>-->
+                      <!--                          </validation-provider>-->
+                      <!--                        </b-form-group>-->
+                      <!--                      </b-col>-->
                       <b-col md="6">
                         <b-form-group label="TIN">
                           <validation-provider
@@ -129,35 +128,34 @@
                               rules="required"
                           >
                             <b-form-input
-                                v-model="dataregister.tin" placeholder="12967552655455"
+                                v-model="dataregister.tin"
                                 :state="errors.length > 0 ? false:null"
                                 @keypress="isNumber($event)"
-                                maxlength="15"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
                         </b-form-group>
                       </b-col>
-                      <b-col md="6">
-                        <b-form-group
-                            label="Nature of Business"
-                        >
-                          <validation-provider
-                              #default="{ errors }"
-                              name="nature_of_business"
-                              rules="required"
-                          >
-                            <b-form-input
-                                v-model="dataregister.nature_of_business"
-                                placeholder="local / national"
-                                :state="errors.length > 0 ? false:null"
-                                maxlength="30"
-                                @keypress="isText"
-                            />
-                            <small class="text-danger" v-if="errors[0]">This field is required</small>
-                          </validation-provider>
-                        </b-form-group>
-                      </b-col>
+                      <!--                      <b-col md="6">-->
+                      <!--                        <b-form-group-->
+                      <!--                            label="Nature of Business"-->
+                      <!--                        >-->
+                      <!--                          <validation-provider-->
+                      <!--                              #default="{ errors }"-->
+                      <!--                              name="nature_of_business"-->
+                      <!--                              rules="required"-->
+                      <!--                          >-->
+                      <!--                            <b-form-input-->
+                      <!--                                v-model="dataregister.nature_of_business"-->
+                      <!--                                placeholder="local / national"-->
+                      <!--                                :state="errors.length > 0 ? false:null"-->
+                      <!--                                maxlength="30"-->
+                      <!--                                @keypress="isText"-->
+                      <!--                            />-->
+                      <!--                            <small class="text-danger" v-if="errors[0]">This field is required</small>-->
+                      <!--                          </validation-provider>-->
+                      <!--                        </b-form-group>-->
+                      <!--                      </b-col>-->
                       <b-col md="6">
                         <b-form-group
                             label="Contract Start Date"
@@ -240,16 +238,15 @@
                       </b-col>
                       <b-col md="6">
                         <b-form-group
-                            label="Telephone Number"
+                            label="Phone Number"
                         >
                           <validation-provider
                               #default="{ errors }"
-                              name="telephone_number"
+                              name="phone_number"
                               rules="required"
                           >
                             <b-form-input
                                 v-model="dataregister.telephone_number"
-                                placeholder="038555555"
                                 :state="errors.length > 0 ? false:null"
                                 @keypress="isNumber($event)"
                                 maxlength="10"
@@ -261,19 +258,11 @@
                       >
                       <b-col md="6">
                         <b-form-group label="Fax Number">
-                          <validation-provider
-                              #default="{ errors }"
-                              name="fax_number"
-                              rules="required"
-                          >
-                            <b-form-input
-                                v-model="dataregister.fax_number" placeholder="155926969"
-                                :state="errors.length > 0 ? false:null"
-                                @keypress="isNumber($event)"
-                                maxlength="9"
-                            />
-                            <small class="text-danger" v-if="errors[0]">This field is required</small>
-                          </validation-provider>
+                          <b-form-input
+                              v-model="dataregister.fax_number"
+                              @keypress="isNumber($event)"
+                              maxlength="9"
+                          />
                         </b-form-group>
                       </b-col>
                       <b-col md="6">
@@ -286,7 +275,6 @@
                             <b-form-input
                                 v-model="dataregister.email"
                                 type="email"
-                                placeholder="john.doe@email.com"
                                 :state="errors.length > 0 ? false:null"
                                 maxlength="30"
                             />
@@ -303,7 +291,6 @@
                           >
                             <b-form-input
                                 v-model="dataregister.website"
-                                placeholder="www.amera.com"
                                 :state="errors.length > 0 ? false:null"
                                 maxlength="30"
                             />
@@ -322,7 +309,6 @@
                           >
                             <b-form-input
                                 v-model="dataregister.contact_name"
-                                placeholder="Jhon doe"
                                 :state="errors.length > 0 ? false:null"
                                 maxlength="30"
                                 @keypress="isText"
@@ -342,7 +328,6 @@
                           >
                             <b-form-input
                                 v-model="dataregister.contact_number"
-                                placeholder="05656366"
                                 :state="errors.length > 0 ? false:null"
                                 @keypress="isNumber($event)"
                                 maxlength="10"
@@ -372,76 +357,49 @@
                         <b-form-group
                             label="Additional Contact Name"
                         >
-                          <validation-provider
-                              #default="{ errors }"
-                              name="additional_contact_name"
-                              rules="required"
-                          >
-                            <b-form-input
-                                :state="errors.length > 0 ? false:null"
-                                v-model="dataregister.additional_contact_name"
-                                maxlength="30"
-                                @keypress="isText"
-                            />
-                            <small class="text-danger" v-if="errors[0]">This field is required</small>
-                          </validation-provider>
+                          <b-form-input
+                              v-model="dataregister.additional_contact_name"
+                              maxlength="30"
+                              @keypress="isText"
+                          />
                         </b-form-group>
                       </b-col>
-                      <b-col md="6">
-                        <b-form-group
-                            label="Additional Contact Title"
-                        >
-                          <validation-provider
-                              #default="{ errors }"
-                              name="additional_contact_title"
-                              rules="required"
-                          >
-                            <b-form-input
-                                :state="errors.length > 0 ? false:null"
-                                v-model="dataregister.additional_contact_title"
-                                maxlength="30"
-                                @keypress="isText"
-                            />
-                            <small class="text-danger" v-if="errors[0]">This field is required</small>
-                          </validation-provider>
-                        </b-form-group>
-                      </b-col>
+<!--                      <b-col md="6">-->
+<!--                        <b-form-group-->
+<!--                            label="Additional Contact Title"-->
+<!--                        >-->
+<!--                          <b-form-input-->
+
+<!--                              v-model="dataregister.additional_contact_title"-->
+<!--                              maxlength="30"-->
+<!--                              @keypress="isText"-->
+<!--                          />-->
+<!--                        </b-form-group>-->
+<!--                      </b-col>-->
                       <b-col md="6">
                         <b-form-group
                             label="Additional Contact Number"
                         >
-                          <validation-provider
-                              #default="{ errors }"
-                              name="additional_contact_number"
-                              rules="required"
-                          >
-                            <b-form-input
-                                v-model="dataregister.additional_contact_number"
-                                placeholder="658921"
-                                :state="errors.length > 0 ? false:null"
-                                @keypress="isNumber($event)"
-                                maxlength="10"
-                            />
-                            <small class="text-danger" v-if="errors[0]">This field is required</small>
-                          </validation-provider>
+                          <b-form-input
+                              v-model="dataregister.additional_contact_number"
+                              placeholder="658921"
+
+                              @keypress="isNumber($event)"
+                              maxlength="10"
+                          />
                         </b-form-group>
                       </b-col>
                       <b-col md="6">
                         <b-form-group
                             label="Additional Contact Email"
                         >
-                          <validation-provider
-                              #default="{ errors }"
-                              name="additional_contact_email"
-                              rules="required|email"
-                          >
-                            <b-form-input
-                                v-model="dataregister.additional_contact_email" placeholder="@"
-                                :state="errors.length > 0 ? false:null"
-                                maxlength="30"
-                            />
-                            <small class="text-danger" v-if="errors[0]">This field is required</small>
-                          </validation-provider>
+
+                          <b-form-input
+                              v-model="dataregister.additional_contact_email"
+                              placeholder="@"
+                              maxlength="30"
+                          />
+
                         </b-form-group>
                       </b-col>
                     </b-row>
@@ -459,7 +417,7 @@
                     <b-row>
                       <b-col cols="12" class="mb-2">
                         <h5 class="mb-0">Credit card</h5>
-                        <small class="text-muted" style="color: #000000d6 !important">Enter Your Credit card</small>
+                        <small class="text-muted" style="color: #000000d6 !important">Enter your credit card information</small>
                       </b-col>
                       <b-col md="6">
                         <b-form-group label="Name on Credit Card">
@@ -520,26 +478,26 @@
                           </validation-provider>
                         </b-form-group>
                       </b-col>
-                      <b-col md="6">
-                        <b-form-group
-                            label="ZIP"
-                        >
-                          <validation-provider
-                              #default="{ errors }"
-                              name="zip"
-                              rules="required"
-                          >
-                            <b-form-input
-                                v-model="dataregister.zip"
-                                placeholder="130008"
-                                :state="errors.length > 0 ? false:null"
-                                @keypress="isNumber($event)"
-                                maxlength="9"
-                            />
-                            <small class="text-danger" v-if="errors[0]">This field is required</small>
-                          </validation-provider>
-                        </b-form-group>
-                      </b-col>
+<!--                      <b-col md="6">-->
+<!--                        <b-form-group-->
+<!--                            label="ZIP"-->
+<!--                        >-->
+<!--                          <validation-provider-->
+<!--                              #default="{ errors }"-->
+<!--                              name="zip"-->
+<!--                              rules="required"-->
+<!--                          >-->
+<!--                            <b-form-input-->
+<!--                                v-model="dataregister.zip"-->
+<!--                                placeholder="130008"-->
+<!--                                :state="errors.length > 0 ? false:null"-->
+<!--                                @keypress="isNumber($event)"-->
+<!--                                maxlength="9"-->
+<!--                            />-->
+<!--                            <small class="text-danger" v-if="errors[0]">This field is required</small>-->
+<!--                          </validation-provider>-->
+<!--                        </b-form-group>-->
+<!--                      </b-col>-->
                       <b-col md="6">
                         <b-form-group
                             label="Code to cvv"
@@ -617,10 +575,10 @@
 
 <script>
 /* eslint-disable global-require */
-import { FormWizard, TabContent } from 'vue-form-wizard'
+import {FormWizard, TabContent} from 'vue-form-wizard'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import {ValidationProvider, ValidationObserver} from 'vee-validate'
 import VuexyLogo from '@core/layouts/components/Logo.vue'
 import axios from 'axios'
 import Ripple from 'vue-ripple-directive'
@@ -641,8 +599,8 @@ import {
   BCardText,
   BFormSelect, BFormDatepicker,
 } from 'bootstrap-vue'
-import { required, email } from '@validations'
-import { togglePasswordVisibility } from '@core/mixins/ui/forms'
+import {required, email} from '@validations'
+import {togglePasswordVisibility} from '@core/mixins/ui/forms'
 import store from '@/store/index'
 import useJwt from '@/auth/jwt/useJwt'
 import vSelect from 'vue-select'
@@ -823,29 +781,29 @@ export default {
               this.$router.push({name: 'login'})
 
               //clear form
-                  this.dataregister.company_legal_name = '';
-                  this.dataregister.dba = '';
-                  this.dataregister.company_type = '';
-                  this.dataregister.tin = '';
-                  this.dataregister.nature_of_business = '';
-                  this.dataregister.contract_start_date = '';
-                  this.dataregister.office_location_address = '';
-                  this.dataregister.billing_address = '';
-                  this.dataregister.telephone_number = '';
-                  this.dataregister.fax_number = '';
-                  this.dataregister.email = '';
-                  this.dataregister.website = '';
-                  this.dataregister.contact_name = '';
-                  this.dataregister.contact_number = '';
-                  this.dataregister.additional_contact_name = '';
-                  this.dataregister.additional_contact_title = '';
-                  this.dataregister.additional_contact_number = '';
-                  this.dataregister.additional_contact_email = '';
-                  this.dataregister.name_on_cc = '';
-                  this.dataregister.cc_number = '';
-                  this.dataregister.type_of_cc = '';
-                  this.dataregister.zip = '';
-                  this.dataregister.code_of_cc = '';
+              this.dataregister.company_legal_name = '';
+              this.dataregister.dba = '';
+              this.dataregister.company_type = '';
+              this.dataregister.tin = '';
+              this.dataregister.nature_of_business = '';
+              this.dataregister.contract_start_date = '';
+              this.dataregister.office_location_address = '';
+              this.dataregister.billing_address = '';
+              this.dataregister.telephone_number = '';
+              this.dataregister.fax_number = '';
+              this.dataregister.email = '';
+              this.dataregister.website = '';
+              this.dataregister.contact_name = '';
+              this.dataregister.contact_number = '';
+              this.dataregister.additional_contact_name = '';
+              this.dataregister.additional_contact_title = '';
+              this.dataregister.additional_contact_number = '';
+              this.dataregister.additional_contact_email = '';
+              this.dataregister.name_on_cc = '';
+              this.dataregister.cc_number = '';
+              this.dataregister.type_of_cc = '';
+              this.dataregister.zip = '';
+              this.dataregister.code_of_cc = '';
               // console.log('bien')
             } else {
               this.$swal({

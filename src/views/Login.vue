@@ -42,7 +42,7 @@
             Welcome to Amera! 👋
           </b-card-title>
           <b-card-text class="mb-2">
-            Please sign-in to your account and start the adventure
+            Please sign-in to your account to start the adventure
           </b-card-text>
 
           <!-- form Admin -->
@@ -70,7 +70,7 @@
                         name="login-email"
                         placeholder="john@example.com"
                     />
-                    <small v-if="errors[0]" class="text-danger">This field is required</small>
+                    <small v-if="errors[0]" class="text-danger">This field is required, enter a valid email </small>
                   </validation-provider>
                 </b-form-group>
 
@@ -144,43 +144,43 @@
           </b-card-text>
 
           <!-- divider -->
-          <div class="divider my-2">
-            <div class="divider-text">
-              or
-            </div>
-          </div>
+<!--          <div class="divider my-2">-->
+<!--            <div class="divider-text">-->
+<!--              or-->
+<!--            </div>-->
+<!--          </div>-->
 
-          <!-- social buttons -->
-          <div class="auth-footer-btn d-flex justify-content-center">
-            <b-button
-                variant="facebook"
-                href="javascript:void(0)"
-                style="background-color: transparent"
-            >
-              <b-img src="@/assets/images/icons/facebook.png" height="35"></b-img>
-            </b-button>
-            <b-button
-                variant="twitter"
-                href="javascript:void(0)"
-                style="background-color: transparent"
-            >
-              <b-img src="@/assets/images/icons/instagram.png" height="35"></b-img>
-            </b-button>
-            <b-button
-                variant="google"
-                href="javascript:void(0)"
-                style="background-color: transparent"
-            >
-              <b-img src="@/assets/images/icons/youtube.png" height="35"></b-img>
-            </b-button>
-            <b-button
-                variant="github"
-                href="javascript:void(0)"
-                style="background-color: transparent"
-            >
-              <b-img src="@/assets/images/icons/whatsaap.png" height="35"></b-img>
-            </b-button>
-          </div>
+<!--          &lt;!&ndash; social buttons &ndash;&gt;-->
+<!--          <div class="auth-footer-btn d-flex justify-content-center">-->
+<!--            <b-button-->
+<!--                variant="facebook"-->
+<!--                href="javascript:void(0)"-->
+<!--                style="background-color: transparent"-->
+<!--            >-->
+<!--              <b-img src="@/assets/images/icons/facebook.png" height="35"></b-img>-->
+<!--            </b-button>-->
+<!--            <b-button-->
+<!--                variant="twitter"-->
+<!--                href="javascript:void(0)"-->
+<!--                style="background-color: transparent"-->
+<!--            >-->
+<!--              <b-img src="@/assets/images/icons/instagram.png" height="35"></b-img>-->
+<!--            </b-button>-->
+<!--            <b-button-->
+<!--                variant="google"-->
+<!--                href="javascript:void(0)"-->
+<!--                style="background-color: transparent"-->
+<!--            >-->
+<!--              <b-img src="@/assets/images/icons/youtube.png" height="35"></b-img>-->
+<!--            </b-button>-->
+<!--            <b-button-->
+<!--                variant="github"-->
+<!--                href="javascript:void(0)"-->
+<!--                style="background-color: transparent"-->
+<!--            >-->
+<!--              <b-img src="@/assets/images/icons/whatsaap.png" height="35"></b-img>-->
+<!--            </b-button>-->
+<!--          </div>-->
         </b-col>
       </b-col>
       <!-- /Login-->
