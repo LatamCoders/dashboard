@@ -291,10 +291,11 @@
                           >
                             <b-form-input
                                 v-model="dataregister.website"
-                                :state="errors.length > 0 ? false:null"
+                                :state="website === false ? false : null"
                                 maxlength="30"
                             />
-                            <small class="text-danger" v-if="errors[0]">This field is required</small>
+                            <!--                            <small class="text-danger" v-if="errors[0]">This field is required</small>-->
+                            <small class="text-danger"  v-if="errors[0]">Website incorrect</small>
                           </validation-provider>
                         </b-form-group>
                       </b-col>
@@ -364,18 +365,18 @@
                           />
                         </b-form-group>
                       </b-col>
-<!--                      <b-col md="6">-->
-<!--                        <b-form-group-->
-<!--                            label="Additional Contact Title"-->
-<!--                        >-->
-<!--                          <b-form-input-->
+                      <!--                      <b-col md="6">-->
+                      <!--                        <b-form-group-->
+                      <!--                            label="Additional Contact Title"-->
+                      <!--                        >-->
+                      <!--                          <b-form-input-->
 
-<!--                              v-model="dataregister.additional_contact_title"-->
-<!--                              maxlength="30"-->
-<!--                              @keypress="isText"-->
-<!--                          />-->
-<!--                        </b-form-group>-->
-<!--                      </b-col>-->
+                      <!--                              v-model="dataregister.additional_contact_title"-->
+                      <!--                              maxlength="30"-->
+                      <!--                              @keypress="isText"-->
+                      <!--                          />-->
+                      <!--                        </b-form-group>-->
+                      <!--                      </b-col>-->
                       <b-col md="6">
                         <b-form-group
                             label="Additional Contact Number"
@@ -417,28 +418,29 @@
                     <b-row>
                       <b-col cols="12" class="mb-2">
                         <h5 class="mb-0">Credit card</h5>
-                        <small class="text-muted" style="color: #000000d6 !important">Enter your credit card information</small>
+                        <small class="text-muted" style="color: #000000d6 !important">Enter your credit card
+                          information</small>
                       </b-col>
                       <b-col md="6">
                         <b-form-group label="Name on Credit Card">
-                            <b-form-input
-                                placeholder="Jhon Doe"
-                                v-model="dataregister.name_on_cc"
-                                maxlength="30"
-                                @keypress="isText"
-                            />
+                          <b-form-input
+                              placeholder="Jhon Doe"
+                              v-model="dataregister.name_on_cc"
+                              maxlength="30"
+                              @keypress="isText"
+                          />
                         </b-form-group>
                       </b-col>
                       <b-col md="6">
                         <b-form-group
                             label="Card Number"
                         >
-                            <b-form-input
-                                v-model="dataregister.cc_number"
-                                placeholder="1111 2222 1111 2222 11"
-                                @keypress="isNumber($event)"
-                                maxlength="18"
-                            />
+                          <b-form-input
+                              v-model="dataregister.cc_number"
+                              placeholder="1111 2222 1111 2222 11"
+                              @keypress="isNumber($event)"
+                              maxlength="18"
+                          />
                         </b-form-group>
                       </b-col>
                       <b-col md="6">
@@ -446,48 +448,48 @@
                             label="Type of credit card"
                         >
 
-                            <v-select
-                                v-model="credito"
-                                :options="options"
+                          <v-select
+                              v-model="credito"
+                              :options="options"
 
-                                label="title"
-                                placeholder="Select a item"
-                                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                            />
+                              label="title"
+                              placeholder="Select a item"
+                              :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                          />
 
                         </b-form-group>
                       </b-col>
-<!--                      <b-col md="6">-->
-<!--                        <b-form-group-->
-<!--                            label="ZIP"-->
-<!--                        >-->
-<!--                          <validation-provider-->
-<!--                              #default="{ errors }"-->
-<!--                              name="zip"-->
-<!--                              rules="required"-->
-<!--                          >-->
-<!--                            <b-form-input-->
-<!--                                v-model="dataregister.zip"-->
-<!--                                placeholder="130008"-->
-<!--                                :state="errors.length > 0 ? false:null"-->
-<!--                                @keypress="isNumber($event)"-->
-<!--                                maxlength="9"-->
-<!--                            />-->
-<!--                            <small class="text-danger" v-if="errors[0]">This field is required</small>-->
-<!--                          </validation-provider>-->
-<!--                        </b-form-group>-->
-<!--                      </b-col>-->
+                      <!--                      <b-col md="6">-->
+                      <!--                        <b-form-group-->
+                      <!--                            label="ZIP"-->
+                      <!--                        >-->
+                      <!--                          <validation-provider-->
+                      <!--                              #default="{ errors }"-->
+                      <!--                              name="zip"-->
+                      <!--                              rules="required"-->
+                      <!--                          >-->
+                      <!--                            <b-form-input-->
+                      <!--                                v-model="dataregister.zip"-->
+                      <!--                                placeholder="130008"-->
+                      <!--                                :state="errors.length > 0 ? false:null"-->
+                      <!--                                @keypress="isNumber($event)"-->
+                      <!--                                maxlength="9"-->
+                      <!--                            />-->
+                      <!--                            <small class="text-danger" v-if="errors[0]">This field is required</small>-->
+                      <!--                          </validation-provider>-->
+                      <!--                        </b-form-group>-->
+                      <!--                      </b-col>-->
                       <b-col md="6">
                         <b-form-group
                             label="Code to cvv"
                         >
 
-                            <b-form-input
-                                v-model="dataregister.code_of_cc"
-                                placeholder="1303"
-                                @keypress="isNumber($event)"
-                                maxlength="4"
-                            />
+                          <b-form-input
+                              v-model="dataregister.code_of_cc"
+                              placeholder="1303"
+                              @keypress="isNumber($event)"
+                              maxlength="4"
+                          />
                         </b-form-group>
                       </b-col>
                     </b-row>
@@ -501,41 +503,41 @@
                 <span>&nbsp;Sign in instead</span>
               </b-link>
             </p>
-            <!-- divider -->
-            <div class="divider my-2">
-              <div class="divider-text">or</div>
-            </div>
+<!--            &lt;!&ndash; divider &ndash;&gt;-->
+<!--            <div class="divider my-2">-->
+<!--              <div class="divider-text">or</div>-->
+<!--            </div>-->
 
-            <div class="auth-footer-btn d-flex justify-content-center">
-              <b-button
-                  variant="facebook"
-                  href="javascript:void(0)"
-                  style="background-color: transparent"
-              >
-                <b-img src="@/assets/images/icons/facebook.png" height="39"></b-img>
-              </b-button>
-              <b-button
-                  variant="twitter"
-                  href="javascript:void(0)"
-                  style="background-color: transparent"
-              >
-                <b-img src="@/assets/images/icons/instagram.png" height="39"></b-img>
-              </b-button>
-              <b-button
-                  variant="google"
-                  href="javascript:void(0)"
-                  style="background-color: transparent"
-              >
-                <b-img src="@/assets/images/icons/youtube.png" height="39"></b-img>
-              </b-button>
-              <b-button
-                  variant="github"
-                  href="javascript:void(0)"
-                  style="background-color: transparent"
-              >
-                <b-img src="@/assets/images/icons/whatsaap.png" height="39"></b-img>
-              </b-button>
-            </div>
+<!--            <div class="auth-footer-btn d-flex justify-content-center">-->
+<!--              <b-button-->
+<!--                  variant="facebook"-->
+<!--                  href="javascript:void(0)"-->
+<!--                  style="background-color: transparent"-->
+<!--              >-->
+<!--                <b-img src="@/assets/images/icons/facebook.png" height="39"></b-img>-->
+<!--              </b-button>-->
+<!--              <b-button-->
+<!--                  variant="twitter"-->
+<!--                  href="javascript:void(0)"-->
+<!--                  style="background-color: transparent"-->
+<!--              >-->
+<!--                <b-img src="@/assets/images/icons/instagram.png" height="39"></b-img>-->
+<!--              </b-button>-->
+<!--              <b-button-->
+<!--                  variant="google"-->
+<!--                  href="javascript:void(0)"-->
+<!--                  style="background-color: transparent"-->
+<!--              >-->
+<!--                <b-img src="@/assets/images/icons/youtube.png" height="39"></b-img>-->
+<!--              </b-button>-->
+<!--              <b-button-->
+<!--                  variant="github"-->
+<!--                  href="javascript:void(0)"-->
+<!--                  style="background-color: transparent"-->
+<!--              >-->
+<!--                <b-img src="@/assets/images/icons/whatsaap.png" height="39"></b-img>-->
+<!--              </b-button>-->
+<!--            </div>-->
           </template>
         </b-col>
 
@@ -643,6 +645,8 @@ export default {
         type_of_cc: '',
         code_of_cc: '',
       },
+      resultweb: '',
+      contenpunto: '',
       credito: '',
       enviados: [],
       status: '',
@@ -672,6 +676,28 @@ export default {
       }
       return this.sideImg
     },
+    website() {
+      if(this.dataregister.website !== '') {
+        this.resultweb = this.dataregister.website.split('.').pop();
+        if (this.resultweb === '') {
+          return false;
+        } else if (this.resultweb !== '' && this.contenpunto === -1) {
+          return false;
+        } else {
+          return null
+        }
+      }
+    },
+  },
+  watch: {
+    'dataregister.website'() {
+      this.contenpunto = this.dataregister.website.indexOf('.');
+      if (this.contenpunto !== -1) {
+        return null;
+      } else {
+        return false
+      }
+    }
   },
   methods: {
     isNumber: function (evt) {
@@ -739,9 +765,9 @@ export default {
     },
     formSubmitted() {
       this.dataregister.type_of_cc = this.credito.title;
-      if(this.dataregister.type_of_cc === undefined){
+      if (this.dataregister.type_of_cc === undefined) {
         this.dataregister.type_of_cc = '';
-      }else {
+      } else {
         this.dataregister.type_of_cc
       }
       this.$http.post('auth/ca/register', this.dataregister, {
