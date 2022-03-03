@@ -147,23 +147,6 @@
           </b-form-group>
         </b-col>
 
-        <!-- Field: Address Line 2 -->
-        <b-col
-            cols="12"
-            md="6"
-            lg="4"
-        >
-          <b-form-group
-              label="Additional Contact Title"
-          >
-            <b-form-input
-                v-model="infoUser.additional_contact_title"
-                placeholder="Los Santos"
-                disabled
-            />
-          </b-form-group>
-        </b-col>
-
         <!-- Field: Postcode -->
         <b-col
             cols="12"

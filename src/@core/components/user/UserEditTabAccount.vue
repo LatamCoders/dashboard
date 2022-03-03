@@ -48,7 +48,7 @@
         <!-- Field: Username -->
         <b-col
             cols="12"
-            md="3"
+            md="4"
         >
           <b-form-group
               label="Name"
@@ -65,7 +65,7 @@
         <!-- Field: Full Name -->
         <b-col
             cols="12"
-            md="3"
+            md="4"
         >
           <b-form-group
               label="Email"
@@ -85,7 +85,7 @@
         <!-- Field: Username -->
         <b-col
             cols="12"
-            md="3"
+            md="4"
         >
           <b-form-group
               label="Company Legal Name"
@@ -102,7 +102,7 @@
         <!-- Field: Full Name -->
         <b-col
             cols="12"
-            md="3"
+            md="4"
         >
           <b-form-group
               label="DBA"
@@ -117,22 +117,7 @@
         <!-- Field: Email -->
         <b-col
             cols="12"
-            md="3"
-        >
-          <b-form-group
-              label="Company Type"
-          >
-            <b-form-input
-                v-model="userData.corporate_account.company_type"
-                disabled
-            />
-          </b-form-group>
-        </b-col>
-
-        <!-- Field: Email -->
-        <b-col
-            cols="12"
-            md="3"
+            md="4"
         >
           <b-form-group
               label="TIN"
@@ -146,27 +131,10 @@
 
       </b-row>
       <b-row>
-        <!-- Field: Username -->
-        <b-col
-            cols="12"
-            md="3"
-        >
-          <b-form-group
-              label="Nature of Business"
-
-          >
-            <b-form-input
-                v-model="userData.corporate_account.nature_of_business"
-                disabled
-
-            />
-          </b-form-group>
-        </b-col>
-
         <!-- Field: Full Name -->
         <b-col
             cols="12"
-            md="3"
+            md="4"
         >
           <b-form-group
               label="Contract start Date"
@@ -181,7 +149,7 @@
         <!-- Field: Email -->
         <b-col
             cols="12"
-            md="3"
+            md="4"
         >
           <b-form-group
               label="Office Location Address"
@@ -196,7 +164,7 @@
         <!-- Field: Email -->
         <b-col
             cols="12"
-            md="3"
+            md="4"
         >
           <b-form-group
               label="Billing Address"

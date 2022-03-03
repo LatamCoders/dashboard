@@ -130,7 +130,7 @@
                             <b-form-input
                                 v-model="dataregister.tin"
                                 :state="errors.length > 0 ? false:null"
-                                @keypress="isNumber($event)"
+                                @keypress="isNumberVar($event)"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
                           </validation-provider>
@@ -421,61 +421,40 @@
                       </b-col>
                       <b-col md="6">
                         <b-form-group label="Name on Credit Card">
-                          <validation-provider
-                              #default="{ errors }"
-                              name="name_on_cc"
-                              rules="required"
-                          >
                             <b-form-input
                                 placeholder="Jhon Doe"
                                 v-model="dataregister.name_on_cc"
-                                :state="errors.length > 0 ? false:null"
                                 maxlength="30"
                                 @keypress="isText"
                             />
-                            <small class="text-danger" v-if="errors[0]">This field is required</small>
-                          </validation-provider>
                         </b-form-group>
                       </b-col>
                       <b-col md="6">
                         <b-form-group
                             label="Card Number"
                         >
-                          <validation-provider
-                              #default="{ errors }"
-                              name="cc_number"
-                              rules="required"
-                          >
                             <b-form-input
                                 v-model="dataregister.cc_number"
                                 placeholder="1111 2222 1111 2222 11"
-                                :state="errors.length > 0 ? false:null"
                                 @keypress="isNumber($event)"
                                 maxlength="18"
                             />
-                            <small class="text-danger" v-if="errors[0]">This field is required</small>
-                          </validation-provider>
                         </b-form-group>
                       </b-col>
                       <b-col md="6">
                         <b-form-group
                             label="Type of credit card"
                         >
-                          <validation-provider
-                              #default="{ errors }"
-                              name="type_of_cc"
-                              rules="required"
-                          >
+
                             <v-select
                                 v-model="credito"
                                 :options="options"
-                                :state="errors.length > 0 ? false:null"
+
                                 label="title"
                                 placeholder="Select a item"
                                 :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                             />
-                            <small class="text-danger" v-if="errors[0]">This field is required</small>
-                          </validation-provider>
+
                         </b-form-group>
                       </b-col>
 <!--                      <b-col md="6">-->
@@ -502,20 +481,13 @@
                         <b-form-group
                             label="Code to cvv"
                         >
-                          <validation-provider
-                              #default="{ errors }"
-                              name="code_of_cc"
-                              rules="required"
-                          >
+
                             <b-form-input
                                 v-model="dataregister.code_of_cc"
                                 placeholder="1303"
-                                :state="errors.length > 0 ? false:null"
                                 @keypress="isNumber($event)"
                                 maxlength="4"
                             />
-                            <small class="text-danger" v-if="errors[0]">This field is required</small>
-                          </validation-provider>
                         </b-form-group>
                       </b-col>
                     </b-row>
@@ -653,9 +625,7 @@ export default {
       dataregister: {
         company_legal_name: '',
         dba: '',
-        company_type: '',
         tin: '',
-        nature_of_business: '',
         contract_start_date: '',
         office_location_address: '',
         billing_address: '',
@@ -666,13 +636,11 @@ export default {
         contact_name: '',
         contact_number: '',
         additional_contact_name: '',
-        additional_contact_title: '',
         additional_contact_number: '',
         additional_contact_email: '',
         name_on_cc: '',
         cc_number: '',
         type_of_cc: '',
-        zip: '',
         code_of_cc: '',
       },
       credito: '',
@@ -735,6 +703,14 @@ export default {
         return false;
       }
     },
+    isNumberVar: function (event) {
+      let regex = new RegExp("^[-Z0-9 ]+$");
+      let key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+      if (!regex.test(key)) {
+        event.preventDefault();
+        return false;
+      }
+    },
     register() {
       this.$refs.registerForm.validate()
           .then((success) => {
@@ -763,6 +739,11 @@ export default {
     },
     formSubmitted() {
       this.dataregister.type_of_cc = this.credito.title;
+      if(this.dataregister.type_of_cc === undefined){
+        this.dataregister.type_of_cc = '';
+      }else {
+        this.dataregister.type_of_cc
+      }
       this.$http.post('auth/ca/register', this.dataregister, {
         headers: {
           'X-Requested-With': 'XMLHttpRequest'
@@ -783,9 +764,7 @@ export default {
               //clear form
               this.dataregister.company_legal_name = '';
               this.dataregister.dba = '';
-              this.dataregister.company_type = '';
               this.dataregister.tin = '';
-              this.dataregister.nature_of_business = '';
               this.dataregister.contract_start_date = '';
               this.dataregister.office_location_address = '';
               this.dataregister.billing_address = '';
@@ -796,13 +775,11 @@ export default {
               this.dataregister.contact_name = '';
               this.dataregister.contact_number = '';
               this.dataregister.additional_contact_name = '';
-              this.dataregister.additional_contact_title = '';
               this.dataregister.additional_contact_number = '';
               this.dataregister.additional_contact_email = '';
               this.dataregister.name_on_cc = '';
               this.dataregister.cc_number = '';
               this.dataregister.type_of_cc = '';
-              this.dataregister.zip = '';
               this.dataregister.code_of_cc = '';
               // console.log('bien')
             } else {

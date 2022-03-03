@@ -55,20 +55,7 @@
             />
           </b-form-group>
         </b-col>
-        <b-col
-            cols="12"
-            md="6"
-            lg="4"
-        >
-          <b-form-group
-              label="ZIP"
-          >
-            <b-form-input
-                v-model="infoPayment.zip"
-                disabled
-            />
-          </b-form-group>
-        </b-col>
+
         <b-col
             cols="12"
             md="6"

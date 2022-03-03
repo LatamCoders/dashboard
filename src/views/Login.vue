@@ -69,6 +69,7 @@
                         :state="errors.length > 0 ? false:null"
                         name="login-email"
                         placeholder="john@example.com"
+                        type="email"
                     />
                     <small v-if="errors[0]" class="text-danger">This field is required, enter a valid email </small>
                   </validation-provider>
