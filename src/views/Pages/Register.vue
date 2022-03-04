@@ -87,20 +87,10 @@
                       </b-col>
                       <b-col md="6">
                         <b-form-group label="DBA">
-                          <validation-provider
-                              #default="{ errors }"
-                              name="dba"
-                              rules="required"
-                          >
                             <b-form-input
                                 v-model="dataregister.dba"
-                                :state="errors.length > 0 ? false:null"
-
                                 type="text"
-
                             />
-                            <small class="text-danger" v-if="errors[0]">This field is required</small>
-                          </validation-provider>
                         </b-form-group>
                       </b-col>
                       <!--                      <b-col md="6">-->
@@ -383,8 +373,6 @@
                         >
                           <b-form-input
                               v-model="dataregister.additional_contact_number"
-                              placeholder="658921"
-
                               @keypress="isNumber($event)"
                               maxlength="10"
                           />
@@ -397,7 +385,6 @@
 
                           <b-form-input
                               v-model="dataregister.additional_contact_email"
-                              placeholder="@"
                               maxlength="30"
                           />
 
