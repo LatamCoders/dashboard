@@ -411,7 +411,6 @@
                       <b-col md="6">
                         <b-form-group label="Name on Credit Card">
                           <b-form-input
-                              placeholder="Jhon Doe"
                               v-model="dataregister.name_on_cc"
                               maxlength="30"
                               @keypress="isText"
@@ -424,7 +423,6 @@
                         >
                           <b-form-input
                               v-model="dataregister.cc_number"
-                              placeholder="1111 2222 1111 2222 11"
                               @keypress="isNumber($event)"
                               maxlength="18"
                           />
