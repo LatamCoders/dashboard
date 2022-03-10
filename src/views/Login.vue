@@ -284,14 +284,17 @@ export default {
           buttonsStyling: false,
         })
       } else {
-        // this.$swal({
-        //   title: 'Please, wait...',
-        //   didOpen: () => {
-        //     this.$swal.showLoading()
-        //   },
-        //   willClose() {
-        //   }
-        // })
+        this.$swal({
+          title: 'Please, wait...',
+          didOpen: () => {
+            this.$swal.showLoading()
+          },
+          timer: 1000,
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
+        })
 
         this.$store.dispatch('Users/retrieveToken', this.person)
             .then((res) => {

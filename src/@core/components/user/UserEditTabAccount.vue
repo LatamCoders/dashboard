@@ -5,11 +5,14 @@
     <b-media class="mb-2">
       <template #aside>
         <b-avatar
-            ref="previewEl"
-            src="@/assets/images/avatars/13-small.png"
-            size="90px"
+            size="70px"
             rounded
-        />
+            class="backgroundProfile"
+        >
+          <p class="text-name">
+            {{ ProfileName(userData.name) }}
+          </p>
+        </b-avatar>
       </template>
       <h4 class="">
         {{ userData.name }} ( <span style="font-size: 0.9rem">
@@ -240,15 +243,28 @@ export default {
   props: {
     userData: {},
   },
-  setup() {
-    return {}
+  data() {
+    return {
+      nameProfile: '',
+    }
   },
-  // mounted() {
-  //   console.log(this.userData)
-  // }
+  methods: {
+    ProfileName(name) {
+      return name.charAt(0).toUpperCase() + name.charAt(1).toUpperCase();
+    }
+  },
+
 }
 </script>
 
 <style lang="scss">
 @import '@core/scss/vue/libs/vue-select.scss';
+
+.text-name {
+  font-size: 1.5rem;
+  margin-bottom: 0 !important;
+}
+.backgroundProfile{
+  background-color: $primary;
+}
 </style>

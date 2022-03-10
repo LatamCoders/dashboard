@@ -6,10 +6,15 @@
       <template #aside>
         <b-avatar
             ref="previewEl"
-            src="@/assets/images/avatars/13-small.png"
+            :src="ProfileName(userData.name)"
             size="90px"
             rounded
-        />
+            class="backgroundProfile-driver"
+        >
+          <p class="text-name-driver">
+            {{ ProfileName(userData.name) }}
+          </p>
+        </b-avatar>
       </template>
       <h4 class="">
         <span class="name-corporative">{{ userData.name + ' ' + userData.lastname }}</span>
@@ -168,9 +173,20 @@ export default {
   props: {
     userData: {},
   },
-  setup() {
-    return {}
+  data() {
+    return {
+      src: '',
+    }
   },
+  methods: {
+    ProfileName(name) {
+      if(this.userData.profile_picture === null){
+        return name.charAt(0).toUpperCase() + name.charAt(1).toUpperCase();
+      }else {
+        return this.userData.profile_picture;
+      }
+    }
+  }
   // mounted() {
   //   console.log(this.userData)
   // }
@@ -179,4 +195,11 @@ export default {
 
 <style lang="scss">
 @import '@core/scss/vue/libs/vue-select.scss';
+.text-name-driver {
+  font-size: 1.5rem;
+  margin-bottom: 0 !important;
+}
+.backgroundProfile-driver{
+  background-color: $primary;
+}
 </style>

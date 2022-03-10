@@ -35,13 +35,14 @@
             <span class="user-status"> {{ $store.getters["Users/userData"].user.role.role }} </span>
           </div>
           <b-avatar
-              size="40"
-              variant="light-primary"
-              badge
-              :src="require('@/assets/images/avatars/13-small.png')"
-              class="badge-minimal"
-              badge-variant="success"
-          />
+              size="40px"
+              rounded
+              class="backgroundProfile-navbar"
+          >
+            <p class="text-name-navbar">
+              {{ ProfileName( $store.getters['Users/userData'].user.name) }}
+            </p>
+          </b-avatar>
         </template>
 
         <b-dropdown-item link-class="d-flex align-items-center">
@@ -120,6 +121,9 @@ export default {
     return {}
   },
   methods: {
+    ProfileName(name) {
+      return name.charAt(0).toUpperCase() + name.charAt(1).toUpperCase();
+    },
     logOut() {
       this.$swal({
         title: 'Please, wait...',
@@ -152,7 +156,8 @@ export default {
         });
       })
 
-    }
+    },
+
   },
   props: {
     toggleVerticalMenuActive: {
@@ -163,3 +168,14 @@ export default {
   },
 }
 </script>
+<style lang="scss">
+@import '@core/scss/vue/libs/vue-select.scss';
+.text-name-navbar {
+  font-size: 1.1rem;
+  margin-bottom: 0 !important;
+}
+.backgroundProfile-navbar{
+  background-color: $primary;
+  border-radius: 100% !important;
+}
+</style>

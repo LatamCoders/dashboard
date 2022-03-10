@@ -583,14 +583,14 @@ export default {
     initMarkerTo(loc) {
       this.existingPlace = loc
       this.dataCa.to = this.existingPlace.formatted_address
-      this.dataCa.to_coordinates = this.existingPlace.geometry.viewport.ub.h + ',' + this.existingPlace.geometry.viewport.Qa.h
+      this.dataCa.to_coordinates = this.existingPlace.geometry.viewport.wb.h + ',' + this.existingPlace.geometry.viewport.Sa.h
       console.log(this.dataCa.to)
       console.log(this.dataCa.to_coordinates)
     },
     initMarkerFrom(loc) {
       this.existingPlace = loc
       this.dataCa.from = this.existingPlace.formatted_address
-      this.dataCa.from_coordinates = this.existingPlace.geometry.viewport.ub.h + ',' + this.existingPlace.geometry.viewport.Qa.h
+      this.dataCa.from_coordinates = this.existingPlace.geometry.viewport.wb.h + ',' + this.existingPlace.geometry.viewport.Sa.h
       console.log(this.dataCa.from)
       console.log(this.dataCa.from_coordinates)
     },
