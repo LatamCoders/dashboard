@@ -75,7 +75,6 @@
                           >
                             <b-form-input
                                 v-model="dataregister.company_legal_name"
-                                placeholder=""
                                 :state="errors.length > 0 ? false:null"
                                 type="text"
                                 pattern="^[A-Za-z]+$"
@@ -160,7 +159,6 @@
                                 :min="min"
                                 :max="max"
                                 locale="en"
-                                placeholder="8/01/2022"
                                 :state="errors.length > 0 ? false:null"
                             />
                             <small class="text-danger" v-if="errors[0]">This field is required</small>
@@ -178,7 +176,6 @@
                           >
                             <b-form-input
                                 v-model="dataregister.office_location_address"
-                                placeholder="floor and suite"
                                 :state="errors.length > 0 ? false:null"
                                 maxlength="30"
                                 @keypress="isDirection"
@@ -198,7 +195,6 @@
                           >
                             <b-form-input
                                 v-model="dataregister.billing_address"
-                                placeholder="floor and suite"
                                 :state="errors.length > 0 ? false:null"
                                 maxlength="20"
                                 @keypress="isDirection"
@@ -430,17 +426,15 @@
                       </b-col>
                       <b-col md="6">
                         <b-form-group
-                            label="Type of credit card"
+                            label="Expiration date"
                         >
-
-                          <v-select
+                          <b-form-input
                               v-model="credito"
-                              :options="options"
+                              @keypress="isNumber($event)"
+                              maxlength="10"
+                          >
 
-                              label="title"
-                              placeholder="Select a item"
-                              :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                          />
+                          </b-form-input>
 
                         </b-form-group>
                       </b-col>
@@ -466,12 +460,11 @@
                       <!--                      </b-col>-->
                       <b-col md="6">
                         <b-form-group
-                            label="Code to cvv"
+                            label="CVV"
                         >
 
                           <b-form-input
                               v-model="dataregister.code_of_cc"
-                              placeholder="1303"
                               @keypress="isNumber($event)"
                               maxlength="4"
                           />

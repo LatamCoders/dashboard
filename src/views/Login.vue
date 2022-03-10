@@ -145,43 +145,43 @@
           </b-card-text>
 
           <!-- divider -->
-<!--          <div class="divider my-2">-->
-<!--            <div class="divider-text">-->
-<!--              or-->
-<!--            </div>-->
-<!--          </div>-->
+          <!--          <div class="divider my-2">-->
+          <!--            <div class="divider-text">-->
+          <!--              or-->
+          <!--            </div>-->
+          <!--          </div>-->
 
-<!--          &lt;!&ndash; social buttons &ndash;&gt;-->
-<!--          <div class="auth-footer-btn d-flex justify-content-center">-->
-<!--            <b-button-->
-<!--                variant="facebook"-->
-<!--                href="javascript:void(0)"-->
-<!--                style="background-color: transparent"-->
-<!--            >-->
-<!--              <b-img src="@/assets/images/icons/facebook.png" height="35"></b-img>-->
-<!--            </b-button>-->
-<!--            <b-button-->
-<!--                variant="twitter"-->
-<!--                href="javascript:void(0)"-->
-<!--                style="background-color: transparent"-->
-<!--            >-->
-<!--              <b-img src="@/assets/images/icons/instagram.png" height="35"></b-img>-->
-<!--            </b-button>-->
-<!--            <b-button-->
-<!--                variant="google"-->
-<!--                href="javascript:void(0)"-->
-<!--                style="background-color: transparent"-->
-<!--            >-->
-<!--              <b-img src="@/assets/images/icons/youtube.png" height="35"></b-img>-->
-<!--            </b-button>-->
-<!--            <b-button-->
-<!--                variant="github"-->
-<!--                href="javascript:void(0)"-->
-<!--                style="background-color: transparent"-->
-<!--            >-->
-<!--              <b-img src="@/assets/images/icons/whatsaap.png" height="35"></b-img>-->
-<!--            </b-button>-->
-<!--          </div>-->
+          <!--          &lt;!&ndash; social buttons &ndash;&gt;-->
+          <!--          <div class="auth-footer-btn d-flex justify-content-center">-->
+          <!--            <b-button-->
+          <!--                variant="facebook"-->
+          <!--                href="javascript:void(0)"-->
+          <!--                style="background-color: transparent"-->
+          <!--            >-->
+          <!--              <b-img src="@/assets/images/icons/facebook.png" height="35"></b-img>-->
+          <!--            </b-button>-->
+          <!--            <b-button-->
+          <!--                variant="twitter"-->
+          <!--                href="javascript:void(0)"-->
+          <!--                style="background-color: transparent"-->
+          <!--            >-->
+          <!--              <b-img src="@/assets/images/icons/instagram.png" height="35"></b-img>-->
+          <!--            </b-button>-->
+          <!--            <b-button-->
+          <!--                variant="google"-->
+          <!--                href="javascript:void(0)"-->
+          <!--                style="background-color: transparent"-->
+          <!--            >-->
+          <!--              <b-img src="@/assets/images/icons/youtube.png" height="35"></b-img>-->
+          <!--            </b-button>-->
+          <!--            <b-button-->
+          <!--                variant="github"-->
+          <!--                href="javascript:void(0)"-->
+          <!--                style="background-color: transparent"-->
+          <!--            >-->
+          <!--              <b-img src="@/assets/images/icons/whatsaap.png" height="35"></b-img>-->
+          <!--            </b-button>-->
+          <!--          </div>-->
         </b-col>
       </b-col>
       <!-- /Login-->
@@ -191,7 +191,7 @@
 
 <script>
 /* eslint-disable global-require */
-import {ValidationProvider, ValidationObserver} from 'vee-validate'
+import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import VuexyLogo from '@core/layouts/components/Logo.vue'
 import {
   BRow,
@@ -208,8 +208,8 @@ import {
   BForm,
   BButton,
 } from 'bootstrap-vue'
-import {required, email} from '@validations'
-import {togglePasswordVisibility} from '@core/mixins/ui/forms'
+import { required, email } from '@validations'
+import { togglePasswordVisibility } from '@core/mixins/ui/forms'
 import store from '@/store/index'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import axios from 'axios'
@@ -267,14 +267,14 @@ export default {
   },
   watch: {
     btnUser() {
-      this.person.loginType = this.btnUser;
+      this.person.loginType = this.btnUser
     }
   },
 
   methods: {
     validationForm() {
       this.$refs.loginValidation.validate()
-      if (this.person.userEmail === "" || this.person.password === "") {
+      if (this.person.userEmail === '' || this.person.password === '') {
         this.$swal({
           icon: 'error',
           title: 'Please fill out required fields',
@@ -282,31 +282,35 @@ export default {
             confirmButton: 'btn btn-primary',
           },
           buttonsStyling: false,
-        });
+        })
       } else {
-        this.$swal({
-          title: 'Please, wait...',
-          didOpen: () => {
-            this.$swal.showLoading();
-          }
-        });
-        this.$store.dispatch("Users/retrieveToken", this.person)
+        // this.$swal({
+        //   title: 'Please, wait...',
+        //   didOpen: () => {
+        //     this.$swal.showLoading()
+        //   },
+        //   willClose() {
+        //   }
+        // })
+
+        this.$store.dispatch('Users/retrieveToken', this.person)
             .then((res) => {
-                this.$swal({
+              this.$toast({
+                component: ToastificationContent,
+                props: {
                   title: res.data.message,
-                  icon: 'success',
-                  customClass: {
-                    confirmButton: 'btn btn-primary',
-                  },
-                  buttonsStyling: false,
-                })
+                  icon: 'CheckIcon',
+                  variant: 'success',
+                },
+              })
+
               // if(this.person.loginType === 'admin') {
-              if(res.data.data.user.role.id === 2) {
-                this.$router.push({ name: 'home-admin'})
-              }else if(res.data.data.user.role.id === 1){
-                this.$router.push({ name: 'home-admin'})
-              }else {
-                this.$router.push({ name: 'home-corporate-account'})
+              if (res.data.data.user.role.id === 2) {
+                this.$router.push({ name: 'home-admin' })
+              } else if (res.data.data.user.role.id === 1) {
+                this.$router.push({ name: 'home-admin' })
+              } else {
+                this.$router.push({ name: 'home-corporate-account' })
               }
             })
             .catch((err) => {
@@ -319,15 +323,15 @@ export default {
                 buttonsStyling: false,
               })
               console.log(err.message)
-            });
+            })
       }
     },
     retornarInicio() {
       this.atras = true
       if (this.atras === true) {
-        this.btnUser = "";
-        this.person.userEmail = "";
-        this.person.password = "";
+        this.btnUser = ''
+        this.person.userEmail = ''
+        this.person.password = ''
       }
     },
   },
