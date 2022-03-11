@@ -4,19 +4,16 @@
     <b-media class="mb-2">
       <template #aside>
         <b-avatar
-            v-if="dataProvider.self_pay.profile_picture !== null"
             ref="previewEl"
-            :src="dataProvider.self_pay.profile_picture"
+            :src="ProfileName(dataProvider.self_pay.name)"
             size="90px"
             rounded
-        />
-        <b-avatar
-            v-if="dataProvider.self_pay.profile_picture === null"
-            ref="previewEl"
-            src="@/assets/images/avatars/13-small.png"
-            size="90px"
-            rounded
-        />
+            class="backgroundProfile-driver"
+        >
+          <p class="text-name-driver">
+            {{ ProfileName(dataProvider.self_pay.name) }}
+          </p>
+        </b-avatar>
       </template>
       <h4 class="">
         {{ dataProvider.self_pay.name }} ( <span style="font-size: 0.9rem">
@@ -233,10 +230,26 @@ export default {
   data() {
     return {}
   },
+  methods: {
+    ProfileName(name) {
+      if(this.dataProvider.self_pay.profile_picture === null){
+        return name.charAt(0).toUpperCase() + name.charAt(1).toUpperCase();
+      }else {
+        return this.dataProvider.self_pay.profile_picture;
+      }
+    }
+  }
 
 }
 </script>
 
 <style lang="scss">
 @import '@core/scss/vue/libs/vue-select.scss';
+.text-name-driver {
+  font-size: 1.5rem;
+  margin-bottom: 0 !important;
+}
+.backgroundProfile-driver{
+  background-color: $primary;
+}
 </style>

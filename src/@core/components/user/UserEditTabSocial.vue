@@ -1,93 +1,100 @@
 <template>
   <div>
-    <!-- Header: Personal Info -->
-    <div class="d-flex">
-      <feather-icon
-          icon="CreditCardIcon"
-          size="19"
-      />
-      <h4 class="mb-0 ml-50">
-        Payment method
-      </h4>
+
+
+    <div v-if="infoPayment !== null">
+      <!-- Header: Personal Info -->
+      <div class="d-flex">
+        <feather-icon
+            icon="CreditCardIcon"
+            size="19"
+        />
+        <h4 class="mb-0 ml-50">
+          Payment method
+        </h4>
+      </div>
+
+      <b-form class="mt-1">
+        <b-row>
+          <b-col
+              cols="12"
+              md="6"
+              lg="4"
+          >
+            <b-form-group
+                label="Name on Credit Card"
+            >
+              <b-form-input
+                  v-model="infoPayment.name_on_cc"
+                  disabled
+              />
+            </b-form-group>
+          </b-col>
+          <b-col
+              cols="12"
+              md="6"
+              lg="4"
+          >
+            <b-form-group
+                label="Card Number"
+            >
+              <b-form-input
+                  v-model="infoPayment.cc_number"
+                  disabled
+              />
+            </b-form-group>
+          </b-col>
+          <b-col
+              cols="12"
+              md="6"
+              lg="4"
+          >
+            <b-form-group
+                label="Type of credit card"
+            >
+              <b-form-input
+                  v-model="infoPayment.type_of_cc"
+                  disabled
+              />
+            </b-form-group>
+          </b-col>
+
+          <b-col
+              cols="12"
+              md="6"
+              lg="4"
+          >
+            <b-form-group
+                label="Code of cc"
+            >
+              <b-form-input
+                  v-model="infoPayment.code_of_cc"
+                  disabled
+              />
+            </b-form-group>
+          </b-col>
+
+          <!--      <b-col class="mt-2">-->
+          <!--        <b-button-->
+          <!--            variant="primary"-->
+          <!--            class="mb-1 mb-sm-0 mr-0 mr-sm-1"-->
+          <!--            :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
+          <!--        >-->
+          <!--          Save Changes-->
+          <!--        </b-button>-->
+          <!--        <b-button-->
+          <!--            variant="outline-secondary"-->
+          <!--            :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
+          <!--        >-->
+          <!--          Reset-->
+          <!--        </b-button>-->
+          <!--      </b-col>-->
+        </b-row>
+      </b-form>
     </div>
-
-    <b-form class="mt-1">
-      <b-row>
-        <b-col
-            cols="12"
-            md="6"
-            lg="4"
-        >
-          <b-form-group
-              label="Name on Credit Card"
-          >
-            <b-form-input
-                v-model="infoPayment.name_on_cc"
-                disabled
-            />
-          </b-form-group>
-        </b-col>
-        <b-col
-            cols="12"
-            md="6"
-            lg="4"
-        >
-          <b-form-group
-              label="Card Number"
-          >
-            <b-form-input
-                v-model="infoPayment.cc_number"
-                disabled
-            />
-          </b-form-group>
-        </b-col>
-        <b-col
-            cols="12"
-            md="6"
-            lg="4"
-        >
-          <b-form-group
-              label="Type of credit card"
-          >
-            <b-form-input
-                v-model="infoPayment.type_of_cc"
-                disabled
-            />
-          </b-form-group>
-        </b-col>
-
-        <b-col
-            cols="12"
-            md="6"
-            lg="4"
-        >
-          <b-form-group
-              label="Code of cc"
-          >
-            <b-form-input
-                v-model="infoPayment.code_of_cc"
-                disabled
-            />
-          </b-form-group>
-        </b-col>
-
-        <!--      <b-col class="mt-2">-->
-        <!--        <b-button-->
-        <!--            variant="primary"-->
-        <!--            class="mb-1 mb-sm-0 mr-0 mr-sm-1"-->
-        <!--            :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
-        <!--        >-->
-        <!--          Save Changes-->
-        <!--        </b-button>-->
-        <!--        <b-button-->
-        <!--            variant="outline-secondary"-->
-        <!--            :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
-        <!--        >-->
-        <!--          Reset-->
-        <!--        </b-button>-->
-        <!--      </b-col>-->
-      </b-row>
-    </b-form>
+    <div v-if="infoPayment === null">
+      <h2 class="text-center">Payment method no found</h2>
+    </div>
   </div>
 </template>
 

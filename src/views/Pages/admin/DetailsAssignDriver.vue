@@ -464,35 +464,53 @@ export default {
   },
   methods: {
     formSubmitted() {
-      this.$swal({
-        title: 'Please, wait...',
-        didOpen: () => {
-          this.$swal.showLoading()
-        }
-      })
-      this.$http.post(`admin/panel/booking/${this.infoPatient.id}/assignDriver/${this.idDriver}`)
-          .then((response) => {
-            this.$swal({
-              title: response.data.message,
-              icon: 'success',
-              customClass: {
-                confirmButton: 'btn btn-primary',
-              },
-              buttonsStyling: false,
-            })
-            this.$refs.assignDriver.reset()
 
-          })
-          .catch((error) => {
-            this.$swal({
-              title: error.response.data.data,
-              icon: 'error',
-              customClass: {
-                confirmButton: 'btn btn-primary',
-              },
-              buttonsStyling: false,
+      if (this.infoPatient.driver !== null){
+        this.$swal({
+          title: 'This reservation already has an assigned driver',
+          icon: 'error',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
+        }).then((result) => {
+          if (result.isConfirmed) {
+           this.$router.push({name: 'assign-driver'})
+          }
+        })
+      }else {
+        this.$swal({
+          title: 'Please, wait...',
+          didOpen: () => {
+            this.$swal.showLoading()
+          },
+
+        })
+        this.$http.post(`admin/panel/booking/${this.infoPatient.id}/assignDriver/${this.idDriver}`)
+            .then((response) => {
+              this.$swal({
+                title: response.data.message,
+                icon: 'success',
+                customClass: {
+                  confirmButton: 'btn btn-primary',
+                },
+                buttonsStyling: false,
+              })
+              this.$refs.assignDriver.reset()
+
             })
-          })
+            .catch((error) => {
+              this.$swal({
+                title: error.response.data.data,
+                icon: 'error',
+                customClass: {
+                  confirmButton: 'btn btn-primary',
+                },
+                buttonsStyling: false,
+              })
+            })
+      }
+
     },
     getDrivers() {
       this.$http.get(`admin/panel/driver/list`)
@@ -527,6 +545,7 @@ export default {
 
     getPatients() {
       this.infoPatient = this.$route.params.item;
+
     }
 
   },
@@ -554,4 +573,35 @@ export default {
 
 <style lang="scss">
 @import '@core/scss/vue/libs/vue-select.scss';
+
+.urlPagina {
+  text-decoration: none;
+}
+.urlPagina:hover {
+  background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
+  color: #fff;
+}
+
+.list-group-item:hover {
+  background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
+  color: #fff !important;
+}
+
+.urlPagina::before {
+  background-color: currentColor !important;
+  bottom: 0;
+  content: "";
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+  transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+}
+
+.box {
+  box-shadow: 0px 14px 20px 0px rgba(143, 143, 143, 0.2) !important;
+}
 </style>

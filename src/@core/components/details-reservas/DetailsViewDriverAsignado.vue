@@ -3,19 +3,16 @@
     <b-media class="mb-2" v-if="dataProvider.driver_id !== null">
       <template #aside>
         <b-avatar
-            v-if="dataProvider.driver.profile_picture !== null"
             ref="previewEl"
-            :src="dataProvider.driver.profile_picture"
+            :src="ProfileName(dataProvider.driver.name)"
             size="90px"
             rounded
-        />
-        <b-avatar
-            v-if="dataProvider.driver.profile_picture === null"
-            ref="previewEl"
-            src="@/assets/images/avatars/13-small.png"
-            size="90px"
-            rounded
-        />
+            class="backgroundProfile-driver"
+        >
+          <p class="text-name-driver">
+            {{ ProfileName(dataProvider.driver.name) }}
+          </p>
+        </b-avatar>
       </template>
       <h4 class="" >
         {{ dataProvider.driver.name }} ( <span style="font-size: 0.9rem">
@@ -188,9 +185,25 @@ export default {
   data() {
     return {}
   },
+  methods: {
+    ProfileName(name) {
+      if(this.dataProvider.driver.profile_picture === null){
+        return name.charAt(0).toUpperCase() + name.charAt(1).toUpperCase();
+      }else {
+        return this.this.dataProvider.driver.profile_picture;
+      }
+    }
+  }
 }
 </script>
 
 <style lang="scss">
 @import '@core/scss/vue/libs/vue-select.scss';
+.text-name-driver {
+  font-size: 1.5rem;
+  margin-bottom: 0 !important;
+}
+.backgroundProfile-driver{
+  background-color: $primary;
+}
 </style>

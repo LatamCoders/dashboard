@@ -230,6 +230,15 @@ export default {
 .urlPagina {
   text-decoration: none;
 }
+.urlPagina:hover {
+  background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
+  color: #fff;
+}
+
+.list-group-item:hover {
+  background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
+  color: #fff !important;
+}
 
 .urlPagina::before {
   background-color: currentColor !important;

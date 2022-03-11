@@ -54,7 +54,7 @@ export default {
     },
     statisticTitle: {
       type: String,
-      default: '',
+      default: 'Go to patients management',
     },
     color: {
       type: String,

@@ -5,11 +5,14 @@
     <b-media class="mb-2">
       <template #aside>
         <b-avatar
-            ref="previewEl"
-            src="@/assets/images/avatars/13-small.png"
-            size="90px"
+            size="70px"
             rounded
-        />
+            class="backgroundProfile"
+        >
+          <p class="text-name">
+            {{ ProfileName(userData.amera_user.name) }}
+          </p>
+        </b-avatar>
       </template>
       <h4 class="">
         {{ userData.amera_user.name }} ( <span style="font-size: 0.9rem">
@@ -55,7 +58,7 @@
     </b-media>
 
     <!-- form corporate -->
-    <b-form >
+    <b-form>
       <b-row>
         <!-- Field: Username -->
         <b-col
@@ -222,6 +225,9 @@ export default {
     }
   },
   methods: {
+    ProfileName(name) {
+      return name.charAt(0).toUpperCase() + name.charAt(1).toUpperCase();
+    },
     aprobarCA() {
       this.changeStatus.userId = this.userData.amera_user.id;
       this.$http.post('admin/panel/users/change-user-status', this.changeStatus)
@@ -253,6 +259,15 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '@core/scss/vue/libs/vue-select.scss';
 
+.text-name {
+  font-size: 1.5rem;
+  margin-bottom: 0 !important;
+}
+
+.backgroundProfile {
+  background-color: $primary;
+}
 </style>
