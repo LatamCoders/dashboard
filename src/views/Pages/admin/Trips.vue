@@ -2,52 +2,54 @@
   <div>
     <b-row>
       <b-col
-          cols="12"
-          xl="12"
-          class="optrips"
+          lg="3"
+          sm="6"
       >
-        <b-card class="cols-12 col-xl-3" title="Booked trip">
-          <!--      <b-card-text>All the best for your new project.</b-card-text>-->
-          <b-card-text>
-            <b-button
-                type="submit"
-                variant="primary"
-                class="sigin"
-                to="/trips/booked-trips">view booked trip
-            </b-button>
-          </b-card-text>
-        </b-card>
-        <b-card class="cols-12 col-xl-3" title="Canceled reservations">
-          <b-card-text>
-            <b-button
-                type="submit"
-                variant="primary"
-                class="sigin"
-                to="/trips/canceled-reservations">
-              view all canceled reservations
-            </b-button>
-          </b-card-text>
-        </b-card>
-        <b-card class="cols-12 col-xl-3" title="Reservations to accept">
-          <b-card-text>
-            <b-button
-                type="submit"
-                variant="primary"
-                class="sigin"
-                to="/trips/reservation-to-accepted"
-            >
-              Request
-            </b-button>
-          </b-card-text>
-        </b-card>
+        <router-link style="color: #6e6b7b" :to="{name:'booked-trips'}">
+          <StatisticCardWithAreaChart
+              statistic="Booked trip"
+              :chart-data="series"
+              icon="FileTextIcon"
+              statistic-title="Manage booked trips"
+          ></StatisticCardWithAreaChart>
+        </router-link>
+      </b-col>
+      <b-col
+          lg="3"
+          sm="6"
+      >
+        <router-link style="color: #6e6b7b" :to="{name:'canceled-reservations'}">
+          <StatisticCardWithAreaChart
+              icon="XCircleIcon"
+              statistic="Canceled reservations"
+              color="warning"
+              :chart-data="ordersRecevied"
+              statistic-title="Manage canceled reservations"
+          ></StatisticCardWithAreaChart>
+        </router-link>
+      </b-col>
+      <b-col
+          lg="3"
+          sm="6"
+      >
+        <router-link style="color: #6e6b7b" :to="{name:'reservation-to-accepted'}">
+          <StatisticCardWithAreaChart
+              statistic="Reservations to accept"
+              :chart-data="series"
+              icon="BellIcon"
+              statistic-title="View all reservations to accept"
+          ></StatisticCardWithAreaChart>
+        </router-link>
       </b-col>
     </b-row>
+
     <!--    <router-view></router-view>-->
   </div>
 </template>
 
 <script>
 import {BButton, BCard, BCardText, BCol, BRow,} from 'bootstrap-vue'
+import StatisticCardWithAreaChart from "@core/components/statistics-cards/StatisticCardWithAreaChart";
 export default {
   components: {
     BCard,
@@ -55,9 +57,24 @@ export default {
     BButton,
     BCol,
     BRow,
+
+    StatisticCardWithAreaChart,
   },
   data() {
-    return {}
+    return {
+      series: [
+        {
+          name: '',
+          data: [28, 40, 36, 52, 38, 60, 55],
+        },
+      ],
+      ordersRecevied: [
+        {
+          name: '',
+          data: [10, 15, 8, 15, 7, 12, 8],
+        },
+      ],
+    }
   },
 }
 </script>

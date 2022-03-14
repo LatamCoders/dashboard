@@ -2,46 +2,31 @@
   <div>
     <b-row>
       <b-col
-          cols="12"
-          xl="12"
-          class="opbooking"
+          lg="3"
+          sm="6"
       >
-        <b-card class="cols-12 col-xl-3" title="Approve drivers">
-          <!--      <b-card-text>All the best for your new project.</b-card-text>-->
-          <b-card-text>
-            <b-button
-                type="submit"
-                variant="primary"
-                class="sigin"
-                to="/booking/approve-drivers"
-            >Approve
-            </b-button>
-          </b-card-text>
-        </b-card>
-        <b-card class="cols-12 col-xl-3" title="Assign driver">
-          <b-card-text>
-            <b-button
-                type="submit"
-                variant="primary"
-                class="sigin"
-                to="/booking/assign-driver"
-            >
-              Assign
-            </b-button>
-          </b-card-text>
-        </b-card>
-<!--        <b-card class="cols-12 col-xl-3" title="Book a trip">-->
-<!--          <b-card-text>-->
-<!--            <b-button-->
-<!--                type="submit"-->
-<!--                variant="primary"-->
-<!--                class="sigin"-->
-<!--                to="request-service"-->
-<!--            >-->
-<!--              Book-->
-<!--            </b-button>-->
-<!--          </b-card-text>-->
-<!--        </b-card>-->
+        <router-link style="color: #6e6b7b" :to="{name:'approve-drivers'}">
+          <StatisticCardWithAreaChart
+              icon="CheckCircleIcon"
+              statistic="Approve drivers"
+              :chart-data="ordersRecevied"
+              statistic-title="Manage your profile"
+          ></StatisticCardWithAreaChart>
+        </router-link>
+      </b-col>
+      <b-col
+          lg="3"
+          sm="6"
+      >
+        <router-link style="color: #6e6b7b" :to="{name:'assign-driver'}">
+          <StatisticCardWithAreaChart
+              statistic="Assign driver"
+              :chart-data="series"
+              icon="UserCheckIcon"
+              color="warning"
+              statistic-title="Start booking a ride for your patients"
+          ></StatisticCardWithAreaChart>
+        </router-link>
       </b-col>
     </b-row>
   </div>
@@ -55,6 +40,7 @@ import {
   BCol,
   BRow,
 } from 'bootstrap-vue'
+import StatisticCardWithAreaChart from "@core/components/statistics-cards/StatisticCardWithAreaChart";
 export default {
   components: {
     BCard,
@@ -62,9 +48,24 @@ export default {
     BButton,
     BCol,
     BRow,
+
+    StatisticCardWithAreaChart,
   },
   data() {
-    return {}
+    return {
+      series: [
+        {
+          name: '',
+          data: [28, 40, 36, 52, 38, 60, 55],
+        },
+      ],
+      ordersRecevied: [
+        {
+          name: '',
+          data: [10, 15, 8, 15, 7, 12, 8],
+        },
+      ],
+    }
   },
 }
 </script>

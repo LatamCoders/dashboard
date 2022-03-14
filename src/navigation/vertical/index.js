@@ -39,7 +39,7 @@ export default [
     {
         title: 'Billing',
         route: 'billing',
-        icon: 'CreditCardIcon',
+        icon: 'DollarSignIcon',
     },
     {
         title: 'Profile',

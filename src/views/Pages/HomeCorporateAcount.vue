@@ -2,11 +2,10 @@
   <div>
     <b-row>
       <b-col
-          cols="12"
-          xl="12"
-          class="opcorporate"
+          lg="6"
+          md="12"
       >
-        <b-card class="cols-12 col-xl-5 card card-congratulations">
+        <b-card class="cols-12 card card-congratulations" text-variant="center">
           <!--      <b-card-text>All the best for your new project.</b-card-text>-->
           <!-- images -->
           <b-img
@@ -20,61 +19,101 @@
           <b-avatar
               variant="primary"
               size="70"
-              class="shadow mb-2 icono-medalla"
+              class="shadow mb-2"
           >
             <feather-icon
                 size="28"
                 icon="AwardIcon"
             />
           </b-avatar>
-          <h1 class="mb-0 mt-50 text-white text-center">
+          <h1 class="mb-1 mt-50 text-white text-center">
             Welcome, {{ $store.getters['Users/userData'].user.name }}
           </h1>
           <b-card-text class="m-auto w-75 text-center pb-2">
             We are happy to have you!
           </b-card-text>
-          <!--/ images -->
-          <!--          <b-card-text>-->
-          <!--            <b-button-->
-          <!--                type="submit"-->
-          <!--                variant="primary"-->
-          <!--                class="sigin"-->
-          <!--                :to="{ name: 'create-patient' }"-->
-          <!--            >Create user-->
-          <!--            </b-button>-->
-          <!--          </b-card-text>-->
         </b-card>
+      </b-col>
+      <b-col
+          lg="3"
+          sm="6"
+      >
+        <router-link style="color: #6e6b7b" :to="{name:'all-patient'}">
+          <StatisticCardWithAreaChart
+              statistic="Patients"
+              :chart-data="series"
+              icon="UsersIcon"
+          ></StatisticCardWithAreaChart>
+        </router-link>
+      </b-col>
 
+      <b-col
+          lg="3"
+          sm="6"
+      >
+        <router-link style="color: #6e6b7b" :to="{name:'bookings'}">
+          <StatisticCardWithAreaChart
+              icon="MapPinIcon"
+              statistic="Bookings"
+              color="warning"
+              :chart-data="ordersRecevied"
+              statistic-title="Manage all your bookings"
+          ></StatisticCardWithAreaChart>
+        </router-link>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col
+          lg="3"
+          sm="6"
+      >
+        <router-link style="color: #6e6b7b" :to="{name:'billing'}">
+          <StatisticCardWithAreaChart
+              statistic="Billing"
+              :chart-data="series"
+              icon="DollarSignIcon"
+              statistic-title="Manage your billing"
+          ></StatisticCardWithAreaChart>
+        </router-link>
+      </b-col>
+      <b-col
+          lg="3"
+          sm="6"
+      >
+        <router-link style="color: #6e6b7b" :to="{name:'profile'}">
+          <StatisticCardWithAreaChart
+              icon="UserIcon"
+              statistic="Profile"
+              color="warning"
+              :chart-data="ordersRecevied"
+              statistic-title="Manage your profile"
+          ></StatisticCardWithAreaChart>
+        </router-link>
+      </b-col>
+      <b-col
+          lg="3"
+          sm="6"
+      >
+        <router-link style="color: #6e6b7b" :to="{name:'request-service'}">
+          <StatisticCardWithAreaChart
+              statistic="Book a Ride"
+              :chart-data="series"
+              icon="CreditCardIcon"
+              statistic-title="Start booking a ride for your patients"
+          ></StatisticCardWithAreaChart>
+        </router-link>
+      </b-col>
+      <b-col
+          lg="3"
+          sm="6"
+      >
         <StatisticCardWithAreaChart
-            statistic="Patients"
-            :chart-data="listClients"
-            icon="UsersIcon"
+            icon="SettingsIcon"
+            statistic="Support"
+            color="warning"
+            :chart-data="ordersRecevied"
+            statistic-title="Get in touch with Amera support team"
         ></StatisticCardWithAreaChart>
-
-        <!--        <b-card class="cols-12 col-xl-3" title="View all patient">-->
-        <!--          <b-card-text>-->
-        <!--            <b-button-->
-        <!--                type="submit"-->
-        <!--                variant="primary"-->
-        <!--                class="sigin"-->
-        <!--                :to="{ name: 'all-patient' }"-->
-        <!--            >-->
-        <!--              View all patient-->
-        <!--            </b-button>-->
-        <!--          </b-card-text>-->
-        <!--        </b-card>-->
-        <!--        <b-card class="cols-12 col-xl-3" title="Request a trip">-->
-        <!--          <b-card-text>-->
-        <!--            <b-button-->
-        <!--                type="submit"-->
-        <!--                variant="primary"-->
-        <!--                class="sigin"-->
-        <!--                :to="{name: 'request-service' }"-->
-        <!--            >-->
-        <!--              Request-->
-        <!--            </b-button>-->
-        <!--          </b-card-text>-->
-        <!--        </b-card>-->
       </b-col>
     </b-row>
   </div>
@@ -99,6 +138,24 @@ export default {
   data() {
     return {
       listClients: {},
+      subscribersGained: {
+
+        analyticsData: {
+          subscribers: 92600,
+        },
+      },
+      series: [
+        {
+          name: '',
+          data: [28, 40, 36, 52, 38, 60, 55],
+        },
+      ],
+      ordersRecevied: [
+        {
+          name: '',
+          data: [10, 15, 8, 15, 7, 12, 8],
+        },
+      ],
     }
   },
 
@@ -106,6 +163,7 @@ export default {
     getClientes() {
       this.$http.get(`ca/${this.$store.getters['Users/userData'].user.corporate_account.id}/panel/client/search`).then((response) => {
         this.listClients = response.data.data;
+        this.listClients.length.push(this.series.data)
       }).catch((res) => console.log(res.data))
     },
   },

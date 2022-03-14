@@ -1,6 +1,6 @@
 <template>
   <b-card no-body>
-    <b-card-body class="pb-0">
+    <b-card-body class="pb-6">
       <b-avatar
         class="mb-1"
         :variant="`light-${color}`"
@@ -19,13 +19,13 @@
       </div>
     </b-card-body>
 
-    <vue-apex-charts
-      type="area"
-      height="100"
-      width="100%"
-      :options="chartOptionsComputed"
-      :series="chartData"
-    />
+<!--    <vue-apex-charts-->
+<!--      type="area"-->
+<!--      height="100"-->
+<!--      width="100%"-->
+<!--      :options="chartOptionsComputed"-->
+<!--      :series="chartData"-->
+<!--    />-->
 
   </b-card>
 </template>
@@ -54,7 +54,7 @@ export default {
     },
     statisticTitle: {
       type: String,
-      default: 'Go to patients management',
+      default: '',
     },
     color: {
       type: String,

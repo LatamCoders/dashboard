@@ -173,6 +173,7 @@ import vSelect from 'vue-select'
 // import UsersListFilters from './UsersListFilters.vue'
 import UserListAddNew from '@core/components/infoClients/UserListAddNew'
 export default {
+  name: 'ListReservationToAccept',
   components: {
     UserListAddNew,
     BCard,

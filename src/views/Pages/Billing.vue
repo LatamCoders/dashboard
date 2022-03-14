@@ -1,13 +1,6 @@
 <template>
 
   <div>
-
-    <user-list-add-new
-        :is-add-new-user-sidebar-active.sync="isAddNewUserSidebarActive"
-
-        :plan-options="planOptions"
-        @refetch-data="refetchData"
-    />
     <!-- Table Container Card -->
     <b-card
         no-body
@@ -28,9 +21,6 @@
             <label>Show</label>
             <v-select
                 v-model="perPage"
-                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                :options="perPageOptions"
-                :clearable="false"
                 class="per-page-selector d-inline-block mx-50"
             />
             <label>entries</label>
@@ -47,12 +37,6 @@
                   class="d-inline-block mr-1"
                   placeholder="Search..."
               />
-              <b-button
-                  variant="primary"
-                  @click="isAddNewUserSidebarActive = true"
-              >
-                <span class="text-nowrap">Search</span>
-              </b-button>
             </div>
           </b-col>
         </b-row>
@@ -64,65 +48,24 @@
           class="position-relative"
           responsive
           primary-key="id"
-          :items="personas"
-          empty-text="No matching records found"
-          :sort-desc.sync="isSortDirDesc"
+          :items="listClients"
+          empty-text="No reservations found"
+          show-empty
+          :fields="fields"
+          :filter="searchQuery"
+          :perPage="perPage"
+          id="my-table"
+          :current-page="currentPage"
       >
-
-        <!-- Column: User -->
-        <template #cell(user)="data">
-          <b-media vertical-align="center">
-            <template #aside>
-              <b-avatar
-                  size="32"
-                  :src="data.item.avatar"
-                  :text="avatarText(data.item.first_name)"
-                  :variant="`light-${resolveUserRoleVariant(data.item.last_name)}`"
-                  :to="{ name: 'apps-users-view', params: { id: data.item.age } }"
-              />
-            </template>
-            <b-link
-                :to="{ name: 'apps-users-view', params: { id: data.item.id } }"
-                class="font-weight-bold d-block text-nowrap"
-            >
-              {{ data.item.first_name }}
-            </b-link>
-            <small class="text-muted">@{{ data.item.last_name }}</small>
-          </b-media>
-        </template>
-
-        <!-- Column: Role -->
-        <!--        <template #cell(fecha)="data">-->
-        <!--          <div class="text-nowrap">-->
-        <!--            <feather-icon-->
-        <!--                :icon="resolveUserRoleIcon(data.item.fecha)"-->
-        <!--                size="18"-->
-        <!--                class="mr-50"-->
-        <!--                :class="`text-${resolveUserRoleVariant(data.item.fecha)}`"-->
-        <!--            />-->
-        <!--            <span class="align-text-top text-capitalize">{{ data.item.fecha }}</span>-->
-        <!--          </div>-->
-        <!--        </template>-->
-
-        <!-- Column: Status -->
-        <template #cell(status)="data">
-          <b-badge
-              pill
-              :variant="`light-${resolveUserStatusVariant(data.item.status)}`"
-              class="text-capitalize"
-          >
-            {{ data.item.status }}
-          </b-badge>
-        </template>
-
         <!-- Column: Actions -->
-        <template #cell(actions)="data">
+        <template #cell(actions)="{ item }">
           <b-dropdown
               variant="link"
               no-caret
               :right="$store.state.appConfig.isRTL"
+              transition="scale-transition"
+              :offset-y="true"
           >
-
             <template #button-content>
               <feather-icon
                   icon="MoreVerticalIcon"
@@ -130,20 +73,40 @@
                   class="align-middle text-body"
               />
             </template>
-            <b-dropdown-item :to="{ name: 'apps-users-view', params: { id: data.item.id } }">
-              <feather-icon icon="FileTextIcon"/>
-              <span class="align-middle ml-50">Details</span>
-            </b-dropdown-item>
-
-            <b-dropdown-item :to="{ name: 'apps-users-edit', params: { id: data.item.id } }">
-              <feather-icon icon="EditIcon"/>
-              <span class="align-middle ml-50">Edit</span>
-            </b-dropdown-item>
-
-            <b-dropdown-item>
-              <feather-icon icon="TrashIcon"/>
-              <span class="align-middle ml-50">Delete</span>
-            </b-dropdown-item>
+            <template style="padding: 0"  v-slot:activator="{ on, attrs }">
+              <b-btn color="primary" v-bind="attrs" v-on="on" icon ripple>
+              </b-btn>
+            </template>
+            <b-list-group  style="padding: 2px; margin-bottom: 2px" dense rounded>
+              <router-link class="urlPagina"
+                           :to="{ name: 'details-reservation', params: { id: item.id } }"
+              >
+                <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
+                  <b-list-group-item class="font-weight-bold"
+                                     style="border: none; padding: 5px"
+                  >
+                    <feather-icon icon="FileTextIcon"/>
+                    Details
+                  </b-list-group-item
+                  >
+                </b-list-group-item>
+              </router-link>
+            </b-list-group>
+            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
+              <router-link class="urlPagina"
+                           :to="{ name: 'details-driver-view' }"
+              >
+                <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
+                  <b-list-group-item class="font-weight-bold"
+                                     style="border: none; padding: 5px"
+                  >
+                    <feather-icon icon="DownloadIcon"/>
+                    Download report
+                  </b-list-group-item
+                  >
+                </b-list-group-item>
+              </router-link>
+            </b-list-group>
           </b-dropdown>
         </template>
 
@@ -156,8 +119,8 @@
               sm="6"
               class="d-flex align-items-center justify-content-center justify-content-sm-start"
           >
-            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{
-                dataMeta.of
+            <span class="text-muted">Showing {{ perPage }}  of {{
+                listClients.length
               }} entries</span>
           </b-col>
           <!-- Pagination -->
@@ -168,14 +131,15 @@
           >
 
             <b-pagination
-                v-model="currentPage"
-                :total-rows="totalUsers"
                 :per-page="perPage"
+                v-model="currentPage"
+                :total-rows="rows"
                 first-number
                 last-number
                 class="mb-0 mt-1 mt-sm-0"
                 prev-class="prev-item"
                 next-class="next-item"
+                aria-controls="my-table"
             >
               <template #prev-text>
                 <feather-icon
@@ -202,22 +166,16 @@
 <script>
 import {
   BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
-  BBadge, BDropdown, BDropdownItem, BPagination,
+  BBadge, BDropdown, BDropdownItem, BPagination, BListGroup, BListGroupItem,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
-import store from '@/store'
-import {ref, onUnmounted} from '@vue/composition-api'
-import {avatarText} from '@core/utils/filter'
-// import UsersListFilters from './UsersListFilters.vue'
-import UsersListFilters from '/src/@core/components/infoClients/UsersListFilters.vue'
-import useUsersList from '/src/@core/components/infoClients/useUsersList'
-import userStoreModule from '@core/components/users-view/userStoreModule'
-import UserListAddNew from '@core/components/infoClients/UserListAddNew'
 
+// import UsersListFilters from './UsersListFilters.vue'
+import UserListAddNew from '@core/components/infoClients/UserListAddNew'
 export default {
+  name: 'Billing',
   components: {
     UserListAddNew,
-
     BCard,
     BRow,
     BCol,
@@ -231,116 +189,76 @@ export default {
     BDropdown,
     BDropdownItem,
     BPagination,
-
+    BListGroup,
+    BListGroupItem,
     vSelect,
   },
-  setup() {
-    const USER_APP_STORE_MODULE_NAME = 'app-user'
-
-    // Register module
-    if (!store.hasModule(USER_APP_STORE_MODULE_NAME)) store.registerModule(USER_APP_STORE_MODULE_NAME, userStoreModule)
-
-    // UnRegister on leave
-    onUnmounted(() => {
-      if (store.hasModule(USER_APP_STORE_MODULE_NAME)) store.unregisterModule(USER_APP_STORE_MODULE_NAME)
-    })
-
-    const isAddNewUserSidebarActive = ref(false)
-
-    const roleOptions = [
-      {label: 'Admin', value: 'admin'},
-      {label: 'Author', value: 'author'},
-      {label: 'Editor', value: 'editor'},
-      {label: 'Maintainer', value: 'maintainer'},
-      {label: 'Subscriber', value: 'subscriber'},
-    ]
-
-    const planOptions = [
-      {label: 'Basic', value: 'basic'},
-      {label: 'Company', value: 'company'},
-      {label: 'Enterprise', value: 'enterprise'},
-      {label: 'Team', value: 'team'},
-    ]
-
-    const statusOptions = [
-      {label: 'Pending', value: 'pending'},
-      {label: 'Active', value: 'active'},
-      {label: 'Inactive', value: 'inactive'},
-    ]
-
-    const {
-      fetchUsers,
-      tableColumns,
-      perPage,
-      currentPage,
-      totalUsers,
-      dataMeta,
-      perPageOptions,
-      searchQuery,
-      sortBy,
-      isSortDirDesc,
-      refUserListTable,
-      refetchData,
-
-      // UI
-      resolveUserRoleVariant,
-      resolveUserRoleIcon,
-      resolveUserStatusVariant,
-
-      // Extra Filters
-      roleFilter,
-      planFilter,
-      statusFilter,
-    } = useUsersList()
-
+  data() {
     return {
-      personas: [
-        { fecha: '18/03/2021', first_name: 'Dickerson', last_name: 'Macdonald', email: 'Dickerson@mail.com',},
-        { fecha: '18/04/2021', first_name: 'Larsen', last_name: 'Shaw'},
-        { fecha: '18/05/2021', first_name: 'Geneva', last_name: 'Wilson'},
-        { fecha: '18/06/2021', first_name: 'Jami', last_name: 'Carney'}
-      ],
-
-      // Sidebar
-      isAddNewUserSidebarActive,
-
-      fetchUsers,
-      tableColumns,
-      perPage,
-      currentPage,
-      totalUsers,
-      dataMeta,
-      perPageOptions,
-      searchQuery,
-      sortBy,
-      isSortDirDesc,
-      refUserListTable,
-      refetchData,
-
-      // Filter
-      avatarText,
-
-      // UI
-      resolveUserRoleVariant,
-      resolveUserRoleIcon,
-      resolveUserStatusVariant,
-
-      roleOptions,
-      planOptions,
-      statusOptions,
-
-      // Extra Filters
-      roleFilter,
-      planFilter,
-      statusFilter,
+      listClients: [],
+      perPage: 5,
+      currentPage: 1 ,
+      totalUsers: 0,
+      valortotal: 0,
+      searchQuery: '',
+      fields: ['selfpay_id', 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime',  'city', 'actions'],
     }
   },
+  methods: {
+    getClientes() {
+      this.$http.get(`admin/panel/booking/list?status=0`).then((response) => {
+        this.listClients = response.data.data;
+        this.valortotal = this.listClients.length;
+        this.totalUsers = this.valortotal;
+
+      }).catch((res) => console.log(res.data))
+    },
+
+  },
+  computed: {
+    rows () {
+      return this.listClients.length
+    }
+  },
+  mounted() {
+    this.getClientes();
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 .per-page-selector {
   width: 90px;
+}
+.urlPagina {
+  text-decoration: none;
+}
+.urlPagina:hover {
+  background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
+  color: #fff;
+}
+
+.list-group-item:hover {
+  background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
+  color: #fff !important;
+}
+
+.urlPagina::before {
+  background-color: currentColor !important;
+  bottom: 0;
+  content: "";
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+  transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+}
+
+.box {
+  box-shadow: 0px 14px 20px 0px rgba(143, 143, 143, 0.2) !important;
 }
 </style>
 
