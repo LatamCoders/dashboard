@@ -43,6 +43,7 @@
               statistic="Patients"
               :chart-data="series"
               icon="UsersIcon"
+              statistic-title="Go to patients management"
           ></StatisticCardWithAreaChart>
         </router-link>
       </b-col>
