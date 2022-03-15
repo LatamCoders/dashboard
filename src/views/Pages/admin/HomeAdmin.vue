@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-row>
+    <b-row class="row-container">
       <b-col
           lg="6"
           md="12"
@@ -44,7 +44,8 @@
               :chart-data="series"
               icon="UsersIcon"
               statistic-title="View all providers drivers"
-
+              :total-driver="alldriver"
+              sub-all-driver="Registered drivers"
           ></StatisticCardWithAreaChart>
         </router-link>
       </b-col>
@@ -60,6 +61,8 @@
               color="warning"
               :chart-data="ordersRecevied"
               statistic-title="View all reservations to accept"
+              :total-driver="allReservas"
+              sub-all-driver="Reservation to accept"
           ></StatisticCardWithAreaChart>
         </router-link>
       </b-col>
@@ -74,7 +77,8 @@
               statistic="See providers corporate account"
               :chart-data="ordersRecevied"
               statistic-title="View all providers corporate account"
-
+              :total-driver="allca"
+              sub-all-driver="Registered corporate account"
           ></StatisticCardWithAreaChart>
         </router-link>
       </b-col>
@@ -84,7 +88,7 @@
 </template>
 
 <script>
-import { BButton, BCard, BCardText, BCol, BRow, BImg, BAvatar, } from 'bootstrap-vue'
+import {BButton, BCard, BCardText, BCol, BRow, BImg, BAvatar,} from 'bootstrap-vue'
 import StatisticCardWithAreaChart from "@core/components/statistics-cards/StatisticCardWithAreaChart";
 
 export default {
@@ -101,6 +105,10 @@ export default {
   },
   data() {
     return {
+      driversList: [],
+      alldriver: 0,
+      allca: 0,
+      allReservas: 0,
       series: [
         {
           name: '',
@@ -115,15 +123,62 @@ export default {
       ],
     }
   },
+  methods: {
+    getDrivers() {
+      this.$http.get(`admin/panel/driver/list`).then((response) => {
+        this.driversList = response.data.data;
+        this.alldriver = this.driversList.length
+        // console.log(this.alldriver)
+      }).catch((res) => console.log(res.data))
+    },
+    getCA() {
+      this.$http.get(`admin/panel/ca/list`).then((response) => {
+        this.listClients = response.data.data;
+        this.allca = this.listClients.length;
+        // console.log(this.allca)
+      }).catch((res) => console.log(res.data))
+    },
+    getReservas(){
+      this.$http.get(`admin/panel/booking/list?status=0`).then((response) => {
+        let reservas = response.data.data;
+        this.allReservas = reservas.length;
+        // console.log(this.allca)
+      }).catch((res) => console.log(res.data))
+    }
+  },
+
+  mounted() {
+    this.getDrivers();
+    this.getCA();
+    this.getReservas();
+  }
 }
 </script>
 
 <style lang="scss">
 @import "src/assets/scss/variables/variables-components.scss";
 
+.card {
+  height: 100%;
+  margin-bottom: 0 !important;
+}
+
+.row-container {
+  row-gap: 10px;
+}
+
 @media only screen and (max-width: 600px) {
   .optrips {
     flex-direction: column;
+  }
+  .row-container {
+    gap: 10px;
+  }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 940px) {
+  .row-container {
+    row-gap: 10px;
   }
 }
 </style>
