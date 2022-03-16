@@ -11,6 +11,8 @@
               statistic="Approve drivers"
               :chart-data="ordersRecevied"
               statistic-title="Manage your profile"
+              :total-driver="null"
+              sub-all-driver="null"
           ></StatisticCardWithAreaChart>
         </router-link>
       </b-col>
@@ -25,6 +27,8 @@
               icon="UserCheckIcon"
               color="warning"
               statistic-title="Start booking a ride for your patients"
+              :total-driver="null"
+              sub-all-driver="null"
           ></StatisticCardWithAreaChart>
         </router-link>
       </b-col>

@@ -55,6 +55,21 @@
       >
         <!-- Column: Actions -->
 
+        <template  #cell(phone_number_verified_at)="{ item }">
+          <span style="color: red">
+             {{ item.phone_number_verified_at === null ? 'not verified' : 'verified' }}
+          </span>
+        </template>
+
+
+        <template  #cell(email_verified_at)="{item }">
+          <span style="color: red">
+             {{ item.email_verified_at === null ? 'not verified' : 'verified' }}
+          </span>
+
+        </template>
+
+
         <template #cell(actions)="{ item }">
           <b-dropdown
               variant="link"

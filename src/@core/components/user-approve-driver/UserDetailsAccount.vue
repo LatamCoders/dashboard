@@ -11,7 +11,7 @@
             rounded
             class="backgroundProfile-driver"
         >
-          <p class="text-name-driver">
+          <p class="text-name-driver"  v-if='userData.profile_picture === null'>
             {{ ProfileName(userData.name) }}
           </p>
         </b-avatar>

@@ -10,7 +10,7 @@
             rounded
             class="backgroundProfile-driver"
         >
-          <p class="text-name-driver">
+          <p class="text-name-driver" v-if='dataProvider.self_pay.profile_picture === null'>
             {{ ProfileName(dataProvider.self_pay.name) }}
           </p>
         </b-avatar>

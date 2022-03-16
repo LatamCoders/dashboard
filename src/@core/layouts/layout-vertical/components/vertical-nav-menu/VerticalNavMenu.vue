@@ -20,7 +20,7 @@
 
           <!-- Logo & Text -->
           <li class="nav-item mr-auto">
-            <b-link class="brand-logo">
+            <b-link :to="$store.getters['Users/userData'].user.role.id === 3 ? {name: 'home-corporate-account'} : {name: 'home-admin'}" class="brand-logo">
               <b-img src="@/assets/images/logo/amera-main.png" height="63"></b-img>
             </b-link>
           </li>

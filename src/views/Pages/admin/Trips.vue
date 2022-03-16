@@ -11,6 +11,8 @@
               :chart-data="series"
               icon="FileTextIcon"
               statistic-title="Manage booked trips"
+              :total-driver="allreservasbooking"
+              sub-all-driver="Booked trips"
           ></StatisticCardWithAreaChart>
         </router-link>
       </b-col>
@@ -23,6 +25,8 @@
               icon="XCircleIcon"
               statistic="Canceled reservations"
               color="warning"
+              :total-driver="allreservasbookingCanceled"
+              sub-all-driver="Canceled reservations"
               :chart-data="ordersRecevied"
               statistic-title="Manage canceled reservations"
           ></StatisticCardWithAreaChart>
@@ -38,6 +42,8 @@
               :chart-data="series"
               icon="BellIcon"
               statistic-title="View all reservations to accept"
+              :total-driver="allreservasbookingAcepted"
+              sub-all-driver="Reservations to accept"
           ></StatisticCardWithAreaChart>
         </router-link>
       </b-col>
@@ -50,6 +56,7 @@
 <script>
 import {BButton, BCard, BCardText, BCol, BRow,} from 'bootstrap-vue'
 import StatisticCardWithAreaChart from "@core/components/statistics-cards/StatisticCardWithAreaChart";
+
 export default {
   components: {
     BCard,
@@ -62,6 +69,9 @@ export default {
   },
   data() {
     return {
+      allreservasbooking: 0,
+      allreservasbookingCanceled: 0,
+      allreservasbookingAcepted: 0,
       series: [
         {
           name: '',
@@ -76,11 +86,40 @@ export default {
       ],
     }
   },
+  methods: {
+    getListBooking() {
+      this.$http.get(`admin/panel/booking/list?status=2`).then((response) => {
+        let dataLenght = response.data.data;
+        this.allreservasbooking = dataLenght.length;
+        console.log(this.allreservasbooking)
+      })
+    },
+    getLisCanceledBooking() {
+      this.$http.get(`admin/panel/booking/list?status=3`).then((response) => {
+        let dataLenghtCanceled = response.data.data;
+        this.allreservasbookingCanceled = dataLenghtCanceled.length;
+        console.log(this.allreservasbookingCanceled)
+      })
+    },
+    getLisAceptBooking() {
+      this.$http.get(`admin/panel/booking/list?status=0`).then((response) => {
+        let dataLenghtAcepted = response.data.data;
+        this.allreservasbookingAcepted = dataLenghtAcepted.length;
+        console.log(this.allreservasbookingAcepted)
+      })
+    }
+  },
+  mounted() {
+    this.getListBooking();
+    this.getLisCanceledBooking();
+    this.getLisAceptBooking();
+  }
 }
 </script>
 
 <style lang="scss">
 @import "src/assets/scss/variables/variables-components.scss";
+
 @media only screen and (max-width: 600px) {
   .optrips {
     flex-direction: column;
