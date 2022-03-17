@@ -199,7 +199,7 @@ export default {
       currentPage: 1 ,
       listClients: [],
       search: '',
-      fields: ['id', 'company_legal_name', 'dba', 'company_type', 'tin', 'nature_of_business', 'contract_start_date', 'actions'],
+      fields: ['id', 'company_legal_name', 'dba', 'office_location_address', 'tin', 'billing_address', 'contract_start_date', 'actions'],
     }
   },
   methods: {
