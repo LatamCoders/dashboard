@@ -17,7 +17,7 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/admin/HomeAdmin.vue'),
             meta: {
                 requiresAuth: true,
-                permissions: '2',
+                permission: '2',
                 pageTitle: 'Home Admin',
                 breadcrumb: [
                     {

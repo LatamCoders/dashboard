@@ -51,7 +51,7 @@ export default [
     {
         title: 'Support',
         route: '',
-        icon: 'GridIcon',
+        icon: 'SettingsIcon',
         children: [
             {
                 title: 'Difficult cases',

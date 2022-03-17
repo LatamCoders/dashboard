@@ -28,7 +28,7 @@ export default [
     {
         title: 'Support',
         route: '/page-construction',
-        icon: 'GridIcon',
+        icon: 'SettingsIcon',
         children: [
             {
                 title: 'Difficult cases',
