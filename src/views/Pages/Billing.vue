@@ -73,11 +73,11 @@
                   class="align-middle text-body"
               />
             </template>
-            <template style="padding: 0"  v-slot:activator="{ on, attrs }">
+            <template style="padding: 0" v-slot:activator="{ on, attrs }">
               <b-btn color="primary" v-bind="attrs" v-on="on" icon ripple>
               </b-btn>
             </template>
-            <b-list-group  style="padding: 2px; margin-bottom: 2px" dense rounded>
+            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
               <router-link class="urlPagina"
                            :to="{ name: 'details-reservation', params: { id: item.id } }"
               >
@@ -93,19 +93,18 @@
               </router-link>
             </b-list-group>
             <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
-              <router-link class="urlPagina"
-                           :to="{ name: 'details-driver-view' }"
-              >
-                <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
-                  <b-list-group-item class="font-weight-bold"
-                                     style="border: none; padding: 5px"
-                  >
-                    <feather-icon icon="DownloadIcon"/>
-                    Download report
-                  </b-list-group-item
-                  >
-                </b-list-group-item>
-              </router-link>
+
+              <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
+                <b-list-group-item class="font-weight-bold"
+                                   style="border: none; padding: 5px"
+                                   @click="downloadReports(item.id)"
+                >
+                  <feather-icon icon="DownloadIcon"/>
+                  Download report
+                </b-list-group-item
+                >
+              </b-list-group-item>
+
             </b-list-group>
           </b-dropdown>
         </template>
@@ -168,10 +167,12 @@ import {
   BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
   BBadge, BDropdown, BDropdownItem, BPagination, BListGroup, BListGroupItem,
 } from 'bootstrap-vue'
-import vSelect from 'vue-select'
+import vSelect from 'vue-select';
+import {jsPDF} from "jspdf";
 
 // import UsersListFilters from './UsersListFilters.vue'
 import UserListAddNew from '@core/components/infoClients/UserListAddNew'
+
 export default {
   name: 'Billing',
   components: {
@@ -197,11 +198,11 @@ export default {
     return {
       listClients: [],
       perPage: 5,
-      currentPage: 1 ,
+      currentPage: 1,
       totalUsers: 0,
       valortotal: 0,
       searchQuery: '',
-      fields: ['selfpay_id', 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime',  'city', 'actions'],
+      fields: ['selfpay_id', 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime', 'city', 'actions'],
     }
   },
   methods: {
@@ -214,9 +215,22 @@ export default {
       }).catch((res) => console.log(res.data))
     },
 
+    downloadReports(id){
+      this.$swal({
+        title: 'Please, wait...',
+        didOpen: () => {
+          this.$swal.showLoading()
+        },
+      })
+      const doc = new jsPDF();
+
+      doc.text("Hello world!" , 10, 10);
+      doc.save("a4.pdf");
+    }
+
   },
   computed: {
-    rows () {
+    rows() {
       return this.listClients.length
     }
   },
@@ -230,9 +244,11 @@ export default {
 .per-page-selector {
   width: 90px;
 }
+
 .urlPagina {
   text-decoration: none;
 }
+
 .urlPagina:hover {
   background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
   color: #fff;
