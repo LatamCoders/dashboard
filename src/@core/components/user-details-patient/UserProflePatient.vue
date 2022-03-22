@@ -6,10 +6,15 @@
       <template #aside>
         <b-avatar
             ref="previewEl"
-            :src="userData.profile_picture !== '' ? '@/assets/images/avatars/13-small.png' : userData.profile_picture "
+            :src="ProfileName(userData.name)"
             size="90px"
             rounded
-        />
+            class="backgroundProfile-driver"
+        >
+          <p class="text-name-driver" v-if='userData.profile_picture === null'>
+            {{ ProfileName(userData.name) }}
+          </p>
+        </b-avatar>
       </template>
       <h4 class="">
         {{ userData.name }} ( <span style="font-size: 0.9rem">
@@ -28,6 +33,7 @@
               class="d-inline d-sm-none"
           />
         </b-button>
+
         <b-button
             v-if="inhabilitar ===  false"
             :variant="inhabilitar === true ? 'primary' : 'primary' "
@@ -44,7 +50,7 @@
     </b-media>
 
     <!-- form Admin -->
-    <b-form >
+    <b-form>
       <b-row>
         <!-- Field: Username -->
         <b-col
@@ -227,7 +233,7 @@ import {
   BCardHeader,
   BCardTitle,
   BFormCheckbox,
-    BFormTextarea,
+  BFormTextarea,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 
@@ -259,7 +265,7 @@ export default {
     }
   },
   methods: {
-    saveChanges () {
+    saveChanges() {
       this.$swal({
         title: 'Changes saved',
         icon: 'success',
@@ -269,7 +275,15 @@ export default {
         buttonsStyling: false,
       })
       this.inhabilitar = true;
-    }
+    },
+    ProfileName(name) {
+      if (this.userData.profile_picture === null) {
+        return name.charAt(0).toUpperCase() + name.charAt(1).toUpperCase();
+      } else {
+        return this.userData.profile_picture;
+      }
+    },
+
   },
   // mounted() {
   //   console.log(this.userData)
@@ -279,4 +293,13 @@ export default {
 
 <style lang="scss">
 @import '@core/scss/vue/libs/vue-select.scss';
+
+.text-name-driver {
+  font-size: 1.5rem;
+  margin-bottom: 0 !important;
+}
+
+.backgroundProfile-driver {
+  background-color: $primary;
+}
 </style>

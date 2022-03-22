@@ -5,34 +5,36 @@
       <template #aside>
         <b-avatar
             ref="previewEl"
-            :src="ProfileName(dataProvider.self_pay.name)"
+            :src="ProfileName(dataProvider.city)"
             size="90px"
             rounded
             class="backgroundProfile-driver"
         >
-          <p class="text-name-driver" v-if='dataProvider.self_pay.profile_picture === null'>
-            {{ ProfileName(dataProvider.self_pay.name) }}
+          <p class="text-name-driver" v-if='dataProvider.profile_picture === null'>
+            {{ ProfileName(dataProvider.city) }}
           </p>
         </b-avatar>
       </template>
       <h4 class="">
-        {{ dataProvider.self_pay.name }} ( <span style="font-size: 0.9rem">
-        {{ dataProvider.self_pay.email }}
+        {{ dataProvider.city }} ( <span style="font-size: 0.9rem">
+        {{ dataProvider.email }}
       </span>)
       </h4>
-
-<!--      <div class="d-flex flex-wrap">-->
-<!--        <b-button-->
-<!--            variant="primary"-->
-<!--            class="ml-1"-->
-<!--        >-->
-<!--          <span class="d-none d-sm-inline">Approve</span>-->
-<!--          <feather-icon-->
-<!--              icon="TrashIcon"-->
-<!--              class="d-inline d-sm-none"-->
-<!--          />-->
-<!--        </b-button>-->
-<!--      </div>-->
+      <template v-if="dataProvider.driver !== null">
+        <div class="d-flex flex-wrap">
+          <b-button
+              variant="primary"
+              class="ml-1"
+              @click="sendCode"
+          >
+            <span class="d-none d-sm-inline">Send reservation code</span>
+            <feather-icon
+                icon="EditIcon"
+                class="d-inline d-sm-none"
+            />
+          </b-button>
+        </div>
+      </template>
     </b-media>
 
     <!-- form Admin -->
@@ -48,7 +50,7 @@
           >
             <b-form-input
                 disabled
-                v-model="dataProvider.self_pay.name"
+                v-model="dataProvider.city"
             />
           </b-form-group>
         </b-col>
@@ -63,7 +65,7 @@
           >
             <b-form-input
                 disabled
-                v-model="dataProvider.self_pay.lastname"
+                v-model="dataProvider.lastname"
             />
           </b-form-group>
         </b-col>
@@ -76,7 +78,7 @@
           >
             <b-form-input
                 disabled
-                v-model="dataProvider.self_pay.gender"
+                v-model="dataProvider.gender"
             />
           </b-form-group>
         </b-col>
@@ -89,7 +91,7 @@
           >
             <b-form-input
                 disabled
-                v-model="dataProvider.self_pay.birthday"
+                v-model="dataProvider.birthday"
             />
           </b-form-group>
         </b-col>
@@ -110,7 +112,7 @@
 
           >
             <b-form-input
-                v-model="dataProvider.self_pay.phone_number"
+                v-model="dataProvider.phone_number"
                 disabled
 
             />
@@ -127,7 +129,7 @@
           >
             <b-form-input
                 disabled
-                v-model="dataProvider.self_pay.email"
+                v-model="dataProvider.email"
             />
           </b-form-group>
         </b-col>
@@ -141,7 +143,7 @@
               label="Address"
           >
             <b-form-input
-                v-model="dataProvider.self_pay.address"
+                v-model="dataProvider.address"
                 disabled
             />
           </b-form-group>
@@ -157,7 +159,7 @@
           >
             <b-form-input
                 disabled
-                v-model="dataProvider.self_pay.city"
+                v-model="dataProvider.city"
             />
           </b-form-group>
         </b-col>
@@ -175,7 +177,7 @@
           >
             <b-form-textarea
                 disabled
-                v-model="dataProvider.self_pay.note"
+                v-model="dataProvider.note"
             />
           </b-form-group>
         </b-col>
@@ -224,19 +226,51 @@ export default {
     BFormSelect,
     vSelect,
   },
-  props: {
-    dataProvider: {},
-  },
+  props: ['dataProvider'],
   data() {
     return {}
   },
   methods: {
     ProfileName(name) {
-      if(this.dataProvider.self_pay.profile_picture === null){
+      if(this.dataProvider.profile_picture === null){
         return name.charAt(0).toUpperCase() + name.charAt(1).toUpperCase();
       }else {
-        return this.dataProvider.self_pay.profile_picture;
+        return this.dataProvider.profile_picture;
       }
+    },
+    sendCode() {
+      this.$swal({
+        title: 'Please, wait...',
+        didOpen: () => {
+          this.$swal.showLoading()
+        },
+        customClass: {
+          confirmButton: 'btn btn-primary',
+        },
+        buttonsStyling: false,
+      })
+      this.$http.post(`ca/panel/reservationCode/generate?user_id=${this.dataProvider.id}`)
+          .then((response) => {
+            this.$swal({
+              title: 'Reservation code sent successfully',
+              subtitle: response.data,
+              icon: 'success',
+              customClass: {
+                confirmButton: 'btn btn-primary',
+              },
+              buttonsStyling: false,
+            })
+          })
+          .catch((error) => {
+            this.$swal({
+              title: error.message,
+              icon: 'error',
+              customClass: {
+                confirmButton: 'btn btn-primary',
+              },
+              buttonsStyling: false,
+            })
+          })
     }
   }
 

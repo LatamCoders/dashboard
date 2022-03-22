@@ -184,7 +184,7 @@ export default {
       this.$http.get(`ca/${this.user}/panel/booking/list`).then((response) => {
         let listBooking = response.data.data;
         this.allBooking = listBooking.length;
-        console.log(this.allBooking)
+
 
       }).catch((res) => console.log(res.data))
     },

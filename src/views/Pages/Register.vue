@@ -145,26 +145,7 @@
                       <!--                          </validation-provider>-->
                       <!--                        </b-form-group>-->
                       <!--                      </b-col>-->
-                      <b-col md="6">
-                        <b-form-group
-                            label="Contract Start Date"
-                        >
-                          <validation-provider
-                              #default="{ errors }"
-                              name="contract_start_date"
-                              rules="required"
-                          >
-                            <b-form-datepicker
-                                v-model="dataregister.contract_start_date"
-                                :min="min"
-                                :max="max"
-                                locale="en"
-                                :state="errors.length > 0 ? false:null"
-                            />
-                            <small class="text-danger" v-if="errors[0]">This field is required</small>
-                          </validation-provider>
-                        </b-form-group>
-                      </b-col>
+
                       <b-col md="6">
                         <b-form-group
                             label="Office Location Address"
@@ -606,7 +587,6 @@ export default {
         company_legal_name: '',
         dba: '',
         tin: '',
-        contract_start_date: '',
         office_location_address: '',
         billing_address: '',
         telephone_number: '',
@@ -769,7 +749,6 @@ export default {
               this.dataregister.company_legal_name = '';
               this.dataregister.dba = '';
               this.dataregister.tin = '';
-              this.dataregister.contract_start_date = '';
               this.dataregister.office_location_address = '';
               this.dataregister.billing_address = '';
               this.dataregister.telephone_number = '';
@@ -861,22 +840,7 @@ export default {
       })
     },
   },
-  mounted() {
-    new Card({
-      form: "dataregister",
-      formSelectors: {
-        cc_number: "input#cc-number",
-        name_on_cc: "input#cc-name",
-        code_of_cc: "input#cc-cvv"
-      },
-      formatting: true,
-      placeholders: {
-        cc_number: "•••• •••• •••• ••••",
-        name_on_cc: "Nome Completo",
-        code_of_cc: "•••"
-      }
-    });
-  },
+
   // mounted() {
   //   this.$swal({
   //     title: 'It has been successfully registered',

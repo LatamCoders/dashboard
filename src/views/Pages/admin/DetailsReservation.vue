@@ -18,7 +18,7 @@
           <span class="d-none d-sm-inline">Information self pay</span>
         </template>
         <details-view-reserva
-            :data-provider="listReservas"
+            :data-provider="listReservas.self_pay"
             class="mt-2 pt-75"
         />
       </b-tab>

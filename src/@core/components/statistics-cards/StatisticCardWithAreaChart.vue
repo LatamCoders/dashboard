@@ -109,6 +109,13 @@ export default {
 /*  }*/
 /*}*/
 
+.card-body  >  .truncate > div  {
+  transition: transform 1s ease;
+}
+.card-body:hover >  .truncate > div > .container-numero, .container-numero-may {
+  transform: scale3d(1.1, 1.1, 1.1);
+
+}
 .container-numero {
   text-align: center;
   font-size: 3rem;
@@ -117,10 +124,11 @@ export default {
   width: 68px;
   color: white;
   box-shadow: 0 0 7px #7367f0;
+  transition: transform 1s ease;
 }
-.container-numero:hover {
-  transform: scale3d(1.1, 1.1, 1.1);
-}
+/*.container-numero:hover {*/
+/*  transform: scale3d(1.1, 1.1, 1.1);*/
+/*}*/
 .container-numero-may {
   text-align: center;
   font-size: 3rem;
@@ -131,7 +139,7 @@ export default {
   color: white;
   box-shadow: 0 0 7px #7367f0;
 }
-.container-numero-may:hover {
-  transform: scale3d(1.1, 1.1, 1.1);
-}
+/*.container-numero-may:hover {*/
+/*  transform: scale3d(1.1, 1.1, 1.1);*/
+/*}*/
 </style>

@@ -106,6 +106,21 @@
                 </b-list-group-item>
               </router-link>
             </b-list-group>
+            <template v-if="item.driver !== null">
+              <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
+                  <b-list-group-item style="padding: 0; color: #7367F0FF; border-radius: 0;" class="urlPagina" :ripple="false">
+                    <b-list-group-item class="font-weight-bold"
+                                       style="border: none; padding: 5px"
+                                       @click="sendCode(item.self_pay.id)"
+                    >
+                      <feather-icon icon="SendIcon"/>
+                      Send reservation code
+                    </b-list-group-item
+                    >
+                  </b-list-group-item>
+
+              </b-list-group>
+            </template>
           </b-dropdown>
         </template>
 
@@ -224,6 +239,40 @@ export default {
 
       }).catch((res) => console.log(res.data))
     },
+    sendCode(id) {
+      this.$swal({
+        title: 'Please, wait...',
+        didOpen: () => {
+          this.$swal.showLoading()
+        },
+        customClass: {
+          confirmButton: 'btn btn-primary',
+        },
+        buttonsStyling: false,
+      })
+      this.$http.post(`ca/panel/reservationCode/generate?user_id=${id}`)
+          .then((response) => {
+            this.$swal({
+              title: 'Reservation code sent successfully',
+              subtitle: response.data,
+              icon: 'success',
+              customClass: {
+                confirmButton: 'btn btn-primary',
+              },
+              buttonsStyling: false,
+            })
+          })
+          .catch((error) => {
+            this.$swal({
+              title: error.message,
+              icon: 'error',
+              customClass: {
+                confirmButton: 'btn btn-primary',
+              },
+              buttonsStyling: false,
+            })
+          })
+    }
 
   },
   mounted() {
@@ -244,6 +293,7 @@ export default {
 .urlPagina:hover {
   background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
   color: #fff;
+  cursor: pointer;
 }
 
 .list-group-item:hover {

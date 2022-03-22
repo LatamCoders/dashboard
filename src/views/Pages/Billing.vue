@@ -94,7 +94,7 @@
             </b-list-group>
             <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
 
-              <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
+              <b-list-group-item style="padding: 0; color: #7367F0FF; border-radius: 0;" class="urlPagina" :ripple="false">
                 <b-list-group-item class="font-weight-bold"
                                    style="border: none; padding: 5px"
                                    @click="downloadReports(item.id)"
@@ -252,6 +252,7 @@ export default {
 .urlPagina:hover {
   background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
   color: #fff;
+  cursor: pointer;
 }
 
 .list-group-item:hover {
