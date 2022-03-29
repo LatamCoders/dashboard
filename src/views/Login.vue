@@ -18,6 +18,7 @@
               fluid
               :src="imgUrl"
               alt="Login V2"
+              class="imgLogin"
           />
         </div>
       </b-col>
@@ -41,9 +42,9 @@
           >
             Welcome to Amera! 👋
           </b-card-title>
-          <b-card-text class="mb-2">
-            Please sign-in to your account to start the adventure
-          </b-card-text>
+<!--          <b-card-text class="mb-2">-->
+<!--            Please sign-in to your account to start the adventure-->
+<!--          </b-card-text>-->
 
           <!-- form Admin -->
           <transition name="fade" mode="out-in">
@@ -246,7 +247,7 @@ export default {
       viewFormAdmin: false,
       btnUser: '',
       atras: false,
-      sideImg: require('@/assets/images/pages/login-v2.svg'),
+      sideImg: require('@/assets/images/pages/amera.png'),
       // validation rulesimport store from '@/store/index'
       required,
       email,
@@ -259,7 +260,7 @@ export default {
     imgUrl() {
       if (store.state.appConfig.layout.skin === 'dark') {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.sideImg = require('@/assets/images/pages/login-v2-dark.svg')
+        this.sideImg = require('@/assets/images/pages/amera.png')
         return this.sideImg
       }
       return this.sideImg
@@ -352,5 +353,12 @@ export default {
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
 {
   opacity: 0;
+}
+
+.imgLogin {
+  height: 500px;
+  border-radius: 10px;
+  //box-shadow: 4px 2px 10px -2px #342b7b;
+  box-shadow: 4px 2px 10px -2px #868498;
 }
 </style>

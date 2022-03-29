@@ -148,7 +148,7 @@
 
                       <b-col md="6">
                         <b-form-group
-                            label="Office Location Address"
+                            label="Corporate Address"
                         >
                           <validation-provider
                               #default="{ errors }"
@@ -205,7 +205,7 @@
                       </b-col>
                       <b-col md="6">
                         <b-form-group
-                            label="Phone Number"
+                            label="Company Phone Number"
                         >
                           <validation-provider
                               #default="{ errors }"
@@ -233,7 +233,7 @@
                         </b-form-group>
                       </b-col>
                       <b-col md="6">
-                        <b-form-group label="Email">
+                        <b-form-group label="Company Email">
                           <validation-provider
                               #default="{ errors }"
                               name="email"
@@ -266,44 +266,44 @@
                           </validation-provider>
                         </b-form-group>
                       </b-col>
-                      <b-col md="6">
-                        <b-form-group
-                            label="Contact Name"
-                        >
-                          <validation-provider
-                              #default="{ errors }"
-                              name="contact_name"
-                              rules="required"
-                          >
-                            <b-form-input
-                                v-model="dataregister.contact_name"
-                                :state="errors.length > 0 ? false:null"
-                                maxlength="30"
-                                @keypress="isText"
-                            />
-                            <small class="text-danger" v-if="errors[0]">This field is required</small>
-                          </validation-provider>
-                        </b-form-group>
-                      </b-col>
-                      <b-col md="6">
-                        <b-form-group
-                            label="Contact Number"
-                        >
-                          <validation-provider
-                              #default="{ errors }"
-                              name="contact_number"
-                              rules="required"
-                          >
-                            <b-form-input
-                                v-model="dataregister.contact_number"
-                                :state="errors.length > 0 ? false:null"
-                                @keypress="isNumber($event)"
-                                maxlength="10"
-                            />
-                            <small class="text-danger" v-if="errors[0]">This field is required</small>
-                          </validation-provider>
-                        </b-form-group>
-                      </b-col>
+<!--                      <b-col md="6">-->
+<!--                        <b-form-group-->
+<!--                            label="Contact Name"-->
+<!--                        >-->
+<!--                          <validation-provider-->
+<!--                              #default="{ errors }"-->
+<!--                              name="contact_name"-->
+<!--                              rules="required"-->
+<!--                          >-->
+<!--                            <b-form-input-->
+<!--                                v-model="dataregister.contact_name"-->
+<!--                                :state="errors.length > 0 ? false:null"-->
+<!--                                maxlength="30"-->
+<!--                                @keypress="isText"-->
+<!--                            />-->
+<!--                            <small class="text-danger" v-if="errors[0]">This field is required</small>-->
+<!--                          </validation-provider>-->
+<!--                        </b-form-group>-->
+<!--                      </b-col>-->
+<!--                      <b-col md="6">-->
+<!--                        <b-form-group-->
+<!--                            label="Contact Number"-->
+<!--                        >-->
+<!--                          <validation-provider-->
+<!--                              #default="{ errors }"-->
+<!--                              name="contact_number"-->
+<!--                              rules="required"-->
+<!--                          >-->
+<!--                            <b-form-input-->
+<!--                                v-model="dataregister.contact_number"-->
+<!--                                :state="errors.length > 0 ? false:null"-->
+<!--                                @keypress="isNumber($event)"-->
+<!--                                maxlength="10"-->
+<!--                            />-->
+<!--                            <small class="text-danger" v-if="errors[0]">This field is required</small>-->
+<!--                          </validation-provider>-->
+<!--                        </b-form-group>-->
+<!--                      </b-col>-->
                     </b-row>
                   </validation-observer>
                 </tab-content>
@@ -332,18 +332,6 @@
                           />
                         </b-form-group>
                       </b-col>
-                      <!--                      <b-col md="6">-->
-                      <!--                        <b-form-group-->
-                      <!--                            label="Additional Contact Title"-->
-                      <!--                        >-->
-                      <!--                          <b-form-input-->
-
-                      <!--                              v-model="dataregister.additional_contact_title"-->
-                      <!--                              maxlength="30"-->
-                      <!--                              @keypress="isText"-->
-                      <!--                          />-->
-                      <!--                        </b-form-group>-->
-                      <!--                      </b-col>-->
                       <b-col md="6">
                         <b-form-group
                             label="Additional Contact Number"
@@ -365,6 +353,18 @@
                               maxlength="30"
                           />
 
+                        </b-form-group>
+                      </b-col>
+                      <b-col md="6">
+                        <b-form-group
+                            label="Title"
+                        >
+                          <b-form-input
+
+                              v-model="dataregister.additional_contact_title"
+                              maxlength="30"
+                              @keypress="isText"
+                          />
                         </b-form-group>
                       </b-col>
                     </b-row>
@@ -598,6 +598,7 @@ export default {
         additional_contact_name: '',
         additional_contact_number: '',
         additional_contact_email: '',
+        additional_contact_title: '',
         name_on_cc: '',
         cc_number: '',
         type_of_cc: '',
