@@ -42,9 +42,9 @@
           >
             Welcome to Amera! 👋
           </b-card-title>
-<!--          <b-card-text class="mb-2">-->
+          <b-card-text class="mb-2">
 <!--            Please sign-in to your account to start the adventure-->
-<!--          </b-card-text>-->
+          </b-card-text>
 
           <!-- form Admin -->
           <transition name="fade" mode="out-in">
