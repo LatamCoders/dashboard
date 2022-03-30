@@ -44,7 +44,6 @@
                     rules="required"
                 >
                   <b-form-input
-                      placeholder="johndoe"
                       v-model="createdPatient.name"
                       :state="errors.length > 0 ? false:null"
                       @keypress="isText"
@@ -63,7 +62,6 @@
                     rules="required"
                 >
                   <b-form-input
-                      placeholder="Doe"
                       v-model="createdPatient.lastname"
                       :state="errors.length > 0 ? false:null"
                       @keypress="isText"
@@ -83,7 +81,6 @@
                 >
                   <b-form-input
                       v-model="createdPatient.email"
-                      placeholder="Jhon.doe@email.com"
                       type="email"
                       :state="errors.length > 0 ? false:null"
                       maxlength="50"
@@ -102,7 +99,6 @@
                 >
                   <b-form-input
                       v-model="createdPatient.phone_number"
-                      placeholder="33515"
                       :state="errors.length > 0 ? false:null"
                       @keypress="isNumber($event)"
                       maxlength="11"
@@ -163,7 +159,6 @@
                 >
                   <b-form-input
                       v-model="createdPatient.home_telephone_number"
-                      placeholder="358185488"
                       :state="errors.length > 0 ? false:null"
                       @keypress="isNumber($event)"
                       maxlength="10"
@@ -183,7 +178,6 @@
                   <b-form-input
                       id="autocomplete"
                       v-model="createdPatient.city"
-                      placeholder="98 Borough bridge Road, Birmingham"
                       :state="errors.length > 0 ? false:null"
                       maxlength="40"
                       @keypress="isDirection"
@@ -203,7 +197,7 @@
                   <b-form-datepicker
                       v-model="createdPatient.birthday"
                       locale="en"
-                      placeholder="18/03/1990"
+                      placeholder="00/00/0000"
                       :state="errors.length > 0 ? false:null"
                   />
                   <small class="text-danger" v-if="errors[0]">This field is required</small>

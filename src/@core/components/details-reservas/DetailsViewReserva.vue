@@ -5,13 +5,13 @@
       <template #aside>
         <b-avatar
             ref="previewEl"
-            :src="ProfileName(dataProvider.city)"
+            :src="dataProvider.profile_picture"
             size="90px"
             rounded
             class="backgroundProfile-driver"
         >
           <p class="text-name-driver" v-if='dataProvider.profile_picture === null'>
-            {{ ProfileName(dataProvider.city) }}
+            {{ ProfileName(dataProvider.name) }}
           </p>
         </b-avatar>
       </template>
@@ -20,21 +20,21 @@
         {{ dataProvider.email }}
       </span>)
       </h4>
-      <template v-if="dataProvider.driver !== null">
-        <div class="d-flex flex-wrap">
-          <b-button
-              variant="primary"
-              class="ml-1"
-              @click="sendCode"
-          >
-            <span class="d-none d-sm-inline">Send reservation code</span>
-            <feather-icon
-                icon="EditIcon"
-                class="d-inline d-sm-none"
-            />
-          </b-button>
-        </div>
-      </template>
+<!--      <template v-if="dataProvider.driver !== null">-->
+<!--        <div class="d-flex flex-wrap">-->
+<!--          <b-button-->
+<!--              variant="primary"-->
+<!--              class="ml-1"-->
+<!--              @click="sendCode"-->
+<!--          >-->
+<!--            <span class="d-none d-sm-inline">Send reservation code</span>-->
+<!--            <feather-icon-->
+<!--                icon="EditIcon"-->
+<!--                class="d-inline d-sm-none"-->
+<!--            />-->
+<!--          </b-button>-->
+<!--        </div>-->
+<!--      </template>-->
     </b-media>
 
     <!-- form Admin -->
@@ -50,7 +50,7 @@
           >
             <b-form-input
                 disabled
-                v-model="dataProvider.city"
+                v-model="dataProvider.name"
             />
           </b-form-group>
         </b-col>
@@ -238,40 +238,40 @@ export default {
         return this.dataProvider.profile_picture;
       }
     },
-    sendCode() {
-      this.$swal({
-        title: 'Please, wait...',
-        didOpen: () => {
-          this.$swal.showLoading()
-        },
-        customClass: {
-          confirmButton: 'btn btn-primary',
-        },
-        buttonsStyling: false,
-      })
-      this.$http.post(`ca/panel/reservationCode/generate?user_id=${this.dataProvider.id}`)
-          .then((response) => {
-            this.$swal({
-              title: 'Reservation code sent successfully',
-              subtitle: response.data,
-              icon: 'success',
-              customClass: {
-                confirmButton: 'btn btn-primary',
-              },
-              buttonsStyling: false,
-            })
-          })
-          .catch((error) => {
-            this.$swal({
-              title: error.message,
-              icon: 'error',
-              customClass: {
-                confirmButton: 'btn btn-primary',
-              },
-              buttonsStyling: false,
-            })
-          })
-    }
+    // sendCode() {
+    //   this.$swal({
+    //     title: 'Please, wait...',
+    //     didOpen: () => {
+    //       this.$swal.showLoading()
+    //     },
+    //     customClass: {
+    //       confirmButton: 'btn btn-primary',
+    //     },
+    //     buttonsStyling: false,
+    //   })
+    //   this.$http.post(`ca/panel/reservationCode/generate?user_id=${this.dataProvider.id}`)
+    //       .then((response) => {
+    //         this.$swal({
+    //           title: 'Reservation code sent successfully',
+    //           subtitle: response.data,
+    //           icon: 'success',
+    //           customClass: {
+    //             confirmButton: 'btn btn-primary',
+    //           },
+    //           buttonsStyling: false,
+    //         })
+    //       })
+    //       .catch((error) => {
+    //         this.$swal({
+    //           title: error.message,
+    //           icon: 'error',
+    //           customClass: {
+    //             confirmButton: 'btn btn-primary',
+    //           },
+    //           buttonsStyling: false,
+    //         })
+    //       })
+    // }
   }
 
 }

@@ -56,15 +56,15 @@
         <!-- Column: Actions -->
 
         <template  #cell(phone_number_verified_at)="{ item }">
-          <span style="color: red">
-             {{ item.phone_number_verified_at === null ? 'not verified' : 'verified' }}
+          <span :class="item.phone_number_verified_at === null ? 'no-verified' : 'verified'">
+             {{ item.phone_number_verified_at === null ? 'Not verified' : 'Verified' }}
           </span>
         </template>
 
 
         <template  #cell(email_verified_at)="{item }">
-          <span style="color: red">
-             {{ item.email_verified_at === null ? 'not verified' : 'verified' }}
+          <span :class="item.email_verified_at !== null ? 'verified' : 'no-verified'" >
+             {{ item.email_verified_at === null ? 'Not verified' : 'Verified' }}
           </span>
 
         </template>
@@ -271,5 +271,12 @@ export default {
 
 .box {
   box-shadow: 0px 14px 20px 0px rgba(143, 143, 143, 0.2) !important;
+}
+
+.verified {
+  color: #7467f0;
+}
+.no-verified{
+  color: red;
 }
 </style>

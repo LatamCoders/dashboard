@@ -150,38 +150,42 @@
                         <b-form-group
                             label="Corporate Address"
                         >
-                          <validation-provider
-                              #default="{ errors }"
-                              name="office_location_address"
-                              rules="required"
-                          >
-                            <b-form-input
-                                v-model="dataregister.office_location_address"
-                                :state="errors.length > 0 ? false:null"
-                                maxlength="30"
-                                @keypress="isDirection"
-                            />
-                            <small class="text-danger" v-if="errors[0]">This field is required</small>
-                          </validation-provider>
+                          <gmap-autocomplete class="form-control"  @place_changed="initMarkerTo">
+                          </gmap-autocomplete>
+<!--                          <validation-provider-->
+<!--                              #default="{ errors }"-->
+<!--                              name="office_location_address"-->
+<!--                              rules="required"-->
+<!--                          >-->
+<!--                            <b-form-input-->
+<!--                                v-model="dataregister.office_location_address"-->
+<!--                                :state="errors.length > 0 ? false:null"-->
+<!--                                maxlength="30"-->
+<!--                                @keypress="isDirection"-->
+<!--                            />-->
+<!--                            <small class="text-danger" v-if="errors[0]">This field is required</small>-->
+<!--                          </validation-provider>-->
                         </b-form-group>
                       </b-col>
                       <b-col md="6">
                         <b-form-group
                             label="Billing Address"
                         >
-                          <validation-provider
-                              #default="{ errors }"
-                              name="billing_address"
-                              rules="required"
-                          >
-                            <b-form-input
-                                v-model="dataregister.billing_address"
-                                :state="errors.length > 0 ? false:null"
-                                maxlength="20"
-                                @keypress="isDirection"
-                            />
-                            <small class="text-danger" v-if="errors[0]">This field is required</small>
-                          </validation-provider>
+                          <gmap-autocomplete class="form-control"  @place_changed="initMarker">
+                          </gmap-autocomplete>
+<!--                          <validation-provider-->
+<!--                              #default="{ errors }"-->
+<!--                              name="billing_address"-->
+<!--                              rules="required"-->
+<!--                          >-->
+<!--                            <b-form-input-->
+<!--                                v-model="dataregister.billing_address"-->
+<!--                                :state="errors.length > 0 ? false:null"-->
+<!--                                maxlength="20"-->
+<!--                                @keypress="isDirection"-->
+<!--                            />-->
+<!--                            <small class="text-danger" v-if="errors[0]">This field is required</small>-->
+<!--                          </validation-provider>-->
                         </b-form-group>
                       </b-col>
                     </b-row>
@@ -696,32 +700,18 @@ export default {
         return false;
       }
     },
-    register() {
-      this.$refs.registerForm.validate()
-          .then((success) => {
-            if (success) {
-              useJwt
-                  .register({
-                    username: this.username,
-                    email: this.userEmail,
-                    password: this.password,
-                  })
-                  .then((response) => {
-                    useJwt.setToken(response.data.accessToken)
-                    useJwt.setRefreshToken(response.data.refreshToken)
-                    localStorage.setItem(
-                        'userData',
-                        JSON.stringify(response.data.userData)
-                    )
-                    this.$ability.update(response.data.userData.ability)
-                    this.$router.push('/')
-                  })
-                  .catch((error) => {
-                    this.$refs.registerForm.setErrors(error.response.data.error)
-                  })
-            }
-          })
+    initMarkerTo(loc) {
+      this.existingPlace = loc
+      this.dataregister.office_location_address = this.existingPlace.formatted_address
+      // console.log(this.dataregister.office_location_address)
     },
+
+    initMarker(loc) {
+      this.existingPlace = loc
+      this.dataregister.billing_address = this.existingPlace.formatted_address
+      // console.log(this.this.dataregister.billing_address)
+    },
+
     formSubmitted() {
       this.dataregister.type_of_cc = this.credito.title;
       if (this.dataregister.type_of_cc === undefined) {

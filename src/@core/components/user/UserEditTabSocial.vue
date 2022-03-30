@@ -124,7 +124,8 @@
             >
               <b-form-input
                   v-model="paymentMethods.name_on_cc"
-                  disabled
+                  @keypress="isText"
+                  maxlength="30"
               />
             </b-form-group>
           </b-col>
@@ -138,7 +139,8 @@
             >
               <b-form-input
                   v-model="paymentMethods.cc_number"
-                  disabled
+                  @keypress="isNumber($event)"
+                  maxlength="10"
               />
             </b-form-group>
           </b-col>
@@ -152,7 +154,6 @@
             >
               <b-form-input
                   v-model="paymentMethods.type_of_cc"
-                  disabled
               />
             </b-form-group>
           </b-col>
@@ -167,7 +168,9 @@
             >
               <b-form-input
                   v-model="paymentMethods.code_of_cc"
-                  disabled
+                  @keypress="isNumber($event)"
+                  maxlength="3"
+                  placeholder="***"
               />
             </b-form-group>
           </b-col>
@@ -182,7 +185,7 @@
             <b-button
                 variant="outline-secondary"
                 :block="$store.getters['app/currentBreakPoint'] === 'xs'"
-
+                @click="clearInputs"
             >
               Reset
             </b-button>
@@ -224,6 +227,35 @@ export default {
       },
     }
   },
+  methods: {
+    isText: function (event) {
+      let regex = new RegExp('^[a-zA-Z ]+$')
+      let key = String.fromCharCode(!event.charCode ? event.which : event.charCode)
+      if (!regex.test(key)) {
+        event.preventDefault()
+        return false
+      }
+    },
+    isNumber: function (evt) {
+      evt = evt ? evt : window.event
+      let charCode = evt.which ? evt.which : evt.keyCode
+      if (
+          charCode > 31 &&
+          (charCode < 48 || charCode > 57) &&
+          charCode !== 46
+      ) {
+        evt.preventDefault()
+      } else {
+        return true
+      }
+    },
+    clearInputs() {
+      this.paymentMethods.name_on_cc = ''
+      this.paymentMethods.cc_number = ''
+      this.paymentMethods.type_of_cc = ''
+      this.paymentMethods.code_of_cc = ''
+    }
+  }
   // mounted() {
   //   console.log(this.infoPayment)
   // }

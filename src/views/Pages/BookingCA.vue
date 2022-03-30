@@ -56,6 +56,29 @@
           id="my-table"
           :current-page="currentPage"
       >
+        <!-- Column: name self pay -->
+        <template  #cell(name_selfpay)="{ item }">
+          <span>
+             {{ item.self_pay.name + " " +  item.self_pay.lastname }}
+          </span>
+        </template>
+
+        <!-- Column: Phone number self pay -->
+        <template  #cell(phone_number)="{ item }">
+          <span>
+             {{ item.self_pay.phone_number }}
+          </span>
+        </template>
+
+
+        <!-- Column: email self pay -->
+        <template #cell(email)="{ item }">
+          <span>
+             {{ item.self_pay.email }}
+          </span>
+        </template>
+
+
         <!-- Column: Actions -->
         <template #cell(actions)="{ item }">
           <b-dropdown
@@ -216,7 +239,7 @@ export default {
       searchQuery: '',
       optionsPerpage: '',
       user: 0,
-      fields: ['selfpay_id', 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime', 'city', 'actions'],
+      fields: [ 'name_selfpay' , 'phone_number', 'email' , 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime', 'city', 'actions'],
     }
   },
   computed: {

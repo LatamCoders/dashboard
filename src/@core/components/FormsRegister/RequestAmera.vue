@@ -125,7 +125,6 @@
                   label="Last Name"
               >
                 <b-form-input
-                    placeholder="John"
                     v-model="lastnombre"
                     disabled
 
@@ -159,7 +158,6 @@
                 >
                   <b-form-input
                       v-model="getEmailPatient"
-                      placeholder="Doe@gmail.com"
                       :state="errors.length > 0 ? false:null"
                       disabled
                   />
@@ -203,7 +201,7 @@
                       :min="min"
                       :max="max"
                       locale="en"
-                      placeholder="8/01/2022"
+                      placeholder="0/00/0000"
                       :state="errors.length > 0 ? false:null"
                   />
                   <small class="text-danger" v-if="errors[0]">This field is required</small>
@@ -237,7 +235,6 @@
                 >
                   <b-form-timepicker
                       locale="en"
-                      placeholder="658921"
                       :state="errors.length > 0 ? false:null"
                       v-model="dataCa.pickup_time"
                   />
@@ -257,7 +254,6 @@
                   <!--                  </gmap-autocomplete>-->
 
                   <b-form-input
-                      placeholder="Birmingham"
                       v-model="dataCa.city"
                       :state="errors.length > 0 ? false:null"
                   />
@@ -287,7 +283,7 @@
                   label="Pickup address"
               >
 
-                <gmap-autocomplete class="form-control" placeholder="Birmingham" @place_changed="initMarkerTo">
+                <gmap-autocomplete class="form-control"  @place_changed="initMarkerTo">
                 </gmap-autocomplete>
                 <!--                  <b-form-input-->
                 <!--                      v-model="dataCa.to"-->
@@ -316,7 +312,7 @@
               <b-form-group
                   label="Destination"
               >
-                <gmap-autocomplete class="form-control" placeholder="Birmingham" @place_changed="initMarkerFrom">
+                <gmap-autocomplete class="form-control"  @place_changed="initMarkerFrom">
                 </gmap-autocomplete>
                 <!--                <b-form-input-->
                 <!--                    id="autocompletar"-->
@@ -338,7 +334,7 @@
                       :min="min"
                       :max="max"
                       locale="en"
-                      placeholder="8/01/2022"
+                      placeholder="0/00/0000"
                       :state="errors.length > 0 ? false:null"
                   />
                   <small class="text-danger" v-if="errors[0]">This field is required</small>
