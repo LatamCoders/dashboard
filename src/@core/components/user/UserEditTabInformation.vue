@@ -83,38 +83,38 @@
         </b-col>
 
         <!-- Field: Gender -->
-        <b-col
-            cols="12"
-            md="6"
-            lg="4"
-        >
-          <b-form-group
-              label="Contact Name"
-          >
-            <b-form-input
-                id="gender"
-                v-model="infoUser.contact_name"
-                disabled
-            />
-          </b-form-group>
-        </b-col>
+<!--        <b-col-->
+<!--            cols="12"-->
+<!--            md="6"-->
+<!--            lg="4"-->
+<!--        >-->
+<!--          <b-form-group-->
+<!--              label="Contact Name"-->
+<!--          >-->
+<!--            <b-form-input-->
+<!--                id="gender"-->
+<!--                v-model="infoUser.contact_name"-->
+<!--                disabled-->
+<!--            />-->
+<!--          </b-form-group>-->
+<!--        </b-col>-->
 
-        <!-- Field: Contact Options -->
-        <b-col
-            cols="12"
-            md="6"
-            lg="4"
-        >
-          <b-form-group
-              label="Contact Number"
+<!--        &lt;!&ndash; Field: Contact Options &ndash;&gt;-->
+<!--        <b-col-->
+<!--            cols="12"-->
+<!--            md="6"-->
+<!--            lg="4"-->
+<!--        >-->
+<!--          <b-form-group-->
+<!--              label="Contact Number"-->
 
-          >
-            <b-form-input
-                v-model="infoUser.contact_number"
-                disabled
-            />
-          </b-form-group>
-        </b-col>
+<!--          >-->
+<!--            <b-form-input-->
+<!--                v-model="infoUser.contact_number"-->
+<!--                disabled-->
+<!--            />-->
+<!--          </b-form-group>-->
+<!--        </b-col>-->
       </b-row>
 
       <!-- Header: Personal Info -->

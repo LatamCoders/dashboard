@@ -135,19 +135,19 @@
       </b-row>
       <b-row>
         <!-- Field: Full Name -->
-        <b-col
-            cols="12"
-            md="4"
-        >
-          <b-form-group
-              label="Contract start Date"
-          >
-            <b-form-input
-                v-model="userData.corporate_account.contract_start_date"
-                disabled
-            />
-          </b-form-group>
-        </b-col>
+<!--        <b-col-->
+<!--            cols="12"-->
+<!--            md="4"-->
+<!--        >-->
+<!--          <b-form-group-->
+<!--              label="Contract start Date"-->
+<!--          >-->
+<!--            <b-form-input-->
+<!--                v-model="userData.corporate_account.contract_start_date"-->
+<!--                disabled-->
+<!--            />-->
+<!--          </b-form-group>-->
+<!--        </b-col>-->
 
         <!-- Field: Email -->
         <b-col
