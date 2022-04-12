@@ -57,6 +57,14 @@
           id="my-table"
           :current-page="currentPage"
       >
+
+        <template  #cell(name_selfpay)="{ item }">
+          <span >
+               {{ item.self_pay.name +' '+ item.self_pay.lastname }}
+          </span>
+        </template>
+
+
         <!-- Column: Actions -->
         <template #cell(actions)="{ item }">
           <b-dropdown
@@ -201,7 +209,7 @@ export default {
       totalUsers: 0,
       valortotal: 0,
       searchQuery: '',
-      fields: ['selfpay_id', 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime',  'city', 'actions'],
+      fields: ['name_selfpay', 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime',  'city', 'actions'],
     }
   },
   methods: {

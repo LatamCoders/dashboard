@@ -219,6 +219,7 @@ export default {
       this.$http.get(`admin/panel/driver/list`)
           .then((response) => {
             this.listDrivers = response.data.data
+
           })
           .catch((res) => console.log(res.data))
     },

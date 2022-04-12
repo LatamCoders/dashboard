@@ -25,9 +25,9 @@
               label="Model"
           >
             <b-form-input
-              v-model="userVehicle.vehicle.model"
-              disabled
-          />
+                v-model="userVehicle.vehicle.model"
+                disabled
+            />
 
           </b-form-group>
         </b-col>
@@ -214,16 +214,23 @@ export default {
     BRow, BCol, BForm, BFormGroup, flatPickr, BFormInput, vSelect, BFormRadioGroup, BFormCheckboxGroup, BButton, BImg,
   },
   props: {
-    userVehicle: [],
+    userVehicle: {
+      // vehicle: {
+      //   model: '',
+      //   color: '',
+      //   year: '',
+      //   plate_number: '',
+      //   vin_number: '',
+      // }
+
+    },
   },
   data() {
-    return {
-    }
+    return {}
   },
-  mounted() {
-    console.log(this.userVehicle)
-
-  }
+  // mounted() {
+  //   // console.log(this.userVehicle)
+  // }
 }
 </script>
 

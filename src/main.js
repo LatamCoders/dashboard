@@ -78,7 +78,7 @@ router.beforeEach((to, from, next) => {
 
   /*Entrar si es admin*/
   if (to.matched.some(record => record.meta.permission === '2')) {
-    if (store.getters["Users/userDataAdmin"].user.role.id  === 2) {
+    if (store.getters["Users/userData"].user.role.id  === 2) {
       next()
     } else {
       next({
@@ -90,7 +90,7 @@ router.beforeEach((to, from, next) => {
   }
   /*Entrar si es super-admin*/
   if (to.matched.some(record => record.meta.permission === '1')) {
-    if (store.getters["Users/userDataAdmin"].user.role.id === 1) {
+    if (store.getters["Users/userData"].user.role.id === 1) {
       next()
     } else {
       next({
