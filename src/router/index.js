@@ -167,9 +167,9 @@ const router = new VueRouter({
 
         /*************** END RUTA PARA BOOKING   *******************/
 
-      //Rutas para opción del admin ver clientes
+        //Rutas para opción del admin ver clientes
 
-      /*************** INITIO RUTA PARA CLIENT PROVED   *******************/
+        /*************** INITIO RUTA PARA CLIENT PROVED   *******************/
         {
             path: '/clients/providers',
             name: 'providers',
@@ -268,11 +268,48 @@ const router = new VueRouter({
             props: true,
             component: () => import('@/views/Pages/profile/ProfilePatient.vue'),
         },
+
+        /******************   Billings       ****************************/
+
         {
             path: '/billing',
             name: 'billing',
             component: () => import('@/views/Pages/Billing.vue'),
         },
+        {
+            path: '/billing/payments-made',
+            name: 'PaymentsMade',
+            component: () => import('@/views/Pages/Billings/PaymentsMade.vue'),
+            meta: {
+                pageTitle: 'Payments made',
+            },
+        },
+        {
+            path: '/billing/payments-to-be-made',
+            name: 'PaymentsToBeMade',
+            component: () => import('@/views/Pages/Billings/PaymentsToBeMade.vue'),
+            meta: {
+                pageTitle: 'Payments To Be Made',
+            },
+        },
+        {
+            path: '/billing/refused-payments',
+            name: 'RefusedPayments',
+            component: () => import('@/views/Pages/Billings/RefusedPayments.vue'),
+            meta: {
+                pageTitle: 'Refused payments',
+            },
+        },
+        {
+            path: '/billing/payment',
+            name: 'Payments',
+            component: () => import('@/views/Pages/Billings/Payments.vue'),
+            meta: {
+                pageTitle: 'Payment',
+            },
+        },
+
+        /************************ End Billing **********************************/
         // {
         //     path: '/',
         //     name: 'page-construction',

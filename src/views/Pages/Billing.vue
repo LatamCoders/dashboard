@@ -1,284 +1,165 @@
 <template>
-
   <div>
-    <!-- Table Container Card -->
-    <b-card
-        no-body
-        class="mb-0"
-    >
-
-      <div class="m-2">
-
-        <!-- Table Top -->
-        <b-row>
-
-          <!-- Per Page -->
-          <b-col
-              cols="12"
-              md="6"
-              class="d-flex align-items-center justify-content-start mb-1 mb-md-0"
-          >
-            <label>Show</label>
-            <v-select
-                v-model="perPage"
-                class="per-page-selector d-inline-block mx-50"
-            />
-            <label>entries</label>
-          </b-col>
-
-          <!-- Search -->
-          <b-col
-              cols="12"
-              md="6"
-          >
-            <div class="d-flex align-items-center justify-content-end">
-              <b-form-input
-                  v-model="searchQuery"
-                  class="d-inline-block mr-1"
-                  placeholder="Search..."
-              />
-            </div>
-          </b-col>
-        </b-row>
-
-      </div>
-
-      <b-table
-          ref="refUserListTable"
-          class="position-relative"
-          responsive
-          primary-key="id"
-          :items="listClients"
-          empty-text="No reservations found"
-          show-empty
-          :fields="fields"
-          :filter="searchQuery"
-          :perPage="perPage"
-          id="my-table"
-          :current-page="currentPage"
+    <b-row class="row-container" style="margin-top: 15px;">
+      <b-col
+          lg="3"
+          sm="6"
       >
-        <!-- Column: Actions -->
-        <template #cell(actions)="{ item }">
-          <b-dropdown
-              variant="link"
-              no-caret
-              :right="$store.state.appConfig.isRTL"
-              transition="scale-transition"
-              :offset-y="true"
-          >
-            <template #button-content>
-              <feather-icon
-                  icon="MoreVerticalIcon"
-                  size="16"
-                  class="align-middle text-body"
-              />
-            </template>
-            <template style="padding: 0" v-slot:activator="{ on, attrs }">
-              <b-btn color="primary" v-bind="attrs" v-on="on" icon ripple>
-              </b-btn>
-            </template>
-            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
-              <router-link class="urlPagina"
-                           :to="{ name: 'details-reservation', params: { id: item.id } }"
-              >
-                <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
-                  <b-list-group-item class="font-weight-bold"
-                                     style="border: none; padding: 5px"
-                  >
-                    <feather-icon icon="FileTextIcon"/>
-                    Details
-                  </b-list-group-item
-                  >
-                </b-list-group-item>
-              </router-link>
-            </b-list-group>
-            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
-
-              <b-list-group-item style="padding: 0; color: #7367F0FF; border-radius: 0;" class="urlPagina" :ripple="false">
-                <b-list-group-item class="font-weight-bold"
-                                   style="border: none; padding: 5px"
-                                   @click="downloadReports(item.id)"
-                >
-                  <feather-icon icon="DownloadIcon"/>
-                  Download report
-                </b-list-group-item
-                >
-              </b-list-group-item>
-
-            </b-list-group>
-          </b-dropdown>
-        </template>
-
-      </b-table>
-      <div class="mx-2 mb-2">
-        <b-row>
-
-          <b-col
-              cols="12"
-              sm="6"
-              class="d-flex align-items-center justify-content-center justify-content-sm-start"
-          >
-            <span class="text-muted">Showing {{ perPage }}  of {{
-                listClients.length
-              }} entries</span>
-          </b-col>
-          <!-- Pagination -->
-          <b-col
-              cols="12"
-              sm="6"
-              class="d-flex align-items-center justify-content-center justify-content-sm-end"
-          >
-
-            <b-pagination
-                :per-page="perPage"
-                v-model="currentPage"
-                :total-rows="rows"
-                first-number
-                last-number
-                class="mb-0 mt-1 mt-sm-0"
-                prev-class="prev-item"
-                next-class="next-item"
-                aria-controls="my-table"
-            >
-              <template #prev-text>
-                <feather-icon
-                    icon="ChevronLeftIcon"
-                    size="18"
-                />
-              </template>
-              <template #next-text>
-                <feather-icon
-                    icon="ChevronRightIcon"
-                    size="18"
-                />
-              </template>
-            </b-pagination>
-
-          </b-col>
-
-        </b-row>
-      </div>
-    </b-card>
+        <router-link style="color: #6e6b7b" :to="{name:'PaymentsMade'}">
+          <StatisticCardWithAreaChart
+              statistic="Payments accepted"
+              :chart-data="series"
+              icon="DollarSignIcon"
+              :total-driver="null"
+              statistic-title="Manage your payments made"
+          ></StatisticCardWithAreaChart>
+        </router-link>
+      </b-col>
+      <b-col
+          lg="3"
+          sm="6"
+      >
+        <router-link style="color: #6e6b7b" :to="{name:'PaymentsToBeMade'}">
+          <StatisticCardWithAreaChart
+              icon="CreditCardIcon"
+              statistic="Payments to be made"
+              color="warning"
+              :total-driver="null"
+              :chart-data="ordersRecevied"
+              statistic-title="Manage your payments to be made"
+          ></StatisticCardWithAreaChart>
+        </router-link>
+      </b-col>
+      <b-col
+          lg="3"
+          sm="6"
+      >
+        <router-link style="color: #6e6b7b" :to="{name:'RefusedPayments'}">
+          <StatisticCardWithAreaChart
+              statistic="Refused Payments"
+              :chart-data="series"
+              icon="RotateCcwIcon"
+              :total-driver="null"
+              statistic-title="Manage your refused payments"
+          ></StatisticCardWithAreaChart>
+        </router-link>
+      </b-col>
+      <b-col
+          lg="3"
+          sm="6"
+      >
+        <router-link style="color: #6e6b7b" :to="{ name: 'Payments' }">
+          <StatisticCardWithAreaChart
+              icon="SettingsIcon"
+              statistic="Generate payment"
+              color="warning"
+              :total-driver="null"
+              :chart-data="ordersRecevied"
+              statistic-title="Payment to the drivers"
+          ></StatisticCardWithAreaChart>
+        </router-link>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
 <script>
-import {
-  BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
-  BBadge, BDropdown, BDropdownItem, BPagination, BListGroup, BListGroupItem,
-} from 'bootstrap-vue'
-import vSelect from 'vue-select';
-import {jsPDF} from "jspdf";
-
-// import UsersListFilters from './UsersListFilters.vue'
-import UserListAddNew from '@core/components/infoClients/UserListAddNew'
+import {BButton, BCard, BCardText, BCol, BRow, BImg, BAvatar} from 'bootstrap-vue';
+import StatisticCardWithAreaChart from "@core/components/statistics-cards/StatisticCardWithAreaChart";
 
 export default {
   name: 'Billing',
   components: {
-    UserListAddNew,
     BCard,
-    BRow,
-    BCol,
-    BFormInput,
+    BCardText,
     BButton,
-    BTable,
-    BMedia,
+    BCol,
+    BRow,
+    BImg,
     BAvatar,
-    BLink,
-    BBadge,
-    BDropdown,
-    BDropdownItem,
-    BPagination,
-    BListGroup,
-    BListGroupItem,
-    vSelect,
+
+    StatisticCardWithAreaChart,
   },
   data() {
     return {
       listClients: [],
-      perPage: 5,
-      currentPage: 1,
-      totalUsers: 0,
-      valortotal: 0,
-      searchQuery: '',
-      fields: ['selfpay_id', 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime', 'city', 'actions'],
+      allPatient: 0,
+      user: 0,
+      allBooking: 0,
+
+      subscribersGained: {
+
+        analyticsData: {
+          subscribers: 92600,
+        },
+      },
+      series: [
+        {
+          name: '',
+          data: [28, 40, 36, 52, 38, 60, 55],
+        },
+      ],
+      ordersRecevied: [
+        {
+          name: '',
+          data: [10, 15, 8, 15, 7, 12, 8],
+        },
+      ],
     }
   },
   methods: {
     getClientes() {
-      this.$http.get(`admin/panel/booking/list?status=0`).then((response) => {
+      this.$http.get(`ca/${this.$store.getters['Users/userData'].user.corporate_account.id}/panel/client/search`).then((response) => {
         this.listClients = response.data.data;
-        this.valortotal = this.listClients.length;
-        this.totalUsers = this.valortotal;
+        this.allPatient = this.listClients.length;
+        // console.log(this.allPatient)
+      }).catch((res) => console.log(res.data))
+    },
+    getBookings() {
+      this.user = parseInt(this.$store.getters["Users/userData"].user.corporate_account.id)
+      this.$http.get(`ca/${this.user}/panel/booking/list`).then((response) => {
+        let listBooking = response.data.data;
+        this.allBooking = listBooking.length;
+
 
       }).catch((res) => console.log(res.data))
     },
 
-    downloadReports(id){
-      this.$swal({
-        title: 'Please, wait...',
-        didOpen: () => {
-          this.$swal.showLoading()
-        },
-      })
-      const doc = new jsPDF();
-
-      doc.text("Hello world!" , 10, 10);
-      doc.save("a4.pdf");
-    }
-
   },
-  computed: {
-    rows() {
-      return this.listClients.length
-    }
-  },
+
   mounted() {
-    this.getClientes();
+    this.getClientes()
+    this.getBookings();
   }
 }
 </script>
 
-<style lang="scss" scoped>
-.per-page-selector {
-  width: 90px;
-}
-
-.urlPagina {
-  text-decoration: none;
-}
-
-.urlPagina:hover {
-  background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
-  color: #fff;
-  cursor: pointer;
-}
-
-.list-group-item:hover {
-  background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
-  color: #fff !important;
-}
-
-.urlPagina::before {
-  background-color: currentColor !important;
-  bottom: 0;
-  content: "";
-  left: 0;
-  opacity: 0;
-  pointer-events: none;
-  position: absolute;
-  right: 0;
-  top: 0;
-  -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
-  transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
-}
-
-.box {
-  box-shadow: 0px 14px 20px 0px rgba(143, 143, 143, 0.2) !important;
-}
-</style>
-
 <style lang="scss">
-@import '@core/scss/vue/libs/vue-select.scss';
+@import "src/assets/scss/variables/variables-components.scss";
+
+.icono-medalla {
+  margin: 0 254px;
+}
+
+.card {
+  height: 100%;
+}
 </style>
+<style>
+@media only screen and (max-width: 600px) {
+  .opcorporate {
+    flex-direction: column;
+  }
+
+  .row-container {
+    gap: 10px;
+  }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 940px) {
+  .row-container {
+    row-gap: 10px;
+  }
+}
+</style>
+

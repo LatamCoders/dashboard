@@ -133,6 +133,7 @@ import {BButton, BCard, BCardText, BCol, BRow, BImg, BAvatar} from 'bootstrap-vu
 import StatisticCardWithAreaChart from "@core/components/statistics-cards/StatisticCardWithAreaChart";
 
 export default {
+  name: 'HomeCorporateAcount',
   components: {
     BCard,
     BCardText,
