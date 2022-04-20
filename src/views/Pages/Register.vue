@@ -45,9 +45,11 @@
                   justify-content-center
                   flex-xl-column
                   formcreatepatient
+                  flex-md-column
                 "
                   @on-complete="formSubmitted"
                   style="background-color: #fff"
+
               >
                 <!-- account detail tab -->
                 <tab-content
@@ -86,10 +88,10 @@
                       </b-col>
                       <b-col md="6">
                         <b-form-group label="DBA">
-                            <b-form-input
-                                v-model="dataregister.dba"
-                                type="text"
-                            />
+                          <b-form-input
+                              v-model="dataregister.dba"
+                              type="text"
+                          />
                         </b-form-group>
                       </b-col>
                       <!--                      <b-col md="6">-->
@@ -150,42 +152,42 @@
                         <b-form-group
                             label="Corporate Address"
                         >
-                          <gmap-autocomplete class="form-control"  @place_changed="initMarkerTo">
+                          <gmap-autocomplete class="form-control" @place_changed="initMarkerTo">
                           </gmap-autocomplete>
-<!--                          <validation-provider-->
-<!--                              #default="{ errors }"-->
-<!--                              name="office_location_address"-->
-<!--                              rules="required"-->
-<!--                          >-->
-<!--                            <b-form-input-->
-<!--                                v-model="dataregister.office_location_address"-->
-<!--                                :state="errors.length > 0 ? false:null"-->
-<!--                                maxlength="30"-->
-<!--                                @keypress="isDirection"-->
-<!--                            />-->
-<!--                            <small class="text-danger" v-if="errors[0]">This field is required</small>-->
-<!--                          </validation-provider>-->
+                          <!--                          <validation-provider-->
+                          <!--                              #default="{ errors }"-->
+                          <!--                              name="office_location_address"-->
+                          <!--                              rules="required"-->
+                          <!--                          >-->
+                          <!--                            <b-form-input-->
+                          <!--                                v-model="dataregister.office_location_address"-->
+                          <!--                                :state="errors.length > 0 ? false:null"-->
+                          <!--                                maxlength="30"-->
+                          <!--                                @keypress="isDirection"-->
+                          <!--                            />-->
+                          <!--                            <small class="text-danger" v-if="errors[0]">This field is required</small>-->
+                          <!--                          </validation-provider>-->
                         </b-form-group>
                       </b-col>
                       <b-col md="6">
                         <b-form-group
                             label="Billing Address"
                         >
-                          <gmap-autocomplete class="form-control"  @place_changed="initMarker">
+                          <gmap-autocomplete class="form-control" @place_changed="initMarker">
                           </gmap-autocomplete>
-<!--                          <validation-provider-->
-<!--                              #default="{ errors }"-->
-<!--                              name="billing_address"-->
-<!--                              rules="required"-->
-<!--                          >-->
-<!--                            <b-form-input-->
-<!--                                v-model="dataregister.billing_address"-->
-<!--                                :state="errors.length > 0 ? false:null"-->
-<!--                                maxlength="20"-->
-<!--                                @keypress="isDirection"-->
-<!--                            />-->
-<!--                            <small class="text-danger" v-if="errors[0]">This field is required</small>-->
-<!--                          </validation-provider>-->
+                          <!--                          <validation-provider-->
+                          <!--                              #default="{ errors }"-->
+                          <!--                              name="billing_address"-->
+                          <!--                              rules="required"-->
+                          <!--                          >-->
+                          <!--                            <b-form-input-->
+                          <!--                                v-model="dataregister.billing_address"-->
+                          <!--                                :state="errors.length > 0 ? false:null"-->
+                          <!--                                maxlength="20"-->
+                          <!--                                @keypress="isDirection"-->
+                          <!--                            />-->
+                          <!--                            <small class="text-danger" v-if="errors[0]">This field is required</small>-->
+                          <!--                          </validation-provider>-->
                         </b-form-group>
                       </b-col>
                     </b-row>
@@ -266,48 +268,48 @@
                                 maxlength="30"
                             />
                             <!--                            <small class="text-danger" v-if="errors[0]">This field is required</small>-->
-                            <small class="text-danger"  v-if="errors[0]">Website incorrect</small>
+                            <small class="text-danger" v-if="errors[0]">Website incorrect</small>
                           </validation-provider>
                         </b-form-group>
                       </b-col>
-<!--                      <b-col md="6">-->
-<!--                        <b-form-group-->
-<!--                            label="Contact Name"-->
-<!--                        >-->
-<!--                          <validation-provider-->
-<!--                              #default="{ errors }"-->
-<!--                              name="contact_name"-->
-<!--                              rules="required"-->
-<!--                          >-->
-<!--                            <b-form-input-->
-<!--                                v-model="dataregister.contact_name"-->
-<!--                                :state="errors.length > 0 ? false:null"-->
-<!--                                maxlength="30"-->
-<!--                                @keypress="isText"-->
-<!--                            />-->
-<!--                            <small class="text-danger" v-if="errors[0]">This field is required</small>-->
-<!--                          </validation-provider>-->
-<!--                        </b-form-group>-->
-<!--                      </b-col>-->
-<!--                      <b-col md="6">-->
-<!--                        <b-form-group-->
-<!--                            label="Contact Number"-->
-<!--                        >-->
-<!--                          <validation-provider-->
-<!--                              #default="{ errors }"-->
-<!--                              name="contact_number"-->
-<!--                              rules="required"-->
-<!--                          >-->
-<!--                            <b-form-input-->
-<!--                                v-model="dataregister.contact_number"-->
-<!--                                :state="errors.length > 0 ? false:null"-->
-<!--                                @keypress="isNumber($event)"-->
-<!--                                maxlength="10"-->
-<!--                            />-->
-<!--                            <small class="text-danger" v-if="errors[0]">This field is required</small>-->
-<!--                          </validation-provider>-->
-<!--                        </b-form-group>-->
-<!--                      </b-col>-->
+                      <!--                      <b-col md="6">-->
+                      <!--                        <b-form-group-->
+                      <!--                            label="Contact Name"-->
+                      <!--                        >-->
+                      <!--                          <validation-provider-->
+                      <!--                              #default="{ errors }"-->
+                      <!--                              name="contact_name"-->
+                      <!--                              rules="required"-->
+                      <!--                          >-->
+                      <!--                            <b-form-input-->
+                      <!--                                v-model="dataregister.contact_name"-->
+                      <!--                                :state="errors.length > 0 ? false:null"-->
+                      <!--                                maxlength="30"-->
+                      <!--                                @keypress="isText"-->
+                      <!--                            />-->
+                      <!--                            <small class="text-danger" v-if="errors[0]">This field is required</small>-->
+                      <!--                          </validation-provider>-->
+                      <!--                        </b-form-group>-->
+                      <!--                      </b-col>-->
+                      <!--                      <b-col md="6">-->
+                      <!--                        <b-form-group-->
+                      <!--                            label="Contact Number"-->
+                      <!--                        >-->
+                      <!--                          <validation-provider-->
+                      <!--                              #default="{ errors }"-->
+                      <!--                              name="contact_number"-->
+                      <!--                              rules="required"-->
+                      <!--                          >-->
+                      <!--                            <b-form-input-->
+                      <!--                                v-model="dataregister.contact_number"-->
+                      <!--                                :state="errors.length > 0 ? false:null"-->
+                      <!--                                @keypress="isNumber($event)"-->
+                      <!--                                maxlength="10"-->
+                      <!--                            />-->
+                      <!--                            <small class="text-danger" v-if="errors[0]">This field is required</small>-->
+                      <!--                          </validation-provider>-->
+                      <!--                        </b-form-group>-->
+                      <!--                      </b-col>-->
                     </b-row>
                   </validation-observer>
                 </tab-content>
@@ -402,11 +404,19 @@
                         <b-form-group
                             label="Card Number"
                         >
+
                           <b-form-input
                               v-model="dataregister.cc_number"
                               @keypress="isNumber($event)"
                               maxlength="18"
+                              v-cardformat:formatCardNumber
+                              :data-error="(cardErrors.cc_number)?true:false"
+                              ref="cardExpInput"
+                              :class="Object.keys(this.cardErrors).length === 0 ? '' : 'error-color' "
                           />
+                          <div v-if="cardErrors.cc_number" class="error">
+                            <small style="color: red">{{ cardErrors.cc_number }}</small>
+                          </div>
                         </b-form-group>
                       </b-col>
                       <b-col md="6">
@@ -414,35 +424,22 @@
                             label="Expiration date"
                         >
                           <b-form-input
-                              v-model="credito"
+                              v-model="dataregister.expiration_date"
                               @keypress="isNumber($event)"
                               maxlength="10"
+                              v-cardformat:formatCardExpiry
+                              ref="cardExpInput"
+                              id="card-exp"
+                              :data-error="(cardErrors.expiration_date)?true:false"
+                              :class="Object.keys(this.cardErrors).length === 0 ? '' : 'error-color' "
                           >
-
                           </b-form-input>
+                          <div v-if="cardErrors.expiration_date" class="error">
+                            <small style="color: red">{{ cardErrors.expiration_date }}</small>
+                          </div>
 
                         </b-form-group>
                       </b-col>
-                      <!--                      <b-col md="6">-->
-                      <!--                        <b-form-group-->
-                      <!--                            label="ZIP"-->
-                      <!--                        >-->
-                      <!--                          <validation-provider-->
-                      <!--                              #default="{ errors }"-->
-                      <!--                              name="zip"-->
-                      <!--                              rules="required"-->
-                      <!--                          >-->
-                      <!--                            <b-form-input-->
-                      <!--                                v-model="dataregister.zip"-->
-                      <!--                                placeholder="130008"-->
-                      <!--                                :state="errors.length > 0 ? false:null"-->
-                      <!--                                @keypress="isNumber($event)"-->
-                      <!--                                maxlength="9"-->
-                      <!--                            />-->
-                      <!--                            <small class="text-danger" v-if="errors[0]">This field is required</small>-->
-                      <!--                          </validation-provider>-->
-                      <!--                        </b-form-group>-->
-                      <!--                      </b-col>-->
                       <b-col md="6">
                         <b-form-group
                             label="CVV"
@@ -452,6 +449,8 @@
                               v-model="dataregister.code_of_cc"
                               @keypress="isNumber($event)"
                               maxlength="4"
+                              v-cardformat:formatCardCVC
+                              ref="cardCvcInput"
                           />
                         </b-form-group>
                       </b-col>
@@ -466,41 +465,41 @@
                 <span>&nbsp;Sign in instead</span>
               </b-link>
             </p>
-<!--            &lt;!&ndash; divider &ndash;&gt;-->
-<!--            <div class="divider my-2">-->
-<!--              <div class="divider-text">or</div>-->
-<!--            </div>-->
+            <!--            &lt;!&ndash; divider &ndash;&gt;-->
+            <!--            <div class="divider my-2">-->
+            <!--              <div class="divider-text">or</div>-->
+            <!--            </div>-->
 
-<!--            <div class="auth-footer-btn d-flex justify-content-center">-->
-<!--              <b-button-->
-<!--                  variant="facebook"-->
-<!--                  href="javascript:void(0)"-->
-<!--                  style="background-color: transparent"-->
-<!--              >-->
-<!--                <b-img src="@/assets/images/icons/facebook.png" height="39"></b-img>-->
-<!--              </b-button>-->
-<!--              <b-button-->
-<!--                  variant="twitter"-->
-<!--                  href="javascript:void(0)"-->
-<!--                  style="background-color: transparent"-->
-<!--              >-->
-<!--                <b-img src="@/assets/images/icons/instagram.png" height="39"></b-img>-->
-<!--              </b-button>-->
-<!--              <b-button-->
-<!--                  variant="google"-->
-<!--                  href="javascript:void(0)"-->
-<!--                  style="background-color: transparent"-->
-<!--              >-->
-<!--                <b-img src="@/assets/images/icons/youtube.png" height="39"></b-img>-->
-<!--              </b-button>-->
-<!--              <b-button-->
-<!--                  variant="github"-->
-<!--                  href="javascript:void(0)"-->
-<!--                  style="background-color: transparent"-->
-<!--              >-->
-<!--                <b-img src="@/assets/images/icons/whatsaap.png" height="39"></b-img>-->
-<!--              </b-button>-->
-<!--            </div>-->
+            <!--            <div class="auth-footer-btn d-flex justify-content-center">-->
+            <!--              <b-button-->
+            <!--                  variant="facebook"-->
+            <!--                  href="javascript:void(0)"-->
+            <!--                  style="background-color: transparent"-->
+            <!--              >-->
+            <!--                <b-img src="@/assets/images/icons/facebook.png" height="39"></b-img>-->
+            <!--              </b-button>-->
+            <!--              <b-button-->
+            <!--                  variant="twitter"-->
+            <!--                  href="javascript:void(0)"-->
+            <!--                  style="background-color: transparent"-->
+            <!--              >-->
+            <!--                <b-img src="@/assets/images/icons/instagram.png" height="39"></b-img>-->
+            <!--              </b-button>-->
+            <!--              <b-button-->
+            <!--                  variant="google"-->
+            <!--                  href="javascript:void(0)"-->
+            <!--                  style="background-color: transparent"-->
+            <!--              >-->
+            <!--                <b-img src="@/assets/images/icons/youtube.png" height="39"></b-img>-->
+            <!--              </b-button>-->
+            <!--              <b-button-->
+            <!--                  variant="github"-->
+            <!--                  href="javascript:void(0)"-->
+            <!--                  style="background-color: transparent"-->
+            <!--              >-->
+            <!--                <b-img src="@/assets/images/icons/whatsaap.png" height="39"></b-img>-->
+            <!--              </b-button>-->
+            <!--            </div>-->
           </template>
         </b-col>
 
@@ -512,14 +511,14 @@
 
 <script>
 /* eslint-disable global-require */
-import {FormWizard, TabContent} from 'vue-form-wizard'
+import { FormWizard, TabContent } from 'vue-form-wizard'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
-import {ValidationProvider, ValidationObserver} from 'vee-validate'
+import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import VuexyLogo from '@core/layouts/components/Logo.vue'
 import axios from 'axios'
 import Ripple from 'vue-ripple-directive'
-import * as Card from "card";
+import * as Card from 'card'
 import {
   BRow,
   BCol,
@@ -536,12 +535,11 @@ import {
   BCardText,
   BFormSelect, BFormDatepicker,
 } from 'bootstrap-vue'
-import {required, email} from '@validations'
-import {togglePasswordVisibility} from '@core/mixins/ui/forms'
+import { required, email } from '@validations'
+import { togglePasswordVisibility } from '@core/mixins/ui/forms'
 import store from '@/store/index'
 import useJwt from '@/auth/jwt/useJwt'
 import vSelect from 'vue-select'
-
 
 export default {
   components: {
@@ -605,7 +603,7 @@ export default {
         additional_contact_title: '',
         name_on_cc: '',
         cc_number: '',
-        type_of_cc: '',
+        expiration_date: '',
         code_of_cc: '',
       },
       resultweb: '',
@@ -620,11 +618,7 @@ export default {
       // validation
       required,
       email,
-      options: [
-        {title: 'Amex'},
-        {title: 'Visa'},
-        {title: 'etc'},
-      ],
+      cardErrors: {},
     }
   },
   computed: {
@@ -640,12 +634,13 @@ export default {
       return this.sideImg
     },
     website() {
-      if(this.dataregister.website !== '') {
-        this.resultweb = this.dataregister.website.split('.').pop();
+      if (this.dataregister.website !== '') {
+        this.resultweb = this.dataregister.website.split('.')
+            .pop()
         if (this.resultweb === '') {
-          return false;
+          return false
         } else if (this.resultweb !== '' && this.contenpunto === -1) {
-          return false;
+          return false
         } else {
           return null
         }
@@ -654,50 +649,60 @@ export default {
   },
   watch: {
     'dataregister.website'() {
-      this.contenpunto = this.dataregister.website.indexOf('.');
+      this.contenpunto = this.dataregister.website.indexOf('.')
       if (this.contenpunto !== -1) {
-        return null;
+        return null
       } else {
         return false
+      }
+    },
+    'dataregister.cc_number'(val) {
+      if (this.$cardFormat.validateCardNumber(val)) {
+        this.$refs.cardExpInput.focus()
+      }
+    },
+    'dataregister.expiration_date'(val) {
+      if (this.$cardFormat.validateCardExpiry(val)) {
+        this.$refs.cardExpInput.focus()
       }
     }
   },
   methods: {
     isNumber: function (evt) {
-      evt = evt ? evt : window.event;
-      let charCode = evt.which ? evt.which : evt.keyCode;
+      evt = evt ? evt : window.event
+      let charCode = evt.which ? evt.which : evt.keyCode
       if (
           charCode > 31 &&
           (charCode < 48 || charCode > 57) &&
           charCode !== 46
       ) {
-        evt.preventDefault();
+        evt.preventDefault()
       } else {
-        return true;
+        return true
       }
     },
     isText: function (event) {
-      let regex = new RegExp("^[a-zA-Z ]+$");
-      let key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+      let regex = new RegExp('^[a-zA-Z ]+$')
+      let key = String.fromCharCode(!event.charCode ? event.which : event.charCode)
       if (!regex.test(key)) {
-        event.preventDefault();
-        return false;
+        event.preventDefault()
+        return false
       }
     },
     isDirection: function (event) {
-      let regex = new RegExp("^[a-zA-Z0-9 ]+$");
-      let key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+      let regex = new RegExp('^[a-zA-Z0-9 ]+$')
+      let key = String.fromCharCode(!event.charCode ? event.which : event.charCode)
       if (!regex.test(key)) {
-        event.preventDefault();
-        return false;
+        event.preventDefault()
+        return false
       }
     },
     isNumberVar: function (event) {
-      let regex = new RegExp("^[-Z0-9 ]+$");
-      let key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+      let regex = new RegExp('^[-Z0-9 ]+$')
+      let key = String.fromCharCode(!event.charCode ? event.which : event.charCode)
       if (!regex.test(key)) {
-        event.preventDefault();
-        return false;
+        event.preventDefault()
+        return false
       }
     },
     initMarkerTo(loc) {
@@ -710,77 +715,6 @@ export default {
       this.existingPlace = loc
       this.dataregister.billing_address = this.existingPlace.formatted_address
       // console.log(this.this.dataregister.billing_address)
-    },
-
-    formSubmitted() {
-      this.dataregister.type_of_cc = this.credito.title;
-      if (this.dataregister.type_of_cc === undefined) {
-        this.dataregister.type_of_cc = '';
-      } else {
-        this.dataregister.type_of_cc
-      }
-      this.$http.post('auth/ca/register', this.dataregister, {
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest'
-        }
-      })
-          .then((res) => {
-            if (res.data.status === 200) {
-              this.$swal({
-                title: 'Corporate account created',
-                icon: 'success',
-                customClass: {
-                  confirmButton: 'btn btn-primary',
-                },
-                buttonsStyling: false,
-              })
-              this.$router.push({name: 'login'})
-
-              //clear form
-              this.dataregister.company_legal_name = '';
-              this.dataregister.dba = '';
-              this.dataregister.tin = '';
-              this.dataregister.office_location_address = '';
-              this.dataregister.billing_address = '';
-              this.dataregister.telephone_number = '';
-              this.dataregister.fax_number = '';
-              this.dataregister.email = '';
-              this.dataregister.website = '';
-              this.dataregister.contact_name = '';
-              this.dataregister.contact_number = '';
-              this.dataregister.additional_contact_name = '';
-              this.dataregister.additional_contact_number = '';
-              this.dataregister.additional_contact_email = '';
-              this.dataregister.name_on_cc = '';
-              this.dataregister.cc_number = '';
-              this.dataregister.type_of_cc = '';
-              this.dataregister.code_of_cc = '';
-              // console.log('bien')
-            } else {
-              this.$swal({
-                title: res.data.message,
-                icon: 'error',
-                customClass: {
-                  confirmButton: 'btn btn-primary',
-                },
-                buttonsStyling: false,
-              })
-
-              // console.log(res.data.data)
-            }
-          }).catch((error) => {
-        this.$swal({
-          title: error.data.message,
-          icon: 'error',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-          },
-          buttonsStyling: false,
-        })
-      })
-
-      // this.enviados = this.dataregister;
-      // console.log(this.enviados)
     },
     validationForm() {
       return new Promise((resolve, reject) => {
@@ -819,17 +753,120 @@ export default {
       })
     },
     validationFormCreditCard() {
+      // this.$refs.infoRulesCreditCard.validate()
+      // init
+      // this.cardErrors = {}
+      //
+      // // validate card number
+      // if (!this.$cardFormat.validateCardNumber(this.cc_number)) {
+      //   this.cardErrors.cc_number = 'Invalid Credit Card Number.'
+      //
+      // }
+      //
+      // // validate card expiry
+      // if (!this.$cardFormat.validateCardExpiry(this.expiration_date)) {
+      //   this.cardErrors.expiration_date = 'Invalid Expiration Date.'
+      // }
+      //
+      // // validate card CVC
+      // if (!this.$cardFormat.validateCardCVC(this.code_of_cc)) {
+      //   this.cardErrors.code_of_cc = 'Invalid CVC.'
+      //
+      //   //5544 8029 5948 8777
+      // }
+
       return new Promise((resolve, reject) => {
-        this.$refs.infoRulesCreditCard.validate()
-            .then(success => {
-              if (success) {
-                resolve(true)
-              } else {
-                reject()
-              }
-            })
+        this.cardErrors = {}
+        if (!this.$cardFormat.validateCardNumber(this.cc_number)) {
+          this.cardErrors.cc_number = 'Invalid Credit Card Number.'
+          resolve(false)
+        } else {
+          this.$refs.infoRulesCreditCard.validate()
+              .then(success => {
+
+                if (success) {
+                  resolve(true)
+                } else {
+
+                  //5544802959488777
+
+                  reject()
+                }
+              })
+        }
+
       })
+
     },
+    formSubmitted() {
+      this.$swal({
+        title: 'Please, wait...',
+        didOpen: () => {
+          this.$swal.showLoading()
+        },
+      })
+
+      this.$http.post('auth/ca/register', this.dataregister)
+          .then((res) => {
+            if (res.data.status === 200) {
+              this.$swal({
+                title: 'Corporate account created',
+                icon: 'success',
+                customClass: {
+                  confirmButton: 'btn btn-primary',
+                },
+                buttonsStyling: false,
+              })
+              this.$router.push({ name: 'login' })
+
+              //clear form
+              this.dataregister.company_legal_name = ''
+              this.dataregister.dba = ''
+              this.dataregister.tin = ''
+              this.dataregister.office_location_address = ''
+              this.dataregister.billing_address = ''
+              this.dataregister.telephone_number = ''
+              this.dataregister.fax_number = ''
+              this.dataregister.email = ''
+              this.dataregister.website = ''
+              this.dataregister.contact_name = ''
+              this.dataregister.contact_number = ''
+              this.dataregister.additional_contact_name = ''
+              this.dataregister.additional_contact_number = ''
+              this.dataregister.additional_contact_email = ''
+              this.dataregister.name_on_cc = ''
+              this.dataregister.cc_number = ''
+              this.dataregister.expiration_date = ''
+              this.dataregister.code_of_cc = ''
+              // console.log('bien')
+            } else {
+              this.$swal({
+                title: res.data.message,
+                icon: 'error',
+                customClass: {
+                  confirmButton: 'btn btn-primary',
+                },
+                buttonsStyling: false,
+              })
+
+              // console.log(res.data.data)
+            }
+          })
+          .catch((error) => {
+            this.$swal({
+              title: error.message,
+              icon: 'error',
+              customClass: {
+                confirmButton: 'btn btn-primary',
+              },
+              buttonsStyling: false,
+            })
+          })
+
+      // this.enviados = this.dataregister;
+      // console.log(this.enviados)
+    },
+
   },
 
   // mounted() {
@@ -851,4 +888,8 @@ export default {
 @import '@core/scss/vue/libs/vue-select.scss';
 @import "src/assets/scss/variables/variables-components.scss";
 
+
+.error-color {
+  border: 1px solid #fe0404 !important;
+}
 </style>

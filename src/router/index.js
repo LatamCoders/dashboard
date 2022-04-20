@@ -171,12 +171,30 @@ const router = new VueRouter({
 
         /*************** INITIO RUTA PARA CLIENT PROVED   *******************/
         {
-            path: '/clients/providers',
+            path: '/clients/drivers',
+            name: 'Drivers',
+            props: true,
+            component: () => import('@/views/Pages/admin/Drivers.vue'),
+            meta: {
+                pageTitle: 'Drivers',
+            },
+        },
+        {
+            path: '/clients/drivers/cma',
+            name: 'cma',
+            props: true,
+            component: () => import('@/views/Pages/admin/CMA.vue'),
+            meta: {
+                pageTitle: 'CMA',
+            },
+        },
+        {
+            path: '/clients/drivers/providers',
             name: 'providers',
             props: true,
             component: () => import('@/views/Pages/admin/Providers.vue'),
             meta: {
-                pageTitle: 'Providers drivers',
+                pageTitle: 'Providers',
             },
         },
         {

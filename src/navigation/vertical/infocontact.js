@@ -29,8 +29,8 @@ export default [
                 route: 'clients',
             },
             {
-                title: 'Providers',
-                route: 'providers',
+                title: 'Drivers',
+                route: 'Drivers',
             },
             {
                 title: 'Call/Chat center',

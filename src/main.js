@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import { ToastPlugin, ModalPlugin } from 'bootstrap-vue'
 import VueCompositionAPI from '@vue/composition-api'
+import VueCardFormat from 'vue-credit-card-validation/src'
+
+
 
 import axios from 'axios'
 import router from './router'
@@ -20,6 +23,7 @@ import axiosIns from "@/libs/axios";
 // BSV Plugin Registration
 Vue.use(ToastPlugin)
 Vue.use(ModalPlugin)
+Vue.use(VueCardFormat);
 
 // Composition API
 Vue.use(VueCompositionAPI)
