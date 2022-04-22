@@ -409,14 +409,13 @@
                               v-model="dataregister.cc_number"
                               @keypress="isNumber($event)"
                               maxlength="18"
-                              v-cardformat:formatCardNumber
-                              :data-error="(cardErrors.cc_number)?true:false"
+
                               ref="cardExpInput"
-                              :class="Object.keys(this.cardErrors).length === 0 ? '' : 'error-color' "
+
                           />
-                          <div v-if="cardErrors.cc_number" class="error">
-                            <small style="color: red">{{ cardErrors.cc_number }}</small>
-                          </div>
+<!--                          <div v-if="cardErrors.cc_number" class="error">-->
+<!--                            <small style="color: red">{{ cardErrors.cc_number }}</small>-->
+<!--                          </div>-->
                         </b-form-group>
                       </b-col>
                       <b-col md="6">
@@ -646,6 +645,14 @@ export default {
         }
       }
     },
+    'dataregister.cc_number'() {
+      let regexMaster = new RegExp('/^5[1-5][0-9]{14}$|^2(?:2(?:2[1-9]|[3-9][0-9])|[3-6][0-9][0-9]|7(?:[01][0-9]|20))[0-9]{12}$/');
+      if (this.dataregister.cc_number.match(regexMaster)){
+        return true;
+      }else {
+        return false;
+      }
+    },
   },
   watch: {
     'dataregister.website'() {
@@ -656,11 +663,19 @@ export default {
         return false
       }
     },
-    'dataregister.cc_number'(val) {
-      if (this.$cardFormat.validateCardNumber(val)) {
-        this.$refs.cardExpInput.focus()
-      }
-    },
+    // 'dataregister.cc_number'(val) {
+    //   if (this.$cardFormat.validateCardNumber(val)) {
+    //     this.$refs.cardExpInput.focus()
+    //   }
+    // },
+    // 'dataregister.cc_number'() {
+    //   let regexMaster = new RegExp('/^5[1-5][0-9]{14}$|^2(?:2(?:2[1-9]|[3-9][0-9])|[3-6][0-9][0-9]|7(?:[01][0-9]|20))[0-9]{12}$/');
+    //   if (this.dataregister.cc_number.match(regexMaster)){
+    //     return true;
+    //   }else {
+    //     return false;
+    //   }
+    // },
     'dataregister.expiration_date'(val) {
       if (this.$cardFormat.validateCardExpiry(val)) {
         this.$refs.cardExpInput.focus()
@@ -777,10 +792,10 @@ export default {
 
       return new Promise((resolve, reject) => {
         this.cardErrors = {}
-        if (!this.$cardFormat.validateCardNumber(this.cc_number)) {
-          this.cardErrors.cc_number = 'Invalid Credit Card Number.'
-          resolve(false)
-        } else {
+        // if (!this.$cardFormat.validateCardNumber(this.cc_number)) {
+        //   this.cardErrors.cc_number = 'Invalid Credit Card Number.'
+        //   resolve(false)
+        // } else {
           this.$refs.infoRulesCreditCard.validate()
               .then(success => {
 
@@ -793,7 +808,7 @@ export default {
                   reject()
                 }
               })
-        }
+        // }
 
       })
 
@@ -870,14 +885,7 @@ export default {
   },
 
   // mounted() {
-  //   this.$swal({
-  //     title: 'It has been successfully registered',
-  //     icon: 'success',
-  //     customClass: {
-  //       confirmButton: 'btn btn-primary',
-  //     },
-  //     buttonsStyling: false,
-  //   })
+  //   this.$refs.cardNumInput.focus();
   // }
 }
 /* eslint-disable global-require */

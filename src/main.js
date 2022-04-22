@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { ToastPlugin, ModalPlugin } from 'bootstrap-vue'
 import VueCompositionAPI from '@vue/composition-api'
-import VueCardFormat from 'vue-credit-card-validation/src'
+import VueCardFormat from 'vue-credit-card-validation'
 
 
 
