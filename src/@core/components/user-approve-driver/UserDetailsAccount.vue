@@ -11,7 +11,7 @@
             rounded
             class="backgroundProfile-driver"
         >
-          <p class="text-name-driver"  v-if='userData.profile_picture === null'>
+          <p class="text-name-driver" v-if='userData.profile_picture === null'>
             {{ ProfileName(userData.name) }}
           </p>
         </b-avatar>
@@ -52,8 +52,18 @@
               label="Name"
           >
             <b-form-input
-                v-model="userData.name +' '+ userData.lastname "
-                disabled
+                v-model="userData.name"
+                :disabled="btnupdate === false"
+            />
+          </b-form-group>
+        </b-col>
+        <b-col md="4">
+          <b-form-group
+              label="Lastname"
+          >
+            <b-form-input
+                v-model=" userData.lastname"
+                :disabled="btnupdate === false"
             />
           </b-form-group>
         </b-col>
@@ -63,7 +73,7 @@
           >
             <b-form-input
                 v-model="userData.gender"
-                disabled
+                :disabled="btnupdate === false"
             />
           </b-form-group>
         </b-col>
@@ -73,12 +83,10 @@
           >
             <b-form-input
                 v-model="userData.birthday"
-                disabled
+                :disabled="btnupdate === false"
             />
           </b-form-group>
         </b-col>
-      </b-row>
-      <b-row class="mt-2">
         <b-col md="4">
           <b-form-group
               label="Phone_number"
@@ -95,7 +103,7 @@
           >
             <b-form-input
                 v-model="userData.email"
-                disabled
+                :disabled="btnupdate === false"
             />
           </b-form-group>
         </b-col>
@@ -105,7 +113,7 @@
           >
             <b-form-input
                 v-model="userData.address"
-                disabled
+                :disabled="btnupdate === false"
             />
           </b-form-group>
         </b-col>
@@ -114,20 +122,23 @@
 
 
     <!-- Action Buttons -->
-        <b-button
-            variant="primary"
-            class="mb-1 mb-sm-0 mr-0 mr-sm-1"
-            :block="$store.getters['app/currentBreakPoint'] === 'xs'"
-        >
-          Update
-        </b-button>
-<!--        <b-button-->
-<!--            variant="outline-secondary"-->
-<!--            type="reset"-->
-<!--            :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
-<!--        >-->
-<!--          Reset-->
-<!--        </b-button>-->
+    <b-button
+        variant="primary"
+        class="mb-1 mb-sm-0 mr-0 mr-sm-1"
+        :block="$store.getters['app/currentBreakPoint'] === 'xs'"
+        @click="btnupdate = true"
+    >
+      Update
+    </b-button>
+    <b-button
+        v-if="btnupdate === true"
+        variant="outline-secondary"
+        type="reset"
+        :block="$store.getters['app/currentBreakPoint'] === 'xs'"
+        @click="updateDriver"
+    >
+      Send changes
+    </b-button>
   </div>
 </template>
 
@@ -147,10 +158,10 @@ import {
   BCardTitle,
   BFormCheckbox,
 } from 'bootstrap-vue'
-import { avatarText } from '@core/utils/filter'
+import {avatarText} from '@core/utils/filter'
 import vSelect from 'vue-select'
-import { useInputImageRenderer } from '@core/comp-functions/forms/form-utils'
-import { ref } from '@vue/composition-api'
+import {useInputImageRenderer} from '@core/comp-functions/forms/form-utils'
+import {ref} from '@vue/composition-api'
 // import useUsersList from '/src/@core/components/user/users-list/useUsersList'
 
 export default {
@@ -176,30 +187,75 @@ export default {
   data() {
     return {
       src: '',
+      btnupdate: false,
+      userData: {
+        name: '',
+        lastname: '',
+        gender: '',
+        birthday: '',
+        email: '',
+        address: '',
+      }
     }
   },
   methods: {
     ProfileName(name) {
-      if(this.userData.profile_picture === null){
+      if (this.userData.profile_picture === null) {
         return name.charAt(0).toUpperCase() + name.charAt(1).toUpperCase();
-      }else {
+      } else {
         return this.userData.profile_picture;
       }
+    },
+    updateDriver() {
+      this.$swal({
+        title: 'Please, wait...',
+        didOpen: () => {
+          this.$swal.showLoading()
+        },
+        timer: 1000,
+        customClass: {
+          confirmButton: 'btn btn-primary',
+        },
+        buttonsStyling: false,
+      })
+
+      this.$http.post(`driver/${this.userData.driver_id}/profile/update`, this.userData)
+          .then((res) => {
+            this.$swal({
+              title: res.data.message,
+              icon: 'success',
+              customClass: {
+                confirmButton: 'btn btn-primary',
+              },
+              buttonsStyling: false,
+            })
+          }).catch((error) => {
+        this.$swal({
+          title: error.message,
+          icon: 'error',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
+        })
+      })
     }
+  },
+  created() {
+    console.log(this.userData.driver_id)
   }
-  // mounted() {
-  //   console.log(this.userData)
-  // }
 }
 </script>
 
 <style lang="scss">
 @import '@core/scss/vue/libs/vue-select.scss';
+
 .text-name-driver {
   font-size: 1.5rem;
   margin-bottom: 0 !important;
 }
-.backgroundProfile-driver{
+
+.backgroundProfile-driver {
   background-color: $primary;
 }
 </style>
