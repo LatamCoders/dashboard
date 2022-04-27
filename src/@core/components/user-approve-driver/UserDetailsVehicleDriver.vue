@@ -131,10 +131,12 @@
               :src="userVehicle.vehicle.vehicle_documents.vehicle_front_image"
           >
           </b-img>
-          <template v-if="userVehicle.vehicle.vehicle_documents.vehicle_front_image_verify_at !== '' || userVehicle.vehicle.vehicle_documents.vehicle_front_image_verify_at === undefined"  >
+          <template v-if="userVehicle.vehicle.vehicle_documents.vehicle_front_image_verify_at === undefined  || userVehicle.vehicle.vehicle_documents.vehicle_front_image_verify_at === null"  >
             <btn-validation-docs-driver
                 :nameVehicle="userVehicle.vehicle.vehicle_documents"
                 :idUserVehicle="userVehicle.id"
+                @click="btnfront = true"
+                :valueBtnfront="btnfront"
             />
           </template>
 
@@ -145,6 +147,7 @@
             cols="12"
             md="6"
             lg="4"
+            class="container-docs"
         >
           <b-form-group
               label="Vehicle rear image"
@@ -154,10 +157,11 @@
               style="border-radius: 5px"
               :src="userVehicle.vehicle.vehicle_documents.vehicle_rear_image"
           ></b-img>
-          <template v-if="userVehicle.vehicle.vehicle_documents !== '' || userVehicle.vehicle.vehicle_documents !== undefined"  >
+          <template v-if="userVehicle.vehicle.vehicle_documents.vehicle_rear_image_verify_at === undefined || userVehicle.vehicle.vehicle_documents.vehicle_rear_image_verify_at === null"  >
             <btn-validation-docs-driver
-                :nameVehicle="userVehicle.vehicle.vehicle_documents.vehicle_front_image"
+                :nameVehicle="userVehicle.vehicle.vehicle_documents"
                 :idUserVehicle="userVehicle.id"
+                :valueBtnrear="btnrear"
             />
           </template>
         </b-col>
@@ -167,6 +171,7 @@
             cols="12"
             md="6"
             lg="4"
+            class="container-docs"
         >
           <b-form-group
               label="Vehicle side image"
@@ -176,6 +181,13 @@
               style="border-radius: 5px"
               :src="userVehicle.vehicle.vehicle_documents.vehicle_side_image"
           ></b-img>
+          <template v-if="userVehicle.vehicle.vehicle_documents.vehicle_side_image_verify_at === undefined || userVehicle.vehicle.vehicle_documents.vehicle_side_image_verify_at === null"  >
+            <btn-validation-docs-driver
+                :nameVehicle="userVehicle.vehicle.vehicle_documents"
+                :idUserVehicle="userVehicle.id"
+                :valueBtnSide="btnsideimg"
+            />
+          </template>
         </b-col>
 
         <!-- Field: City -->
@@ -183,7 +195,8 @@
             cols="12"
             md="6"
             lg="4"
-            class="mt-2"
+            class="container-docs"
+            style="height: 300px"
         >
           <b-form-group
               label="Vehicle interior image"
@@ -193,27 +206,34 @@
               style="border-radius: 5px"
               :src="userVehicle.vehicle.vehicle_documents.vehicle_interior_image"
           ></b-img>
+          <template v-if="userVehicle.vehicle.vehicle_documents.vehicle_interior_image_verify_at === undefined || userVehicle.vehicle.vehicle_documents.vehicle_interior_image_verify_at === null">
+            <btn-validation-docs-driver
+                :nameVehicle="userVehicle.vehicle.vehicle_documents"
+                :idUserVehicle="userVehicle.id"
+                :valueBtnInterior="btninterior"
+            />
+          </template>
         </b-col>
 
       </b-row>
 
-      <b-row class="mt-2">
-        <b-col>
-          <b-button
-              variant="primary"
-              class="mb-1 mb-sm-0 mr-0 mr-sm-1"
-              :block="$store.getters['app/currentBreakPoint'] === 'xs'"
-          >
-            Save Changes
-          </b-button>
-          <b-button
-              variant="outline-secondary"
-              :block="$store.getters['app/currentBreakPoint'] === 'xs'"
-          >
-            Reset
-          </b-button>
-        </b-col>
-      </b-row>
+<!--      <b-row class="mt-2">-->
+<!--        <b-col>-->
+<!--          <b-button-->
+<!--              variant="primary"-->
+<!--              class="mb-1 mb-sm-0 mr-0 mr-sm-1"-->
+<!--              :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
+<!--          >-->
+<!--            Save Changes-->
+<!--          </b-button>-->
+<!--          <b-button-->
+<!--              variant="outline-secondary"-->
+<!--              :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
+<!--          >-->
+<!--            Reset-->
+<!--          </b-button>-->
+<!--        </b-col>-->
+<!--      </b-row>-->
     </b-form>
   </div>
 </template>
@@ -242,11 +262,14 @@ export default {
     },
   },
   data() {
-    return {}
+    return {
+      btnrear: true,
+      btnsideimg: true,
+      btninterior: true,
+      btnfront: true,
+
+    }
   },
-  // mounted() {
-  //   // console.log(this.userVehicle)
-  // }
 }
 </script>
 

@@ -50,7 +50,10 @@
             />
             <span class="d-none d-sm-inline">Driver documents</span>
           </template>
-          <user-details-driver-documents class="mt-2 pt-75"/>
+          <user-details-driver-documents
+              class="mt-2 pt-75"
+              :driver-documents="infoUser"
+          />
         </b-tab>
 
         <!-- Tab: Reservas -->

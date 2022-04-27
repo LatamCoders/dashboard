@@ -19,29 +19,39 @@
       <h4 class="">
         <span class="name-corporative">{{ userData.name + ' ' + userData.lastname }}</span>
       </h4>
-
-      <div class="d-flex flex-wrap">
-        <b-button
-            variant="primary"
-
-        >
-          <span class="d-none d-sm-inline">Pass</span>
-          <feather-icon
-              icon="EditIcon"
-              class="d-inline d-sm-none"
-          />
-        </b-button>
-        <b-button
-            variant="danger"
-            class="ml-1"
-        >
-          <span class="d-none d-sm-inline">To refuse</span>
-          <feather-icon
-              icon="TrashIcon"
-              class="d-inline d-sm-none"
-          />
-        </b-button>
+      <div class="pl-1">
+      <span>
+          Gender: {{ userData.gender }}
+        </span>
+        <br>
+        <span>
+          Email: {{ userData.email }}
+        </span>
       </div>
+
+
+      <!--      <div class="d-flex flex-wrap">-->
+      <!--        <b-button-->
+      <!--            variant="primary"-->
+
+      <!--        >-->
+      <!--          <span class="d-none d-sm-inline">Pass</span>-->
+      <!--          <feather-icon-->
+      <!--              icon="EditIcon"-->
+      <!--              class="d-inline d-sm-none"-->
+      <!--          />-->
+      <!--        </b-button>-->
+      <!--        <b-button-->
+      <!--            variant="danger"-->
+      <!--            class="ml-1"-->
+      <!--        >-->
+      <!--          <span class="d-none d-sm-inline">To refuse</span>-->
+      <!--          <feather-icon-->
+      <!--              icon="TrashIcon"-->
+      <!--              class="d-inline d-sm-none"-->
+      <!--          />-->
+      <!--        </b-button>-->
+      <!--      </div>-->
     </b-media>
 
     <!-- form Admin -->
@@ -122,23 +132,23 @@
 
 
     <!-- Action Buttons -->
-    <b-button
-        variant="primary"
-        class="mb-1 mb-sm-0 mr-0 mr-sm-1"
-        :block="$store.getters['app/currentBreakPoint'] === 'xs'"
-        @click="btnupdate = true"
-    >
-      Update
-    </b-button>
-    <b-button
-        v-if="btnupdate === true"
-        variant="outline-secondary"
-        type="reset"
-        :block="$store.getters['app/currentBreakPoint'] === 'xs'"
-        @click="updateDriver"
-    >
-      Send changes
-    </b-button>
+    <!--    <b-button-->
+    <!--        variant="primary"-->
+    <!--        class="mb-1 mb-sm-0 mr-0 mr-sm-1"-->
+    <!--        :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
+    <!--        @click="btnupdate = true"-->
+    <!--    >-->
+    <!--      Update-->
+    <!--    </b-button>-->
+    <!--    <b-button-->
+    <!--        v-if="btnupdate === true"-->
+    <!--        variant="outline-secondary"-->
+    <!--        type="reset"-->
+    <!--        :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
+    <!--        @click="updateDriver"-->
+    <!--    >-->
+    <!--      Send changes-->
+    <!--    </b-button>-->
   </div>
 </template>
 

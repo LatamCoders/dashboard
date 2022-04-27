@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-button variant="primary" class="btn-icon btnCheck" @click="btnAprobarDoc(nameVehicle)">
+    <b-button variant="primary" class="btn-icon btnCheck" @click="btnAprobarDoc(nameVehicle || driverDocs)">
       <feather-icon
           icon="CheckCircleIcon"
           size="24"
@@ -43,24 +43,81 @@ export default {
   name: "BtnValidationDocsDriver",
 
   props: {
-    nameVehicle: String ,
+    nameVehicle: Object | undefined ,
+    driverDocs: Object | undefined,
     idUserVehicle: Number,
+    valueBtn: Boolean,
+    valueBtnSide: Boolean,
+    valueBtnrear: Boolean,
+    valueBtnfront: Boolean,
+    valueBtnInterior: Boolean,
+
+    //driver docs
+    valueBtnlicense: Boolean,
+    valueBtninsure: Boolean,
   },
 
   data() {
-    return {}
+    return {
+      frontImg: '',
+      rearImg: '',
+      sideImg: '',
+      interiorImg: '',
+      sendNameImg: '',
+
+      driverlicens: '',
+      insure: '',
+    }
   },
   methods: {
-    btnAprobarDoc(nameVehicle) {
+    btnAprobarDoc(nameVehicle , driverDocs) {
       this.$swal({
         title: 'Please, wait...',
         didOpen: () => {
           this.$swal.showLoading()
         },
       })
-      let idSend = Object.keys(nameVehicle);
-      console.log(idSend)
-      this.$http.post(`/admin/panel/driver/${this.idUserVehicle}/approve?document=${idSend[2]}`)
+
+      if(this.nameVehicle !== undefined){
+        console.log('hol')
+        let idSend = Object.keys(nameVehicle);
+        this.frontImg = idSend[2];
+        this.sideImg = idSend[6];
+        this.rearImg =  idSend[4];
+        this.interiorImg = idSend[8];
+        console.log(idSend)
+
+        if (this.rearImg in nameVehicle === true && this.valueBtnrear === true){
+          this.sendNameImg = this.rearImg;
+          console.log(this.sendNameImg)
+        }else if(this.sideImg in nameVehicle === true && this.valueBtnSide === true) {
+          this.sendNameImg = this.sideImg;
+          console.log(this.sendNameImg)
+        }else if (this.interiorImg in nameVehicle === true && this.valueBtnInterior === true){
+          this.sendNameImg = this.interiorImg;
+          console.log(this.sendNameImg)
+        }else if(this.frontImg in nameVehicle === true && this.valueBtnfront === true){
+          this.sendNameImg = this.frontImg;
+          console.log(this.sendNameImg)
+        }
+      }else if(this.nameVehicle === undefined && driverDocs === undefined) {
+        console.log('hola')
+        let idSendDriver = Object.keys(nameVehicle);
+        this.driverlicens = idSendDriver[2];
+        this.insure = idSendDriver[4];
+        console.log(idSendDriver)
+
+
+        if (this.driverlicens in nameVehicle === true && this.valueBtnlicense === true){
+          this.sendNameImg = this.driverlicens;
+          console.log(this.sendNameImg)
+        }else if(this.insure in nameVehicle === true && this.valueBtninsure === true) {
+          this.sendNameImg = this.insure;
+          console.log(this.sendNameImg)
+        }
+      }
+
+      this.$http.post(`/admin/panel/driver/${this.idUserVehicle}/approve?document=${this.sendNameImg}`)
           .then((response) => {
             this.$swal({
               title: response.data.message,
@@ -69,7 +126,12 @@ export default {
                 confirmButton: 'btn btn-primary',
               },
               buttonsStyling: false,
+            }).then((result) => {
+              if (result.isConfirmed) {
+                location. reload()
+              }
             })
+
           }).catch((error) => {
         this.$swal({
           title: error.message,
