@@ -127,7 +127,7 @@
           >
           </b-form-group>
           <b-img
-              style="border-radius: 5px"
+              style="border-radius: 5px ; height: 318px;"
               :src="userVehicle.vehicle.vehicle_documents.vehicle_front_image"
           >
           </b-img>
@@ -154,7 +154,7 @@
           >
           </b-form-group>
           <b-img
-              style="border-radius: 5px"
+              style="border-radius: 5px; height: 318px;"
               :src="userVehicle.vehicle.vehicle_documents.vehicle_rear_image"
           ></b-img>
           <template v-if="userVehicle.vehicle.vehicle_documents.vehicle_rear_image_verify_at === undefined || userVehicle.vehicle.vehicle_documents.vehicle_rear_image_verify_at === null"  >
@@ -178,7 +178,7 @@
           >
           </b-form-group>
           <b-img
-              style="border-radius: 5px"
+              style="border-radius: 5px; height: 318px;"
               :src="userVehicle.vehicle.vehicle_documents.vehicle_side_image"
           ></b-img>
           <template v-if="userVehicle.vehicle.vehicle_documents.vehicle_side_image_verify_at === undefined || userVehicle.vehicle.vehicle_documents.vehicle_side_image_verify_at === null"  >
@@ -196,14 +196,14 @@
             md="6"
             lg="4"
             class="container-docs"
-            style="height: 300px"
+            style="height: fit-content;"
         >
           <b-form-group
               label="Vehicle interior image"
           >
           </b-form-group>
           <b-img
-              style="border-radius: 5px"
+              style="border-radius: 5px; height: 318px;"
               :src="userVehicle.vehicle.vehicle_documents.vehicle_interior_image"
           ></b-img>
           <template v-if="userVehicle.vehicle.vehicle_documents.vehicle_interior_image_verify_at === undefined || userVehicle.vehicle.vehicle_documents.vehicle_interior_image_verify_at === null">

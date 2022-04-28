@@ -24,10 +24,10 @@
           >
           </b-form-group>
           <b-img
-              style="border-radius: 5px"
+              style="border-radius: 5px; height: 318px;"
               :src="driverDocuments.driver_documents.driver_license"
           ></b-img>
-          <template v-if="driverDocuments.driver_documents.proof_of_insurance_verify_at === undefined || driverDocuments.driver_documents.proof_of_insurance_verify_at === null">
+          <template v-if="driverDocuments.driver_documents.driver_license_verify_at === undefined || driverDocuments.driver_documents.driver_license_verify_at === null">
             <btn-validation-docs-driver
                 :driverDocs="driverDocuments.driver_documents"
                 :idUserVehicle="driverDocuments.id"
@@ -46,10 +46,10 @@
           >
           </b-form-group>
           <b-img
-              style="border-radius: 5px"
+              style="border-radius: 5px; height: 318px;"
               :src="driverDocuments.driver_documents.proof_of_insurance"
           ></b-img>
-          <template v-if="driverDocuments.driver_documents.driver_license_verify_at === undefined || driverDocuments.driver_documents.driver_license_verify_at === null">
+          <template v-if="driverDocuments.driver_documents.proof_of_insurance_verify_at === undefined || driverDocuments.driver_documents.proof_of_insurance_verify_at === null">
             <btn-validation-docs-driver
                 :driverDocs="driverDocuments.driver_documents"
                 :idUserVehicle="driverDocuments.id"

@@ -408,14 +408,28 @@
                           <b-form-input
                               v-model="dataregister.cc_number"
                               @keypress="isNumber($event)"
-                              maxlength="18"
+                              :maxlength="maxlenInput"
 
                               ref="cardExpInput"
 
                           />
-<!--                          <div v-if="cardErrors.cc_number" class="error">-->
-<!--                            <small style="color: red">{{ cardErrors.cc_number }}</small>-->
-<!--                          </div>-->
+                          <!--                          <div v-if="cardErrors.cc_number" class="error">-->
+                          <!--                            <small style="color: red">{{ cardErrors.cc_number }}</small>-->
+                          <!--                          </div>-->
+                        </b-form-group>
+                      </b-col>
+                      <b-col md="6">
+                        <b-form-group
+                            label="Type of Credit Card"
+                        >
+
+                          <b-form-input
+                              v-model="type_of_cc"
+                              disabled
+                          />
+                          <!--                          <div v-if="cardErrors.cc_number" class="error">-->
+                          <!--                            <small style="color: red">{{ cardErrors.cc_number }}</small>-->
+                          <!--                          </div>-->
                         </b-form-group>
                       </b-col>
                       <b-col md="6">
@@ -423,7 +437,7 @@
                             label="Expiration date"
                         >
                           <b-form-input
-                              v-model="dataregister.expiration_date"
+                              v-model="expiration_date"
                               @keypress="isNumber($event)"
                               maxlength="10"
                               v-cardformat:formatCardExpiry
@@ -510,10 +524,10 @@
 
 <script>
 /* eslint-disable global-require */
-import { FormWizard, TabContent } from 'vue-form-wizard'
+import {FormWizard, TabContent} from 'vue-form-wizard'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import {ValidationProvider, ValidationObserver} from 'vee-validate'
 import VuexyLogo from '@core/layouts/components/Logo.vue'
 import axios from 'axios'
 import Ripple from 'vue-ripple-directive'
@@ -534,8 +548,8 @@ import {
   BCardText,
   BFormSelect, BFormDatepicker,
 } from 'bootstrap-vue'
-import { required, email } from '@validations'
-import { togglePasswordVisibility } from '@core/mixins/ui/forms'
+import {required, email} from '@validations'
+import {togglePasswordVisibility} from '@core/mixins/ui/forms'
 import store from '@/store/index'
 import useJwt from '@/auth/jwt/useJwt'
 import vSelect from 'vue-select'
@@ -602,9 +616,15 @@ export default {
         additional_contact_title: '',
         name_on_cc: '',
         cc_number: '',
-        expiration_date: '',
+
         code_of_cc: '',
+        exp_month: '',
+        exp_year: '',
       },
+      expiration_date: '',
+      type_of_cc: '',
+
+
       resultweb: '',
       contenpunto: '',
       credito: '',
@@ -613,6 +633,7 @@ export default {
       username: '',
       userEmail: '',
       password: '',
+      maxlenInput: '',
       sideImg: require('@/assets/images/pages/register-v2.svg'),
       // validation
       required,
@@ -645,14 +666,7 @@ export default {
         }
       }
     },
-    'dataregister.cc_number'() {
-      let regexMaster = new RegExp('/^5[1-5][0-9]{14}$|^2(?:2(?:2[1-9]|[3-9][0-9])|[3-6][0-9][0-9]|7(?:[01][0-9]|20))[0-9]{12}$/');
-      if (this.dataregister.cc_number.match(regexMaster)){
-        return true;
-      }else {
-        return false;
-      }
-    },
+
   },
   watch: {
     'dataregister.website'() {
@@ -663,24 +677,45 @@ export default {
         return false
       }
     },
-    // 'dataregister.cc_number'(val) {
-    //   if (this.$cardFormat.validateCardNumber(val)) {
-    //     this.$refs.cardExpInput.focus()
-    //   }
-    // },
-    // 'dataregister.cc_number'() {
-    //   let regexMaster = new RegExp('/^5[1-5][0-9]{14}$|^2(?:2(?:2[1-9]|[3-9][0-9])|[3-6][0-9][0-9]|7(?:[01][0-9]|20))[0-9]{12}$/');
-    //   if (this.dataregister.cc_number.match(regexMaster)){
-    //     return true;
-    //   }else {
-    //     return false;
-    //   }
-    // },
-    'dataregister.expiration_date'(val) {
-      if (this.$cardFormat.validateCardExpiry(val)) {
-        this.$refs.cardExpInput.focus()
+    'dataregister.cc_number'() {
+      let regexMaster = new RegExp(/^5[1-5][0-9]{14}$|^2(?:2(?:2[1-9]|[3-9][0-9])|[3-6][0-9][0-9]|7(?:[01][0-9]|20))[0-9]{12}$/);
+      let regexAmerican = new RegExp(/^3[47][0-9]{13}$/);
+      let regexVisa = new RegExp(/^4[0-9]{12}(?:[0-9]{3})?$/);
+      let regexDiscover = new RegExp(/^65[4-9][0-9]{13}|64[4-9][0-9]{13}|6011[0-9]{12}|(622(?:12[6-9]|1[3-9][0-9]|[2-8][0-9][0-9]|9[01][0-9]|92[0-5])[0-9]{10})$/);
+      let regexMaestro = new RegExp(/^(5018|5081|5044|5020|5038|603845|6304|6759|676[1-3]|6799|6220|504834|504817|504645)[0-9]{8,15}$/);
+      let regexJCB = new RegExp(/^(?:2131|1800|35[0-9]{3})[0-9]{11}$/);
+      let regexDiner = new RegExp(/^3(?:0[0-5]|[68][0-9])[0-9]{11}$/);
+
+
+      if (this.dataregister.cc_number.match(regexMaster)) {
+        this.type_of_cc = 'Master card';
+        this.maxlenInput = 16;
+      } else if (this.dataregister.cc_number.match(regexAmerican)) {
+        this.type_of_cc = 'American express';
+        this.maxlenInput = 15;
+      } else if (this.dataregister.cc_number.match(regexVisa)) {
+        this.type_of_cc = 'Visa';
+        this.maxlenInput = 16;
+      } else if (this.dataregister.cc_number.match(regexDiscover)) {
+        this.type_of_cc = 'Discover';
+        this.maxlenInput = 20;
+      } else if (this.dataregister.cc_number.match(regexMaestro)) {
+        this.type_of_cc = 'Maestro credit card';
+        this.maxlenInput = 19;
+      } else if (this.dataregister.cc_number.match(regexJCB)) {
+        this.type_of_cc = 'JCB';
+        this.maxlenInput = 19;
+      } else if (this.dataregister.cc_number.match(regexDiner)) {
+        this.type_of_cc = 'Diner´s club';
+        this.maxlenInput = 19;
+      } else {
+        return false;
       }
-    }
+    },
+    expiration_date() {
+      this.dataregister.exp_month = parseInt(this.expiration_date.substring(0, 2));
+      this.dataregister.exp_year = parseInt(this.expiration_date.substring(5, 7));
+    },
   },
   methods: {
     isNumber: function (evt) {
@@ -768,47 +803,124 @@ export default {
       })
     },
     validationFormCreditCard() {
-      // this.$refs.infoRulesCreditCard.validate()
-      // init
-      // this.cardErrors = {}
-      //
-      // // validate card number
-      // if (!this.$cardFormat.validateCardNumber(this.cc_number)) {
-      //   this.cardErrors.cc_number = 'Invalid Credit Card Number.'
-      //
-      // }
-      //
-      // // validate card expiry
-      // if (!this.$cardFormat.validateCardExpiry(this.expiration_date)) {
-      //   this.cardErrors.expiration_date = 'Invalid Expiration Date.'
-      // }
-      //
-      // // validate card CVC
-      // if (!this.$cardFormat.validateCardCVC(this.code_of_cc)) {
-      //   this.cardErrors.code_of_cc = 'Invalid CVC.'
-      //
-      //   //5544 8029 5948 8777
-      // }
-
       return new Promise((resolve, reject) => {
-        this.cardErrors = {}
-        // if (!this.$cardFormat.validateCardNumber(this.cc_number)) {
-        //   this.cardErrors.cc_number = 'Invalid Credit Card Number.'
-        //   resolve(false)
-        // } else {
-          this.$refs.infoRulesCreditCard.validate()
-              .then(success => {
 
-                if (success) {
-                  resolve(true)
-                } else {
+        if (this.dataregister.cc_number) {
+          let regexMaster = new RegExp(/^5[1-5][0-9]{14}$|^2(?:2(?:2[1-9]|[3-9][0-9])|[3-6][0-9][0-9]|7(?:[01][0-9]|20))[0-9]{12}$/);
+          let regexAmerican = new RegExp(/^3[47][0-9]{13}$/);
+          let regexVisa = new RegExp(/^4[0-9]{12}(?:[0-9]{3})?$/);
+          let regexDiscover = new RegExp(/^65[4-9][0-9]{13}|64[4-9][0-9]{13}|6011[0-9]{12}|(622(?:12[6-9]|1[3-9][0-9]|[2-8][0-9][0-9]|9[01][0-9]|92[0-5])[0-9]{10})$/);
+          let regexMaestro = new RegExp(/^(5018|5081|5044|5020|5038|603845|6304|6759|676[1-3]|6799|6220|504834|504817|504645)[0-9]{8,15}$/);
+          let regexJCB = new RegExp(/^(?:2131|1800|35[0-9]{3})[0-9]{11}$/);
+          let regexDiner = new RegExp(/^3(?:0[0-5]|[68][0-9])[0-9]{11}$/);
+          // console.log(regexMaster)
+          if (this.dataregister.cc_number.match(regexMaster)) {
+            // console.log(this.dataregister.cc_number.match(regexMaster))
+            // return true;
+            console.log('pasó')
+            this.$refs.infoRulesCreditCard.validate()
+                .then(success => {
 
-                  //5544802959488777
+                  if (success) {
+                    resolve(true)
+                  } else {
 
-                  reject()
-                }
-              })
-        // }
+                    //5544802959488777
+                    reject()
+                  }
+                })
+          } else if (this.dataregister.cc_number.match(regexAmerican)) {
+            console.log('pasó')
+            this.$refs.infoRulesCreditCard.validate()
+                .then(success => {
+
+                  if (success) {
+                    resolve(true)
+                  } else {
+
+                    //5544802959488777
+                    reject()
+                  }
+                })
+          } else if (this.dataregister.cc_number.match(regexVisa)) {
+            console.log('pasó')
+            this.$refs.infoRulesCreditCard.validate()
+                .then(success => {
+
+                  if (success) {
+                    resolve(true)
+                  } else {
+
+                    //5544802959488777
+                    reject()
+                  }
+                })
+          } else if (this.dataregister.cc_number.match(regexDiscover)) {
+            console.log('pasó')
+            this.$refs.infoRulesCreditCard.validate()
+                .then(success => {
+
+                  if (success) {
+                    resolve(true)
+                  } else {
+
+                    //5544802959488777
+                    reject()
+                  }
+                })
+          } else if (this.dataregister.cc_number.match(regexMaestro)) {
+            console.log('pasó')
+            this.$refs.infoRulesCreditCard.validate()
+                .then(success => {
+
+                  if (success) {
+                    resolve(true)
+                  } else {
+
+                    //5544802959488777
+                    reject()
+                  }
+                })
+          } else if (this.dataregister.cc_number.match(regexJCB)) {
+            console.log('pasó')
+            this.$refs.infoRulesCreditCard.validate()
+                .then(success => {
+
+                  if (success) {
+                    resolve(true)
+                  } else {
+
+                    //5544802959488777
+                    reject()
+                  }
+                })
+          } else if (this.dataregister.cc_number.match(regexDiner)) {
+            console.log('pasó')
+            this.$refs.infoRulesCreditCard.validate()
+                .then(success => {
+
+                  if (success) {
+                    resolve(true)
+                  } else {
+
+                    //5544802959488777
+                    reject()
+                  }
+                })
+          } else {
+            console.log('no pasó')
+          }
+        } else if (this.dataregister.exp_year <= 22) {
+          this.cardErrors.expiration_date = true
+          this.$swal({
+            title: 'Year invalid',
+            icon: 'error',
+            customClass: {
+              confirmButton: 'btn btn-primary',
+            },
+            buttonsStyling: false,
+          })
+        }
 
       })
 
@@ -821,6 +933,10 @@ export default {
         },
       })
 
+      // this.dataregister.exp_month = parseInt(this.expiration_date.substring(0, 2));
+      // this.dataregister.exp_year = parseInt(this.expiration_date.substring(5, 7));
+
+
       this.$http.post('auth/ca/register', this.dataregister)
           .then((res) => {
             if (res.data.status === 200) {
@@ -832,7 +948,7 @@ export default {
                 },
                 buttonsStyling: false,
               })
-              this.$router.push({ name: 'login' })
+              this.$router.push({name: 'login'})
 
               //clear form
               this.dataregister.company_legal_name = ''
@@ -851,7 +967,8 @@ export default {
               this.dataregister.additional_contact_email = ''
               this.dataregister.name_on_cc = ''
               this.dataregister.cc_number = ''
-              this.dataregister.expiration_date = ''
+              this.dataregister.exp_month = ''
+              this.dataregister.exp_year = ''
               this.dataregister.code_of_cc = ''
               // console.log('bien')
             } else {
@@ -869,7 +986,7 @@ export default {
           })
           .catch((error) => {
             this.$swal({
-              title: error.message,
+              title: error,
               icon: 'error',
               customClass: {
                 confirmButton: 'btn btn-primary',
