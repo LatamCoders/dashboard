@@ -9,7 +9,7 @@
             rounded
             class="backgroundProfile-driver"
         >
-          <p class="text-name-driver">
+          <p class="text-name-driver" v-if="dataProvider.driver.profile_picture === null">
             {{ ProfileName(dataProvider.driver.name) }}
           </p>
         </b-avatar>
@@ -190,7 +190,7 @@ export default {
       if(this.dataProvider.driver.profile_picture === null){
         return name.charAt(0).toUpperCase() + name.charAt(1).toUpperCase();
       }else {
-        return this.this.dataProvider.driver.profile_picture;
+        return this.dataProvider.driver.profile_picture;
       }
     }
   }

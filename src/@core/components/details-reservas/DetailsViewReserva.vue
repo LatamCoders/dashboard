@@ -16,7 +16,7 @@
         </b-avatar>
       </template>
       <h4 class="">
-        {{ dataProvider.city }} ( <span style="font-size: 0.9rem">
+        {{ dataProvider.name }} ( <span style="font-size: 0.9rem">
         {{ dataProvider.email }}
       </span>)
       </h4>
