@@ -579,14 +579,16 @@ export default {
     initMarkerTo(loc) {
       this.existingPlace = loc
       this.dataCa.to = this.existingPlace.formatted_address
-      this.dataCa.to_coordinates = this.existingPlace.geometry.viewport.wb.h + ',' + this.existingPlace.geometry.viewport.Sa.h
+      // this.dataCa.to_coordinates = this.existingPlace.geometry.viewport.wb.h + ',' + this.existingPlace.geometry.viewport.Sa.h
+      this.dataCa.to_coordinates = this.existingPlace.geometry.location.lng + ',' + this.existingPlace.geometry.location.lat;
+
       console.log(this.dataCa.to)
       console.log(this.dataCa.to_coordinates)
     },
     initMarkerFrom(loc) {
       this.existingPlace = loc
       this.dataCa.from = this.existingPlace.formatted_address
-      this.dataCa.from_coordinates = this.existingPlace.geometry.viewport.wb.h + ',' + this.existingPlace.geometry.viewport.Sa.h
+      this.dataCa.from_coordinates = this.existingPlace.geometry.location.lng + ',' + this.existingPlace.geometry.location.lat;
       console.log(this.dataCa.from)
       console.log(this.dataCa.from_coordinates)
     },
@@ -624,7 +626,7 @@ export default {
       // this.addLocationMarker();
 
       console.log(this.dataCa)
-      this.$http.post('ca/panel/booking/add', this.dataCa)
+      this.$http.post('ca/panel/booking/add?clientType=reservationCode', this.dataCa)
           .then((response) => {
             if (response.data.status === 200) {
               this.$swal({

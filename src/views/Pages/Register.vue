@@ -152,7 +152,8 @@
                         <b-form-group
                             label="Corporate Address"
                         >
-                          <gmap-autocomplete class="form-control" @place_changed="initMarkerTo">
+
+                          <gmap-autocomplete   class="form-control" @place_changed="initMarkerTo">
                           </gmap-autocomplete>
                           <!--                          <validation-provider-->
                           <!--                              #default="{ errors }"-->
@@ -165,9 +166,9 @@
                           <!--                                maxlength="30"-->
                           <!--                                @keypress="isDirection"-->
                           <!--                            />-->
-                          <!--                            <small class="text-danger" v-if="errors[0]">This field is required</small>-->
-                          <!--                          </validation-provider>-->
+
                         </b-form-group>
+
                       </b-col>
                       <b-col md="6">
                         <b-form-group
@@ -716,6 +717,18 @@ export default {
       this.dataregister.exp_month = parseInt(this.expiration_date.substring(0, 2));
       this.dataregister.exp_year = parseInt(this.expiration_date.substring(5, 7));
     },
+    'dataregister.office_location_address'() {
+      if(this.dataregister.office_location_address === ''){
+        this.$swal({
+          title: 'Year invalid',
+          icon: 'error',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
+        })
+      }
+    }
   },
   methods: {
     isNumber: function (evt) {
