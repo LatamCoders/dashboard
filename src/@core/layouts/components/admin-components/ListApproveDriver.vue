@@ -16,7 +16,9 @@
           >
             <label>Show</label>
             <v-select
+                id="perPageSelect"
                 v-model="perPage"
+                :options="pageOptions"
                 class="per-page-selector d-inline-block mx-50"
             />
             <label>entries</label>
@@ -130,7 +132,7 @@
               sm="6"
               class="d-flex align-items-center justify-content-center justify-content-sm-start"
           >
-             <span class="text-muted">Showing {{ listDrivers.length }}  of {{
+             <span class="text-muted">Showing {{ perPage }}  of {{
                  listDrivers.length
                }} entries</span>
           </b-col>
@@ -207,6 +209,7 @@ export default {
   data() {
     return {
       perPage: 5,
+      pageOptions: [3, 5, 10],
       currentPage: 1,
       listDrivers: [],
       detailDrivers: {},

@@ -20,7 +20,9 @@
           >
             <label>Show</label>
             <v-select
-
+                id="perPageSelect"
+                v-model="perPage"
+                :options="pageOptions"
                 class="per-page-selector d-inline-block mx-50"
             />
             <label>entries</label>
@@ -83,24 +85,9 @@
               <b-btn color="primary" v-bind="attrs" v-on="on" icon ripple>
               </b-btn>
             </template>
-            <b-list-group  style="padding: 2px; margin-bottom: 2px" dense rounded>
-              <router-link class="urlPagina"
-                           :to="{ name: 'details-driver-view' }"
-              >
-                <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
-                  <b-list-group-item class="font-weight-bold"
-                                     style="border: none; padding: 5px"
-                  >
-                    <feather-icon icon="FileTextIcon"/>
-                    Details
-                  </b-list-group-item
-                  >
-                </b-list-group-item>
-              </router-link>
-            </b-list-group>
             <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
               <router-link class="urlPagina"
-                           :to="{ name: 'details-driver-view' }"
+                           to="/"
               >
                 <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
                   <b-list-group-item class="font-weight-bold"
@@ -125,9 +112,9 @@
               sm="6"
               class="d-flex align-items-center justify-content-center justify-content-sm-start"
           >
-            <!--            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{-->
-            <!--                dataMeta.of-->
-            <!--              }} entries</span>-->
+                       <span class="text-muted">Showing {{ perPage }}  of {{
+                           listClients.length
+                         }} entries</span>
           </b-col>
           <!-- Pagination -->
           <b-col
@@ -200,7 +187,8 @@ export default {
   data() {
     return {
       listClients: [],
-      perPage: 6,
+      perPage: 5,
+      pageOptions: [3, 5, 10],
       currentPage: 1 ,
       totalUsers: 0,
       valortotal: 0,
@@ -231,6 +219,16 @@ export default {
 }
 .urlPagina {
   text-decoration: none;
+}
+
+.urlPagina:hover {
+  background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
+  color: #fff;
+}
+
+.list-group-item:hover {
+  background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
+  color: #fff !important;
 }
 
 .urlPagina::before {

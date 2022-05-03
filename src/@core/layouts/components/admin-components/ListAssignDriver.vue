@@ -20,7 +20,9 @@
           >
             <label>Show</label>
             <v-select
+                id="perPageSelect"
                 v-model="perPage"
+                :options="pageOptions"
                 class="per-page-selector d-inline-block mx-50"
             />
             <label>entries</label>
@@ -205,6 +207,7 @@ export default {
     return {
       listClients: [],
       perPage: 5,
+      pageOptions: [3, 5, 10],
       currentPage: 1 ,
       totalUsers: 0,
       valortotal: 0,

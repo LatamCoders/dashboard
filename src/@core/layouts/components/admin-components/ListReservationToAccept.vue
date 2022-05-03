@@ -20,7 +20,9 @@
           >
             <label>Show</label>
             <v-select
+                id="perPageSelect"
                 v-model="perPage"
+                :options="pageOptions"
                 class="per-page-selector d-inline-block mx-50"
             />
             <label>entries</label>
@@ -209,6 +211,7 @@ export default {
       totalUsers: 0,
       valortotal: 0,
       searchQuery: '',
+      pageOptions: [3, 5, 10],
       fields: ['name_selfpay', 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime',  'city', 'actions'],
     }
   },
