@@ -141,7 +141,7 @@ export default {
           this.$swal.showLoading()
         }
       })
-      let url = this.$store.getters['Users/userData'].user.role.id === 3 ? 'CA' : 'admin'
+      let url = this.$store.getters['Users/userData'].user.role.id === 3 ? '/auth/users/logout' : '/auth/users/logout'
 
       this.$store.dispatch('Users/destroyToken', url)
           .then(() => {
