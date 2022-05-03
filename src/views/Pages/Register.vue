@@ -153,8 +153,11 @@
                             label="Corporate Address"
                         >
 
-                          <gmap-autocomplete   class="form-control" @place_changed="initMarkerTo">
+                          <gmap-autocomplete :style="errorstwo === true ? classError : classError "
+                                             class="form-control" @place_changed="initMarkerTo"
+                          >
                           </gmap-autocomplete>
+                          <small class="text-danger" v-if="errorstwo === true">This field is required</small>
                           <!--                          <validation-provider-->
                           <!--                              #default="{ errors }"-->
                           <!--                              name="office_location_address"-->
@@ -174,8 +177,11 @@
                         <b-form-group
                             label="Billing Address"
                         >
-                          <gmap-autocomplete class="form-control" @place_changed="initMarker">
+                          <gmap-autocomplete :style="errorsbilling === true ? classErrorBilling : classErrorBilling "
+                                             class="form-control" @place_changed="initMarker"
+                          >
                           </gmap-autocomplete>
+                          <small class="text-danger" v-if="errorsbilling === true">This field is required</small>
                           <!--                          <validation-provider-->
                           <!--                              #default="{ errors }"-->
                           <!--                              name="billing_address"-->
@@ -525,10 +531,10 @@
 
 <script>
 /* eslint-disable global-require */
-import {FormWizard, TabContent} from 'vue-form-wizard'
+import { FormWizard, TabContent } from 'vue-form-wizard'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
-import {ValidationProvider, ValidationObserver} from 'vee-validate'
+import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import VuexyLogo from '@core/layouts/components/Logo.vue'
 import axios from 'axios'
 import Ripple from 'vue-ripple-directive'
@@ -549,8 +555,8 @@ import {
   BCardText,
   BFormSelect, BFormDatepicker,
 } from 'bootstrap-vue'
-import {required, email} from '@validations'
-import {togglePasswordVisibility} from '@core/mixins/ui/forms'
+import { required, email } from '@validations'
+import { togglePasswordVisibility } from '@core/mixins/ui/forms'
 import store from '@/store/index'
 import useJwt from '@/auth/jwt/useJwt'
 import vSelect from 'vue-select'
@@ -625,11 +631,14 @@ export default {
       expiration_date: '',
       type_of_cc: '',
 
-
       resultweb: '',
       contenpunto: '',
       credito: '',
       enviados: [],
+      errorstwo: [],
+      errorsbilling: [],
+      classError: '',
+      classErrorBilling: '',
       status: '',
       username: '',
       userEmail: '',
@@ -679,54 +688,71 @@ export default {
       }
     },
     'dataregister.cc_number'() {
-      let regexMaster = new RegExp(/^5[1-5][0-9]{14}$|^2(?:2(?:2[1-9]|[3-9][0-9])|[3-6][0-9][0-9]|7(?:[01][0-9]|20))[0-9]{12}$/);
-      let regexAmerican = new RegExp(/^3[47][0-9]{13}$/);
-      let regexVisa = new RegExp(/^4[0-9]{12}(?:[0-9]{3})?$/);
-      let regexDiscover = new RegExp(/^65[4-9][0-9]{13}|64[4-9][0-9]{13}|6011[0-9]{12}|(622(?:12[6-9]|1[3-9][0-9]|[2-8][0-9][0-9]|9[01][0-9]|92[0-5])[0-9]{10})$/);
-      let regexMaestro = new RegExp(/^(5018|5081|5044|5020|5038|603845|6304|6759|676[1-3]|6799|6220|504834|504817|504645)[0-9]{8,15}$/);
-      let regexJCB = new RegExp(/^(?:2131|1800|35[0-9]{3})[0-9]{11}$/);
-      let regexDiner = new RegExp(/^3(?:0[0-5]|[68][0-9])[0-9]{11}$/);
-
+      let regexMaster = new RegExp(/^5[1-5][0-9]{14}$|^2(?:2(?:2[1-9]|[3-9][0-9])|[3-6][0-9][0-9]|7(?:[01][0-9]|20))[0-9]{12}$/)
+      let regexAmerican = new RegExp(/^3[47][0-9]{13}$/)
+      let regexVisa = new RegExp(/^4[0-9]{12}(?:[0-9]{3})?$/)
+      let regexDiscover = new RegExp(/^65[4-9][0-9]{13}|64[4-9][0-9]{13}|6011[0-9]{12}|(622(?:12[6-9]|1[3-9][0-9]|[2-8][0-9][0-9]|9[01][0-9]|92[0-5])[0-9]{10})$/)
+      let regexMaestro = new RegExp(/^(5018|5081|5044|5020|5038|603845|6304|6759|676[1-3]|6799|6220|504834|504817|504645)[0-9]{8,15}$/)
+      let regexJCB = new RegExp(/^(?:2131|1800|35[0-9]{3})[0-9]{11}$/)
+      let regexDiner = new RegExp(/^3(?:0[0-5]|[68][0-9])[0-9]{11}$/)
 
       if (this.dataregister.cc_number.match(regexMaster)) {
-        this.type_of_cc = 'Master card';
-        this.maxlenInput = 16;
+        this.type_of_cc = 'Master card'
+        this.maxlenInput = 16
       } else if (this.dataregister.cc_number.match(regexAmerican)) {
-        this.type_of_cc = 'American express';
-        this.maxlenInput = 15;
+        this.type_of_cc = 'American express'
+        this.maxlenInput = 15
       } else if (this.dataregister.cc_number.match(regexVisa)) {
-        this.type_of_cc = 'Visa';
-        this.maxlenInput = 16;
+        this.type_of_cc = 'Visa'
+        this.maxlenInput = 16
       } else if (this.dataregister.cc_number.match(regexDiscover)) {
-        this.type_of_cc = 'Discover';
-        this.maxlenInput = 20;
+        this.type_of_cc = 'Discover'
+        this.maxlenInput = 20
       } else if (this.dataregister.cc_number.match(regexMaestro)) {
-        this.type_of_cc = 'Maestro credit card';
-        this.maxlenInput = 19;
+        this.type_of_cc = 'Maestro credit card'
+        this.maxlenInput = 19
       } else if (this.dataregister.cc_number.match(regexJCB)) {
-        this.type_of_cc = 'JCB';
-        this.maxlenInput = 19;
+        this.type_of_cc = 'JCB'
+        this.maxlenInput = 19
       } else if (this.dataregister.cc_number.match(regexDiner)) {
-        this.type_of_cc = 'Diner´s club';
-        this.maxlenInput = 19;
+        this.type_of_cc = 'Diner´s club'
+        this.maxlenInput = 19
       } else {
-        return false;
+        return false
       }
     },
     expiration_date() {
-      this.dataregister.exp_month = parseInt(this.expiration_date.substring(0, 2));
-      this.dataregister.exp_year = parseInt(this.expiration_date.substring(5, 7));
+      this.dataregister.exp_month = parseInt(this.expiration_date.substring(0, 2))
+      this.dataregister.exp_year = parseInt(this.expiration_date.substring(5, 7))
     },
     'dataregister.office_location_address'() {
-      if(this.dataregister.office_location_address === ''){
-        this.$swal({
-          title: 'Year invalid',
-          icon: 'error',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-          },
-          buttonsStyling: false,
-        })
+      if (this.dataregister.office_location_address !== '') {
+        this.errorstwo = false
+        this.classError = 'border: 1px solid black !important'
+      }
+    },
+    'dataregister.billing_address'() {
+      if (this.dataregister.billing_address !== '') {
+        this.errorsbilling = false
+        this.classErrorBilling = 'border: 1px solid #d8d6de'
+      }
+    },
+    errorstwo() {
+      if (this.errorstwo === true && this.dataregister.office_location_address === '') {
+        this.errorstwo = true
+        this.classError = 'border: 1px solid red'
+      } else if (this.dataregister.office_location_address !== '') {
+        this.errorstwo = false
+        this.classError = 'border: 1px solid #d8d6de'
+      }
+    },
+    errorsbilling() {
+      if (this.errorsbilling === true && this.dataregister.billing_address === '') {
+        this.errorsbilling = true
+        this.classErrorBilling = 'border: 1px solid red'
+      } else if (this.dataregister.billing_address !== '') {
+        this.errorsbilling = false
+        this.classErrorBilling = 'border: 1px solid #d8d6de'
       }
     }
   },
@@ -781,15 +807,31 @@ export default {
     },
     validationForm() {
       return new Promise((resolve, reject) => {
-        this.$refs.accountRules.validate()
-            .then(success => {
-              if (success) {
-                resolve(true)
-              } else {
+            if (this.dataregister.billing_address === '' || this.dataregister.office_location_address === '') {
+              if (this.dataregister.billing_address === '' && this.dataregister.office_location_address === '') {
+                this.errorstwo = true
+                this.errorsbilling = true
+                reject()
+              } else if (this.dataregister.billing_address === '') {
+                this.errorsbilling = true
+                reject()
+              } else if (this.dataregister.office_location_address === '') {
+                this.errorstwo = true
                 reject()
               }
-            })
-      })
+
+            } else if (this.dataregister.billing_address !== '' || this.dataregister.office_location_address !== '') {
+              this.$refs.accountRules.validate()
+                  .then(success => {
+                    if (success) {
+                      resolve(true)
+                    }
+                  })
+            }
+            this.$refs.accountRules.validate()
+
+          }
+      )
     },
     validationFormInfo() {
       return new Promise((resolve, reject) => {
@@ -802,7 +844,8 @@ export default {
               }
             })
       })
-    },
+    }
+    ,
     validationFormInfoaddress() {
       return new Promise((resolve, reject) => {
         this.$refs.infoRulesAddress.validate()
@@ -814,130 +857,142 @@ export default {
               }
             })
       })
-    },
+    }
+    ,
     validationFormCreditCard() {
       return new Promise((resolve, reject) => {
+        if (this.dataregister.code_of_cc !== '' || this.dataregister.cc_number !== '' || this.dataregister.name_on_cc !== '') {
+          if (this.dataregister.cc_number) {
+            let regexMaster = new RegExp(/^5[1-5][0-9]{14}$|^2(?:2(?:2[1-9]|[3-9][0-9])|[3-6][0-9][0-9]|7(?:[01][0-9]|20))[0-9]{12}$/)
+            let regexAmerican = new RegExp(/^3[47][0-9]{13}$/)
+            let regexVisa = new RegExp(/^4[0-9]{12}(?:[0-9]{3})?$/)
+            let regexDiscover = new RegExp(/^65[4-9][0-9]{13}|64[4-9][0-9]{13}|6011[0-9]{12}|(622(?:12[6-9]|1[3-9][0-9]|[2-8][0-9][0-9]|9[01][0-9]|92[0-5])[0-9]{10})$/)
+            let regexMaestro = new RegExp(/^(5018|5081|5044|5020|5038|603845|6304|6759|676[1-3]|6799|6220|504834|504817|504645)[0-9]{8,15}$/)
+            let regexJCB = new RegExp(/^(?:2131|1800|35[0-9]{3})[0-9]{11}$/)
+            let regexDiner = new RegExp(/^3(?:0[0-5]|[68][0-9])[0-9]{11}$/)
+            // console.log(regexMaster)
+            if (this.dataregister.cc_number.match(regexMaster)) {
+              // console.log(this.dataregister.cc_number.match(regexMaster))
+              // return true;
+              console.log('pasó')
+              this.$refs.infoRulesCreditCard.validate()
+                  .then(success => {
 
-        if (this.dataregister.cc_number) {
-          let regexMaster = new RegExp(/^5[1-5][0-9]{14}$|^2(?:2(?:2[1-9]|[3-9][0-9])|[3-6][0-9][0-9]|7(?:[01][0-9]|20))[0-9]{12}$/);
-          let regexAmerican = new RegExp(/^3[47][0-9]{13}$/);
-          let regexVisa = new RegExp(/^4[0-9]{12}(?:[0-9]{3})?$/);
-          let regexDiscover = new RegExp(/^65[4-9][0-9]{13}|64[4-9][0-9]{13}|6011[0-9]{12}|(622(?:12[6-9]|1[3-9][0-9]|[2-8][0-9][0-9]|9[01][0-9]|92[0-5])[0-9]{10})$/);
-          let regexMaestro = new RegExp(/^(5018|5081|5044|5020|5038|603845|6304|6759|676[1-3]|6799|6220|504834|504817|504645)[0-9]{8,15}$/);
-          let regexJCB = new RegExp(/^(?:2131|1800|35[0-9]{3})[0-9]{11}$/);
-          let regexDiner = new RegExp(/^3(?:0[0-5]|[68][0-9])[0-9]{11}$/);
-          // console.log(regexMaster)
-          if (this.dataregister.cc_number.match(regexMaster)) {
-            // console.log(this.dataregister.cc_number.match(regexMaster))
-            // return true;
-            console.log('pasó')
-            this.$refs.infoRulesCreditCard.validate()
-                .then(success => {
+                    if (success) {
+                      resolve(true)
+                    } else {
 
-                  if (success) {
-                    resolve(true)
-                  } else {
+                      //5544802959488777
+                      reject()
+                    }
+                  })
+            } else if (this.dataregister.cc_number.match(regexAmerican)) {
+              console.log('pasó')
+              this.$refs.infoRulesCreditCard.validate()
+                  .then(success => {
 
-                    //5544802959488777
-                    reject()
-                  }
-                })
-          } else if (this.dataregister.cc_number.match(regexAmerican)) {
-            console.log('pasó')
-            this.$refs.infoRulesCreditCard.validate()
-                .then(success => {
+                    if (success) {
+                      resolve(true)
+                    } else {
 
-                  if (success) {
-                    resolve(true)
-                  } else {
+                      //5544802959488777
+                      reject()
+                    }
+                  })
+            } else if (this.dataregister.cc_number.match(regexVisa)) {
+              console.log('pasó')
+              this.$refs.infoRulesCreditCard.validate()
+                  .then(success => {
 
-                    //5544802959488777
-                    reject()
-                  }
-                })
-          } else if (this.dataregister.cc_number.match(regexVisa)) {
-            console.log('pasó')
-            this.$refs.infoRulesCreditCard.validate()
-                .then(success => {
+                    if (success) {
+                      resolve(true)
+                    } else {
 
-                  if (success) {
-                    resolve(true)
-                  } else {
+                      //5544802959488777
+                      reject()
+                    }
+                  })
+            } else if (this.dataregister.cc_number.match(regexDiscover)) {
+              console.log('pasó')
+              this.$refs.infoRulesCreditCard.validate()
+                  .then(success => {
 
-                    //5544802959488777
-                    reject()
-                  }
-                })
-          } else if (this.dataregister.cc_number.match(regexDiscover)) {
-            console.log('pasó')
-            this.$refs.infoRulesCreditCard.validate()
-                .then(success => {
+                    if (success) {
+                      resolve(true)
+                    } else {
 
-                  if (success) {
-                    resolve(true)
-                  } else {
+                      //5544802959488777
+                      reject()
+                    }
+                  })
+            } else if (this.dataregister.cc_number.match(regexMaestro)) {
+              console.log('pasó')
+              this.$refs.infoRulesCreditCard.validate()
+                  .then(success => {
 
-                    //5544802959488777
-                    reject()
-                  }
-                })
-          } else if (this.dataregister.cc_number.match(regexMaestro)) {
-            console.log('pasó')
-            this.$refs.infoRulesCreditCard.validate()
-                .then(success => {
+                    if (success) {
+                      resolve(true)
+                    } else {
 
-                  if (success) {
-                    resolve(true)
-                  } else {
+                      //5544802959488777
+                      reject()
+                    }
+                  })
+            } else if (this.dataregister.cc_number.match(regexJCB)) {
+              console.log('pasó')
+              this.$refs.infoRulesCreditCard.validate()
+                  .then(success => {
 
-                    //5544802959488777
-                    reject()
-                  }
-                })
-          } else if (this.dataregister.cc_number.match(regexJCB)) {
-            console.log('pasó')
-            this.$refs.infoRulesCreditCard.validate()
-                .then(success => {
+                    if (success) {
+                      resolve(true)
+                    } else {
 
-                  if (success) {
-                    resolve(true)
-                  } else {
+                      //5544802959488777
+                      reject()
+                    }
+                  })
+            } else if (this.dataregister.cc_number.match(regexDiner)) {
+              console.log('pasó')
+              this.$refs.infoRulesCreditCard.validate()
+                  .then(success => {
 
-                    //5544802959488777
-                    reject()
-                  }
-                })
-          } else if (this.dataregister.cc_number.match(regexDiner)) {
-            console.log('pasó')
-            this.$refs.infoRulesCreditCard.validate()
-                .then(success => {
+                    if (success) {
+                      resolve(true)
+                    } else {
 
-                  if (success) {
-                    resolve(true)
-                  } else {
-
-                    //5544802959488777
-                    reject()
-                  }
-                })
-          } else {
-            console.log('no pasó')
+                      //5544802959488777
+                      reject()
+                    }
+                  })
+            } else {
+              console.log('no pasó')
+            }
           }
-        } else if (this.dataregister.exp_year <= 22) {
-          this.cardErrors.expiration_date = true
-          this.$swal({
-            title: 'Year invalid',
-            icon: 'error',
-            customClass: {
-              confirmButton: 'btn btn-primary',
-            },
-            buttonsStyling: false,
-          })
+          // else if (this.dataregister.exp_year <= 22) {
+          //   this.cardErrors.expiration_date = true
+          //   this.$swal({
+          //     title: 'Year invalid',
+          //     icon: 'error',
+          //     customClass: {
+          //       confirmButton: 'btn btn-primary',
+          //     },
+          //     buttonsStyling: false,
+          //   })
+          // }
+        } else {
+          this.$refs.infoRulesCreditCard.validate()
+              .then(success => {
+
+                if (success) {
+                  resolve(true)
+                }
+              })
         }
 
       })
 
-    },
+    }
+    ,
     formSubmitted() {
       this.$swal({
         title: 'Please, wait...',
@@ -948,7 +1003,6 @@ export default {
 
       // this.dataregister.exp_month = parseInt(this.expiration_date.substring(0, 2));
       // this.dataregister.exp_year = parseInt(this.expiration_date.substring(5, 7));
-
 
       this.$http.post('auth/ca/register', this.dataregister)
           .then((res) => {
@@ -961,7 +1015,7 @@ export default {
                 },
                 buttonsStyling: false,
               })
-              this.$router.push({name: 'login'})
+              this.$router.push({ name: 'login' })
 
               //clear form
               this.dataregister.company_legal_name = ''
@@ -1010,13 +1064,14 @@ export default {
 
       // this.enviados = this.dataregister;
       // console.log(this.enviados)
-    },
+    }
+    ,
 
   },
 
-  // mounted() {
-  //   this.$refs.cardNumInput.focus();
-  // }
+// mounted() {
+//   this.$refs.cardNumInput.focus();
+// }
 }
 /* eslint-disable global-require */
 </script>
