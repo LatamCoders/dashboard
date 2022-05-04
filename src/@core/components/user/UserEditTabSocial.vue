@@ -254,7 +254,18 @@ export default {
       this.paymentMethods.cc_number = ''
       this.paymentMethods.type_of_cc = ''
       this.paymentMethods.code_of_cc = ''
+    },
+    getCreditCard() {
+      // const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+      //
+      // const card = await stripe.accounts.retrieveExternalAccount(
+      //     'acct_1032D82eZvKYlo2C',
+      //     'card_1Kvlqt2eZvKYlo2C60tjPHMQ'
+      // );
     }
+  },
+  mounted() {
+    this.getCreditCard();
   }
   // mounted() {
   //   console.log(this.infoPayment)

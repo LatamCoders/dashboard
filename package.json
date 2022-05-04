@@ -39,6 +39,7 @@
     "postcss-rtl": "1.7.3",
     "prismjs": "^1.26.0",
     "secure-ls": "^1.2.6",
+    "stripe": "^8.220.0",
     "swiper": "5.4.5",
     "uuid": "8.3.2",
     "vee-validate": "3.4.5",

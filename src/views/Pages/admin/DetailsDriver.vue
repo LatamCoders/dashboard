@@ -76,11 +76,12 @@
 </template>
 
 <script>
-import { BRow, BCol, BCard, BImg, BButton, BFormGroup, BFormInput, BFormFile, BTabs, BTab, } from 'bootstrap-vue'
+import {BRow, BCol, BCard, BImg, BButton, BFormGroup, BFormInput, BFormFile, BTabs, BTab,} from 'bootstrap-vue'
 import UserDetailsVehicleDriver from "@core/components/user-approve-driver/UserDetailsVehicleDriver";
 import UserDetailsAccount from "@core/components/user-approve-driver/UserDetailsAccount";
 import UserDetailsDriverDocuments from "@core/components/user-approve-driver/UserDetailsDriverDocuments";
 import ReservasAsignadasAlDriver from '@core/components/user-approve-driver/ReservasAsignadasAlDriver'
+import BtnValidationDocsDriver from "@core/components/buttonsValidationDocsDriver/BtnValidationDocsDriver";
 /* eslint-disable global-require */
 export default {
   components: {
@@ -88,6 +89,7 @@ export default {
     UserDetailsAccount,
     UserDetailsVehicleDriver,
     ReservasAsignadasAlDriver,
+    BtnValidationDocsDriver,
     BRow,
     BCol,
     BCard,
@@ -101,8 +103,7 @@ export default {
   },
   data() {
     return {
-      infoUser: {
-      },
+      infoUser: {},
       userId: 0,
     }
   },
@@ -121,7 +122,10 @@ export default {
           buttonsStyling: false,
         })
       })
-    }
+    },
+    // refreshInfo(value) {
+    //   if (value) this.getInformationDriver()
+    // }
   },
   mounted() {
     this.getInformationDriver()

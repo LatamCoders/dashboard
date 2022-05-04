@@ -141,7 +141,7 @@ export default {
           this.$swal.showLoading()
         }
       })
-      let url = this.$store.getters['Users/userData'].user.role.id === 3 ? '/auth/users/logout' : '/auth/users/logout'
+      let url = '/auth/users/logout'
 
       this.$store.dispatch('Users/destroyToken', url)
           .then(() => {
@@ -164,6 +164,7 @@ export default {
               },
               buttonsStyling: false,
             })
+            this.$router.push({ name: 'login' })
           })
 
     },
