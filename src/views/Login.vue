@@ -1,16 +1,20 @@
 <template>
   <div class="auth-wrapper auth-v2">
-    <b-row class="auth-inner m-0">
+    <b-row class="auth-inner m-0 container-logo-form">
 
       <!-- Brand logo-->
-      <b-link class="brand-logo">
-        <vuexy-logo/>
-      </b-link>
+      <b-row class="main-logo-container">
+        <b-link class="brand-logo">
+          <vuexy-logo/>
+        </b-link>
+      </b-row>
+
       <!-- /Brand logo-->
 
       <!-- Left Text-->
       <b-col
           lg="8"
+          md="7"
           class="d-none d-lg-flex align-items-center p-5"
       >
         <div class="w-100 d-lg-flex align-items-center justify-content-center px-5">
@@ -27,6 +31,7 @@
       <!-- Login-->
       <b-col
           lg="4"
+          md="12"
           class="d-flex align-items-center auth-bg px-2 p-lg-5"
       >
         <b-col
@@ -43,7 +48,7 @@
             Welcome to Amera! 👋
           </b-card-title>
           <b-card-text class="mb-2">
-<!--            Please sign-in to your account to start the adventure-->
+            <!--            Please sign-in to your account to start the adventure-->
           </b-card-text>
 
           <!-- form Admin -->
@@ -192,7 +197,7 @@
 
 <script>
 /* eslint-disable global-require */
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import {ValidationProvider, ValidationObserver} from 'vee-validate'
 import VuexyLogo from '@core/layouts/components/Logo.vue'
 import {
   BRow,
@@ -209,8 +214,8 @@ import {
   BForm,
   BButton,
 } from 'bootstrap-vue'
-import { required, email } from '@validations'
-import { togglePasswordVisibility } from '@core/mixins/ui/forms'
+import {required, email} from '@validations'
+import {togglePasswordVisibility} from '@core/mixins/ui/forms'
 import store from '@/store/index'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import axios from 'axios'
@@ -310,11 +315,11 @@ export default {
 
               // if(this.person.loginType === 'admin') {
               if (res.data.data.user.role.id === 2) {
-                this.$router.push({ name: 'home-admin' })
+                this.$router.push({name: 'home-admin'})
               } else if (res.data.data.user.role.id === 1) {
-                this.$router.push({ name: 'home-admin' })
+                this.$router.push({name: 'home-admin'})
               } else {
-                this.$router.push({ name: 'home-corporate-account' })
+                this.$router.push({name: 'home-corporate-account'})
               }
             })
             .catch((err) => {
@@ -355,10 +360,28 @@ export default {
   opacity: 0;
 }
 
+.main-logo-container {
+  padding-bottom: 372px;
+  margin-bottom: 300px;
+}
+
+
 .imgLogin {
   height: 500px;
   border-radius: 10px;
   //box-shadow: 4px 2px 10px -2px #342b7b;
   box-shadow: 4px 2px 10px -2px #868498;
+}
+
+@media screen and (max-width: 1440px) {
+  .imgLogin {
+    height: 349px;
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 500px){
+  .container-logo-form {
+      justify-content: space-between;
+  }
 }
 </style>
