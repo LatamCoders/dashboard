@@ -4,8 +4,6 @@ import VueCompositionAPI from '@vue/composition-api'
 import VueCardFormat from 'vue-credit-card-validation'
 
 
-
-import axios from 'axios'
 import router from './router'
 import store from './store/index'
 import App from './App.vue'
@@ -111,12 +109,22 @@ new Vue({
   router,
   store,
   created() {
-    axios.interceptors.response.use(
+    axiosIns.interceptors.response.use(
         response => response,
         error => {
           if (error.response.status === 401) {
-            this.$store.dispatch('Users/destroyToken')
-            // this.$router.push({ name: 'login' })
+            this.$store.dispatch('Users/deleteSessionInfo')
+
+            this.$swal({
+              icon: 'error',
+              title: "Session expired",
+              customClass: {
+                confirmButton: 'btn btn-primary',
+              },
+              buttonsStyling: false,
+            })
+
+            this.$router.push({ name: 'login' })
           }
           return Promise.reject(error)
         }

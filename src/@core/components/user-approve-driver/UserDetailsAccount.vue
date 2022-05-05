@@ -117,16 +117,7 @@
             />
           </b-form-group>
         </b-col>
-        <b-col md="4">
-          <b-form-group
-              label="Address"
-          >
-            <b-form-input
-                v-model="userData.address"
-                :disabled="btnupdate === false"
-            />
-          </b-form-group>
-        </b-col>
+
       </b-row>
     </b-form>
 
@@ -198,14 +189,14 @@ export default {
     return {
       src: '',
       btnupdate: false,
-      userData: {
-        name: '',
-        lastname: '',
-        gender: '',
-        birthday: '',
-        email: '',
-        address: '',
-      }
+      // userData: {
+      //   name: '',
+      //   lastname: '',
+      //   gender: '',
+      //   birthday: '',
+      //   email: '',
+      //   address: '',
+      // }
     }
   },
   methods: {
@@ -251,9 +242,9 @@ export default {
       })
     }
   },
-  created() {
-    console.log(this.userData.driver_id)
-  }
+  // created() {
+  //   console.log(this.userData.driver_id)
+  // }
 }
 </script>
 

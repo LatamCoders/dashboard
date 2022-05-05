@@ -20,7 +20,9 @@
           >
             <label>Show</label>
             <v-select
+                id="perPageSelect"
                 v-model="perPage"
+                :options="pageOptions"
                 class="per-page-selector d-inline-block mx-50"
             />
             <label>entries</label>
@@ -119,7 +121,7 @@
               sm="6"
               class="d-flex align-items-center justify-content-center justify-content-sm-start"
           >
-          <span class="text-muted">Showing {{ infoPayment.length }}  of {{
+          <span class="text-muted">Showing {{ perPage }}  of {{
               infoPayment.length
             }} entries</span>
           </b-col>
@@ -202,6 +204,7 @@ export default {
       totalUsers: 0,
       valortotal: 0,
       searchQuery: '',
+      pageOptions: [3, 5, 10],
       fields: ['selfpay_id', 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime',  'city', 'actions'],
     }
   },

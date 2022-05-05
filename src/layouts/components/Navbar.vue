@@ -54,7 +54,7 @@
         </template>
 
         <b-dropdown-item link-class="d-flex align-items-center">
-          <router-link to="profile">
+          <router-link to="profile" style="width: 100%">
             <feather-icon
                 size="16"
                 icon="UserIcon"
@@ -141,30 +141,29 @@ export default {
           this.$swal.showLoading()
         }
       })
-      let url = '/auth/users/logout'
-
-      this.$store.dispatch('Users/destroyToken', url)
+      this.$store.dispatch('Users/destroyToken', '/auth/users/logout')
           .then(() => {
+
+              this.$swal({
+                icon: 'success',
+                title: 'Logout successfully',
+                customClass: {
+                  confirmButton: 'btn btn-primary',
+                },
+                buttonsStyling: false,
+              })
             this.$router.push({ name: 'login' })
-            this.$swal({
-              icon: 'success',
-              title: 'Logout successfully',
-              customClass: {
-                confirmButton: 'btn btn-primary',
-              },
-              buttonsStyling: false,
-            })
-          })
-          .catch((e) => {
+
+          }).catch((error) => {
             this.$swal({
               icon: 'error',
-              title: e.response,
+              title: error.response,
               customClass: {
                 confirmButton: 'btn btn-primary',
               },
               buttonsStyling: false,
             })
-            this.$router.push({ name: 'login' })
+
           })
 
     },

@@ -62,32 +62,34 @@ export const Users = {
             })
         },
         destroyToken(context, payload) {
-            if (context.getters.loggedIn) {
 
-                return new Promise((resolve, reject) => {
-                    this._vm.$http.post('auth/users/logout', '')
-                        .then(response => {
-                            context.commit('destroyToken');
-                            context.commit('destroyUser');
 
-                            localStorage.removeItem('us_ri_td');
+            return new Promise((resolve, reject) => {
+                this._vm.$http.post(payload, '')
+                    .then(response => {
+                        context.commit('destroyToken');
+                        context.commit('destroyUser');
 
-                            delete this._vm.$http.defaults.headers.common['Authorization'];
+                        localStorage.removeItem('us_ri_td');
 
-                            resolve(response)
-                        })
-                        .catch(error => {
-                            /*context.commit('destroyToken');
-                            context.commit('destroyUser');
+                        delete this._vm.$http.defaults.headers.common['Authorization'];
+                        // console.log('ks')
+                        resolve(response)
+                    })
+                    .catch((err) => {
+                        reject(err)
+                    })
 
-                            localStorage.removeItem('us_ri_td');
+            })
 
-                            delete this._vm.$http.defaults.headers.common['Authorization'];*/
+        },
+        deleteSessionInfo({ commit }) {
+            commit('destroyToken');
+            commit('destroyUser');
 
-                            reject(error)
-                        })
-                })
-            }
+            localStorage.removeItem('us_ri_td');
+
+            delete this._vm.$http.defaults.headers.common['Authorization'];
         }
 
     }
