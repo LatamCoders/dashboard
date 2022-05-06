@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-row>
+    <b-row style="row-gap: 17px">
       <b-col
           lg="3"
           sm="6"
