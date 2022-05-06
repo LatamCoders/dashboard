@@ -51,7 +51,7 @@
           responsive
           primary-key="id"
           :items="listClients"
-          empty-text="Booked trips no found"
+          empty-text="Booked in progress no found"
           show-empty
           :fields="fields"
           :filter="searchQuery"

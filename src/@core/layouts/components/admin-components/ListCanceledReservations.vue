@@ -198,7 +198,7 @@ export default {
   },
   methods: {
     getClientes() {
-      this.$http.get(`admin/panel/booking/list?status=3`).then((response) => {
+      this.$http.get(`admin/panel/booking/list?status=4`).then((response) => {
         this.listClients = response.data.data;
         this.valortotal = this.listClients.length;
         this.totalUsers = this.valortotal;

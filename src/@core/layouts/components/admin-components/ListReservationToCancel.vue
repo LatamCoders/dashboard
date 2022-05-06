@@ -51,7 +51,7 @@
           responsive
           primary-key="id"
           :items="listClients"
-          empty-text="No matching records found"
+          empty-text="No reservations found"
           show-empty
           :fields="fields"
           :filter="searchQuery"
@@ -62,10 +62,9 @@
 
         <template #cell(name_selfpay)="{ item }">
           <span>
-             {{ item.self_pay.name }}
+               {{ item.self_pay.name + ' ' + item.self_pay.lastname }}
           </span>
         </template>
-
 
 
         <!-- Column: Actions -->
@@ -84,34 +83,33 @@
                   class="align-middle text-body"
               />
             </template>
-            <template style="padding: 0"  v-slot:activator="{ on, attrs }">
+            <template style="padding: 0" v-slot:activator="{ on, attrs }">
               <b-btn color="primary" v-bind="attrs" v-on="on" icon ripple>
               </b-btn>
             </template>
-            <b-list-group  style="padding: 2px; margin-bottom: 2px" dense rounded>
+            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
+
+              <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
+                <b-list-group-item class="font-weight-bold"
+                                   style="border: none; padding: 5px; color: #7367f0"
+                                   @click="sendConfirmation(item.id)"
+                >
+                  <feather-icon icon="FileTextIcon"/>
+                  Confirm
+                </b-list-group-item
+                >
+              </b-list-group-item>
+
+            </b-list-group>
+            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
               <router-link class="urlPagina"
-                           :to="{ name: 'details-assign-driver', params: { booking_id: item.booking_id, item: item } }"
+                           to="/"
               >
                 <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
                   <b-list-group-item class="font-weight-bold"
                                      style="border: none; padding: 5px"
                   >
                     <feather-icon icon="FileTextIcon"/>
-                    Details
-                  </b-list-group-item
-                  >
-                </b-list-group-item>
-              </router-link>
-            </b-list-group>
-            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
-              <router-link class="urlPagina"
-                           :to="{ name: 'details-driver-view' }"
-              >
-                <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
-                  <b-list-group-item class="font-weight-bold"
-                                     style="border: none; padding: 5px"
-                  >
-                    <feather-icon icon="TrashIcon"/>
                     Delete
                   </b-list-group-item
                   >
@@ -130,9 +128,9 @@
               sm="6"
               class="d-flex align-items-center justify-content-center justify-content-sm-start"
           >
-          <span class="text-muted">Showing {{ perPage }}  of {{
-              listClients.length
-            }} entries</span>
+            <span class="text-muted">Showing {{ perPage }}  of {{
+                listClients.length
+              }} entries</span>
           </b-col>
           <!-- Pagination -->
           <b-col
@@ -183,7 +181,9 @@ import vSelect from 'vue-select'
 
 // import UsersListFilters from './UsersListFilters.vue'
 import UserListAddNew from '@core/components/infoClients/UserListAddNew'
+
 export default {
+  name: 'ListReservationToCancel',
   components: {
     UserListAddNew,
     BCard,
@@ -207,25 +207,55 @@ export default {
     return {
       listClients: [],
       perPage: 5,
-      pageOptions: [3, 5, 10],
-      currentPage: 1 ,
+      currentPage: 1,
       totalUsers: 0,
       valortotal: 0,
       searchQuery: '',
-      fields: ['selfpay_id', 'name_selfpay' , 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime',  'city', 'actions'],
+      pageOptions: [3, 5, 10],
+      fields: ['name_selfpay', 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime', 'city', 'actions'],
     }
   },
   methods: {
     getClientes() {
-      this.$http.get(`admin/panel/booking/list?status=0`).then((response) => {
+      this.$http.get(`admin/panel/booking/list?status=1`).then((response) => {
         this.listClients = response.data.data;
-        // let nameSelfpay = this
+        this.valortotal = this.listClients.length;
+        this.totalUsers = this.valortotal;
+
       }).catch((res) => console.log(res.data))
     },
+    sendConfirmation(id) {
+      this.$swal({
+        title: 'Please, wait...',
+        didOpen: () => {
+          this.$swal.showLoading()
+        },
+      })
+      this.$http.post(`/admin/panel/booking/${id}/cancel`)
+          .then((response) => {
+            this.$swal({
+              title: response.data.data,
+              icon: 'success',
+              customClass: {
+                confirmButton: 'btn btn-primary',
+              },
+              buttonsStyling: false,
+            })
+          }).catch((error) => {
+        this.$swal({
+          title: 'Your reservation has already cancelled',
+          icon: 'error',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
+        })
+      })
+    }
 
   },
   computed: {
-    rows () {
+    rows() {
       return this.listClients.length
     }
   },
@@ -239,17 +269,22 @@ export default {
 .per-page-selector {
   width: 90px;
 }
+
 .urlPagina {
   text-decoration: none;
 }
+
 .urlPagina:hover {
   background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
   color: #fff;
+  cursor: pointer;
 }
 
 .list-group-item:hover {
   background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
   color: #fff !important;
+  cursor: pointer;
+
 }
 
 .urlPagina::before {

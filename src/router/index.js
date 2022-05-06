@@ -69,6 +69,9 @@ const router = new VueRouter({
                 pageTitle: 'Request service',
             },
         },
+
+        /************ INITIO TRIPS ****************/
+
         {
             path: '/trips',
             name: 'trips',
@@ -78,11 +81,11 @@ const router = new VueRouter({
             },
         },
         {
-            path: '/trips/booked-trips',
-            name: 'booked-trips',
+            path: '/trips/reservation-in-progress',
+            name: 'reservation-in-progress',
             component: () => import('@/views/Pages/admin/BookedTrips.vue'),
             meta: {
-                pageTitle: 'Booked Trips',
+                pageTitle: 'Reservation in progress',
             },
         },
         {
@@ -110,6 +113,26 @@ const router = new VueRouter({
                 pageTitle: 'Details reservation',
             },
         },
+        {
+            path: '/trips/reservation-to-cancel',
+            name: 'reservation-to-cancel',
+            component: () => import('@/views/Pages/admin/ReservationToCancel.vue'),
+            meta: {
+                pageTitle: 'Reservation to cancel',
+            },
+        },
+        {
+            path: '/trips/completed-trips',
+            name: 'completed-trips',
+            component: () => import('@/views/Pages/admin/ReservationCompleted.vue'),
+            meta: {
+                pageTitle: 'Reservation completed',
+            },
+        },
+
+        /******************** END RUTAS OF TRIPS       ************************/
+
+
         //Rutas para booking
 
         /*************** INITIO RUTA PARA BOOKING  *******************/

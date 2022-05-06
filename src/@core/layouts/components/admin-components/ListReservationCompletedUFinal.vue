@@ -51,21 +51,18 @@
           responsive
           primary-key="id"
           :items="listClients"
-          empty-text="No matching records found"
+          empty-text="No found reservation completed"
           show-empty
           :fields="fields"
           :filter="searchQuery"
           :perPage="perPage"
-          id="my-table"
-          :current-page="currentPage"
       >
 
         <template #cell(name_selfpay)="{ item }">
           <span>
-             {{ item.self_pay.name }}
+               {{ item.self_pay.name + ' ' + item.self_pay.lastname }}
           </span>
         </template>
-
 
 
         <!-- Column: Actions -->
@@ -84,28 +81,13 @@
                   class="align-middle text-body"
               />
             </template>
-            <template style="padding: 0"  v-slot:activator="{ on, attrs }">
+            <template style="padding: 0" v-slot:activator="{ on, attrs }">
               <b-btn color="primary" v-bind="attrs" v-on="on" icon ripple>
               </b-btn>
             </template>
-            <b-list-group  style="padding: 2px; margin-bottom: 2px" dense rounded>
-              <router-link class="urlPagina"
-                           :to="{ name: 'details-assign-driver', params: { booking_id: item.booking_id, item: item } }"
-              >
-                <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
-                  <b-list-group-item class="font-weight-bold"
-                                     style="border: none; padding: 5px"
-                  >
-                    <feather-icon icon="FileTextIcon"/>
-                    Details
-                  </b-list-group-item
-                  >
-                </b-list-group-item>
-              </router-link>
-            </b-list-group>
             <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
               <router-link class="urlPagina"
-                           :to="{ name: 'details-driver-view' }"
+                           to="/"
               >
                 <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
                   <b-list-group-item class="font-weight-bold"
@@ -130,9 +112,9 @@
               sm="6"
               class="d-flex align-items-center justify-content-center justify-content-sm-start"
           >
-          <span class="text-muted">Showing {{ perPage }}  of {{
-              listClients.length
-            }} entries</span>
+                       <span class="text-muted">Showing {{ perPage }}  of {{
+                           listClients.length
+                         }} entries</span>
           </b-col>
           <!-- Pagination -->
           <b-col
@@ -144,13 +126,12 @@
             <b-pagination
                 :per-page="perPage"
                 v-model="currentPage"
-                :total-rows="rows"
+                :total-rows="totalUsers"
                 first-number
                 last-number
                 class="mb-0 mt-1 mt-sm-0"
                 prev-class="prev-item"
                 next-class="next-item"
-                aria-controls="my-table"
             >
               <template #prev-text>
                 <feather-icon
@@ -181,11 +162,10 @@ import {
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 
-// import UsersListFilters from './UsersListFilters.vue'
-import UserListAddNew from '@core/components/infoClients/UserListAddNew'
+
 export default {
   components: {
-    UserListAddNew,
+
     BCard,
     BRow,
     BCol,
@@ -203,31 +183,29 @@ export default {
     BListGroupItem,
     vSelect,
   },
+  name: 'ListReservationCompletedUFinal',
   data() {
     return {
       listClients: [],
       perPage: 5,
       pageOptions: [3, 5, 10],
-      currentPage: 1 ,
+      currentPage: 1,
       totalUsers: 0,
       valortotal: 0,
       searchQuery: '',
-      fields: ['selfpay_id', 'name_selfpay' , 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime',  'city', 'actions'],
+      fields: ['name_selfpay', 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime', 'city', 'actions'],
     }
   },
   methods: {
     getClientes() {
-      this.$http.get(`admin/panel/booking/list?status=0`).then((response) => {
+      this.$http.get(`admin/panel/booking/list?status=3`).then((response) => {
         this.listClients = response.data.data;
-        // let nameSelfpay = this
+        this.valortotal = this.listClients.length;
+        this.totalUsers = this.valortotal;
+
       }).catch((res) => console.log(res.data))
     },
 
-  },
-  computed: {
-    rows () {
-      return this.listClients.length
-    }
   },
   mounted() {
     this.getClientes();
@@ -239,9 +217,11 @@ export default {
 .per-page-selector {
   width: 90px;
 }
+
 .urlPagina {
   text-decoration: none;
 }
+
 .urlPagina:hover {
   background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
   color: #fff;
