@@ -142,14 +142,24 @@ export default {
     validationForm() {
       this.$refs.simpleRules.validate().then(success => {
         if (success) {
-          this.$toast({
-            component: ToastificationContent,
-            props: {
-              title: 'Form Submitted',
-              icon: 'EditIcon',
-              variant: 'success',
+          this.$swal({
+            title: 'Please, wait...',
+            didOpen: () => {
+              this.$swal.showLoading()
             },
           })
+          this.$swal({
+            title: 'Código enviado',
+            icon: 'success',
+            customClass: {
+              confirmButton: 'btn btn-primary',
+            },
+            buttonsStyling: false,
+          })
+          this.$swal.close()
+          this.$router.push({ name: 'reset-password' })
+
+
         }
       })
     },

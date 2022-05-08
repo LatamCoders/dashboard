@@ -19,7 +19,6 @@
             <span class="d-none d-sm-inline">Account</span>
           </template>
           <user-profile-client-corporate-acount
-              :user-data="listClients"
               class="mt-2 pt-75"
           />
         </b-tab>
@@ -35,7 +34,6 @@
             <span class="d-none d-sm-inline">Information</span>
           </template>
           <user-edit-tab-information
-              :info-user="listClients.corporate_account_personal_info"
               class="mt-2 pt-75"/>
         </b-tab>
 
@@ -49,7 +47,8 @@
             />
             <span class="d-none d-sm-inline">Payment method</span>
           </template>
-          <user-edit-tab-social :info-payment="listClients.corporate_account_payment_method" class="mt-2 pt-75"/>
+          <user-edit-tab-social
+              class="mt-2 pt-75"/>
         </b-tab>
 
         <!-- Tab: Pacientes de la clínica -->
@@ -107,10 +106,22 @@ export default {
   },
   methods: {
     getInformationCorporate() {
+      this.$store.commit('Users/usersData', '')
+      this.$swal({
+        title: 'Please, wait...',
+        didOpen: () => {
+          this.$swal.showLoading()
+        },
+      })
       this.idCA = parseInt(this.$route.params.id);
       this.$http.get(`admin/panel/ca/${this.idCA}/info`).then((response) => {
         this.listClients = response.data.data;
-      }).catch((res) => console.log(res.data))
+        this.$store.commit('Users/usersData', this.listClients)
+        this.$swal.close();
+      }).catch((res) => {
+        this.$swal.close();
+        console.log(res.data)
+      })
     }
   },
   mounted() {

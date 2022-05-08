@@ -10,6 +10,7 @@ export const Users = {
     state: {
         token: null,
         user: {},
+        userAllData: {},
     },
     getters: {
         loggedIn(state) {
@@ -17,6 +18,9 @@ export const Users = {
         },
         userData(state) {
             return state.user
+        },
+        usersData(state) {
+            return state.userAllData
         },
         userToken(state) {
             return state.token
@@ -29,11 +33,15 @@ export const Users = {
         userData(state, data) {
             state.user = data
         },
+        usersData(state, data) {
+            state.userAllData = data
+        },
         destroyToken(state) {
             state.token = null
         },
         destroyUser(state) {
             state.user = {}
+            state.userAllData = {}
         }
     },
     actions: {
@@ -54,6 +62,7 @@ export const Users = {
                         // console.log(token)
                         context.commit('retrieveToken', token);
                         context.commit('userData', response.data.data);
+
                         resolve(response)
                     })
                     .catch(error => {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="userData !== ''">
 
     <!-- Media -->
     <b-media class="mb-2">
@@ -158,7 +158,6 @@
       </b-row>
     </b-form>
 
-
   </div>
 </template>
 
@@ -180,6 +179,7 @@ import {
 } from 'bootstrap-vue'
 
 import vSelect from 'vue-select'
+import {mapGetters} from 'vuex'
 
 export default {
   name: 'UserProfileClientCorporateAcount',
@@ -199,9 +199,9 @@ export default {
     BFormCheckbox,
     vSelect,
   },
-  props: {
-    userData: {},
-  },
+  // props: {
+  //   userData: {},
+  // },
   data() {
     return {
       inhabilitar: true,
@@ -224,12 +224,18 @@ export default {
       ],
     }
   },
+
+  computed: {
+    ...mapGetters({
+      userData: 'Users/usersData'
+    })
+  },
   methods: {
     ProfileName(name) {
       return name.charAt(0).toUpperCase() + name.charAt(1).toUpperCase();
     },
     aprobarCA() {
-      this.changeStatus.userId = this.userData.amera_user.id;
+      this.changeStatus.userId = this.$store.getters['Users/usersData'].amera_user.id;
       this.$http.post('admin/panel/users/change-user-status', this.changeStatus)
           .then((response) => {
             this.$swal({
@@ -253,8 +259,8 @@ export default {
           })
     }
   },
-  mounted() {
-    console.log(this.userData)
+  created() {
+
   }
 }
 </script>

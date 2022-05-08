@@ -26,7 +26,7 @@
               label="Telephone Number"
           >
             <b-form-input
-                v-model="infoUser.telephone_number"
+                v-model="infoUser.corporate_account_personal_info.telephone_number"
                 disabled
             />
           </b-form-group>
@@ -44,7 +44,7 @@
           >
             <b-form-input
 
-                v-model="infoUser.fax_number"
+                v-model="infoUser.corporate_account_personal_info.fax_number"
                 disabled
             />
           </b-form-group>
@@ -61,7 +61,7 @@
           >
             <b-form-input
                 disabled
-                v-model="infoUser.email"
+                v-model="infoUser.corporate_account_personal_info.email"
             />
           </b-form-group>
         </b-col>
@@ -76,7 +76,7 @@
               label="Website"
           >
             <b-form-input
-                v-model="infoUser.website"
+                v-model="infoUser.corporate_account_personal_info.website"
                 disabled
             />
           </b-form-group>
@@ -141,7 +141,7 @@
               label="Additional Contact Name"
           >
             <b-form-input
-                v-model="infoUser.additional_contact_name"
+                v-model="infoUser.corporate_account_personal_info.additional_contact_name"
                 disabled
             />
           </b-form-group>
@@ -157,7 +157,7 @@
               label="Additional Contact Number"
           >
             <b-form-input
-                v-model="infoUser.additional_contact_number"
+                v-model="infoUser.corporate_account_personal_info.additional_contact_number"
                 disabled
             />
           </b-form-group>
@@ -174,7 +174,7 @@
           >
             <b-form-input
                 id="city"
-                v-model="infoUser.additional_contact_email"
+                v-model="infoUser.corporate_account_personal_info.additional_contact_email"
                 disabled
             />
           </b-form-group>
@@ -208,21 +208,22 @@ import {
   BRow, BCol, BForm, BFormGroup, BFormInput, BFormRadioGroup, BFormCheckboxGroup, BButton,
 } from 'bootstrap-vue'
 import flatPickr from 'vue-flatpickr-component'
-import {ref} from '@vue/composition-api'
 import vSelect from 'vue-select'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
     BRow, BCol, BForm, BFormGroup, flatPickr, BFormInput, vSelect, BFormRadioGroup, BFormCheckboxGroup, BButton,
   },
-  props: {
-    infoUser: {},
+  data() {
+    return {
+    }
   },
-  setup() {
+  computed: {
+    ...mapGetters({
+      infoUser: 'Users/usersData'
+    })
   },
-  // mounted() {
-  //   console.log(this.infoUser)
-  // }
 }
 </script>
 

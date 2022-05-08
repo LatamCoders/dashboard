@@ -200,6 +200,7 @@
 import {
   BRow, BCol, BForm, BFormGroup, BFormInput, BButton, BInputGroup, BInputGroupPrepend,
 } from 'bootstrap-vue'
+import Stripe from 'stripe'
 
 export default {
   components: {
@@ -212,9 +213,9 @@ export default {
     BInputGroup,
     BInputGroupPrepend,
   },
-  props: {
-    infoPayment: {},
-  },
+  // props: {
+  //   infoPayment: {},
+  // },
   data() {
     return {
       aggPayment: false,
@@ -225,6 +226,7 @@ export default {
         type_of_cc: '',
         code_of_cc: '',
       },
+      infoPayment: {},
     }
   },
   methods: {
@@ -256,19 +258,36 @@ export default {
       this.paymentMethods.code_of_cc = ''
     },
     getCreditCard() {
-      // const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
-      //
-      // const card = await stripe.accounts.retrieveExternalAccount(
-      //     'acct_1032D82eZvKYlo2C',
-      //     'card_1Kvlqt2eZvKYlo2C60tjPHMQ'
-      // );
+        //let customerId = this.infoPayment.corporate_account_personal_info.stripe_customer_id;
+        //let id = this.infoPayment.corporate_account_payment_method.stripe_payment_method_id;
+        const stripe = require('stripe')('sk_test_51KOq3rBuZ3VJH17w8Fj9oqKFpa2A9HHcNgKE4EIWl4MJJBozUQiPLxzjGzZWVj9KstETP06Bq2S0lXNuiWuGaIuP00qWYYn1O8')
+        stripe.customers.retrieveSource(
+            'cus_Le6JczgVGkazQU',
+            'card_1Kwo6SBuZ3VJH17wjDxombxG'
+        ).then((res) => {
+          console.log(res.lastResponse)
+        })
+
+
+
     }
   },
   mounted() {
-    this.getCreditCard();
-  }
+    this.infoPayment = this.$store.getters['Users/usersData'];
+    this.getCreditCard()
+    // console.log(this.infoPayment)
+    // console.log(this.infoPayment.stripe_payment_method_id)
+    // let stripeToken = require('stripe')('sk_test_51KOq3rBuZ3VJH17w8Fj9oqKFpa2A9HHcNgKE4EIWl4MJJBozUQiPLxzjGzZWVj9KstETP06Bq2S0lXNuiWuGaIuP00qWYYn1O8')
+    // let card = stripe.customers.retrieveSource(
+    //     // stripeToken,
+    //     // this.infoPayment.stripe_payment_method_id
+    //     'card_1KwoN5BuZ3VJH17wPEdDpdNZ'
+    // )
+    // console.log(card)
+
+  },
   // mounted() {
-  //   console.log(this.infoPayment)
+  //   this.infoPayment = this.$store.getters['Users/usersData']
   // }
 }
 </script>
