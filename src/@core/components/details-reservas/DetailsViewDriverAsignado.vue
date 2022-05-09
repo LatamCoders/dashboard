@@ -119,20 +119,6 @@
           </b-form-group>
         </b-col>
 
-        <!-- Field: Email -->
-        <b-col
-            cols="12"
-            md="3"
-        >
-          <b-form-group
-              label="Address"
-          >
-            <b-form-input
-                v-model="dataProvider.driver.address"
-                disabled
-            />
-          </b-form-group>
-        </b-col>
       </b-row>
     </b-form>
   </div>

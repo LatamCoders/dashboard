@@ -25,7 +25,7 @@
                 label="Name on Credit Card"
             >
               <b-form-input
-                  v-model="infoPayment.name_on_cc"
+                  v-model="paymentMethods.name"
                   disabled
               />
             </b-form-group>
@@ -39,7 +39,7 @@
                 label="Card Number"
             >
               <b-form-input
-                  v-model="infoPayment.cc_number"
+                  v-model=" '********'+ paymentMethods.last4"
                   disabled
               />
             </b-form-group>
@@ -53,7 +53,7 @@
                 label="Type of credit card"
             >
               <b-form-input
-                  v-model="infoPayment.type_of_cc"
+                  v-model="paymentMethods.brand"
                   disabled
               />
             </b-form-group>
@@ -65,10 +65,10 @@
               lg="4"
           >
             <b-form-group
-                label="Code of cc"
+                label="Expiration date"
             >
               <b-form-input
-                  v-model="infoPayment.code_of_cc"
+                  v-model="paymentMethods.exp_month + ' / ' + paymentMethods.exp_year "
                   disabled
               />
             </b-form-group>
@@ -153,7 +153,7 @@
                 label="Type of credit card"
             >
               <b-form-input
-                  v-model="paymentMethods.type_of_cc"
+                  v-model="paymentMethods.brand"
               />
             </b-form-group>
           </b-col>
@@ -220,12 +220,7 @@ export default {
     return {
       aggPayment: false,
       reset: false,
-      paymentMethods: {
-        name_on_cc: '',
-        cc_number: '',
-        type_of_cc: '',
-        code_of_cc: '',
-      },
+      paymentMethods: {},
       infoPayment: {},
     }
   },
@@ -257,34 +252,25 @@ export default {
       this.paymentMethods.type_of_cc = ''
       this.paymentMethods.code_of_cc = ''
     },
-    getCreditCard() {
-        //let customerId = this.infoPayment.corporate_account_personal_info.stripe_customer_id;
-        //let id = this.infoPayment.corporate_account_payment_method.stripe_payment_method_id;
-        const stripe = require('stripe')('sk_test_51KOq3rBuZ3VJH17w8Fj9oqKFpa2A9HHcNgKE4EIWl4MJJBozUQiPLxzjGzZWVj9KstETP06Bq2S0lXNuiWuGaIuP00qWYYn1O8')
-        stripe.customers.retrieveSource(
-            'cus_Le6JczgVGkazQU',
-            'card_1Kwo6SBuZ3VJH17wjDxombxG'
-        ).then((res) => {
-          console.log(res.lastResponse)
+    getCard() {
+      this.$http.get(`admin/panel/ca/${this.$route.params.id}/paymentMethod`)
+          .then((response) => {
+            this.paymentMethods = response.data.data;
+          }).catch((error) => {
+        this.$swal({
+          title: error.data.message,
+          icon: 'error',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
         })
-
-
-
+      })
     }
   },
   mounted() {
     this.infoPayment = this.$store.getters['Users/usersData'];
-    this.getCreditCard()
-    // console.log(this.infoPayment)
-    // console.log(this.infoPayment.stripe_payment_method_id)
-    // let stripeToken = require('stripe')('sk_test_51KOq3rBuZ3VJH17w8Fj9oqKFpa2A9HHcNgKE4EIWl4MJJBozUQiPLxzjGzZWVj9KstETP06Bq2S0lXNuiWuGaIuP00qWYYn1O8')
-    // let card = stripe.customers.retrieveSource(
-    //     // stripeToken,
-    //     // this.infoPayment.stripe_payment_method_id
-    //     'card_1KwoN5BuZ3VJH17wPEdDpdNZ'
-    // )
-    // console.log(card)
-
+    this.getCard()
   },
   // mounted() {
   //   this.infoPayment = this.$store.getters['Users/usersData']

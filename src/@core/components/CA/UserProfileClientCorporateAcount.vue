@@ -111,19 +111,19 @@
       </b-row>
       <b-row>
         <!-- Field: Full Name -->
-<!--        <b-col-->
-<!--            cols="12"-->
-<!--            md="4"-->
-<!--        >-->
-<!--          <b-form-group-->
-<!--              label="Contract start Date"-->
-<!--          >-->
-<!--            <b-form-input-->
-<!--                v-model="userData.contract_start_date"-->
-<!--                disabled-->
-<!--            />-->
-<!--          </b-form-group>-->
-<!--        </b-col>-->
+        <!--        <b-col-->
+        <!--            cols="12"-->
+        <!--            md="4"-->
+        <!--        >-->
+        <!--          <b-form-group-->
+        <!--              label="Contract start Date"-->
+        <!--          >-->
+        <!--            <b-form-input-->
+        <!--                v-model="userData.contract_start_date"-->
+        <!--                disabled-->
+        <!--            />-->
+        <!--          </b-form-group>-->
+        <!--        </b-col>-->
 
         <!-- Field: Email -->
         <b-col
@@ -235,6 +235,12 @@ export default {
       return name.charAt(0).toUpperCase() + name.charAt(1).toUpperCase();
     },
     aprobarCA() {
+      this.$swal({
+        title: 'Please, wait...',
+        didOpen: () => {
+          this.$swal.showLoading()
+        },
+      })
       this.changeStatus.userId = this.$store.getters['Users/usersData'].amera_user.id;
       this.$http.post('admin/panel/users/change-user-status', this.changeStatus)
           .then((response) => {
@@ -249,7 +255,7 @@ export default {
           })
           .catch((error) => {
             this.$swal({
-              title: error.response.data.data,
+              title: error.data.message,
               icon: 'error',
               customClass: {
                 confirmButton: 'btn btn-primary',
@@ -257,10 +263,10 @@ export default {
               buttonsStyling: false,
             })
           })
-    }
+    },
+
   },
   created() {
-
   }
 }
 </script>

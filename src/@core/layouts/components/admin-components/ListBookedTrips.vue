@@ -92,6 +92,7 @@
                 <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
                   <b-list-group-item class="font-weight-bold"
                                      style="border: none; padding: 5px"
+                                     @click="deleteReservation(item.id)"
                   >
                     <feather-icon icon="TrashIcon"/>
                     Delete
@@ -205,6 +206,40 @@ export default {
 
       }).catch((res) => console.log(res.data))
     },
+    deleteReservation(id) {
+      this.$swal({
+        title: 'Please, wait...',
+        didOpen: () => {
+          this.$swal.showLoading()
+        },
+      })
+      this.$http.post(`/admin/panel/booking/${id}/delete`)
+          .then((res) => {
+            this.$swal({
+              title: res.data.message,
+              icon: 'success',
+              customClass: {
+                confirmButton: 'btn btn-primary',
+              },
+              buttonsStyling: false,
+            }).then((result) => {
+              if (result.isConfirmed) {
+                this.getClientes();
+              }
+            })
+
+          }).catch((error) => {
+        this.$swal({
+          title: error.response.data.data,
+          icon: 'error',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
+        })
+      })
+    }
+
 
   },
   mounted() {
@@ -219,16 +254,20 @@ export default {
 }
 .urlPagina {
   text-decoration: none;
+  color: #7367f0;
 }
 
 .urlPagina:hover {
   background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
   color: #fff;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
 .list-group-item:hover {
   background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
   color: #fff !important;
+  cursor: pointer;
 }
 
 .urlPagina::before {
