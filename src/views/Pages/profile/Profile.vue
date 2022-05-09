@@ -46,7 +46,7 @@
             <span class="d-none d-sm-inline">Information</span>
           </template>
           <user-edit-tab-information
-              :info-user="info.corporate_account.corporate_account_personal_info"
+              :info-ca="info.corporate_account.corporate_account_personal_info"
               class="mt-2 pt-75"/>
         </b-tab>
 
@@ -73,6 +73,7 @@ import {BRow, BCol, BCard, BImg, BButton, BFormGroup, BFormInput, BTabs, BTab, B
 import UserEditTabAccount from "@core/components/user/UserEditTabAccount";
 import UserEditTabInformation from "@core/components/user/UserEditTabInformation";
 import UserEditTabSocial from "@core/components/user/UserEditTabSocial";
+import {mapGetters} from "vuex";
 
 /* eslint-disable global-require */
 export default {

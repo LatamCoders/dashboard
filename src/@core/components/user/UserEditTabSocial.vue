@@ -253,19 +253,37 @@ export default {
       this.paymentMethods.code_of_cc = ''
     },
     getCard() {
-      this.$http.get(`admin/panel/ca/${this.$route.params.id}/paymentMethod`)
-          .then((response) => {
-            this.paymentMethods = response.data.data;
-          }).catch((error) => {
-        this.$swal({
-          title: error.data.message,
-          icon: 'error',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-          },
-          buttonsStyling: false,
+      if(this.$store.getters['Users/userData'].user.role.id === 1 || this.$store.getters['Users/userData'].user.role.id === 2) {
+        this.$http.get(`admin/panel/ca/${this.$route.params.id}/paymentMethod`)
+            .then((response) => {
+              this.paymentMethods = response.data.data;
+            }).catch((error) => {
+          this.$swal({
+            title: error.data.message,
+            icon: 'error',
+            customClass: {
+              confirmButton: 'btn btn-primary',
+            },
+            buttonsStyling: false,
+          })
         })
-      })
+      }else {
+        this.$http.get(`ca/${this.$store.getters['Users/userData'].user.corporate_account.id}/panel/paymentMethod`)
+            .then((response) => {
+              this.paymentMethods = response.data.data;
+              // console.log(this.paymentMethods)
+            }).catch((error) => {
+          this.$swal({
+            title: error.data.message,
+            icon: 'error',
+            customClass: {
+              confirmButton: 'btn btn-primary',
+            },
+            buttonsStyling: false,
+          })
+        })
+      }
+
     }
   },
   mounted() {
