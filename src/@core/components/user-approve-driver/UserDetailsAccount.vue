@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="userData !== ''">
 
     <!-- Media -->
     <b-media class="mb-2">
@@ -159,10 +159,8 @@ import {
   BCardTitle,
   BFormCheckbox,
 } from 'bootstrap-vue'
-import {avatarText} from '@core/utils/filter'
 import vSelect from 'vue-select'
-import {useInputImageRenderer} from '@core/comp-functions/forms/form-utils'
-import {ref} from '@vue/composition-api'
+import {mapGetters} from "vuex";
 // import useUsersList from '/src/@core/components/user/users-list/useUsersList'
 
 export default {
@@ -182,9 +180,6 @@ export default {
     BFormCheckbox,
     vSelect,
   },
-  props: {
-    userData: {},
-  },
   data() {
     return {
       src: '',
@@ -198,6 +193,11 @@ export default {
       //   address: '',
       // }
     }
+  },
+  computed: {
+    ...mapGetters({
+      userData: 'Users/usersData'
+    })
   },
   methods: {
     ProfileName(name) {

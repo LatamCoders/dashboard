@@ -1,6 +1,6 @@
 <template>
 
-  <div>
+  <div v-if="infoPayment !== ''">
     <!-- Table Container Card -->
     <b-card
         no-body
@@ -50,7 +50,7 @@
           class="position-relative"
           responsive
           primary-key="id"
-          :items="infoPayment"
+          :items="infoPayment.booking"
           empty-text="has no reservations"
           show-empty
           :fields="fields"
@@ -75,11 +75,11 @@
                   class="align-middle text-body"
               />
             </template>
-            <template style="padding: 0"  v-slot:activator="{ on, attrs }">
+            <template style="padding: 0" v-slot:activator="{ on, attrs }">
               <b-btn color="primary" v-bind="attrs" v-on="on" icon ripple>
               </b-btn>
             </template>
-            <b-list-group  style="padding: 2px; margin-bottom: 2px" dense rounded>
+            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
               <router-link class="urlPagina"
                            :to="{ name: 'details-reservation', params: { id: item.id } }"
               >
@@ -122,7 +122,7 @@
               class="d-flex align-items-center justify-content-center justify-content-sm-start"
           >
           <span class="text-muted">Showing {{ perPage }}  of {{
-              infoPayment.length
+              infoPayment.booking.length
             }} entries</span>
           </b-col>
           <!-- Pagination -->
@@ -173,6 +173,8 @@ import {
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 import UserListAddNew from '@core/components/infoClients/UserListAddNew'
+import {mapGetters} from "vuex";
+
 export default {
   name: 'ReservasAsignadasAlDriver',
   components: {
@@ -194,23 +196,30 @@ export default {
     BListGroupItem,
     vSelect,
   },
-  props: {
-    infoPayment: {},
-  },
-  data () {
+  data() {
     return {
       perPage: 5,
-      currentPage: 1 ,
+      currentPage: 1,
       totalUsers: 0,
       valortotal: 0,
       searchQuery: '',
       pageOptions: [3, 5, 10],
-      fields: ['selfpay_id', 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime',  'city', 'actions'],
+      fields: ['selfpay_id', 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime', 'city', 'actions'],
+    }
+  },
+  methods: {
+    getTravelDriver(){
+      this.$http.get(`ca/${this.$route.params.id}/panel/client/search`).then((response) => {
+        this.listClients = response.data.data;
+      }).catch((res) => console.log(res.data))
     }
   },
   computed: {
-    rows () {
-      return this.infoPayment.length
+    ...mapGetters({
+      infoPayment: 'Users/usersData'
+    }),
+    rows() {
+      return this.infoPayment.booking.length
     }
   },
 }

@@ -81,7 +81,7 @@
               <router-link class="urlPagina"
                            :to="{ name: 'details-corporate-account', params: { id: item.id } }"
               >
-                <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
+                <b-list-group-item style="padding: 0; border-radius: 5px" class="urlPagina" :ripple="false">
                   <b-list-group-item class="font-weight-bold"
                                      style="border: none; padding: 5px"
                   >
@@ -92,20 +92,17 @@
                 </b-list-group-item>
               </router-link>
             </b-list-group>
-            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
-              <router-link class="urlPagina"
-                           :to="{ name: 'details-provider', params: { id: item.id } }"
-              >
-                <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
-                  <b-list-group-item class="font-weight-bold"
-                                     style="border: none; padding: 5px"
-                  >
-                    <feather-icon icon="TrashIcon"/>
-                    Delete
-                  </b-list-group-item
-                  >
-                </b-list-group-item>
-              </router-link>
+            <b-list-group v-if="$store.getters['Users/userData'].user.role.id === 1" style="padding: 2px; margin-bottom: 2px" dense rounded>
+              <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
+                <b-list-group-item class="font-weight-bold"
+                                   style="border: none; padding: 5px"
+                                   @click="deleteCA(item.amera_user.id)"
+                >
+                  <feather-icon icon="TrashIcon"/>
+                  Delete
+                </b-list-group-item
+                >
+              </b-list-group-item>
             </b-list-group>
           </b-dropdown>
         </template>
@@ -199,10 +196,10 @@ export default {
     return {
       perPage: 5,
       pageOptions: [3, 5, 10],
-      currentPage: 1 ,
+      currentPage: 1,
       listClients: [],
       search: '',
-      fields: ['id', 'company_legal_name', 'dba', 'office_location_address', 'tin', 'billing_address',  'actions'],
+      fields: ['id', 'company_legal_name', 'dba', 'office_location_address', 'tin', 'billing_address', 'actions'],
     }
   },
   methods: {
@@ -210,10 +207,43 @@ export default {
       this.$http.get('/admin/panel/ca/list').then((response) => {
         this.listClients = response.data.data;
       }).catch((res) => console.log(res.data))
-    }
+    },
+    deleteCA(id) {
+      this.$swal({
+        title: 'Please, wait...',
+        didOpen: () => {
+          this.$swal.showLoading()
+        },
+      })
+      this.$http.post(`/admin/panel/ca/${id}/delete`)
+          .then((res) => {
+            this.$swal({
+              title: res.data.message,
+              icon: 'success',
+              customClass: {
+                confirmButton: 'btn btn-primary',
+              },
+              buttonsStyling: false,
+            }).then((result) => {
+              if (result.isConfirmed) {
+                this.getClientes();
+              }
+            })
+
+          }).catch((error) => {
+        this.$swal({
+          title: error.response.data.data,
+          icon: 'error',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
+        })
+      })
+    },
   },
   computed: {
-    rows () {
+    rows() {
       return this.listClients.length
     }
   },
@@ -227,18 +257,23 @@ export default {
 .per-page-selector {
   width: 90px;
 }
+
 .urlPagina {
   text-decoration: none;
+  color: #7367f0;
 }
 
 .urlPagina:hover {
   background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
   color: #fff;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
 .list-group-item:hover {
   background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
   color: #fff !important;
+  cursor: pointer;
 }
 
 .urlPagina::before {

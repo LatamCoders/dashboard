@@ -19,7 +19,6 @@
             <span class="d-none d-sm-inline">Account</span>
           </template>
           <user-details-account
-              :user-data="infoUser"
               class="mt-2 pt-75"
           />
         </b-tab>
@@ -35,7 +34,6 @@
             <span class="d-none d-sm-inline">Vehicle</span>
           </template>
           <user-details-vehicle-driver
-              :user-vehicle="infoUser"
               class="mt-2 pt-75"
           />
         </b-tab>
@@ -52,12 +50,11 @@
           </template>
           <user-details-driver-documents
               class="mt-2 pt-75"
-              :driver-documents="infoUser"
           />
         </b-tab>
 
         <!-- Tab: Reservas -->
-        <b-tab v-if="infoUser.booking !== null">
+        <b-tab >
           <template #title>
             <feather-icon
                 icon="TruckIcon"
@@ -109,9 +106,18 @@ export default {
   },
   methods: {
     getInformationDriver() {
+      this.$store.commit('Users/usersData', '')
+      this.$swal({
+        title: 'Please, wait...',
+        didOpen: () => {
+          this.$swal.showLoading()
+        },
+      })
       this.userId = parseInt(this.$route.params.id);
       this.$http.get(`admin/panel/driver/${this.userId}/info`).then((response) => {
         this.infoUser = response.data.data;
+        this.$store.commit('Users/usersData', this.infoUser)
+        this.$swal.close();
       }).catch((error) => {
         this.$swal({
           title: error.response.data.data,
@@ -130,8 +136,7 @@ export default {
   mounted() {
     this.getInformationDriver()
   },
-  created() {
-  },
+
 }
 /* eslint-disable global-require */
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="driverDocuments !== ''">
     <!-- Header: Personal Info -->
     <div class="d-flex">
       <feather-icon
@@ -67,6 +67,7 @@ import {
   BRow, BCol, BForm, BFormGroup, BFormInput, BButton, BInputGroup, BInputGroupPrepend, BImg,
 } from 'bootstrap-vue'
 import btnValidationDocsDriver from "@core/components/buttonsValidationDocsDriver/BtnValidationDocsDriver";
+import {mapGetters} from "vuex";
 
 export default {
   components: {
@@ -82,8 +83,10 @@ export default {
 
     btnValidationDocsDriver,
   },
-  props: {
-    driverDocuments: {},
+  computed:{
+    ...mapGetters({
+      driverDocuments: 'Users/usersData'
+    })
   },
   data() {
     return {

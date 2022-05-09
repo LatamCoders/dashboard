@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="infoUser !== ''">
 
     <!-- Header: Personal Info -->
     <div class="d-flex">

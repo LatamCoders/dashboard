@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="userVehicle !== ''">
 
     <!-- Header: Personal Info -->
     <div class="d-flex">
@@ -131,7 +131,8 @@
               :src="userVehicle.vehicle.vehicle_documents.vehicle_front_image"
           >
           </b-img>
-          <template v-if="userVehicle.vehicle.vehicle_documents.vehicle_front_image_verify_at === undefined  || userVehicle.vehicle.vehicle_documents.vehicle_front_image_verify_at === null"  >
+          <template
+              v-if="userVehicle.vehicle.vehicle_documents.vehicle_front_image_verify_at === undefined  || userVehicle.vehicle.vehicle_documents.vehicle_front_image_verify_at === null">
             <btn-validation-docs-driver
                 :nameVehicle="userVehicle.vehicle.vehicle_documents"
                 :idUserVehicle="userVehicle.id"
@@ -157,7 +158,8 @@
               style="border-radius: 5px; height: 318px;"
               :src="userVehicle.vehicle.vehicle_documents.vehicle_rear_image"
           ></b-img>
-          <template v-if="userVehicle.vehicle.vehicle_documents.vehicle_rear_image_verify_at === undefined || userVehicle.vehicle.vehicle_documents.vehicle_rear_image_verify_at === null"  >
+          <template
+              v-if="userVehicle.vehicle.vehicle_documents.vehicle_rear_image_verify_at === undefined || userVehicle.vehicle.vehicle_documents.vehicle_rear_image_verify_at === null">
             <btn-validation-docs-driver
                 :nameVehicle="userVehicle.vehicle.vehicle_documents"
                 :idUserVehicle="userVehicle.id"
@@ -181,7 +183,8 @@
               style="border-radius: 5px; height: 318px;"
               :src="userVehicle.vehicle.vehicle_documents.vehicle_side_image"
           ></b-img>
-          <template v-if="userVehicle.vehicle.vehicle_documents.vehicle_side_image_verify_at === undefined || userVehicle.vehicle.vehicle_documents.vehicle_side_image_verify_at === null"  >
+          <template
+              v-if="userVehicle.vehicle.vehicle_documents.vehicle_side_image_verify_at === undefined || userVehicle.vehicle.vehicle_documents.vehicle_side_image_verify_at === null">
             <btn-validation-docs-driver
                 :nameVehicle="userVehicle.vehicle.vehicle_documents"
                 :idUserVehicle="userVehicle.id"
@@ -206,7 +209,8 @@
               style="border-radius: 5px; height: 318px;"
               :src="userVehicle.vehicle.vehicle_documents.vehicle_interior_image"
           ></b-img>
-          <template v-if="userVehicle.vehicle.vehicle_documents.vehicle_interior_image_verify_at === undefined || userVehicle.vehicle.vehicle_documents.vehicle_interior_image_verify_at === null">
+          <template
+              v-if="userVehicle.vehicle.vehicle_documents.vehicle_interior_image_verify_at === undefined || userVehicle.vehicle.vehicle_documents.vehicle_interior_image_verify_at === null">
             <btn-validation-docs-driver
                 :nameVehicle="userVehicle.vehicle.vehicle_documents"
                 :idUserVehicle="userVehicle.id"
@@ -217,23 +221,23 @@
 
       </b-row>
 
-<!--      <b-row class="mt-2">-->
-<!--        <b-col>-->
-<!--          <b-button-->
-<!--              variant="primary"-->
-<!--              class="mb-1 mb-sm-0 mr-0 mr-sm-1"-->
-<!--              :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
-<!--          >-->
-<!--            Save Changes-->
-<!--          </b-button>-->
-<!--          <b-button-->
-<!--              variant="outline-secondary"-->
-<!--              :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
-<!--          >-->
-<!--            Reset-->
-<!--          </b-button>-->
-<!--        </b-col>-->
-<!--      </b-row>-->
+      <!--      <b-row class="mt-2">-->
+      <!--        <b-col>-->
+      <!--          <b-button-->
+      <!--              variant="primary"-->
+      <!--              class="mb-1 mb-sm-0 mr-0 mr-sm-1"-->
+      <!--              :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
+      <!--          >-->
+      <!--            Save Changes-->
+      <!--          </b-button>-->
+      <!--          <b-button-->
+      <!--              variant="outline-secondary"-->
+      <!--              :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
+      <!--          >-->
+      <!--            Reset-->
+      <!--          </b-button>-->
+      <!--        </b-col>-->
+      <!--      </b-row>-->
     </b-form>
   </div>
 </template>
@@ -245,21 +249,27 @@ import {
 import flatPickr from 'vue-flatpickr-component'
 import vSelect from 'vue-select'
 import BtnValidationDocsDriver from "@core/components/buttonsValidationDocsDriver/BtnValidationDocsDriver";
+import {mapGetters} from "vuex";
+
 export default {
   components: {
-    BRow, BCol, BForm, BFormGroup, flatPickr, BFormInput, vSelect, BFormRadioGroup, BFormCheckboxGroup, BButton, BImg, BtnValidationDocsDriver,
+    BRow,
+    BCol,
+    BForm,
+    BFormGroup,
+    flatPickr,
+    BFormInput,
+    vSelect,
+    BFormRadioGroup,
+    BFormCheckboxGroup,
+    BButton,
+    BImg,
+    BtnValidationDocsDriver,
   },
-  props: {
-    userVehicle: {
-      // vehicle: {
-      //   model: '',
-      //   color: '',
-      //   year: '',
-      //   plate_number: '',
-      //   vin_number: '',
-      // }
-
-    },
+  computed: {
+    ...mapGetters({
+      userVehicle: 'Users/usersData'
+    })
   },
   data() {
     return {
@@ -287,14 +297,17 @@ export default {
     border-radius: 18px;
     left: 260px;
   }
+
   .btnCheck {
     @extend .btnAllDocuments;
     top: 176px;
   }
+
   .btnCancel {
     @extend .btnAllDocuments;
     top: 135px;
   }
+
   .btnDownload {
     @extend .btnAllDocuments;
     //background-color: #07ff00 !important;
