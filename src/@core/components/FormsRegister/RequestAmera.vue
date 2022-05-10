@@ -283,7 +283,7 @@
                   label="Pickup address"
               >
 
-                <gmap-autocomplete class="form-control"  @place_changed="initMarkerTo">
+                <gmap-autocomplete class="form-control" @place_changed="initMarkerTo">
                 </gmap-autocomplete>
                 <!--                  <b-form-input-->
                 <!--                      v-model="dataCa.to"-->
@@ -312,7 +312,7 @@
               <b-form-group
                   label="Destination"
               >
-                <gmap-autocomplete class="form-control"  @place_changed="initMarkerFrom">
+                <gmap-autocomplete class="form-control" @place_changed="initMarkerFrom">
                 </gmap-autocomplete>
                 <!--                <b-form-input-->
                 <!--                    id="autocompletar"-->
@@ -369,9 +369,9 @@
 </template>
 
 <script>
-import { FormWizard, TabContent } from 'vue-form-wizard'
+import {FormWizard, TabContent} from 'vue-form-wizard'
 import vSelect from 'vue-select'
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import {ValidationProvider, ValidationObserver} from 'vee-validate'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import {
@@ -470,9 +470,9 @@ export default {
       selectedContry: 'select_value',
       selectedLanguage: 'nothing_selected',
       option: [
-        { title: 'Wait and return' },
-        { title: 'Pharmacy stop' },
-        { title: 'Additional stop' },
+        {title: 'Wait and return'},
+        {title: 'Pharmacy stop'},
+        {title: 'Additional stop'},
       ],
       optionscirujia: [
         {
@@ -580,7 +580,7 @@ export default {
       this.existingPlace = loc
       this.dataCa.to = this.existingPlace.formatted_address
       // this.dataCa.to_coordinates = this.existingPlace.geometry.viewport.wb.h + ',' + this.existingPlace.geometry.viewport.Sa.h
-      this.dataCa.to_coordinates = this.existingPlace.geometry.location.lng + ',' + this.existingPlace.geometry.location.lat;
+      this.dataCa.to_coordinates = this.existingPlace.geometry.location.lat() + ',' + this.existingPlace.geometry.location.lng();
 
       console.log(this.dataCa.to)
       console.log(this.dataCa.to_coordinates)
@@ -588,7 +588,7 @@ export default {
     initMarkerFrom(loc) {
       this.existingPlace = loc
       this.dataCa.from = this.existingPlace.formatted_address
-      this.dataCa.from_coordinates = this.existingPlace.geometry.location.lng + ',' + this.existingPlace.geometry.location.lat;
+      this.dataCa.from_coordinates = this.existingPlace.geometry.location.lat() + ',' + this.existingPlace.geometry.location.lng();
       console.log(this.dataCa.from)
       console.log(this.dataCa.from_coordinates)
     },
@@ -598,7 +598,7 @@ export default {
           lat: this.existingPlace.geometry.location.lat(),
           lng: this.existingPlace.geometry.location.lng()
         }
-        this.locationMarkers.push({ position: marker })
+        this.locationMarkers.push({position: marker})
         this.locPlaces.push(this.existingPlace)
         this.center = marker
         this.existingPlace = null
@@ -624,8 +624,18 @@ export default {
       this.dataCa.booking_date = this.fecha + ' ' + this.tiempo
       this.dataCa.appoinment_datetime = this.appointmentdate + ' ' + this.appointmenttime
       // this.addLocationMarker();
-
       console.log(this.dataCa)
+
+
+      this.$http.get(`https://maps.googleapis.com/maps/api/directions/json?destination=${this.dataCa.to_coordinates}&origin=${this.dataCa.from_coordinates}&key=AIzaSyC1dIJmjEeVHml0mLlTmYeVqQBKCeNcNBw&units=imperial`)
+          .then((res) => {
+            let infoAPI = res.data;
+            console.log(infoAPI)
+          }).catch((error) => {
+        console.log(error)
+      })
+
+
       this.$http.post('ca/panel/booking/add?clientType=reservationCode', this.dataCa)
           .then((response) => {
             if (response.data.status === 200) {
@@ -698,9 +708,9 @@ export default {
       console.log(this.valornumerico)
     },
     idpaciente() {
-      for (let getvalor of this.lispatient){
+      for (let getvalor of this.lispatient) {
         this.getInfoPat = getvalor;
-        if (parseInt(this.idpaciente) === this.getInfoPat.id){
+        if (parseInt(this.idpaciente) === this.getInfoPat.id) {
           let todos = [];
           todos = this.getInfoPat
           this.lastnombre = todos.lastname;
@@ -723,7 +733,7 @@ export default {
         .then((res) => {
           if (res.data.message) {
             this.lispatient = res.data.data
-            console.log(this.lispatient)
+            // console.log(this.lispatient)
           }
         })
 

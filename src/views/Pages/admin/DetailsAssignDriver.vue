@@ -372,6 +372,7 @@
 import {FormWizard, TabContent} from 'vue-form-wizard'
 import vSelect from 'vue-select'
 
+
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import {
@@ -477,6 +478,15 @@ export default {
           if (result.isConfirmed) {
            this.$router.push({name: 'assign-driver'})
           }
+        })
+      }else if(this.idDriver === ''){
+        this.$swal({
+          title: 'Select a driver to continue',
+          icon: 'error',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
         })
       }else {
         this.$swal({

@@ -4,7 +4,7 @@
 
       <!-- Brand logo-->
       <b-link class="brand-logo">
-        <vuexy-logo />
+        <vuexy-logo/>
       </b-link>
       <!-- /Brand logo-->
 
@@ -41,7 +41,7 @@
             Forgot Password? 🔒
           </b-card-title>
           <b-card-text class="mb-2">
-            Enter your email and we'll send you instructions to reset your password
+            Enter your email and your new password
           </b-card-text>
 
           <!-- form -->
@@ -61,10 +61,29 @@
                 >
                   <b-form-input
                       id="forgot-password-email"
-                      v-model="userEmail"
+                      v-model="forgotPass.userEmail"
                       :state="errors.length > 0 ? false:null"
                       name="forgot-password-email"
                       placeholder="john@example.com"
+                  />
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+              <b-form-group
+                  label="Password"
+                  label-for="forgot-password"
+              >
+                <validation-provider
+                    #default="{ errors }"
+                    name="Password"
+                    rules="required"
+                >
+                  <b-form-input
+                      id="forgot-password"
+                      v-model="forgotPass.userPassword"
+                      :state="errors.length > 0 ? false:null"
+                      name="forgot-password"
+                      placeholder="*********"
                   />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
@@ -82,7 +101,8 @@
 
           <p class="text-center mt-2">
             <b-link :to="{name:'login'}">
-              <feather-icon icon="ChevronLeftIcon" /> Back to login
+              <feather-icon icon="ChevronLeftIcon"/>
+              Back to login
             </b-link>
           </p>
         </b-col>
@@ -94,12 +114,12 @@
 
 <script>
 /* eslint-disable global-require */
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import {ValidationProvider, ValidationObserver} from 'vee-validate'
 import VuexyLogo from '@core/layouts/components/Logo.vue'
 import {
   BRow, BCol, BLink, BCardTitle, BCardText, BImg, BForm, BFormGroup, BFormInput, BButton,
 } from 'bootstrap-vue'
-import { required, email } from '@validations'
+import {required, email} from '@validations'
 import store from '@/store/index'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
@@ -121,7 +141,10 @@ export default {
   },
   data() {
     return {
-      userEmail: '',
+      forgotPass: {
+        userEmail: '',
+        userPassword: '',
+      },
       sideImg: require('@/assets/images/pages/forgot-password-v2.svg'),
       // validation
       required,
@@ -148,18 +171,27 @@ export default {
               this.$swal.showLoading()
             },
           })
-          this.$swal({
-            title: 'Código enviado',
-            icon: 'success',
-            customClass: {
-              confirmButton: 'btn btn-primary',
-            },
-            buttonsStyling: false,
+          this.$http.post(`/auth/users/recoverPassword/changePassword`, this.forgotPass)
+              .then((response) => {
+                this.$swal({
+                  title: response.data.message,
+                  icon: 'success',
+                  customClass: {
+                    confirmButton: 'btn btn-primary',
+                  },
+                  buttonsStyling: false,
+                })
+                this.$router.push({name: 'login'})
+              }).catch((error) => {
+            this.$swal({
+              title: error.data.message,
+              icon: 'error',
+              customClass: {
+                confirmButton: 'btn btn-primary',
+              },
+              buttonsStyling: false,
+            })
           })
-          this.$swal.close()
-          this.$router.push({ name: 'reset-password' })
-
-
         }
       })
     },
