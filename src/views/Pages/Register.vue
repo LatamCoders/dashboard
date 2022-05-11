@@ -1053,7 +1053,7 @@ export default {
           })
           .catch((error) => {
             this.$swal({
-              title: error,
+              title: 'This user already exists',
               icon: 'error',
               customClass: {
                 confirmButton: 'btn btn-primary',

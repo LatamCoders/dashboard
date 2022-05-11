@@ -289,14 +289,6 @@ const router = new VueRouter({
             },
         },
         {
-            path: '/reset-password',
-            name: 'reset-password',
-            component: () => import('@/views/Pages/ResetPassword-v2.vue'),
-            meta: {
-                layout: 'full',
-            },
-        },
-        {
             path: '/register-acount-corporative',
             name: 'register-corporative',
             component: () => import('@/views/Pages/RegisterCorporateAcount.vue'),

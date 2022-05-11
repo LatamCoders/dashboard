@@ -27,6 +27,7 @@
       <b-col
           lg="4"
           class="d-flex align-items-center auth-bg px-2 p-lg-5"
+          v-if="secondForms === false"
       >
         <b-col
             sm="8"
@@ -61,7 +62,7 @@
                 >
                   <b-form-input
                       id="forgot-password-email"
-                      v-model="forgotPass.userEmail"
+                      v-model="forgot.email"
                       :state="errors.length > 0 ? false:null"
                       name="forgot-password-email"
                       placeholder="john@example.com"
@@ -69,26 +70,6 @@
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
-              <b-form-group
-                  label="Password"
-                  label-for="forgot-password"
-              >
-                <validation-provider
-                    #default="{ errors }"
-                    name="Password"
-                    rules="required"
-                >
-                  <b-form-input
-                      id="forgot-password"
-                      v-model="forgotPass.userPassword"
-                      :state="errors.length > 0 ? false:null"
-                      name="forgot-password"
-                      placeholder="*********"
-                  />
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
-              </b-form-group>
-
               <b-button
                   type="submit"
                   variant="primary"
@@ -107,8 +88,15 @@
           </p>
         </b-col>
       </b-col>
+
+      <template v-if="secondForms === true">
+        <code-verification/>
+      </template>
       <!-- /Forgot password-->
+
+
     </b-row>
+
   </div>
 </template>
 
@@ -122,6 +110,7 @@ import {
 import {required, email} from '@validations'
 import store from '@/store/index'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import codeVerification from "@core/layouts/components/requestPassword/CodeVerification";
 
 export default {
   components: {
@@ -138,13 +127,15 @@ export default {
     BCardText,
     ValidationProvider,
     ValidationObserver,
+    codeVerification,
   },
   data() {
     return {
-      forgotPass: {
-        userEmail: '',
-        userPassword: '',
+      forgot: {
+        email: '',
       },
+      secondForms: false,
+
       sideImg: require('@/assets/images/pages/forgot-password-v2.svg'),
       // validation
       required,
@@ -171,7 +162,7 @@ export default {
               this.$swal.showLoading()
             },
           })
-          this.$http.post(`/auth/users/recoverPassword/changePassword`, this.forgotPass)
+          this.$http.post(`/auth/users/recoverPassword/sendCode`, this.forgot)
               .then((response) => {
                 this.$swal({
                   title: response.data.message,
@@ -181,10 +172,12 @@ export default {
                   },
                   buttonsStyling: false,
                 })
-                this.$router.push({name: 'login'})
+                this.$store.commit('Users/userData', this.forgot)
+                this.secondForms = true;
+
               }).catch((error) => {
             this.$swal({
-              title: error.data.message,
+              title: error.response.data.data,
               icon: 'error',
               customClass: {
                 confirmButton: 'btn btn-primary',
