@@ -244,7 +244,7 @@ export default {
               this.formCode = true;
             }).catch((error) => {
           this.$swal({
-            title: error,
+            title: error.response.data.data,
             icon: 'error',
             customClass: {
               confirmButton: 'btn btn-primary',
@@ -269,12 +269,53 @@ export default {
 }
 
 .inputOtp {
-  width: 70px !important;
+  width: 92% !important;
   height: 59px !important;
 }
 
 input[type="text"] {
   text-align: center;
   font-size: 3em;
+}
+
+@media screen and (min-width: 425px) and (max-width: 768px) {
+  .inputOtp {
+    height: 59px !important;
+  }
+  .groupOtp {
+    gap: 19px !important;
+  }
+  input[type="text"] {
+   padding: 0;
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 424px) {
+  .inputOtp {
+    height: 39px !important;
+  }
+  .groupOtp {
+    gap: 19px !important;
+  }
+  input[type="text"] {
+    text-align: center;
+    font-size: 1.5rem;
+    padding: 0;
+  }
+
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1440px){
+  .inputOtp {
+    height: 37px !important;
+  }
+  .groupOtp {
+    gap: 6px !important;
+  }
+  input[type="text"] {
+    text-align: center;
+    font-size: 1em;
+    padding: 0;
+  }
 }
 </style>
