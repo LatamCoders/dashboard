@@ -128,7 +128,26 @@ export default {
               buttonsStyling: false,
             }).then((result) => {
               if (result.isConfirmed) {
-                location. reload()
+                this.$swal({
+                  title: 'Please, wait...',
+                  didOpen: () => {
+                    this.$swal.showLoading()
+                  },
+                })
+                this.$http.get(`admin/panel/driver/${ this.$store.getters['Users/usersData'].driver_documents.id }/info`).then((response) => {
+                  // this.infoUser = response.data.data;
+                  this.$store.commit('Users/usersData', response.data.data)
+                  this.$swal.close();
+                }).catch((error) => {
+                  this.$swal({
+                    title: error.response.data.message,
+                    icon: 'error',
+                    customClass: {
+                      confirmButton: 'btn btn-primary',
+                    },
+                    buttonsStyling: false,
+                  })
+                })
               }
             })
 
