@@ -29,6 +29,9 @@ const router = new VueRouter({
 
             },
         },
+
+        /***************** INITIO  OPTIONS CORPORATE ACCOUNTS       **********************/
+
         {
             path: '/home-corporate-account',
             name: 'home-corporate-account',
@@ -51,6 +54,8 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/ListPacientes.vue'),
             meta: {
                 pageTitle: 'Patient List',
+                requiresAuth: true,
+                permission: '3'
             },
         },
         {
@@ -59,6 +64,8 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/CreatePatient.vue'),
             meta: {
                 pageTitle: 'Create patient',
+                requiresAuth: true,
+                permission: '3'
             },
         },
         {
@@ -67,8 +74,11 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/RequestService.vue'),
             meta: {
                 pageTitle: 'Request service',
+                requiresAuth: true,
+                permission: '3'
             },
         },
+        /***************** END OPTIONS CORPORATE ACCOUNTS  *******************/
 
         /************ INITIO TRIPS ****************/
 
@@ -78,6 +88,8 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/admin/Trips.vue'),
             meta: {
                 pageTitle: 'Trips',
+                requiresAuth: true,
+                permission: '1 && 2'
             },
         },
         {
@@ -86,6 +98,8 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/admin/BookedTrips.vue'),
             meta: {
                 pageTitle: 'Reservation in progress',
+                requiresAuth: true,
+                permission: '1 && 2'
             },
         },
         {
@@ -94,6 +108,8 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/admin/CanceledReservations.vue'),
             meta: {
                 pageTitle: 'Canceled reservations',
+                requiresAuth: true,
+                permission: '1 && 2'
             },
         },
         {
@@ -102,6 +118,8 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/admin/ReservationToAccept.vue'),
             meta: {
                 pageTitle: 'Reservation to accepted',
+                requiresAuth: true,
+                permission: '1 && 2'
             },
         },
         {
@@ -111,6 +129,8 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/admin/DetailsReservation.vue'),
             meta: {
                 pageTitle: 'Details reservation',
+                requiresAuth: true,
+                permission: '1 && 2'
             },
         },
         {
@@ -119,6 +139,8 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/admin/ReservationToCancel.vue'),
             meta: {
                 pageTitle: 'Reservation to cancel',
+                requiresAuth: true,
+                permission: '1 && 2'
             },
         },
         {
@@ -127,6 +149,8 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/admin/ReservationCompleted.vue'),
             meta: {
                 pageTitle: 'Reservation completed',
+                requiresAuth: true,
+                permission: '1 && 2'
             },
         },
 
@@ -142,6 +166,8 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/admin/BookingAndTracking.vue'),
             meta: {
                 pageTitle: 'Booking and Tracking',
+                requiresAuth: true,
+                permission: '1 && 2'
             },
         },
         {
@@ -150,6 +176,8 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/admin/ApproveDrivers.vue'),
             meta: {
                 pageTitle: 'Approve drivers',
+                requiresAuth: true,
+                permission: '1 && 2'
             },
         },
         {
@@ -158,6 +186,8 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/admin/AssignDriver.vue'),
             meta: {
                 pageTitle: 'Assign driver',
+                requiresAuth: true,
+                permission: '1 && 2'
             },
         },
         {
@@ -167,6 +197,8 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/admin/DetailsAssignDriver.vue'),
             meta: {
                 pageTitle: 'Details assign driver',
+                requiresAuth: true,
+                permission: '1 && 2'
             },
         },
         {
@@ -176,6 +208,8 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/admin/DetailsDriver.vue'),
             meta: {
                 pageTitle: 'Details driver',
+                requiresAuth: true,
+                permission: '1 && 2'
             },
         },
         {
@@ -185,6 +219,8 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/BookingCA.vue'),
             meta: {
                 pageTitle: 'List bookings',
+                requiresAuth: true,
+                permission: '3'
             },
         },
 
@@ -200,6 +236,8 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/admin/Drivers.vue'),
             meta: {
                 pageTitle: 'Drivers',
+                requiresAuth: true,
+                permission: '1 && 2'
             },
         },
         {
@@ -209,6 +247,8 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/admin/CMA.vue'),
             meta: {
                 pageTitle: 'CMA',
+                requiresAuth: true,
+                permission: '1 && 2'
             },
         },
         {
@@ -218,6 +258,8 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/admin/Providers.vue'),
             meta: {
                 pageTitle: 'Providers',
+                requiresAuth: true,
+                permission: '1 && 2'
             },
         },
         {
@@ -227,6 +269,8 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/admin/DetailsProviders.vue'),
             meta: {
                 pageTitle: 'Details provider',
+                requiresAuth: true,
+                permission: '1 && 2'
             },
         },
         /*************** END RUTA PARA CLIENTE PROVEEDOR   *******************/
@@ -238,6 +282,8 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/admin/Clients.vue'),
             meta: {
                 pageTitle: 'Corporate accounts',
+                requiresAuth: true,
+                permission: '1 && 2'
             },
         },
         {
@@ -247,6 +293,8 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/admin/DetailsClientsCorporateAccount.vue'),
             meta: {
                 pageTitle: 'Details corporate account',
+                requiresAuth: true,
+                permission: '1 && 2'
             },
         },
         /*************** END RUTA PARA CLIENT CORPORATE ACCOUNT   *******************/
@@ -258,6 +306,8 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/admin/Reports.vue'),
             meta: {
                 pageTitle: 'Reports',
+                requiresAuth: true,
+                permission: '1 && 2'
             },
         },
 
@@ -276,6 +326,8 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/superadmin/CreateAdmin.vue'),
             meta: {
                 pageTitle: 'Create admin',
+                requiresAuth: true,
+                permission: '1'
             },
         },
 
@@ -288,26 +340,23 @@ const router = new VueRouter({
                 layout: 'full',
             },
         },
-        {
-            path: '/register-acount-corporative',
-            name: 'register-corporative',
-            component: () => import('@/views/Pages/RegisterCorporateAcount.vue'),
-            meta: {
-                layout: 'full',
-            },
-        },
-
 
         {
             path: '/profile',
             name: 'profile',
             component: () => import('@/views/Pages/profile/Profile.vue'),
+            meta: {
+                requiresAuth: true,
+            },
         },
         {
             path: '/profile/:client_id',
             name: 'profile-patient',
             props: true,
             component: () => import('@/views/Pages/profile/ProfilePatient.vue'),
+            meta: {
+                requiresAuth: true,
+            },
         },
 
         /******************   Billings       ****************************/
@@ -316,6 +365,9 @@ const router = new VueRouter({
             path: '/billing',
             name: 'billing',
             component: () => import('@/views/Pages/Billing.vue'),
+            meta: {
+                requiresAuth: true,
+            },
         },
         {
             path: '/billing/payments-made',
@@ -323,6 +375,7 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/Billings/PaymentsMade.vue'),
             meta: {
                 pageTitle: 'Payments made',
+                requiresAuth: true,
             },
         },
         {
@@ -331,6 +384,7 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/Billings/PaymentsToBeMade.vue'),
             meta: {
                 pageTitle: 'Payments To Be Made',
+                requiresAuth: true,
             },
         },
         {
@@ -339,6 +393,7 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/Billings/RefusedPayments.vue'),
             meta: {
                 pageTitle: 'Refused payments',
+                requiresAuth: true,
             },
         },
         {
@@ -347,6 +402,7 @@ const router = new VueRouter({
             component: () => import('@/views/Pages/Billings/Payments.vue'),
             meta: {
                 pageTitle: 'Payment',
+                requiresAuth: true,
             },
         },
 

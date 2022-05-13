@@ -92,7 +92,8 @@
                 </b-list-group-item>
               </router-link>
             </b-list-group>
-            <b-list-group v-if="$store.getters['Users/userData'].user.role.id === 1" style="padding: 2px; margin-bottom: 2px" dense rounded>
+            <b-list-group v-if="$store.getters['Users/userData'].user.role.id === 1"
+                          style="padding: 2px; margin-bottom: 2px" dense rounded>
               <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
                 <b-list-group-item class="font-weight-bold"
                                    style="border: none; padding: 5px"
@@ -199,7 +200,37 @@ export default {
       currentPage: 1,
       listClients: [],
       search: '',
-      fields: ['id', 'company_legal_name', 'dba', 'office_location_address', 'tin', 'billing_address', 'actions'],
+      fields: [
+        {
+          key: 'id',
+          sortable: true
+        },
+        {
+          key: 'company_legal_name',
+           sortable: true
+        },
+        {
+          key: 'dba',
+           sortable: true
+        },
+        {
+          key: 'office_location_address',
+           sortable: true
+        },
+        {
+          key: 'tin',
+           sortable: true
+        },
+        {
+          key: 'billing_address',
+
+        },
+        {
+          key: 'actions'
+        },
+
+
+      ],
     }
   },
   methods: {

@@ -22,12 +22,20 @@ export default [
   {
     title: 'Assign role',
     route: '/',
-    icon: 'UserCheckIcon'
+    icon: 'UserCheckIcon',
+    meta: {
+      requiresAuth: true,
+      permission: '2'
+    },
   },
   {
     title: 'Create admin',
     route: 'create-admin',
-    icon: 'UserPlusIcon'
+    icon: 'UserPlusIcon',
+    meta: {
+      requiresAuth: true,
+      permission: '2'
+    },
   },
   {
     title: 'Consult clients',
@@ -47,12 +55,20 @@ export default [
         route: '/',
       },
     ],
+    meta: {
+      requiresAuth: true,
+      permission: '1 && 2'
+    },
   },
 
   {
     title: 'Reports',
     route: '/',
     icon: 'CalendarIcon',
+    meta: {
+      requiresAuth: true,
+      permission: '2'
+    },
   },
   {
     title: 'Support',
@@ -64,15 +80,27 @@ export default [
         route: '/',
       },
     ],
+    meta: {
+      requiresAuth: true,
+      permission: '2'
+    },
   },
   {
     title: 'Billing',
     route: 'billing',
     icon: 'CreditCardIcon',
+    meta: {
+      requiresAuth: true,
+      permission: '2'
+    },
   },
   {
     title: 'Profile',
     route: 'profile',
     icon: 'UserIcon',
+    meta: {
+      requiresAuth: true,
+      permission: '2'
+    },
   },
 ]

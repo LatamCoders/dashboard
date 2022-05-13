@@ -72,7 +72,7 @@
       />
       <vertical-nav-menu-items
           v-if="this.$store.getters['Users/userData'].user.role.id === 1"
-          :items="navMenuItemsSuper"
+          :items="navMenuItemsSuper.filter(value => value.meta.permission === '2')"
           class="navigation navigation-main"
       />
       <div style="position: absolute;top: 85%;margin-left: 16px;" v-if="this.$store.getters['Users/userData'].user.role.id === 3">
@@ -133,18 +133,6 @@ export default {
 
     const {skin} = useAppConfig()
 
-    let menuit = ref();
-
-    function itemMenu (){
-      menuit = navMenuItems.filter(permiso => permiso === this.$store.getters['Users/userData'].user.role.id === 1)
-    }
-
-    // computed(){
-    //   navMenuItems (){
-    //     navMenuItems.filter(this.$store.getters['Users/userData'].user.role.id === 1)
-    //   }
-    // }
-
     // Shadow bottom is UI specific and can be removed by user => It's not in `useVerticalNavMenu`
     const shallShadowBottom = ref(false)
 
@@ -177,6 +165,7 @@ export default {
 
       // Skin
       skin,
+
 
       // App Name
       appName,

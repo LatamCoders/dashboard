@@ -106,8 +106,8 @@ router.beforeEach((to, from, next) => {
 });
 
 new Vue({
-  router,
   store,
+  router,
   created() {
     axiosIns.interceptors.response.use(
         response => response,
