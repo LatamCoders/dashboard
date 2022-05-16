@@ -874,7 +874,7 @@ export default {
             if (this.dataregister.cc_number.match(regexMaster)) {
               // console.log(this.dataregister.cc_number.match(regexMaster))
               // return true;
-              console.log('pasó')
+
               this.$refs.infoRulesCreditCard.validate()
                   .then(success => {
 
@@ -887,7 +887,7 @@ export default {
                     }
                   })
             } else if (this.dataregister.cc_number.match(regexAmerican)) {
-              console.log('pasó')
+
               this.$refs.infoRulesCreditCard.validate()
                   .then(success => {
 
@@ -900,7 +900,7 @@ export default {
                     }
                   })
             } else if (this.dataregister.cc_number.match(regexVisa)) {
-              console.log('pasó')
+
               this.$refs.infoRulesCreditCard.validate()
                   .then(success => {
 
@@ -913,7 +913,7 @@ export default {
                     }
                   })
             } else if (this.dataregister.cc_number.match(regexDiscover)) {
-              console.log('pasó')
+
               this.$refs.infoRulesCreditCard.validate()
                   .then(success => {
 
@@ -926,7 +926,7 @@ export default {
                     }
                   })
             } else if (this.dataregister.cc_number.match(regexMaestro)) {
-              console.log('pasó')
+
               this.$refs.infoRulesCreditCard.validate()
                   .then(success => {
 
@@ -939,7 +939,7 @@ export default {
                     }
                   })
             } else if (this.dataregister.cc_number.match(regexJCB)) {
-              console.log('pasó')
+
               this.$refs.infoRulesCreditCard.validate()
                   .then(success => {
 
@@ -952,7 +952,7 @@ export default {
                     }
                   })
             } else if (this.dataregister.cc_number.match(regexDiner)) {
-              console.log('pasó')
+
               this.$refs.infoRulesCreditCard.validate()
                   .then(success => {
 
@@ -965,7 +965,8 @@ export default {
                     }
                   })
             } else {
-              console.log('no pasó')
+              // console.log('no pasó')
+              console.log('ok')
             }
           }
           // else if (this.dataregister.exp_year <= 22) {
