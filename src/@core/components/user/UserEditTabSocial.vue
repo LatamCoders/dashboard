@@ -2,7 +2,7 @@
   <div>
 
 
-    <div v-if="infoPayment !== null">
+    <div v-if="infoPayment !== null || paymentMethods !== null">
       <!-- Header: Personal Info -->
       <div class="d-flex">
         <feather-icon
@@ -259,7 +259,7 @@ export default {
               this.paymentMethods = response.data.data;
             }).catch((error) => {
           this.$swal({
-            title: error.data.message,
+            title: 'This user has not added a payment method',
             icon: 'error',
             customClass: {
               confirmButton: 'btn btn-primary',

@@ -1,7 +1,7 @@
 import createPersistedState from "vuex-persistedstate";
 import SecureLS from "secure-ls";
-import axios from "axios";
-import axiosIns from "@/libs/axios";
+// import axios from "axios";
+// import axiosIns from "@/libs/axios";
 
 const ls = new SecureLS({encodingType: 'rc4', isCompression: false, encryptionSecret: 's3cr3tPa$$w0rd@123'});
 

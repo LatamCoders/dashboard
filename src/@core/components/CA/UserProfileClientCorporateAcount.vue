@@ -22,8 +22,8 @@
 
       <div class="d-flex flex-wrap">
         <b-button
-            :variant="inhabilitar === true ? 'primary' : 'outline-secondary'"
-            @click="inhabilitar = false"
+            :variant="inhabilitar === false ? 'primary' : 'outline-secondary'"
+            @click="savedInfo === true ? inhabilitar = true : inhabilitar = true"
         >
           <span class="d-none d-sm-inline">Update</span>
           <feather-icon
@@ -32,9 +32,10 @@
           />
         </b-button>
         <b-button
-            v-if="userData.amera_user.role.id === 3 && inhabilitar ===  false"
+            v-if="userData.amera_user.role.id === 3 && inhabilitar ===  true && savedInfo === false"
             :variant="inhabilitar === true ? 'primary' : 'primary' "
             class="ml-1"
+            @click="savedInfo = true"
         >
           <span class="d-none d-sm-inline">Saved</span>
           <feather-icon
@@ -87,7 +88,7 @@
           >
             <b-form-input
                 v-model="userData.dba"
-                disabled
+                :disabled="inhabilitar === false || savedInfo === true"
             />
           </b-form-group>
         </b-col>
@@ -103,7 +104,7 @@
           >
             <b-form-input
                 v-model="userData.tin"
-                disabled
+                :disabled="inhabilitar === false || savedInfo === true"
             />
           </b-form-group>
         </b-col>
@@ -135,7 +136,8 @@
           >
             <b-form-input
                 v-model="userData.office_location_address"
-                disabled
+                :disabled="inhabilitar === false || savedInfo === true"
+
             />
           </b-form-group>
         </b-col>
@@ -204,7 +206,9 @@ export default {
   // },
   data() {
     return {
-      inhabilitar: true,
+      aprobado: false,
+      inhabilitar: false,
+      savedInfo: false,
       changeStatus: {
         userId: '',
       },
@@ -228,12 +232,22 @@ export default {
   computed: {
     ...mapGetters({
       userData: 'Users/usersData'
-    })
+    }),
   },
+  watch: {
+    'savedInfo'() {
+      if(this.savedInfo === true){
+        this.inhabilitar = false;
+        this.savedInfo = false;
+      }
+    }
+  },
+
   methods: {
     ProfileName(name) {
       return name.charAt(0).toUpperCase() + name.charAt(1).toUpperCase();
     },
+
     aprobarCA() {
       this.$swal({
         title: 'Please, wait...',
@@ -251,11 +265,17 @@ export default {
                 confirmButton: 'btn btn-primary',
               },
               buttonsStyling: false,
+            }).then((result) => {
+              if (result.isConfirmed) {
+                this.$store.commit('Users/usersData', this.$store.getters['Users/usersData'])
+                this.$forceUpdate();
+                  // this.$emit('refresh', this.aprobado = true)
+              }
             })
           })
           .catch((error) => {
             this.$swal({
-              title: error.data.message,
+              title: error.response.data.message,
               icon: 'error',
               customClass: {
                 confirmButton: 'btn btn-primary',

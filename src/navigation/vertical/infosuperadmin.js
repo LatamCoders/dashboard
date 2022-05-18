@@ -57,10 +57,9 @@ export default [
     ],
     meta: {
       requiresAuth: true,
-      permission: '1 && 2'
+      permission: '2'
     },
   },
-
   {
     title: 'Reports',
     route: '/',
@@ -101,6 +100,72 @@ export default [
     meta: {
       requiresAuth: true,
       permission: '2'
+    },
+  },
+  {
+    title: 'Dashboard corporative',
+    route: 'corporate-acount',
+    icon: 'HomeIcon',
+    meta: {
+      requiresAuth: true,
+      permission: '3'
+    },
+    children: [
+      {
+        title: 'Create a patient',
+        route: 'create-patient',
+      },
+      {
+        title: 'Request a trip',
+        route: 'request-service',
+      },
+      {
+        title: 'View all patient',
+        route: 'all-patient',
+      },
+    ],
+
+  },
+  {
+    title: 'Bookings',
+    icon: 'MapPinIcon',
+    route: 'bookings',
+    meta: {
+      requiresAuth: true,
+      permission: '3'
+    },
+  },
+  {
+    title: 'Support',
+    route: '/page-construction',
+    icon: 'SettingsIcon',
+    meta: {
+      requiresAuth: true,
+      permission: '3'
+    },
+    children: [
+      {
+        title: 'Difficult cases',
+        route: 'page-construction',
+      },
+    ],
+  },
+  {
+    title: 'Billing',
+    route: 'billing',
+    icon: 'DollarSignIcon',
+    meta: {
+      requiresAuth: true,
+      permission: '3'
+    },
+  },
+  {
+    title: 'Profile',
+    route: 'profile',
+    icon: 'UserIcon',
+    meta: {
+      requiresAuth: true,
+      permission: '3'
     },
   },
 ]

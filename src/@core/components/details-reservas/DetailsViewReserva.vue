@@ -1,40 +1,40 @@
 <template>
-  <div>
+  <div v-if="dataProvider !== ''">
     <!-- Media -->
     <b-media class="mb-2">
       <template #aside>
         <b-avatar
             ref="previewEl"
-            :src="dataProvider.profile_picture"
+            :src="dataProvider.self_pay.profile_picture"
             size="90px"
             rounded
             class="backgroundProfile-driver"
         >
-          <p class="text-name-driver" v-if='dataProvider.profile_picture === null'>
-            {{ ProfileName(dataProvider.name) }}
+          <p class="text-name-driver" v-if='dataProvider.self_pay.profile_picture === null'>
+            {{ ProfileName(dataProvider.self_pay.name) }}
           </p>
         </b-avatar>
       </template>
       <h4 class="">
-        {{ dataProvider.name }} ( <span style="font-size: 0.9rem">
-        {{ dataProvider.email }}
+        {{ dataProvider.self_pay.name }} ( <span style="font-size: 0.9rem">
+        {{ dataProvider.self_pay.email }}
       </span>)
       </h4>
-<!--      <template v-if="dataProvider.driver !== null">-->
-<!--        <div class="d-flex flex-wrap">-->
-<!--          <b-button-->
-<!--              variant="primary"-->
-<!--              class="ml-1"-->
-<!--              @click="sendCode"-->
-<!--          >-->
-<!--            <span class="d-none d-sm-inline">Send reservation code</span>-->
-<!--            <feather-icon-->
-<!--                icon="EditIcon"-->
-<!--                class="d-inline d-sm-none"-->
-<!--            />-->
-<!--          </b-button>-->
-<!--        </div>-->
-<!--      </template>-->
+      <!--      <template v-if="dataProvider.driver !== null">-->
+      <!--        <div class="d-flex flex-wrap">-->
+      <!--          <b-button-->
+      <!--              variant="primary"-->
+      <!--              class="ml-1"-->
+      <!--              @click="sendCode"-->
+      <!--          >-->
+      <!--            <span class="d-none d-sm-inline">Send reservation code</span>-->
+      <!--            <feather-icon-->
+      <!--                icon="EditIcon"-->
+      <!--                class="d-inline d-sm-none"-->
+      <!--            />-->
+      <!--          </b-button>-->
+      <!--        </div>-->
+      <!--      </template>-->
     </b-media>
 
     <!-- form Admin -->
@@ -50,7 +50,7 @@
           >
             <b-form-input
                 disabled
-                v-model="dataProvider.name"
+                v-model="dataProvider.self_pay.name"
             />
           </b-form-group>
         </b-col>
@@ -65,7 +65,7 @@
           >
             <b-form-input
                 disabled
-                v-model="dataProvider.lastname"
+                v-model="dataProvider.self_pay.lastname"
             />
           </b-form-group>
         </b-col>
@@ -78,7 +78,7 @@
           >
             <b-form-input
                 disabled
-                v-model="dataProvider.gender"
+                v-model="dataProvider.self_pay.gender"
             />
           </b-form-group>
         </b-col>
@@ -91,7 +91,7 @@
           >
             <b-form-input
                 disabled
-                v-model="dataProvider.birthday"
+                v-model="dataProvider.self_pay.birthday"
             />
           </b-form-group>
         </b-col>
@@ -112,7 +112,7 @@
 
           >
             <b-form-input
-                v-model="dataProvider.phone_number"
+                v-model="dataProvider.self_pay.phone_number"
                 disabled
 
             />
@@ -129,7 +129,7 @@
           >
             <b-form-input
                 disabled
-                v-model="dataProvider.email"
+                v-model="dataProvider.self_pay.email"
             />
           </b-form-group>
         </b-col>
@@ -143,7 +143,7 @@
               label="Address"
           >
             <b-form-input
-                v-model="dataProvider.address"
+                v-model="dataProvider.self_pay.address"
                 disabled
             />
           </b-form-group>
@@ -159,7 +159,7 @@
           >
             <b-form-input
                 disabled
-                v-model="dataProvider.city"
+                v-model="dataProvider.self_pay.city"
             />
           </b-form-group>
         </b-col>
@@ -177,7 +177,7 @@
           >
             <b-form-textarea
                 disabled
-                v-model="dataProvider.note"
+                v-model="dataProvider.self_pay.note"
             />
           </b-form-group>
         </b-col>
@@ -205,6 +205,7 @@ import {
   BFormSelect,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
+import {mapGetters} from "vuex";
 
 export default {
   name: 'DetailsViewReserva',
@@ -226,16 +227,20 @@ export default {
     BFormSelect,
     vSelect,
   },
-  props: ['dataProvider'],
   data() {
     return {}
   },
+  computed: {
+    ...mapGetters({
+      dataProvider: 'Users/usersData'
+    })
+  },
   methods: {
     ProfileName(name) {
-      if(this.dataProvider.profile_picture === null){
+      if (this.dataProvider.self_pay.profile_picture === null) {
         return name.charAt(0).toUpperCase() + name.charAt(1).toUpperCase();
-      }else {
-        return this.dataProvider.profile_picture;
+      } else {
+        return this.dataProvider.self_pay.profile_picture;
       }
     },
     // sendCode() {
@@ -279,11 +284,13 @@ export default {
 
 <style lang="scss">
 @import '@core/scss/vue/libs/vue-select.scss';
+
 .text-name-driver {
   font-size: 1.5rem;
   margin-bottom: 0 !important;
 }
-.backgroundProfile-driver{
+
+.backgroundProfile-driver {
   background-color: $primary;
 }
 </style>

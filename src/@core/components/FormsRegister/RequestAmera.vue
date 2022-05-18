@@ -383,6 +383,7 @@ import {
   BFormDatepicker,
   BFormTimepicker,
 } from 'bootstrap-vue'
+import axios from "axios";
 // import { codeIconInfo } from './code'
 // import vSelect from 'vue-select'
 
@@ -456,6 +457,8 @@ export default {
       min: minDate,
       max: maxDate,
       appointment: '',
+
+      infoLoca: {},
 
       //nuevo agregado
       lastnombre: '',
@@ -624,59 +627,70 @@ export default {
       this.dataCa.booking_date = this.fecha + ' ' + this.tiempo
       this.dataCa.appoinment_datetime = this.appointmentdate + ' ' + this.appointmenttime
       // this.addLocationMarker();
-      console.log(this.dataCa)
+      // console.log(this.dataCa)
 
 
-      this.$http.get(`https://maps.googleapis.com/maps/api/directions/json?destination=${this.dataCa.to_coordinates}&origin=${this.dataCa.from_coordinates}&key=AIzaSyC1dIJmjEeVHml0mLlTmYeVqQBKCeNcNBw&units=imperial`)
-          .then((res) => {
-            let infoAPI = res.data;
-            console.log(infoAPI)
-          }).catch((error) => {
+      axios.get(`https://maps.googleapis.com/maps/api/directions/json?destination=${this.dataCa.to_coordinates}&origin=${this.dataCa.from_coordinates}&key=AIzaSyDvEg9k7NQqEyODlKojAdWn_sgfpye9SoM&units=imperial`, {
+        'X-Requested-With': 'XMLHttpRequest'
+
+      }).then((response) => {
+        this.infoLoca = response;
+        console.log(this.infoLoca)
+      }).catch((error) => {
         console.log(error)
       })
 
 
-      this.$http.post('ca/panel/booking/add?clientType=reservationCode', this.dataCa)
-          .then((response) => {
-            if (response.data.status === 200) {
-              this.$swal({
-                title: response.data.message,
-                icon: 'success',
-                customClass: {
-                  confirmButton: 'btn btn-primary',
-                },
-                buttonsStyling: false,
-              })
-              this.$refs.requestTrip.reset()
-              //clear form
-              this.dataCa.booking_date = '',
-                  this.dataCa.from = '',
-                  this.dataCa.to = '',
-                  this.dataCa.pickup_time = '',
-                  this.dataCa.city = '',
-                  this.dataCa.surgery_type = '',
-                  this.dataCa.appoinment_datetime = '',
-                  this.dataCa.selfpay_id = '',
-                  this.dataCa.from_coordinates = '',
-                  this.dataCa.to_coordinates = '',
-                  this.fecha = '',
-                  this.tiempo = '',
-                  this.appointmentdate = '',
-                  this.appointmenttime = '',
-                  this.seleccionstop = ''
-            } else {
-              this.$swal({
-                title: response.data.message,
-                icon: 'error',
-                customClass: {
-                  confirmButton: 'btn btn-primary',
-                },
-                buttonsStyling: false,
-              })
-
-              // console.log(res.data.data)
-            }
-          })
+      // this.$http.post('ca/panel/booking/add?clientType=reservationCode', this.dataCa)
+      //     .then((response) => {
+      //       if (response.data.status === 200) {
+      //         this.$swal({
+      //           title: response.data.message,
+      //           icon: 'success',
+      //           customClass: {
+      //             confirmButton: 'btn btn-primary',
+      //           },
+      //           buttonsStyling: false,
+      //         })
+      //         this.$refs.requestTrip.reset()
+      //         //clear form
+      //         this.dataCa.booking_date = '',
+      //             this.dataCa.from = '',
+      //             this.dataCa.to = '',
+      //             this.dataCa.pickup_time = '',
+      //             this.dataCa.city = '',
+      //             this.dataCa.surgery_type = '',
+      //             this.dataCa.appoinment_datetime = '',
+      //             this.dataCa.selfpay_id = '',
+      //             this.dataCa.from_coordinates = '',
+      //             this.dataCa.to_coordinates = '',
+      //             this.fecha = '',
+      //             this.tiempo = '',
+      //             this.appointmentdate = '',
+      //             this.appointmenttime = '',
+      //             this.seleccionstop = ''
+      //       } else {
+      //         this.$swal({
+      //           title: response.data.message,
+      //           icon: 'error',
+      //           customClass: {
+      //             confirmButton: 'btn btn-primary',
+      //           },
+      //           buttonsStyling: false,
+      //         })
+      //
+      //         // console.log(res.data.data)
+      //       }
+      //     }).catch((error) => {
+      //   this.$swal({
+      //     title: error.response.data.message,
+      //     icon: 'error',
+      //     customClass: {
+      //       confirmButton: 'btn btn-primary',
+      //     },
+      //     buttonsStyling: false,
+      //   })
+      // })
     },
     getInfo() {
       this.dataCa = this.$store.getters['Users/userData'].user

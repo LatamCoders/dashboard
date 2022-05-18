@@ -62,7 +62,7 @@
     >
       <vertical-nav-menu-items
           v-if="this.$store.getters['Users/userData'].user.role.id === 3"
-          :items="navMenuItems"
+          :items="navMenuItemsSuper.filter(value => value.meta.permission === '3')"
           class="navigation navigation-main"
       />
       <vertical-nav-menu-items
@@ -98,11 +98,13 @@ import navMenuItemsAdmin from '@/navigation/vertical/infocontact.js'
 import navMenuItemsSuper from '@/navigation/vertical/infosuperadmin.js'
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import {BLink, BImg} from 'bootstrap-vue'
-import {provide, computed, ref} from '@vue/composition-api'
+import {provide, computed, ref, onBeforeMount, onMounted} from '@vue/composition-api'
 import useAppConfig from '@core/app-config/useAppConfig'
 import {$themeConfig} from '@themeConfig'
 import VerticalNavMenuItems from './components/vertical-nav-menu-items/VerticalNavMenuItems.vue'
 import useVerticalNavMenu from './useVerticalNavMenu'
+import { useStore } from 'vuex'
+
 
 
 export default {
@@ -131,7 +133,16 @@ export default {
       updateMouseHovered,
     } = useVerticalNavMenu(props)
 
+    // const store = useStore();
     const {skin} = useAppConfig()
+
+
+    // const filtroRoles = () => {
+    //   if (store.role.id === 1){}
+    //
+    //     let v = this.navMenuItemsSuper.map( value => value.meta.permission === '2')
+    //   console.log(v)
+    // }
 
     // Shadow bottom is UI specific and can be removed by user => It's not in `useVerticalNavMenu`
     const shallShadowBottom = ref(false)
@@ -147,6 +158,12 @@ export default {
 
     // App Name
     const {appName, appLogoImage} = $themeConfig.app
+
+
+    // onMounted(() =>{
+    //   let filt = this.navMenuItemsSuper.map(value => value.meta.permission === 1);
+    //   console.log(filt)
+    // })
 
     return {
       navMenuItems,
@@ -166,6 +183,7 @@ export default {
       // Skin
       skin,
 
+      // filtroRoles,
 
       // App Name
       appName,

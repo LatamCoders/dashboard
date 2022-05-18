@@ -221,7 +221,7 @@ export default {
             this.listDrivers = response.data.data
 
           })
-          .catch((res) => console.log(res.data))
+          .catch((res) => console.log(res.response.data))
     },
     deleteDriver(id){
       this.$swal({

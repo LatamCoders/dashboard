@@ -18,7 +18,6 @@
           <span class="d-none d-sm-inline">Information self pay</span>
         </template>
         <details-view-reserva
-            :data-provider="listReservas.self_pay"
             class="mt-2 pt-75"
         />
       </b-tab>
@@ -34,7 +33,6 @@
           <span class="d-none d-sm-inline">Information Driver</span>
         </template>
         <details-view-driver-asignado
-            :data-provider="listReservas"
             class="mt-2 pt-75"
         />
       </b-tab>
@@ -93,9 +91,18 @@ export default {
   },
   methods: {
     getInfoReserva() {
+      this.$store.commit('Users/usersData', '')
+      this.$swal({
+        title: 'Please, wait...',
+        didOpen: () => {
+          this.$swal.showLoading()
+        },
+      })
       this.reservaId = this.$route.params.id;
       this.$http.get(`admin/panel/booking/${this.reservaId}/info`).then((response) => {
         this.listReservas = response.data.data;
+        this.$store.commit('Users/usersData', this.listReservas)
+        this.$swal.close();
       }).catch((error) => {
         this.$swal({
           title: error.response.data.data,

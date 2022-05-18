@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="dataProvider !== ''">
     <b-media class="mb-2" v-if="dataProvider.driver_id !== null">
       <template #aside>
         <b-avatar
@@ -143,6 +143,7 @@ import {
   BFormSelect,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
+import {mapGetters} from "vuex";
 
 
 export default {
@@ -165,11 +166,13 @@ export default {
     BFormSelect,
     vSelect,
   },
-  props: {
-    dataProvider: {},
-  },
   data() {
     return {}
+  },
+  computed: {
+    ...mapGetters({
+      dataProvider: "Users/usersData"
+    })
   },
   methods: {
     ProfileName(name) {

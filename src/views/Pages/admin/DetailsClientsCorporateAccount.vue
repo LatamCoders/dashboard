@@ -24,7 +24,7 @@
         </b-tab>
 
         <!-- Tab: Information -->
-        <b-tab >
+        <b-tab>
           <template #title>
             <feather-icon
                 icon="InfoIcon"
@@ -38,7 +38,7 @@
         </b-tab>
 
         <!-- Tab: Social -->
-        <b-tab >
+        <b-tab v-if="$store.getters['Users/userData'].user.role.id === 1 || this.$store.getters['Users/userData'].user.role.id === 2 && Object.entries(infoPago).length === 0">
           <template #title>
             <feather-icon
                 icon="CreditCardIcon"
@@ -102,6 +102,7 @@ export default {
       infomation: '',
       idCA: 0,
       listClients: [],
+      infoPago: {},
     }
   },
   methods: {
@@ -122,14 +123,45 @@ export default {
         this.$swal.close();
         console.log(res.data)
       })
+    },
+    getVerifyInfoCard() {
+      if (this.$store.getters['Users/userData'].user.role.id === 1 || this.$store.getters['Users/userData'].user.role.id === 2) {
+        this.$http.get(`admin/panel/ca/${this.$route.params.id}/paymentMethod`)
+            .then((response) => {
+              if (response.status !== 200){
+                this.infoPago = {}
+                console.log(this.infoPago)
+              }else  {
+                this.infoPago = response.data.data;
+              }
+
+            })
+      }
+    },
+    refreshInfo(aprobado) {
+      if (aprobado === true) {
+        this.$http.get(`admin/panel/ca/${this.idCA}/info`).then((response) => {
+          this.listClients = response.data.data;
+          this.$store.commit('Users/usersData', this.listClients)
+          this.$swal.close();
+        }).catch((res) => {
+          this.$swal.close();
+          console.log(res.data)
+        })
+      }
+
     }
-  },
+  }
+  ,
   mounted() {
 
-    this.getInformationCorporate()
-  },
+    this.getInformationCorporate();
+    this.getVerifyInfoCard();
+  }
+  ,
   created() {
-  },
+  }
+  ,
 }
 /* eslint-disable global-require */
 </script>

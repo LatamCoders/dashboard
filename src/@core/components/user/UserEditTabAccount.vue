@@ -22,12 +22,24 @@
 
       <div class="d-flex flex-wrap">
         <b-button
-            variant="primary"
-
+            :variant="inhabilitar === false ? 'primary' : 'outline-secondary'"
+            @click="savedInfo === true ? inhabilitar = true : inhabilitar = true"
         >
           <span class="d-none d-sm-inline">Update</span>
           <feather-icon
               icon="EditIcon"
+              class="d-inline d-sm-none"
+          />
+        </b-button>
+        <b-button
+            v-if="$store.getters['Users/userData'].user.role.id === 3 && inhabilitar ===  true && savedInfo === false"
+            :variant="inhabilitar === true ? 'primary' : 'primary' "
+            class="ml-1"
+            @click="savedInfo = true"
+        >
+          <span class="d-none d-sm-inline">Saved</span>
+          <feather-icon
+              icon="TrashIcon"
               class="d-inline d-sm-none"
           />
         </b-button>
@@ -75,7 +87,7 @@
           >
             <b-form-input
                 v-model="userData.amera_admin.email"
-                disabled
+                :disabled="inhabilitar === false || savedInfo === true"
             />
           </b-form-group>
         </b-col>
@@ -112,7 +124,7 @@
           >
             <b-form-input
                 v-model="userData.corporate_account.dba"
-                disabled
+                :disabled="inhabilitar === false || savedInfo === true"
             />
           </b-form-group>
         </b-col>
@@ -127,7 +139,7 @@
           >
             <b-form-input
                 v-model="userData.corporate_account.tin"
-                disabled
+                :disabled="inhabilitar === false || savedInfo === true"
             />
           </b-form-group>
         </b-col>
@@ -159,7 +171,7 @@
           >
             <b-form-input
                 v-model="userData.corporate_account.office_location_address"
-                disabled
+                :disabled="inhabilitar === false || savedInfo === true"
             />
           </b-form-group>
         </b-col>
@@ -246,6 +258,16 @@ export default {
   data() {
     return {
       nameProfile: '',
+      inhabilitar: false,
+      savedInfo: false,
+    }
+  },
+  watch: {
+    'savedInfo'() {
+      if(this.savedInfo === true){
+        this.inhabilitar = false;
+        this.savedInfo = false;
+      }
     }
   },
   methods: {

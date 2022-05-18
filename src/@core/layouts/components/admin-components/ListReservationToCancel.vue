@@ -94,7 +94,7 @@
                                    style="border: none; padding: 5px; color: #7367f0"
                                    @click="sendConfirmation(item.id)"
                 >
-                  <feather-icon icon="FileTextIcon"/>
+                  <feather-icon icon="CheckIcon"/>
                   Confirm
                 </b-list-group-item
                 >
@@ -110,7 +110,7 @@
                                      style="border: none; padding: 5px"
                                      @click="deleteReservation(item.id)"
                   >
-                    <feather-icon icon="FileTextIcon"/>
+                    <feather-icon icon="TrashIcon"/>
                     Delete
                   </b-list-group-item
                   >
