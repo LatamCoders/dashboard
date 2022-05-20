@@ -13,7 +13,7 @@
           <b-col
               cols="12"
               md="6"
-              class="d-flex align-items-center justify-content-start mb-1 mb-md-0"
+              class="d-flex align-items-center justify-content-start mb-0 mb-md-0"
           >
             <label>Show</label>
             <v-select

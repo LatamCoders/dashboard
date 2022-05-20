@@ -138,7 +138,7 @@ export default {
             })
       }
     },
-    refreshInfo(aprobado) {
+    refresh(aprobado) {
       if (aprobado === true) {
         this.$http.get(`admin/panel/ca/${this.idCA}/info`).then((response) => {
           this.listClients = response.data.data;

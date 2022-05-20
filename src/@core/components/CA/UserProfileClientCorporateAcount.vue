@@ -267,9 +267,8 @@ export default {
               buttonsStyling: false,
             }).then((result) => {
               if (result.isConfirmed) {
-                this.$store.commit('Users/usersData', this.$store.getters['Users/usersData'])
-                this.$forceUpdate();
                   // this.$emit('refresh', this.aprobado = true)
+                this.$router.go(0)
               }
             })
           })
