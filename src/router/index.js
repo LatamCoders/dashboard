@@ -330,6 +330,16 @@ const router = new VueRouter({
                 permission: '1'
             },
         },
+        {
+            path: '/assign-role',
+            name: 'assign-role',
+            component: () => import('@/views/Pages/superadmin/AssignRoleUser.vue'),
+            meta: {
+                pageTitle: 'Assign role',
+                requiresAuth: true,
+                permission: '1'
+            },
+        },
 
         /*************** END ROUTE FOR REGISTERS   *******************/
         {

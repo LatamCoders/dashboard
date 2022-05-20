@@ -21,7 +21,7 @@ export default [
   },
   {
     title: 'Assign role',
-    route: '/',
+    route: 'assign-role',
     icon: 'UserCheckIcon',
     meta: {
       requiresAuth: true,
