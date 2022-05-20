@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div v-if="dataProvider !== ''">
     <!-- form Admin -->
-    <b-form v-if="dataProvider !== ''">
+    <b-form>
       <b-row>
         <!-- Field: Username -->
         <b-col
@@ -106,7 +106,7 @@
               label="From"
           >
             <b-form-textarea
-                v-model="reserva.from"
+                v-model="reserva.from.from"
                 disabled
             />
           </b-form-group>
@@ -121,7 +121,6 @@
             <b-form-textarea
                 v-model="reserva.to.from"
                 disabled
-                v-b-tooltip.hover.top="reserva.to.from"
             />
           </b-form-group>
         </b-col>
@@ -277,10 +276,12 @@ export default {
     BFormCheckbox,
     BFormSelect,
     vSelect,
-    VBTooltip,
   },
-  directives: {
-    'b-tooltip': VBTooltip,
+  props: {
+    dataService: {},
+    ejecutar: {
+      type: Boolean
+    }
   },
   data() {
     return {
@@ -292,22 +293,23 @@ export default {
       },
     }
   },
-  // watch: {
-  //   'reserva'() {
-  //     this.reserva = JSON.parse(this.dataProvider.from);
-  //   },
-  //   'reserva.to'(){
-  //     this.reserva.to = JSON.parse(this.dataProvider.to);
-  //   }
-  // },
   computed: {
     ...mapGetters({
       dataProvider: "Users/usersData"
     })
   },
-  mounted() {
-    this.reserva = JSON.parse(this.dataProvider.from);
-    this.reserva.to = JSON.parse(this.dataProvider.to);
+  // methods: {
+  //   infoTravel() {
+  //     if (this.dataService.from !== '' && this.dataService.to !== '') {
+  //       this.reserva.from = JSON.parse(this.dataService.from);
+  //       this.reserva.to = JSON.parse(this.dataService.to);
+  //     }
+  //
+  //   }
+  // },
+  beforeUpdate() {
+    this.reserva.from = JSON.parse(this.dataService.from);
+    this.reserva.to = JSON.parse(this.dataService.to);
   }
 
 }

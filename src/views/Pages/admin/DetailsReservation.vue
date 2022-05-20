@@ -48,7 +48,7 @@
           <span class="d-none d-sm-inline">Information of service</span>
         </template>
         <details-info-service
-            :data-provider="listReservas"
+            :data-service="listReservas"
             class="mt-2 pt-75"
         />
       </b-tab>

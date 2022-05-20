@@ -631,7 +631,8 @@ export default {
 
 
       axios.get(`https://maps.googleapis.com/maps/api/directions/json?destination=${this.dataCa.to_coordinates}&origin=${this.dataCa.from_coordinates}&key=AIzaSyDvEg9k7NQqEyODlKojAdWn_sgfpye9SoM&units=imperial`, {
-        'X-Requested-With': 'XMLHttpRequest'
+        'X-Requested-With': XMLHttpRequest,
+        'xsrfCookieName': true
 
       }).then((response) => {
         this.infoLoca = response;
