@@ -18,11 +18,11 @@
               md="6"
               class="d-flex align-items-center justify-content-start mb-1 mb-md-0"
           >
-            <label>Show</label>
-            <v-select
-                id="perPageSelect"
+            <label>Showing</label>
+            <b-form-select
                 v-model="perPage"
                 :options="pageOptions"
+                id="perPageSelect"
                 class="per-page-selector d-inline-block mx-50"
             />
             <label>entries</label>
@@ -58,9 +58,9 @@
           :perPage="perPage"
       >
 
-        <template  #cell(name_self_pay)="{ item }">
-          <span >
-             {{ item.self_pay.name +' '+ item.self_pay.lastname }}
+        <template #cell(name_self_pay)="{ item }">
+          <span>
+             {{ item.self_pay.name + ' ' + item.self_pay.lastname }}
           </span>
         </template>
 
@@ -80,7 +80,7 @@
                   class="align-middle text-body"
               />
             </template>
-            <template style="padding: 0"  v-slot:activator="{ on, attrs }">
+            <template style="padding: 0" v-slot:activator="{ on, attrs }">
               <b-btn color="primary" v-bind="attrs" v-on="on" icon ripple>
               </b-btn>
             </template>
@@ -159,9 +159,9 @@
 import {
   BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
   BBadge, BDropdown, BDropdownItem, BPagination, BListGroup, BListGroupItem,
+  BFormSelect,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
-
 
 
 export default {
@@ -182,6 +182,7 @@ export default {
     BPagination,
     BListGroup,
     BListGroupItem,
+    BFormSelect,
     vSelect,
   },
   name: 'ListCanceledReservations',
@@ -190,11 +191,11 @@ export default {
       listClients: [],
       perPage: 5,
       pageOptions: [3, 5, 10],
-      currentPage: 1 ,
+      currentPage: 1,
       totalUsers: 0,
       valortotal: 0,
       searchQuery: '',
-      fields: [ 'name_self_pay' , 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime',  'city', 'actions'],
+      fields: ['name_self_pay', 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime', 'city', 'actions'],
     }
   },
   methods: {
@@ -251,6 +252,7 @@ export default {
 .per-page-selector {
   width: 90px;
 }
+
 .urlPagina {
   text-decoration: none;
   color: #7367f0;

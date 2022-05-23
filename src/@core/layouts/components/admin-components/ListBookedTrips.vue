@@ -18,11 +18,11 @@
               md="6"
               class="d-flex align-items-center justify-content-start mb-1 mb-md-0"
           >
-            <label>Show</label>
-            <v-select
-                id="perPageSelect"
+            <label>Showing</label>
+            <b-form-select
                 v-model="perPage"
                 :options="pageOptions"
+                id="perPageSelect"
                 class="per-page-selector d-inline-block mx-50"
             />
             <label>entries</label>
@@ -160,6 +160,7 @@
 import {
   BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
   BBadge, BDropdown, BDropdownItem, BPagination, BListGroup, BListGroupItem,
+    BFormSelect,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 
@@ -182,6 +183,7 @@ export default {
     BPagination,
     BListGroup,
     BListGroupItem,
+    BFormSelect,
     vSelect,
   },
   name:'ListBookedTrips',

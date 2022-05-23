@@ -17,9 +17,11 @@
               md="6"
               class="d-flex align-items-center justify-content-start mb-1 mb-md-0"
           >
-            <label>Show</label>
-            <v-select
+            <label>Showing</label>
+            <b-form-select
                 v-model="perPage"
+                :options="pageOptions"
+                id="perPageSelect"
                 class="per-page-selector d-inline-block mx-50"
             />
             <label>entries</label>
@@ -90,16 +92,16 @@
               </b-btn>
             </template>
             <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
-                <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
-                  <b-list-group-item class="font-weight-bold"
-                                     style="border: none; padding: 5px; color: #7367f0"
-                                     @click="downloadReports(item.id)"
-                  >
-                    <feather-icon icon="DownloadIcon"/>
-                    Download document
-                  </b-list-group-item
-                  >
-                </b-list-group-item>
+              <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
+                <b-list-group-item class="font-weight-bold"
+                                   style="border: none; padding: 5px; color: #7367f0"
+                                   @click="downloadReports(item.id)"
+                >
+                  <feather-icon icon="DownloadIcon"/>
+                  Download document
+                </b-list-group-item
+                >
+              </b-list-group-item>
             </b-list-group>
             <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
               <router-link class="urlPagina"
@@ -176,6 +178,7 @@
 import {
   BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
   BBadge, BDropdown, BDropdownItem, BPagination, BListGroup, BListGroupItem,
+  BFormSelect,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 
@@ -201,12 +204,14 @@ export default {
     BPagination,
     BListGroup,
     BListGroupItem,
+    BFormSelect,
     vSelect,
   },
   data() {
     return {
       listClients: [],
       perPage: 5,
+      pageOptions: [3, 5, 10],
       currentPage: 1,
       totalUsers: 0,
       valortotal: 0,
@@ -223,7 +228,7 @@ export default {
 
       }).catch((res) => console.log(res.data))
     },
-    downloadReports(id){
+    downloadReports(id) {
       this.$swal({
         title: 'Please, wait...',
         didOpen: () => {
@@ -231,7 +236,7 @@ export default {
         },
       })
       const doc = new jsPDF();
-      doc.text("Amera Billing" , 10, 10);
+      doc.text("Amera Billing", 10, 10);
       doc.save("billing-amera.pdf");
     }
 
@@ -287,6 +292,7 @@ export default {
 .colorpago {
   color: #28c76f;
 }
+
 .colornopago {
   color: rgba(253, 1, 1, 0.9);
 }

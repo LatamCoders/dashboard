@@ -18,11 +18,11 @@
               md="6"
               class="d-flex align-items-center justify-content-start mb-1 mb-md-0"
           >
-            <label>Show</label>
-            <v-select
-                id="perPageSelect"
+            <label>Showing</label>
+            <b-form-select
                 v-model="perPage"
                 :options="pageOptions"
+                id="perPageSelect"
                 class="per-page-selector d-inline-block mx-50"
             />
             <label>entries</label>
@@ -67,7 +67,6 @@
         </template>
 
 
-
         <!-- Column: Actions -->
         <template #cell(actions)="{ item }">
           <b-dropdown
@@ -84,11 +83,11 @@
                   class="align-middle text-body"
               />
             </template>
-            <template style="padding: 0"  v-slot:activator="{ on, attrs }">
+            <template style="padding: 0" v-slot:activator="{ on, attrs }">
               <b-btn color="primary" v-bind="attrs" v-on="on" icon ripple>
               </b-btn>
             </template>
-            <b-list-group  style="padding: 2px; margin-bottom: 2px" dense rounded>
+            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
               <router-link class="urlPagina"
                            :to="{ name: 'details-assign-driver', params: { booking_id: item.booking_id, item: item } }"
               >
@@ -178,11 +177,13 @@
 import {
   BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
   BBadge, BDropdown, BDropdownItem, BPagination, BListGroup, BListGroupItem,
+  BFormSelect,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 
 // import UsersListFilters from './UsersListFilters.vue'
 import UserListAddNew from '@core/components/infoClients/UserListAddNew'
+
 export default {
   components: {
     UserListAddNew,
@@ -201,6 +202,7 @@ export default {
     BPagination,
     BListGroup,
     BListGroupItem,
+    BFormSelect,
     vSelect,
   },
   data() {
@@ -208,11 +210,11 @@ export default {
       listClients: [],
       perPage: 5,
       pageOptions: [3, 5, 10],
-      currentPage: 1 ,
+      currentPage: 1,
       totalUsers: 0,
       valortotal: 0,
       searchQuery: '',
-      fields: ['selfpay_id', 'name_selfpay' , 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime',  'city', 'actions'],
+      fields: ['selfpay_id', 'name_selfpay', 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime', 'city', 'actions'],
     }
   },
   methods: {
@@ -225,7 +227,7 @@ export default {
 
   },
   computed: {
-    rows () {
+    rows() {
       return this.listClients.length
     }
   },
@@ -239,9 +241,11 @@ export default {
 .per-page-selector {
   width: 90px;
 }
+
 .urlPagina {
   text-decoration: none;
 }
+
 .urlPagina:hover {
   background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
   color: #fff;
