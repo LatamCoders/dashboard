@@ -163,6 +163,12 @@ export default {
           buttonsStyling: false,
         })
       } else {
+        this.$swal({
+          title: 'Please, wait...',
+          didOpen: () => {
+            this.$swal.showLoading()
+          },
+        })
         this.$http.post('auth/admin/register', this.registerAdmin)
             .then((response) => {
               this.$swal({
@@ -179,7 +185,8 @@ export default {
             })
             .catch((error) => {
               this.$swal({
-                title: error.response.data.data,
+                title: error.response.data.message,
+                text: 'This user already exists',
                 icon: 'error',
                 customClass: {
                   confirmButton: 'btn btn-primary',
