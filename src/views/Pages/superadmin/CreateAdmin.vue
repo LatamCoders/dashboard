@@ -1,82 +1,88 @@
 <template>
   <div class="d-flex justify-content-center">
     <b-card class="col-lg-9">
-      <b-row>
-        <div class="cols-12 col-lg-5 d-flex flex-column">
-          <validation-observer
-              ref="accountRules"
-              tag="form"
-          >
-            <div class="d-flex">
-              <b-col lg="9">
-                <b-form-group
-                    label="Name admin"
-                >
-                  <validation-provider
-                      #default="{ errors }"
-                      rules="required"
-                  >
-                    <b-form-input
-                        placeholder="Name admin"
-                        v-model="registerAdmin.name"
-                        :state="errors.length > 0 ? false:null"
-                    />
-                    <small class="text-danger" v-if="errors[0]">This field is required</small>
-                  </validation-provider>
-                </b-form-group>
-              </b-col>
-              <b-col lg="9">
-                <b-form-group
-                    label="Email"
-                >
-                  <validation-provider
-                      #default="{ errors }"
-                      rules="required|email"
-                  >
-                    <b-form-input
-                        placeholder="Name admin"
-                        v-model="registerAdmin.email"
-                        :state="errors.length > 0 ? false:null"
-                    />
-                    <small class="text-danger" v-if="errors[0]">This field is required</small>
-                  </validation-provider>
-                </b-form-group>
-              </b-col>
-              <b-col lg="9">
-                <b-form-group
-                    label="Role"
-                >
-                  <validation-provider
-                      #default="{ errors }"
-                      rules="required"
-                  >
-                    <b-form-select
-                        v-model="registerAdmin.role"
-                        :options="option" label="Role"
-                        :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                        :state="errors.length > 0 ? false:null"
-                    />
-                    <small class="text-danger" v-if="errors[0]">This field is required</small>
-                  </validation-provider>
+      <b-row class="containerCreateAdmin">
+        <b-col>
+          <div>
+            <b-img class="imgAdmin" src="@/assets/images/pages/amera.png">
+            </b-img>
+          </div>
 
-                </b-form-group>
-              </b-col>
-            </div>
-            <div class="pl-1">
-              <b-button
-                  variant="primary"
-                  @click="createAdmin"
-              >
-                <span class="d-none d-sm-inline">Create</span>
-                <feather-icon
-                    icon="EditIcon"
-                    class="d-inline d-sm-none"
-                />
-              </b-button>
-            </div>
-          </validation-observer>
-        </div>
+        </b-col>
+        <b-col class="container-form">
+          <div class="cols-12 col-lg-12 d-flex flex-column">
+            <validation-observer
+                ref="accountRules"
+                tag="form"
+            >
+              <div class="">
+                <b-col lg="12">
+                  <b-form-group
+                      label="Name admin"
+                  >
+                    <validation-provider
+                        #default="{ errors }"
+                        rules="required"
+                    >
+                      <b-form-input
+                          v-model="registerAdmin.name"
+                          :state="errors.length > 0 ? false:null"
+                      />
+                      <small class="text-danger" v-if="errors[0]">This field is required</small>
+                    </validation-provider>
+                  </b-form-group>
+                </b-col>
+                <b-col lg="12">
+                  <b-form-group
+                      label="Email"
+                  >
+                    <validation-provider
+                        #default="{ errors }"
+                        rules="required|email"
+                    >
+                      <b-form-input
+                          v-model="registerAdmin.email"
+                          :state="errors.length > 0 ? false:null"
+                      />
+                      <small class="text-danger" v-if="errors[0]">This field is required</small>
+                    </validation-provider>
+                  </b-form-group>
+                </b-col>
+                <b-col lg="12">
+                  <b-form-group
+                      label="Role"
+                  >
+                    <validation-provider
+                        #default="{ errors }"
+                        rules="required"
+                    >
+                      <b-form-select
+                          v-model="registerAdmin.role"
+                          :options="option" label="Role"
+                          :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                          :state="errors.length > 0 ? false:null"
+                      />
+                      <small class="text-danger" v-if="errors[0]">This field is required</small>
+                    </validation-provider>
 
+                  </b-form-group>
+                </b-col>
+              </div>
+              <div class="pl-1">
+                <b-button
+                    variant="primary"
+                    @click="createAdmin"
+                >
+                  <span class="d-none d-sm-inline">Create</span>
+                  <feather-icon
+                      icon="EditIcon"
+                      class="d-inline d-sm-none"
+                  />
+                </b-button>
+              </div>
+            </validation-observer>
+          </div>
+        </b-col>
       </b-row>
     </b-card>
   </div>
@@ -100,8 +106,8 @@ import {
   BCardText,
   BFormSelect, BFormDatepicker,
 } from 'bootstrap-vue'
-import { required, email } from '@validations'
-import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import {required, email} from '@validations'
+import {ValidationObserver, ValidationProvider} from 'vee-validate'
 
 export default {
   name: 'CreateAdmin',
@@ -147,7 +153,7 @@ export default {
   },
   methods: {
     createAdmin() {
-      if (this.registerAdmin.name === '' || this.registerAdmin.email === '' || this.registerAdmin.role === ''){
+      if (this.registerAdmin.name === '' || this.registerAdmin.email === '' || this.registerAdmin.role === '') {
         this.$swal({
           title: 'Please fill out required fields',
           icon: 'error',
@@ -156,7 +162,7 @@ export default {
           },
           buttonsStyling: false,
         })
-      }else {
+      } else {
         this.$http.post('auth/admin/register', this.registerAdmin)
             .then((response) => {
               this.$swal({
@@ -199,6 +205,31 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+
+.containerCreateAdmin {
+
+  .imgAdmin {
+    max-height: 356px;
+    border-radius: 14px;
+  }
+
+  .container-form {
+    display: flex;
+    align-items: center;
+  }
+
+}
+
+@media screen and(min-width: 320px) and (max-width: 1024px) {
+  .containerCreateAdmin {
+    flex-direction: column;
+    gap: 10px;
+
+    .imgAdmin {
+      width: 100%;
+    }
+  }
+}
 
 </style>

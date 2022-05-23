@@ -218,7 +218,7 @@ export default {
     getDrivers() {
       this.$http.get(`admin/panel/driver/list`)
           .then((response) => {
-            this.listDrivers = response.data.data
+            this.listDrivers = response.data.data.reverse();
 
           })
           .catch((res) => console.log(res.response.data))

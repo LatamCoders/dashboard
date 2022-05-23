@@ -236,7 +236,7 @@ export default {
   methods: {
     getClientes() {
       this.$http.get('/admin/panel/ca/list').then((response) => {
-        this.listClients = response.data.data;
+        this.listClients = response.data.data.reverse();
       }).catch((res) => console.log(res.data))
     },
     deleteCA(id) {

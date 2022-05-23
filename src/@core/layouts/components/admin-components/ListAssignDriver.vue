@@ -218,7 +218,7 @@ export default {
   methods: {
     getClientes() {
       this.$http.get(`admin/panel/booking/list?status=0`).then((response) => {
-        this.listClients = response.data.data;
+        this.listClients = response.data.data.reverse();
         // let nameSelfpay = this
       }).catch((res) => console.log(res.data))
     },
