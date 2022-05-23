@@ -221,10 +221,16 @@ export default {
   },
   methods: {
     getDrivers() {
+      this.$swal({
+        title: 'Please, wait...',
+        didOpen: () => {
+          this.$swal.showLoading()
+        },
+      })
       this.$http.get(`admin/panel/driver/list`)
           .then((response) => {
             this.listDrivers = response.data.data
-
+            this.$swal.close();
           })
           .catch((res) => console.log(res.data))
     },

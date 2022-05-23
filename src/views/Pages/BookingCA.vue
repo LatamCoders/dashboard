@@ -259,12 +259,18 @@ export default {
   },
   methods: {
     getClientes() {
+      this.$swal({
+        title: 'Please, wait...',
+        didOpen: () => {
+          this.$swal.showLoading()
+        },
+      })
       this.user = parseInt(this.$store.getters["Users/userData"].user.corporate_account.id)
       this.$http.get(`ca/${this.user}/panel/booking/list`).then((response) => {
         this.listClients = response.data.data;
         this.valortotal = this.listClients.length;
         this.totalUsers = this.valortotal;
-
+        this.$swal.close();
       }).catch((res) => console.log(res.data))
     },
     sendCode(id) {

@@ -201,11 +201,17 @@ export default {
   },
   methods: {
     getClientes() {
+      this.$swal({
+        title: 'Please, wait...',
+        didOpen: () => {
+          this.$swal.showLoading()
+        },
+      })
       this.$http.get(`admin/panel/booking/list?status=2`).then((response) => {
         this.listClients = response.data.data.reverse();
         this.valortotal = this.listClients.length;
         this.totalUsers = this.valortotal;
-
+        this.$swal.close();
       }).catch((res) => console.log(res.data))
     },
     deleteReservation(id) {

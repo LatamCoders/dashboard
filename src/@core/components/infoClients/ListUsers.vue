@@ -217,8 +217,15 @@ export default {
   },
   methods: {
     getClientes() {
+      this.$swal({
+        title: 'Please, wait...',
+        didOpen: () => {
+          this.$swal.showLoading()
+        },
+      })
       this.$http.get(`ca/${this.$store.getters['Users/userData'].user.corporate_account.id}/panel/client/search`).then((response) => {
         this.listClients = response.data.data;
+        this.$swal.close();
       }).catch((res) => console.log(res.data))
     },
 

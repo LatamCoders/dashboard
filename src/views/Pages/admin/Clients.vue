@@ -237,8 +237,15 @@ export default {
   },
   methods: {
     getClientes() {
+      this.$swal({
+        title: 'Please, wait...',
+        didOpen: () => {
+          this.$swal.showLoading()
+        },
+      })
       this.$http.get('/admin/panel/ca/list').then((response) => {
         this.listClients = response.data.data.reverse();
+        this.$swal.close();
       }).catch((res) => console.log(res.data))
     },
     deleteCA(id) {
