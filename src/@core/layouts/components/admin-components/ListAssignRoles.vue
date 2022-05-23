@@ -87,35 +87,33 @@
               <b-btn color="primary" v-bind="attrs" v-on="on" icon ripple>
               </b-btn>
             </template>
-            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded v-if="$store.getters['Users/userData'].user.role.id === '1' ">
-              <router-link class="urlPagina"
-                           :to="{ name: 'details-reservation', params: { id: item.id } }"
-              >
-                <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
-                  <b-list-group-item class="font-weight-bold"
-                                     style="border: none; padding: 5px"
-                  >
-                    <feather-icon icon="FileTextIcon"/>
-                    Change for superadmin
-                  </b-list-group-item
-                  >
-                </b-list-group-item>
-              </router-link>
+            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded
+                          v-if="$store.getters['Users/userData'].user.role.id === '2'"
+            >
+              <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
+                <b-list-group-item class="font-weight-bold"
+                                   style="border: none; padding: 5px"
+                                   @click="changeForSuper(item.id)"
+                >
+                  <feather-icon icon="FileTextIcon"/>
+                  Change for superadmin
+                </b-list-group-item
+                >
+              </b-list-group-item>
             </b-list-group>
-            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
-              <router-link class="urlPagina"
-                           :to="{ name: 'details-reservation', params: { id: item.id } }"
-              >
-                <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
-                  <b-list-group-item class="font-weight-bold"
-                                     style="border: none; padding: 5px"
-                  >
-                    <feather-icon icon="FileTextIcon"/>
-                    Change for admin
-                  </b-list-group-item
-                  >
-                </b-list-group-item>
-              </router-link>
+            <b-list-group style="padding: 2px; margin-bottom: 2px"
+                          v-if="$store.getters['Users/userData'].user.role.id === '1'" dense rounded
+            >
+              <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
+                <b-list-group-item class="font-weight-bold"
+                                   style="border: none; padding: 5px"
+                                   @click="changeForAdmin(item.id)"
+                >
+                  <feather-icon icon="FileTextIcon"/>
+                  Change for admin
+                </b-list-group-item
+                >
+              </b-list-group-item>
             </b-list-group>
             <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
               <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
@@ -230,12 +228,20 @@ export default {
   },
   methods: {
     getClientes() {
-      this.$http.get(`admin/panel/booking/list?status=0`).then((response) => {
-        this.listClients = response.data.data;
-        this.valortotal = this.listClients.length;
-        this.totalUsers = this.valortotal;
+      this.$http.get(`admin/panel/booking/list?status=0`)
+          .then((response) => {
+            this.listClients = response.data.data
+            this.valortotal = this.listClients.length
+            this.totalUsers = this.valortotal
 
-      }).catch((res) => console.log(res.data))
+          })
+          .catch((res) => console.log(res.data))
+    },
+    changeForSuper(id){
+      console.log(id)
+    },
+    changeForAdmin(id) {
+      console.log(id)
     },
     deleteReservation(id) {
       this.$swal({
@@ -253,22 +259,24 @@ export default {
                 confirmButton: 'btn btn-primary',
               },
               buttonsStyling: false,
-            }).then((result) => {
-              if (result.isConfirmed) {
-                this.getClientes();
-              }
             })
+                .then((result) => {
+                  if (result.isConfirmed) {
+                    this.getClientes()
+                  }
+                })
 
-          }).catch((error) => {
-        this.$swal({
-          title: error.response.data.data,
-          icon: 'error',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-          },
-          buttonsStyling: false,
-        })
-      })
+          })
+          .catch((error) => {
+            this.$swal({
+              title: error.response.data.data,
+              icon: 'error',
+              customClass: {
+                confirmButton: 'btn btn-primary',
+              },
+              buttonsStyling: false,
+            })
+          })
     }
 
   },
@@ -278,7 +286,7 @@ export default {
     }
   },
   mounted() {
-    this.getClientes();
+    this.getClientes()
   }
 }
 </script>
