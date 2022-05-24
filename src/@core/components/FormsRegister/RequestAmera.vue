@@ -630,8 +630,10 @@ export default {
       // console.log(this.dataCa)
 
 
-      axios.get(`https://maps.googleapis.com/maps/api/directions/json?destination=${this.dataCa.to_coordinates}&origin=${this.dataCa.from_coordinates}&key=AIzaSyDvEg9k7NQqEyODlKojAdWn_sgfpye9SoM&units=imperial`, {
-        'X-Requested-With': XMLHttpRequest,
+      axios.get(`https://maps.googleapis.com/maps/api/directions/json?destination=${this.dataCa.to_coordinates}&origin=${this.dataCa.from_coordinates}&key=AIzaSyAlI4H4o6Uuid7GwOidfs_lybbT4XtzJ2s&units=imperial`, {
+        'X-Requested-With': 'XMLHttpRequest',
+        'Access-Control-Allow-Origin': 'http://localhost:8080/',
+        'Vary': 'Origin',
         'xsrfCookieName': true
 
       }).then((response) => {

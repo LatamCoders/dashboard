@@ -253,21 +253,14 @@ export default {
       this.paymentMethods.code_of_cc = ''
     },
     getCard() {
-      if(this.$store.getters['Users/userData'].user.role.id === 1 || this.$store.getters['Users/userData'].user.role.id === 2) {
+      if (this.$store.getters['Users/userData'].user.role.id === 1 || this.$store.getters['Users/userData'].user.role.id === 2) {
         this.$http.get(`admin/panel/ca/${this.$route.params.id}/paymentMethod`)
             .then((response) => {
               this.paymentMethods = response.data.data;
             }).catch((error) => {
-          this.$swal({
-            title: 'This user has not added a payment method',
-            icon: 'error',
-            customClass: {
-              confirmButton: 'btn btn-primary',
-            },
-            buttonsStyling: false,
-          })
+          console.log(error)
         })
-      }else {
+      } else {
         this.$http.get(`ca/${this.$store.getters['Users/userData'].user.corporate_account.id}/panel/paymentMethod`)
             .then((response) => {
               this.paymentMethods = response.data.data;

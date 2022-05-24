@@ -38,7 +38,7 @@
         </b-tab>
 
         <!-- Tab: Social -->
-        <b-tab v-if="$store.getters['Users/userData'].user.role.id === 1 || this.$store.getters['Users/userData'].user.role.id === 2 && Object.entries(infoPago).length === 0">
+        <b-tab v-if="$store.getters['Users/usersData'].corporate_account_payment_method !== null">
           <template #title>
             <feather-icon
                 icon="CreditCardIcon"

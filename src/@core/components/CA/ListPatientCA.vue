@@ -18,9 +18,11 @@
               md="6"
               class="d-flex align-items-center justify-content-start mb-1 mb-md-0"
           >
-            <label>Show</label>
-            <v-select
+            <label>Showing</label>
+            <b-form-select
                 v-model="perPage"
+                :options="pageOptions"
+                id="perPageSelect"
                 class="per-page-selector d-inline-block mx-50"
             />
             <label>entries</label>
@@ -81,11 +83,11 @@
                   class="align-middle text-body"
               />
             </template>
-            <template style="padding: 0"  v-slot:activator="{ on, attrs }">
+            <template style="padding: 0" v-slot:activator="{ on, attrs }">
               <b-btn color="primary" v-bind="attrs" v-on="on" icon ripple>
               </b-btn>
             </template>
-            <b-list-group  style="padding: 2px; margin-bottom: 2px" dense rounded>
+            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
               <router-link class="urlPagina"
                            :to="{ name: 'profile-patient', params: { client_id: item.client_id, item: item } }"
               >
@@ -174,7 +176,8 @@
 <script>
 import {
   BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
-  BBadge, BDropdown, BDropdownItem, BPagination,BListGroup, BListGroupItem,
+  BBadge, BDropdown, BDropdownItem, BPagination, BListGroup, BListGroupItem,
+  BFormSelect,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 import UserListAddNew from '@core/components/infoClients/UserListAddNew'
@@ -198,6 +201,7 @@ export default {
     BPagination,
     BListGroup,
     BListGroupItem,
+    BFormSelect,
     vSelect,
   },
   name: 'ListPatientCA',
@@ -205,6 +209,7 @@ export default {
     return {
       listClients: [],
       perPage: 5,
+      pageOptions: [3, 5, 10],
       currentPage: 1,
       search: '',
       fields: ['client_id', 'name', 'lastname', 'gender', 'birthday', 'phone_number', 'email', 'address', 'city', 'actions'],
@@ -219,7 +224,7 @@ export default {
 
   },
   computed: {
-    rows () {
+    rows() {
       return this.listClients.length
     }
   },
@@ -232,9 +237,11 @@ export default {
 <style lang="scss" scoped>
 .per-page-selector {
   width: 90px;
-}.urlPagina {
-   text-decoration: none;
- }
+}
+
+.urlPagina {
+  text-decoration: none;
+}
 
 .urlPagina:hover {
   background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
