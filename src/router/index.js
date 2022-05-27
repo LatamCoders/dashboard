@@ -423,7 +423,7 @@ const router = new VueRouter({
         //     component: () => import('@/views/error/PageConstruction.vue'),
         // },
         {
-            path: '/login',
+            path: '/',
             name: 'login',
             component: () => import('@/views/Login.vue'),
             meta: {
