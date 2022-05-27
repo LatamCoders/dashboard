@@ -15,7 +15,7 @@
               size="16"
               class="mr-0 mr-sm-50"
           />
-          <span class="d-none d-sm-inline">Information self pay</span>
+          <span class="d-none d-sm-inline">Selfpaid information</span>
         </template>
         <details-view-reserva
             class="mt-2 pt-75"
@@ -30,7 +30,7 @@
               size="16"
               class="mr-0 mr-sm-50"
           />
-          <span class="d-none d-sm-inline">Information Driver</span>
+          <span class="d-none d-sm-inline">Driver information</span>
         </template>
         <details-view-driver-asignado
             class="mt-2 pt-75"
@@ -45,7 +45,7 @@
               size="16"
               class="mr-0 mr-sm-50"
           />
-          <span class="d-none d-sm-inline">Information of service</span>
+          <span class="d-none d-sm-inline">Service information</span>
         </template>
         <details-info-service
             :data-service="listReservas"
@@ -61,7 +61,7 @@
 import {
   BTab, BTabs, BCard, BAlert, BLink,
 } from 'bootstrap-vue'
-import { ref, onUnmounted } from '@vue/composition-api'
+import {ref, onUnmounted} from '@vue/composition-api'
 import router from '@/router'
 import store from '@/store'
 import DetailsViewReserva from '@core/components/details-reservas/DetailsViewReserva'

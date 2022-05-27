@@ -113,11 +113,11 @@ const router = new VueRouter({
             },
         },
         {
-            path: '/trips/reservation-to-accepted',
+            path: '/trips/reservations-to-accept',
             name: 'reservation-to-accepted',
             component: () => import('@/views/Pages/admin/ReservationToAccept.vue'),
             meta: {
-                pageTitle: 'Reservation to accepted',
+                pageTitle: 'Reservations to accept',
                 requiresAuth: true,
                 permission: '1 && 2'
             },

@@ -283,6 +283,11 @@ export default {
               },
               buttonsStyling: false,
             })
+                .then((result) => {
+                  if (result.isConfirmed) {
+                    this.getClientes();
+                  }
+                })
           }).catch((error) => {
         this.$swal({
           title: 'Your reservation has already cancelled',
