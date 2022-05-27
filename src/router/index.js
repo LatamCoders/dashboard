@@ -123,12 +123,12 @@ const router = new VueRouter({
             },
         },
         {
-            path: '/trips/reservation-to-accepted/:id/details-reservation',
+            path: '/trips/reservation-to-accepted/:id/details',
             name: 'details-reservation',
             props: true,
             component: () => import('@/views/Pages/admin/DetailsReservation.vue'),
             meta: {
-                pageTitle: 'Details reservation',
+                pageTitle: 'Reservation details',
                 requiresAuth: true,
                 permission: '1 && 2'
             },
@@ -207,7 +207,7 @@ const router = new VueRouter({
             props: true,
             component: () => import('@/views/Pages/admin/DetailsDriver.vue'),
             meta: {
-                pageTitle: 'Details driver',
+                pageTitle: 'Driver details',
                 requiresAuth: true,
                 permission: '1 && 2'
             },
@@ -287,12 +287,12 @@ const router = new VueRouter({
             },
         },
         {
-            path: '/clients/corporate-account/details-corporate-account/:id',
+            path: '/clients/corporate-account/details/:id',
             name: 'details-corporate-account',
             props: true,
             component: () => import('@/views/Pages/admin/DetailsClientsCorporateAccount.vue'),
             meta: {
-                pageTitle: 'Details corporate account',
+                pageTitle: 'Corporate account details',
                 requiresAuth: true,
                 permission: '1 && 2'
             },
@@ -423,7 +423,7 @@ const router = new VueRouter({
         //     component: () => import('@/views/error/PageConstruction.vue'),
         // },
         {
-            path: '/',
+            path: '/login',
             name: 'login',
             component: () => import('@/views/Login.vue'),
             meta: {
