@@ -82,6 +82,22 @@
           ></StatisticCardWithAreaChart>
         </router-link>
       </b-col>
+      <b-col
+          lg="3"
+          sm="6"
+      >
+        <router-link style="color: #6e6b7b" :to="{name:'all-selfpaids'}">
+
+          <StatisticCardWithAreaChart
+              icon="UsersIcon"
+              statistic="See selfpaid"
+              :chart-data="ordersRecevied"
+              statistic-title="View all selfpaid"
+              :total-driver="allSelfpaid"
+              sub-all-driver="Registered selfpaid"
+          ></StatisticCardWithAreaChart>
+        </router-link>
+      </b-col>
     </b-row>
 
   </div>
@@ -109,6 +125,7 @@ export default {
       alldriver: 0,
       allca: 0,
       allReservas: 0,
+      allSelfpaid: 0,
       series: [
         {
           name: '',
@@ -138,12 +155,19 @@ export default {
         // console.log(this.allca)
       }).catch((res) => console.log(res.data))
     },
-    getReservas(){
+    getReservas() {
       this.$http.get(`admin/panel/booking/list?status=0`).then((response) => {
         let reservas = response.data.data;
         this.allReservas = reservas.length;
         // console.log(this.allca)
       }).catch((res) => console.log(res.data))
+    },
+    getSelfpaids() {
+      this.$http.get(`admin/panel/selfpay/list?type=all`).then((response) => {
+        this.allSelfpaid = response.data.data.length;
+      }).catch((res) => {
+        console.log(res.data)
+      })
     }
   },
 
@@ -151,6 +175,7 @@ export default {
     this.getDrivers();
     this.getCA();
     this.getReservas();
+    this.getSelfpaids();
   }
 }
 </script>

@@ -154,6 +154,17 @@ const router = new VueRouter({
             },
         },
 
+        {
+            path: '/all-selfpaids',
+            name: 'all-selfpaids',
+            component: () => import('@/views/Pages/admin/AllSelfpaid.vue'),
+            meta: {
+                pageTitle: 'All Selfpaids',
+                requiresAuth: true,
+                permission: '1 & 2'
+            },
+        },
+
         /******************** END RUTAS OF TRIPS       ************************/
 
 
