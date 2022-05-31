@@ -54,7 +54,7 @@
         </template>
 
         <b-dropdown-item link-class="d-flex align-items-center">
-          <router-link to="profile" style="width: 100%">
+          <router-link :to="{name: 'profile' }" style="width: 100%">
             <feather-icon
                 size="16"
                 icon="UserIcon"
@@ -110,7 +110,7 @@ import {
   BLink, BNavbarNav, BNavItemDropdown, BDropdownItem, BDropdownDivider, BAvatar, BButton,
 } from 'bootstrap-vue'
 import DarkToggler from '@core/layouts/components/app-navbar/components/DarkToggler.vue'
-import { email, required } from '@core/utils/validations/validations'
+import {email, required} from '@core/utils/validations/validations'
 
 export default {
   components: {
@@ -144,27 +144,27 @@ export default {
       this.$store.dispatch('Users/destroyToken', '/auth/users/logout')
           .then(() => {
 
-              this.$swal({
-                icon: 'success',
-                title: 'Logout successfully',
-                customClass: {
-                  confirmButton: 'btn btn-primary',
-                },
-                buttonsStyling: false,
-              })
-            this.$router.push({ name: 'login' })
-
-          }).catch((error) => {
             this.$swal({
-              icon: 'error',
-              title: error.response,
+              icon: 'success',
+              title: 'Logout successfully',
               customClass: {
                 confirmButton: 'btn btn-primary',
               },
               buttonsStyling: false,
             })
+            this.$router.push({name: 'login'})
 
-          })
+          }).catch((error) => {
+        this.$swal({
+          icon: 'error',
+          title: error.response,
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
+        })
+
+      })
 
     },
     returnWindows() {

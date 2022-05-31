@@ -58,9 +58,9 @@
           :perPage="perPage"
       >
 
-        <template  #cell(name_selfpay)="{ item }">
-          <span >
-               {{ item.self_pay.name +' '+ item.self_pay.lastname }}
+        <template #cell(name_selfpay)="{ item }">
+          <span>
+               {{ item.self_pay.name + ' ' + item.self_pay.lastname }}
           </span>
         </template>
 
@@ -81,25 +81,21 @@
                   class="align-middle text-body"
               />
             </template>
-            <template style="padding: 0"  v-slot:activator="{ on, attrs }">
+            <template style="padding: 0" v-slot:activator="{ on, attrs }">
               <b-btn color="primary" v-bind="attrs" v-on="on" icon ripple>
               </b-btn>
             </template>
             <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
-              <router-link class="urlPagina"
-                           to="/"
-              >
-                <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
-                  <b-list-group-item class="font-weight-bold"
-                                     style="border: none; padding: 5px"
-                                     @click="deleteReservation(item.id)"
-                  >
-                    <feather-icon icon="TrashIcon"/>
-                    Delete
-                  </b-list-group-item
-                  >
-                </b-list-group-item>
-              </router-link>
+              <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
+                <b-list-group-item class="font-weight-bold"
+                                   style="border: none; padding: 5px"
+                                   @click="deleteReservation(item.id)"
+                >
+                  <feather-icon icon="TrashIcon"/>
+                  Delete
+                </b-list-group-item
+                >
+              </b-list-group-item>
             </b-list-group>
           </b-dropdown>
         </template>
@@ -160,7 +156,7 @@
 import {
   BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
   BBadge, BDropdown, BDropdownItem, BPagination, BListGroup, BListGroupItem,
-    BFormSelect,
+  BFormSelect,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 
@@ -186,17 +182,17 @@ export default {
     BFormSelect,
     vSelect,
   },
-  name:'ListBookedTrips',
+  name: 'ListBookedTrips',
   data() {
     return {
       listClients: [],
       perPage: 5,
       pageOptions: [3, 5, 10],
-      currentPage: 1 ,
+      currentPage: 1,
       totalUsers: 0,
       valortotal: 0,
       searchQuery: '',
-      fields: ['name_selfpay', 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime',  'city', 'actions'],
+      fields: ['name_selfpay', 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime', 'city', 'actions'],
     }
   },
   methods: {
@@ -260,6 +256,7 @@ export default {
 .per-page-selector {
   width: 90px;
 }
+
 .urlPagina {
   text-decoration: none;
   color: #7367f0;

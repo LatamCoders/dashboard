@@ -131,49 +131,39 @@ export default {
     //Viajes Pendiente
     getLisAceptBooking() {
       this.$http.get(`admin/panel/booking/list?status=0`).then((response) => {
-        let dataLenghtPending = response.data.data;
-        this.allReservasBookingPending = dataLenghtPending.length;
-        // console.log(this.allReservasBookingPending)
+        this.allReservasBookingPending = response.data.data.length;
       })
     },
     //Pendiente de cancelación
     getListPendingCanceledBooking() {
       this.$http.get(`admin/panel/booking/list?status=1`).then((response) => {
-        let dataLenghtPendingtoCanceled = response.data.data;
-        this.allReservasBookingPendingtoCanceled = dataLenghtPendingtoCanceled.length;
-        // console.log(this.allReservasBookingPendingtoCanceled)
+        this.allReservasBookingPendingtoCanceled = response.data.data.length;
       })
     },
     //En progreso
     getListBookingInProgress() {
       this.$http.get(`admin/panel/booking/list?status=2`).then((response) => {
-        let dataLenghtInProgress = response.data.data;
-        this.allReservasInProgress = dataLenghtInProgress.length;
-        // console.log(this.allReservasInProgress)
+        this.allReservasInProgress = response.data.data.length;
       })
     },
     //Completado
     getListCompleted() {
       this.$http.get(`admin/panel/booking/list?status=3`).then((response) => {
-        let dataLenghtCompleted = response.data.data;
-        this.allReservasCompleted = dataLenghtCompleted.length;
-        // console.log(this.allReservasCompleted)
+        this.allReservasCompleted = response.data.data.length;
       })
     },
     //Viajes Cancelados = 4
     getListBookingCanceled() {
       this.$http.get(`admin/panel/booking/list?status=4`).then((response) => {
-        let dataLenghBookingCanceled = response.data.data;
-        this.allReservasBookingCanceled = dataLenghBookingCanceled.length;
-        // console.log(this.allReservasBookingCanceled)
+        this.allReservasBookingCanceled = response.data.data.length;
       })
     }
   },
   mounted() {
-    this.getListBookingInProgress();
-    this.getListCompleted();
     this.getLisAceptBooking();
     this.getListPendingCanceledBooking();
+    this.getListBookingInProgress();
+    this.getListCompleted();
     this.getListBookingCanceled();
   }
 }

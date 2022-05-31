@@ -89,7 +89,7 @@ const router = new VueRouter({
             meta: {
                 pageTitle: 'Trips',
                 requiresAuth: true,
-                permission: '1 && 2'
+                permission: '1 & 2'
             },
         },
         {
@@ -99,7 +99,7 @@ const router = new VueRouter({
             meta: {
                 pageTitle: 'Reservation in progress',
                 requiresAuth: true,
-                permission: '1 && 2'
+                permission: '1 & 2'
             },
         },
         {
@@ -140,7 +140,7 @@ const router = new VueRouter({
             meta: {
                 pageTitle: 'Reservation to cancel',
                 requiresAuth: true,
-                permission: '1 && 2'
+                permission: '1 & 2'
             },
         },
         {
@@ -150,7 +150,7 @@ const router = new VueRouter({
             meta: {
                 pageTitle: 'Reservation completed',
                 requiresAuth: true,
-                permission: '1 && 2'
+                permission: '1 & 2'
             },
         },
 
@@ -167,7 +167,7 @@ const router = new VueRouter({
             meta: {
                 pageTitle: 'Booking and Tracking',
                 requiresAuth: true,
-                permission: '1 && 2'
+                permission: '1 & 2'
             },
         },
         {
@@ -177,7 +177,7 @@ const router = new VueRouter({
             meta: {
                 pageTitle: 'Approve drivers',
                 requiresAuth: true,
-                permission: '1 && 2'
+                permission: '1 & 2'
             },
         },
         {
@@ -187,7 +187,7 @@ const router = new VueRouter({
             meta: {
                 pageTitle: 'Assign driver',
                 requiresAuth: true,
-                permission: '1 && 2'
+                permission: '1 & 2'
             },
         },
         {
@@ -198,7 +198,7 @@ const router = new VueRouter({
             meta: {
                 pageTitle: 'Details assign driver',
                 requiresAuth: true,
-                permission: '1 && 2'
+                permission: '1 & 2'
             },
         },
         {
@@ -209,7 +209,7 @@ const router = new VueRouter({
             meta: {
                 pageTitle: 'Driver details',
                 requiresAuth: true,
-                permission: '1 && 2'
+                permission: '1 & 2'
             },
         },
         {
@@ -237,7 +237,7 @@ const router = new VueRouter({
             meta: {
                 pageTitle: 'Drivers',
                 requiresAuth: true,
-                permission: '1 && 2'
+                permission: '1 & 2'
             },
         },
         {
@@ -248,7 +248,7 @@ const router = new VueRouter({
             meta: {
                 pageTitle: 'CMA',
                 requiresAuth: true,
-                permission: '1 && 2'
+                permission: '1 & 2'
             },
         },
         {
@@ -259,7 +259,7 @@ const router = new VueRouter({
             meta: {
                 pageTitle: 'Providers',
                 requiresAuth: true,
-                permission: '1 && 2'
+                permission: '1 & 2'
             },
         },
         {
@@ -270,7 +270,7 @@ const router = new VueRouter({
             meta: {
                 pageTitle: 'Details provider',
                 requiresAuth: true,
-                permission: '1 && 2'
+                permission: '1 & 2'
             },
         },
         /*************** END RUTA PARA CLIENTE PROVEEDOR   *******************/
@@ -283,7 +283,7 @@ const router = new VueRouter({
             meta: {
                 pageTitle: 'Corporate accounts',
                 requiresAuth: true,
-                permission: '1 && 2'
+                permission: '1 & 2'
             },
         },
         {
@@ -294,7 +294,7 @@ const router = new VueRouter({
             meta: {
                 pageTitle: 'Corporate account details',
                 requiresAuth: true,
-                permission: '1 && 2'
+                permission: '1 & 2'
             },
         },
         /*************** END RUTA PARA CLIENT CORPORATE ACCOUNT   *******************/
@@ -307,7 +307,7 @@ const router = new VueRouter({
             meta: {
                 pageTitle: 'Reports',
                 requiresAuth: true,
-                permission: '1 && 2'
+                permission: '1 & 2'
             },
         },
 
@@ -417,11 +417,7 @@ const router = new VueRouter({
         },
 
         /************************ End Billing **********************************/
-        // {
-        //     path: '/',
-        //     name: 'page-construction',
-        //     component: () => import('@/views/error/PageConstruction.vue'),
-        // },
+
         {
             path: '/',
             name: 'login',

@@ -27,12 +27,10 @@ export default [
     },
     {
         title: 'Support',
-        route: '/page-construction',
         icon: 'SettingsIcon',
         children: [
             {
                 title: 'Difficult cases',
-                route: 'page-construction',
             },
         ],
     },

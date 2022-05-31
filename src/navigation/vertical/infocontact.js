@@ -1,4 +1,3 @@
-
 export default [
     {
         title: 'Booking center',
@@ -21,7 +20,6 @@ export default [
     },
     {
         title: 'Consult clients',
-        route: 'second-page',
         icon: 'UserIcon',
         children: [
             {
@@ -34,7 +32,6 @@ export default [
             },
             {
                 title: 'Call/Chat center',
-                route: '',
             },
         ],
     },
@@ -44,18 +41,15 @@ export default [
     //   icon: 'CheckSquareIcon',
     // },
     {
-      title: 'Reports',
-      route: '',
-      icon: 'CalendarIcon',
+        title: 'Reports',
+        icon: 'CalendarIcon',
     },
     {
         title: 'Support',
-        route: '',
         icon: 'SettingsIcon',
         children: [
             {
                 title: 'Difficult cases',
-                route: '',
             },
         ],
     },

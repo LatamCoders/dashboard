@@ -85,20 +85,16 @@
               </b-btn>
             </template>
             <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
-              <router-link class="urlPagina"
-                           to="/"
-              >
-                <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
-                  <b-list-group-item class="font-weight-bold"
-                                     style="border: none; padding: 5px"
-                                     @click="deleteReservation(item.id)"
-                  >
-                    <feather-icon icon="TrashIcon"/>
-                    Delete
-                  </b-list-group-item
-                  >
-                </b-list-group-item>
-              </router-link>
+              <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
+                <b-list-group-item class="font-weight-bold"
+                                   style="border: none; padding: 5px"
+                                   @click="deleteReservation(item.id)"
+                >
+                  <feather-icon icon="TrashIcon"/>
+                  Delete
+                </b-list-group-item
+                >
+              </b-list-group-item>
             </b-list-group>
           </b-dropdown>
         </template>
@@ -292,7 +288,7 @@ export default {
 }
 
 .box {
-  box-shadow: 0px 14px 20px 0px rgba(143, 143, 143, 0.2) !important;
+  box-shadow: 0 14px 20px 0 rgba(143, 143, 143, 0.2) !important;
 }
 </style>
 

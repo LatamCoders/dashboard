@@ -630,13 +630,14 @@ export default {
       // console.log(this.dataCa)
 
 
-      axios.get(`https://maps.googleapis.com/maps/api/directions/json?destination=${this.dataCa.to_coordinates}&origin=${this.dataCa.from_coordinates}&key=AIzaSyAlI4H4o6Uuid7GwOidfs_lybbT4XtzJ2s&units=imperial`, {
-        'X-Requested-With': 'XMLHttpRequest',
-        'Access-Control-Allow-Origin': 'http://localhost:8080/',
-        'Vary': 'Origin',
-        'xsrfCookieName': true
-
-      }).then((response) => {
+      axios.get(`https://maps.googleapis.com/maps/api/directions/json?destination=${this.dataCa.to_coordinates}&origin=${this.dataCa.from_coordinates}&key=AIzaSyAlI4H4o6Uuid7GwOidfs_lybbT4XtzJ2s&units=imperial`,
+          {
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest',
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Credentials':true
+            }
+          }).then((response) => {
         this.infoLoca = response;
         console.log(this.infoLoca)
       }).catch((error) => {
