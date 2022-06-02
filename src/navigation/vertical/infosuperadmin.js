@@ -50,8 +50,10 @@ export default [
                 route: 'Drivers',
             },
             {
-                title: 'Call/Chat center',
+                title: 'SelfPaid',
+                route: 'all-selfpaids',
             },
+
         ],
         meta: {
             requiresAuth: true,

@@ -256,6 +256,7 @@ export default {
 
 .urlPagina {
   text-decoration: none;
+  color: #7367f0;
 }
 
 .urlPagina:hover {
@@ -269,7 +270,7 @@ export default {
 }
 
 .urlPagina::before {
-  //background-color: currentColor !important;
+  background-color: currentColor !important;
   bottom: 0;
   content: "";
   left: 0;

@@ -153,6 +153,10 @@ const router = new VueRouter({
                 permission: '1 & 2'
             },
         },
+        /******************** END RUTAS OF TRIPS       ************************/
+
+
+        /*********** INFO SELFPAY **********/
 
         {
             path: '/all-selfpaids',
@@ -164,8 +168,16 @@ const router = new VueRouter({
                 permission: '1 & 2'
             },
         },
-
-        /******************** END RUTAS OF TRIPS       ************************/
+        {
+            path: '/all-selfpaids/:client_id/details',
+            name: 'details-selfpaids',
+            component: () => import('@/views/Pages/admin/DetailsSelfpaid.vue'),
+            meta: {
+                pageTitle: 'Details Selfpaids',
+                requiresAuth: true,
+                permission: '1 & 2'
+            },
+        },
 
 
         //Rutas para booking

@@ -46,7 +46,7 @@
           class="position-relative"
           responsive
           primary-key="id"
-          :items="listDrivers"
+          :items="listSelfpaids"
           :fields="fields"
           empty-text="No matching records found"
           :filter="search"
@@ -57,15 +57,15 @@
       >
         <!-- Column: Actions -->
 
-        <template  #cell(phone_number_verified_at)="{ item }">
+        <template #cell(phone_number_verified_at)="{ item }">
           <span :class="item.phone_number_verified_at === null ? 'no-verified' : 'verified'">
              {{ item.phone_number_verified_at === null ? 'Not verified' : 'Verified' }}
           </span>
         </template>
 
 
-        <template  #cell(email_verified_at)="{item }">
-          <span :class="item.email_verified_at !== null ? 'verified' : 'no-verified'" >
+        <template #cell(email_verified_at)="{item }">
+          <span :class="item.email_verified_at !== null ? 'verified' : 'no-verified'">
              {{ item.email_verified_at === null ? 'Not verified' : 'Verified' }}
           </span>
 
@@ -87,13 +87,13 @@
                   class="align-middle text-body"
               />
             </template>
-            <template style="padding: 0"  v-slot:activator="{ on, attrs }">
+            <template style="padding: 0" v-slot:activator="{ on, attrs }">
               <b-btn color="primary" v-bind="attrs" v-on="on" icon ripple>
               </b-btn>
             </template>
-            <b-list-group  style="padding: 2px; margin-bottom: 2px" dense rounded>
+            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
               <router-link class="urlPagina"
-                           :to="{ name: 'details-driver-view', params: { id: item.id } }"
+                           :to="{ name: 'details-selfpaids', params: { client_id: item.client_id } }"
               >
                 <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
                   <b-list-group-item class="font-weight-bold"
@@ -106,11 +106,12 @@
                 </b-list-group-item>
               </router-link>
             </b-list-group>
-            <b-list-group v-if="$store.getters['Users/userData'].user.role.id === 1" style="padding: 2px; margin-bottom: 2px" dense rounded>
+            <b-list-group v-if="$store.getters['Users/userData'].user.role.id === 1"
+                          style="padding: 2px; margin-bottom: 2px" dense rounded>
               <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
                 <b-list-group-item class="font-weight-bold"
                                    style="border: none; padding: 5px"
-                                   @click="deleteDriver(item.id)"
+                                   @click="deleteSelfpaid(item.client_id)"
                 >
                   <feather-icon icon="TrashIcon"/>
                   Delete
@@ -130,7 +131,7 @@
               class="d-flex align-items-center justify-content-center justify-content-sm-start"
           >
              <span class="text-muted">Showing {{ perPage }}  of {{
-                 listDrivers.length
+                 listSelfpaids.length
                }} entries</span>
           </b-col>
           <!-- Pagination -->
@@ -209,38 +210,38 @@ export default {
       perPage: 5,
       pageOptions: [3, 5, 10],
       currentPage: 1,
-      listDrivers: [],
+      listSelfpaids: [],
       detailDrivers: {},
       search: '',
-      fields: ['driver_id', 'name', 'lastname', 'gender', 'phone_number', 'phone_number_verified_at', 'email', 'email_verified_at', 'address', 'actions'],
+      fields: ['client_id', 'name', 'lastname', 'gender', 'phone_number', 'phone_number_verified_at', 'email', 'email_verified_at', 'address', 'actions'],
     }
   },
   methods: {
-    getDrivers() {
+    getSelfpaids() {
       this.$swal({
         title: 'Please, wait...',
         didOpen: () => {
           this.$swal.showLoading()
         },
       })
-      this.$http.get(`admin/panel/driver/list`)
-          .then((response) => {
-            this.listDrivers = response.data.data.reverse();
-            this.$swal.close();
-          })
-          .catch((res) => console.log(res.response.data))
+      this.$http.get(`admin/panel/selfpay/list?type=all`).then((response) => {
+        this.listSelfpaids = response.data.data.reverse();
+        this.$swal.close();
+      }).catch((res) => {
+        console.log(res.data)
+      })
     },
-    deleteDriver(id){
+    deleteSelfpaid(client_id) {
       this.$swal({
         title: 'Please, wait...',
         didOpen: () => {
           this.$swal.showLoading()
         },
       })
-      this.$http.post(`/admin/panel/driver/${id}/delete`)
+      this.$http.post(`admin/panel/selfpay/${client_id}/delete`)
           .then((res) => {
             this.$swal({
-              title: res.data.message,
+              title: res.data.data,
               icon: 'success',
               customClass: {
                 confirmButton: 'btn btn-primary',
@@ -248,14 +249,13 @@ export default {
               buttonsStyling: false,
             }).then((result) => {
               if (result.isConfirmed) {
-                this.getDrivers();
-
+                this.getSelfpaids();
               }
             })
 
           }).catch((error) => {
         this.$swal({
-          title: error.response.data.data,
+          title: error.response.data.message,
           icon: 'error',
           customClass: {
             confirmButton: 'btn btn-primary',
@@ -266,12 +266,12 @@ export default {
     }
   },
   computed: {
-    rows () {
-      return this.listDrivers.length
+    rows() {
+      return this.listSelfpaids.length
     }
   },
   mounted() {
-    this.getDrivers()
+    this.getSelfpaids()
   }
 }
 </script>
@@ -302,6 +302,7 @@ export default {
   color: #fff !important;
   cursor: pointer;
 }
+
 .urlPagina::before {
   background-color: currentColor !important;
   bottom: 0;
@@ -323,7 +324,8 @@ export default {
 .verified {
   color: #7467f0;
 }
-.no-verified{
+
+.no-verified {
   color: red;
 }
 </style>
