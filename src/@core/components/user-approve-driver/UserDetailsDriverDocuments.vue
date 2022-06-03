@@ -18,22 +18,29 @@
             md="6"
             lg="4"
             class="container-docs"
+            style="height: 100%"
         >
           <b-form-group
               label="Driver license"
           >
           </b-form-group>
-          <b-img
-              style="border-radius: 5px; height: 318px;"
-              :src="driverDocuments.driver_documents.driver_license"
-          ></b-img>
-          <template v-if="driverDocuments.driver_documents.driver_license_verify_at === undefined || driverDocuments.driver_documents.driver_license_verify_at === null">
-            <btn-validation-docs-driver
-                :driverDocs="driverDocuments.driver_documents"
-                :idUserVehicle="driverDocuments.id"
-                :valueBtnlicense="btnlicense"
-            />
-          </template>
+          <div style="display: flex;">
+            <b-img
+                class="imgDocVehicle"
+                style="border-radius: 5px; height: 318px;"
+                :src="driverDocuments.driver_documents.driver_license"
+            ></b-img>
+            <div style="width: fit-content; padding: 10px">
+              <template
+                  v-if="driverDocuments.driver_documents.driver_license_verify_at === undefined || driverDocuments.driver_documents.driver_license_verify_at === null">
+                <btn-validation-docs-driver
+                    :driverDocs="driverDocuments.driver_documents"
+                    :idUserVehicle="driverDocuments.id"
+                    :valueBtnlicense="btnlicense"
+                />
+              </template>
+            </div>
+          </div>
         </b-col>
         <b-col
             cols="12"
@@ -45,17 +52,23 @@
               label="Proof of insurance"
           >
           </b-form-group>
-          <b-img
-              style="border-radius: 5px; height: 318px;"
-              :src="driverDocuments.driver_documents.proof_of_insurance"
-          ></b-img>
-          <template v-if="driverDocuments.driver_documents.proof_of_insurance_verify_at === undefined || driverDocuments.driver_documents.proof_of_insurance_verify_at === null">
-            <btn-validation-docs-driver
-                :driverDocs="driverDocuments.driver_documents"
-                :idUserVehicle="driverDocuments.id"
-                :valueBtninsure="btninsure"
-            />
-          </template>
+          <div style="display: flex;">
+            <b-img
+                class="imgDocVehicle"
+                style="border-radius: 5px; height: 318px;"
+                :src="driverDocuments.driver_documents.proof_of_insurance"
+            ></b-img>
+            <div style="width: fit-content; padding: 10px">
+              <template
+                  v-if="driverDocuments.driver_documents.proof_of_insurance_verify_at === undefined || driverDocuments.driver_documents.proof_of_insurance_verify_at === null">
+                <btn-validation-docs-driver
+                    :driverDocs="driverDocuments.driver_documents"
+                    :idUserVehicle="driverDocuments.id"
+                    :valueBtninsure="btninsure"
+                />
+              </template>
+            </div>
+          </div>
         </b-col>
       </b-row>
     </b-form>
@@ -83,7 +96,7 @@ export default {
 
     btnValidationDocsDriver,
   },
-  computed:{
+  computed: {
     ...mapGetters({
       driverDocuments: 'Users/usersData'
     })
@@ -100,11 +113,15 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@core/scss/vue/libs/vue-flatpicker.scss';
 
 .container-docs {
   position: relative;
+
+  .imgDocVehicle {
+    min-width: 188px;
+  }
 
   .btnAllDocuments {
     position: absolute;
@@ -114,14 +131,17 @@ export default {
     border-radius: 18px;
     left: 260px;
   }
+
   .btnCheck {
     @extend .btnAllDocuments;
     top: 176px;
   }
+
   .btnCancel {
     @extend .btnAllDocuments;
     top: 135px;
   }
+
   .btnDownload {
     @extend .btnAllDocuments;
     //background-color: #07ff00 !important;

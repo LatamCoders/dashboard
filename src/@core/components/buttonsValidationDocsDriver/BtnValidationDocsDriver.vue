@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container-btnAll">
     <b-button variant="primary" class="btn-icon btnCheck" @click="btnAprobarDoc(nameVehicle || driverDocs)">
       <feather-icon
           icon="CheckCircleIcon"
@@ -43,7 +43,7 @@ export default {
   name: "BtnValidationDocsDriver",
 
   props: {
-    nameVehicle: Object | undefined ,
+    nameVehicle: Object | undefined,
     driverDocs: Object | undefined,
     idUserVehicle: Number,
     valueBtn: Boolean,
@@ -70,7 +70,7 @@ export default {
     }
   },
   methods: {
-    btnAprobarDoc(nameVehicle , driverDocs) {
+    btnAprobarDoc(nameVehicle, driverDocs) {
       this.$swal({
         title: 'Please, wait...',
         didOpen: () => {
@@ -78,29 +78,29 @@ export default {
         },
       })
 
-      if(this.nameVehicle !== undefined){
+      if (this.nameVehicle !== undefined) {
         console.log('hol')
         let idSend = Object.keys(nameVehicle);
         this.frontImg = idSend[2];
         this.sideImg = idSend[6];
-        this.rearImg =  idSend[4];
+        this.rearImg = idSend[4];
         this.interiorImg = idSend[8];
         console.log(idSend)
 
-        if (this.rearImg in nameVehicle === true && this.valueBtnrear === true){
+        if (this.rearImg in nameVehicle === true && this.valueBtnrear === true) {
           this.sendNameImg = this.rearImg;
           console.log(this.sendNameImg)
-        }else if(this.sideImg in nameVehicle === true && this.valueBtnSide === true) {
+        } else if (this.sideImg in nameVehicle === true && this.valueBtnSide === true) {
           this.sendNameImg = this.sideImg;
           console.log(this.sendNameImg)
-        }else if (this.interiorImg in nameVehicle === true && this.valueBtnInterior === true){
+        } else if (this.interiorImg in nameVehicle === true && this.valueBtnInterior === true) {
           this.sendNameImg = this.interiorImg;
           console.log(this.sendNameImg)
-        }else if(this.frontImg in nameVehicle === true && this.valueBtnfront === true){
+        } else if (this.frontImg in nameVehicle === true && this.valueBtnfront === true) {
           this.sendNameImg = this.frontImg;
           console.log(this.sendNameImg)
         }
-      }else if(this.nameVehicle === undefined && driverDocs === undefined) {
+      } else if (this.nameVehicle === undefined && driverDocs === undefined) {
         console.log('hola')
         let idSendDriver = Object.keys(nameVehicle);
         this.driverlicens = idSendDriver[2];
@@ -108,10 +108,10 @@ export default {
         console.log(idSendDriver)
 
 
-        if (this.driverlicens in nameVehicle === true && this.valueBtnlicense === true){
+        if (this.driverlicens in nameVehicle === true && this.valueBtnlicense === true) {
           this.sendNameImg = this.driverlicens;
           console.log(this.sendNameImg)
-        }else if(this.insure in nameVehicle === true && this.valueBtninsure === true) {
+        } else if (this.insure in nameVehicle === true && this.valueBtninsure === true) {
           this.sendNameImg = this.insure;
           console.log(this.sendNameImg)
         }
@@ -134,7 +134,7 @@ export default {
                     this.$swal.showLoading()
                   },
                 })
-                this.$http.get(`admin/panel/driver/${ this.$store.getters['Users/usersData'].driver_documents.id }/info`).then((response) => {
+                this.$http.get(`admin/panel/driver/${this.$store.getters['Users/usersData'].driver_documents.id}/info`).then((response) => {
                   // this.infoUser = response.data.data;
                   this.$store.commit('Users/usersData', response.data.data)
                   this.$swal.close();
@@ -167,6 +167,20 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.container-btnAll {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
 
+  .btnCheck, .btnDownload, .btnCancel {
+    border-radius: 18px;
+    height: 39px;
+    width: 38px;
+    padding: 7px;
+  }
+}
 </style>

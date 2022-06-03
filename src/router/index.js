@@ -173,7 +173,7 @@ const router = new VueRouter({
             name: 'details-selfpaids',
             component: () => import('@/views/Pages/admin/DetailsSelfpaid.vue'),
             meta: {
-                pageTitle: 'Details Selfpaids',
+                pageTitle: 'Selfpaids Details',
                 requiresAuth: true,
                 permission: '1 & 2'
             },
@@ -361,6 +361,16 @@ const router = new VueRouter({
                 pageTitle: 'Assign role',
                 requiresAuth: true,
                 permission: '1'
+            },
+        },
+        {
+            path: '/information-contact',
+            name: 'information-contact',
+            component: () => import('@/views/Pages/admin/ContactInformation.vue'),
+            meta: {
+                pageTitle: 'Information contact',
+                requiresAuth: true,
+                permission: '1 & 2'
             },
         },
 

@@ -75,6 +75,10 @@ export default [
             {
                 title: 'Difficult cases',
             },
+            {
+                title: 'Information contact',
+                route: 'information-contact'
+            },
         ],
         meta: {
             requiresAuth: true,

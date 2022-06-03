@@ -20,7 +20,9 @@
 
           <!-- Logo & Text -->
           <li class="nav-item mr-auto">
-            <b-link :to="$store.getters['Users/userData'].user.role.id === 3 ? {name: 'home-corporate-account'} : {name: 'home-admin'}" class="brand-logo">
+            <b-link
+                :to="$store.getters['Users/userData'].user.role.id === 3 ? {name: 'home-corporate-account'} : {name: 'home-admin'}"
+                class="brand-logo">
               <b-img src="@/assets/images/logo/amera-main.png" height="63"></b-img>
             </b-link>
           </li>
@@ -75,9 +77,10 @@
           :items="navMenuItemsSuper.filter(value => value.meta.permission === '2')"
           class="navigation navigation-main"
       />
-      <div style="position: absolute;top: 85%;margin-left: 16px;" v-if="this.$store.getters['Users/userData'].user.role.id === 3">
+      <div style="position: absolute;top: 85%;margin-left: 16px;"
+           v-if="this.$store.getters['Users/userData'].user.role.id === 3">
         <router-link to="/">
-          <h4 style="color: white; font-size: 1.1rem; font-weight: lighter">Chat: </h4>
+          <p style="color: white; font-size: 1.1rem; font-weight: lighter"> {{ infoContact }} </p>
         </router-link>
         <router-link to="/">
           <h4 style="color: white; font-size: 1.1rem; font-weight: lighter">Email: amera@myamera.com</h4>
@@ -103,8 +106,8 @@ import useAppConfig from '@core/app-config/useAppConfig'
 import {$themeConfig} from '@themeConfig'
 import VerticalNavMenuItems from './components/vertical-nav-menu-items/VerticalNavMenuItems.vue'
 import useVerticalNavMenu from './useVerticalNavMenu'
-import { useStore } from 'vuex'
-
+import {useStore} from 'vuex'
+import axios from "axios";
 
 
 export default {
@@ -164,7 +167,11 @@ export default {
     //   let filt = this.navMenuItemsSuper.map(value => value.meta.permission === 1);
     //   console.log(filt)
     // })
-
+    let infoContact = ref();
+    axios.get(`https://amera.losolivoscartagena.com/api/v1/contactUs`).then((response) => {
+      infoContact = response.data;
+      console.log(infoContact)
+    })
     return {
       navMenuItems,
       navMenuItemsAdmin,
@@ -183,11 +190,11 @@ export default {
       // Skin
       skin,
 
-      // filtroRoles,
-
       // App Name
       appName,
       appLogoImage,
+
+      infoContact,
     }
   },
 }

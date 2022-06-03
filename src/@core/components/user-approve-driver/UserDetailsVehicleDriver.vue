@@ -120,52 +120,64 @@
             md="6"
             lg="4"
             class="container-docs"
-            style="height: 300px"
+            style="height: 100%"
         >
           <b-form-group
               label="Vehicle front image"
           >
           </b-form-group>
-          <b-img
-              style="border-radius: 5px ; height: 318px;"
-              :src="userVehicle.vehicle.vehicle_documents.vehicle_front_image"
-          >
-          </b-img>
-          <template
-              v-if="userVehicle.vehicle.vehicle_documents.vehicle_front_image_verify_at === undefined  || userVehicle.vehicle.vehicle_documents.vehicle_front_image_verify_at === null">
-            <btn-validation-docs-driver
-                :nameVehicle="userVehicle.vehicle.vehicle_documents"
-                :idUserVehicle="userVehicle.id"
-                @click="btnfront = true"
-                :valueBtnfront="btnfront"
-            />
-          </template>
+          <div style="display: flex;">
+            <b-img
+                class="imgDocVehicle"
+                style="border-radius: 5px ; height: 318px;"
+                :src="userVehicle.vehicle.vehicle_documents.vehicle_front_image"
+            >
+            </b-img>
+            <div style="width: fit-content; padding: 10px">
+              <template
+                  v-if="userVehicle.vehicle.vehicle_documents.vehicle_front_image_verify_at === undefined  || userVehicle.vehicle.vehicle_documents.vehicle_front_image_verify_at === null">
+                <btn-validation-docs-driver
+                    :nameVehicle="userVehicle.vehicle.vehicle_documents"
+                    :idUserVehicle="userVehicle.id"
+                    @click="btnfront = true"
+                    :valueBtnfront="btnfront"
+                />
+              </template>
+            </div>
+          </div>
 
         </b-col>
 
         <!-- Field: Address Line 2 -->
+
         <b-col
             cols="12"
             md="6"
             lg="4"
             class="container-docs"
         >
+
           <b-form-group
               label="Vehicle rear image"
           >
           </b-form-group>
-          <b-img
-              style="border-radius: 5px; height: 318px;"
-              :src="userVehicle.vehicle.vehicle_documents.vehicle_rear_image"
-          ></b-img>
-          <template
-              v-if="userVehicle.vehicle.vehicle_documents.vehicle_rear_image_verify_at === undefined || userVehicle.vehicle.vehicle_documents.vehicle_rear_image_verify_at === null">
-            <btn-validation-docs-driver
-                :nameVehicle="userVehicle.vehicle.vehicle_documents"
-                :idUserVehicle="userVehicle.id"
-                :valueBtnrear="btnrear"
-            />
-          </template>
+          <div style="display: flex;">
+            <b-img
+                class="imgDocVehicle"
+                style="border-radius: 5px; height: 318px;"
+                :src="userVehicle.vehicle.vehicle_documents.vehicle_rear_image"
+            ></b-img>
+            <div style="width: fit-content; padding: 10px">
+              <template
+                  v-if="userVehicle.vehicle.vehicle_documents.vehicle_rear_image_verify_at === undefined || userVehicle.vehicle.vehicle_documents.vehicle_rear_image_verify_at === null">
+                <btn-validation-docs-driver
+                    :nameVehicle="userVehicle.vehicle.vehicle_documents"
+                    :idUserVehicle="userVehicle.id"
+                    :valueBtnrear="btnrear"
+                />
+              </template>
+            </div>
+          </div>
         </b-col>
 
         <!-- Field: Postcode -->
@@ -179,18 +191,23 @@
               label="Vehicle side image"
           >
           </b-form-group>
-          <b-img
-              style="border-radius: 5px; height: 318px;"
-              :src="userVehicle.vehicle.vehicle_documents.vehicle_side_image"
-          ></b-img>
-          <template
-              v-if="userVehicle.vehicle.vehicle_documents.vehicle_side_image_verify_at === undefined || userVehicle.vehicle.vehicle_documents.vehicle_side_image_verify_at === null">
-            <btn-validation-docs-driver
-                :nameVehicle="userVehicle.vehicle.vehicle_documents"
-                :idUserVehicle="userVehicle.id"
-                :valueBtnSide="btnsideimg"
-            />
-          </template>
+          <div style="display: flex;">
+            <b-img
+                class="imgDocVehicle"
+                style="border-radius: 5px; height: 318px;"
+                :src="userVehicle.vehicle.vehicle_documents.vehicle_side_image"
+            ></b-img>
+            <div style="width: fit-content; padding: 10px">
+              <template
+                  v-if="userVehicle.vehicle.vehicle_documents.vehicle_side_image_verify_at === undefined || userVehicle.vehicle.vehicle_documents.vehicle_side_image_verify_at === null">
+                <btn-validation-docs-driver
+                    :nameVehicle="userVehicle.vehicle.vehicle_documents"
+                    :idUserVehicle="userVehicle.id"
+                    :valueBtnSide="btnsideimg"
+                />
+              </template>
+            </div>
+          </div>
         </b-col>
 
         <!-- Field: City -->
@@ -205,18 +222,23 @@
               label="Vehicle interior image"
           >
           </b-form-group>
-          <b-img
-              style="border-radius: 5px; height: 318px;"
-              :src="userVehicle.vehicle.vehicle_documents.vehicle_interior_image"
-          ></b-img>
-          <template
-              v-if="userVehicle.vehicle.vehicle_documents.vehicle_interior_image_verify_at === undefined || userVehicle.vehicle.vehicle_documents.vehicle_interior_image_verify_at === null">
-            <btn-validation-docs-driver
-                :nameVehicle="userVehicle.vehicle.vehicle_documents"
-                :idUserVehicle="userVehicle.id"
-                :valueBtnInterior="btninterior"
-            />
-          </template>
+          <div style="display: flex;">
+            <b-img
+                class="imgDocVehicle"
+                style="border-radius: 5px; height: 318px;"
+                :src="userVehicle.vehicle.vehicle_documents.vehicle_interior_image"
+            ></b-img>
+            <div style="width: fit-content; padding: 10px">
+              <template
+                  v-if="userVehicle.vehicle.vehicle_documents.vehicle_interior_image_verify_at === undefined || userVehicle.vehicle.vehicle_documents.vehicle_interior_image_verify_at === null">
+                <btn-validation-docs-driver
+                    :nameVehicle="userVehicle.vehicle.vehicle_documents"
+                    :idUserVehicle="userVehicle.id"
+                    :valueBtnInterior="btninterior"
+                />
+              </template>
+            </div>
+          </div>
         </b-col>
 
       </b-row>
@@ -283,35 +305,16 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@core/scss/vue/libs/vue-flatpicker.scss';
 
 .container-docs {
   position: relative;
 
-  .btnAllDocuments {
-    position: absolute;
-    height: 39px;
-    width: 38px;
-    padding: 7px;
-    border-radius: 18px;
-    left: 260px;
+  .imgDocVehicle {
+    min-width: 188px;
   }
 
-  .btnCheck {
-    @extend .btnAllDocuments;
-    top: 176px;
-  }
 
-  .btnCancel {
-    @extend .btnAllDocuments;
-    top: 135px;
-  }
-
-  .btnDownload {
-    @extend .btnAllDocuments;
-    //background-color: #07ff00 !important;
-    top: 92px;
-  }
 }
 </style>
