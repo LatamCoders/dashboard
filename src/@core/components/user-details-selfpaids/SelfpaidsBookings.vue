@@ -1,7 +1,9 @@
 <template>
   <div v-if="dataBookingSelfpaid !== ''">
     <!-- form Admin -->
-    <b-form v-for="(bookings, index) in dataBookingSelfpaid.booking" :key="index">
+    <b-form class="mb-4" v-for="(bookings, i ,index) in dataBookingSelfpaid.booking" :key="index">
+      <h3>Booking #{{ i+1 }}</h3>
+      <hr>
       <b-row>
         <b-col
             cols="12"
@@ -142,6 +144,7 @@
         </b-col>
       </b-row>
     </b-form>
+
 
     <!-- ADDITIONAL STOP  -->
     <!--    <template v-if="dataProvider.additional_service.length > 0">-->
