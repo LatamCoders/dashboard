@@ -37,7 +37,7 @@
               v-if="inhabilitar ===  true && savedInfo === false"
               :variant="inhabilitar === true ? 'primary' : 'primary' "
               class="ml-1"
-              @click="savedInfo = true"
+              @click="editSelfpaid"
           >
             <span class="d-none d-sm-inline">Saved</span>
             <feather-icon
@@ -109,14 +109,14 @@
             cols="12"
             md="3"
         >
-          <b-form-group
-              label="Birthday"
-          >
-            <b-form-input
-                :disabled="inhabilitar === false || savedInfo === true"
-                v-model="dataSelfpaids.birthday"
-            />
-          </b-form-group>
+          <label>Birthday</label>
+          <b-form-datepicker
+              id="datepicker-placeholder"
+              placeholder="Choose a date"
+              local="en"
+              v-model="dataSelfpaids.birthday"
+              :disabled="inhabilitar === false || savedInfo === true"
+          />
         </b-col>
 
       </b-row>
@@ -200,7 +200,7 @@
           >
             <b-form-textarea
                 :disabled="inhabilitar === false || savedInfo === true"
-                :v-model="inhabilitar === true || savedInfo === false ? dataSelfpaids.note : SelfpaidsData.note"
+                v-model="dataSelfpaids.note"
             />
           </b-form-group>
         </b-col>
@@ -226,6 +226,7 @@ import {
   BCardTitle,
   BFormCheckbox,
   BFormSelect,
+  BFormDatepicker
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 import {mapGetters} from "vuex";
@@ -248,6 +249,7 @@ export default {
     BCardTitle,
     BFormCheckbox,
     BFormSelect,
+    BFormDatepicker,
     vSelect,
   },
   data() {
@@ -289,6 +291,37 @@ export default {
       }
     },
     editSelfpaid() {
+      this.savedInfo = true;
+      this.$swal({
+        title: 'Please, wait...',
+        didOpen: () => {
+          this.$swal.showLoading()
+        },
+      })
+      let idEdit = this.$store.getters["Users/usersData"].client_id;
+      this.$http.post(`admin/panel/selfpay/${idEdit}/modify`, this.dataSelfpaids).then((response) => {
+        this.$swal({
+          title: response.data.data,
+          icon: 'success',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.$router.go(0);
+          }
+        })
+      }).catch((error) => {
+        this.$swal({
+          title: error.data.data,
+          icon: 'success',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
+        })
+      })
 
     },
     deleteSelfpaid() {
