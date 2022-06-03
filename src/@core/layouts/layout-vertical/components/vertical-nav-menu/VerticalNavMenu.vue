@@ -77,17 +77,24 @@
           :items="navMenuItemsSuper.filter(value => value.meta.permission === '2')"
           class="navigation navigation-main"
       />
-      <div style="position: absolute;top: 85%;margin-left: 16px;"
+
+      <div style="position: absolute;top: 80%;margin-left: 16px;"
            v-if="this.$store.getters['Users/userData'].user.role.id === 3">
-        <router-link to="/">
-          <p style="color: white; font-size: 1.1rem; font-weight: lighter"> {{ infoContact }} </p>
-        </router-link>
-        <router-link to="/">
-          <h4 style="color: white; font-size: 1.1rem; font-weight: lighter">Email: amera@myamera.com</h4>
-        </router-link>
-        <router-link to="">
-          <h4 style="color: white; font-size: 1.1rem; font-weight: lighter">Phone number: 8552637215</h4>
-        </router-link>
+
+        <a href="https://www.amerasolutions.com/" target="_blank">
+          <h4 style="color: white; font-size: 1.1rem; font-weight: lighter">Website:
+            <span style="font-weight: 500">{{ infoContact.website }} </span></h4>
+        </a>
+
+        <a href="mailto:amera@myamera.com" target="_blank">
+          <h4 style="color: white; font-size: 1.1rem; font-weight: lighter">Email: <br>
+            <span style="font-weight: 500"> {{ infoContact.email }} </span></h4>
+        </a>
+
+        <a href="tel:8552637215" target="_blank">
+          <h4 style="color: white; font-size: 1.1rem; font-weight: lighter">Phone number: <br>
+            <span style="font-weight: 500">{{ infoContact.phone_number }}</span></h4>
+        </a>
       </div>
 
     </vue-perfect-scrollbar>
@@ -167,11 +174,16 @@ export default {
     //   let filt = this.navMenuItemsSuper.map(value => value.meta.permission === 1);
     //   console.log(filt)
     // })
-    let infoContact = ref();
-    axios.get(`https://amera.losolivoscartagena.com/api/v1/contactUs`).then((response) => {
-      infoContact = response.data;
-      console.log(infoContact)
-    })
+    let infoContact = ref({});
+
+    const getContactUs = () => {
+      axios.get(`https://amera.losolivoscartagena.com/api/v1/contactUs`).then((response) => {
+        infoContact.value = response.data.data;
+      })
+    }
+
+    onMounted(() => getContactUs());
+
     return {
       navMenuItems,
       navMenuItemsAdmin,
