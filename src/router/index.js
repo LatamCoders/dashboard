@@ -173,7 +173,7 @@ const router = new VueRouter({
             name: 'details-selfpaids',
             component: () => import('@/views/Pages/admin/DetailsSelfpaid.vue'),
             meta: {
-                pageTitle: 'Selfpaids Details',
+                pageTitle: 'SelfPaid Details',
                 requiresAuth: true,
                 permission: '1 & 2'
             },

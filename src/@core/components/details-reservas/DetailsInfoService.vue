@@ -162,6 +162,58 @@
           </b-form-group>
         </b-col>
       </b-row>
+      <hr>
+
+    </b-form>
+    <b-form>
+      <b-row>
+        <!-- Field: Username -->
+        <b-col
+            cols="12"
+            md="3"
+        >
+          <b-form-group
+              label="Facility Name"
+
+          >
+            <b-form-input
+                v-model="dataProvider.trip_start"
+                disabled
+
+            />
+          </b-form-group>
+        </b-col>
+
+        <!-- Field: Full Name -->
+        <b-col
+            cols="12"
+            md="3"
+        >
+          <b-form-group
+              label="Doctor's Name"
+          >
+            <b-form-input
+                disabled
+                v-model="dataProvider.trip_end"
+            />
+          </b-form-group>
+        </b-col>
+        <b-col
+            cols="12"
+            md="3"
+        >
+          <b-form-group
+              label=" Facility Phone Number "
+          >
+            <b-form-input
+                disabled
+                v-model="dataProvider.trip_end"
+            />
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <hr>
+
     </b-form>
 
 
@@ -169,7 +221,10 @@
     <template v-if="dataProvider.additional_service.length > 0">
       <b-form v-for="(dataservice, key, index) in dataProvider.additional_service" :key="index">
         <template>
-          <h3>Addittional stop # {{ key + 1 }}</h3>
+          <div class="d-flex align-items-center mb-2">
+            <h3 class="circle-number-additional mr-1">{{ key + 1 }}</h3>
+            <h3>Addittional stop </h3>
+          </div>
           <b-row>
             <!-- Field: Username -->
             <b-col
@@ -229,6 +284,7 @@
               </b-form-group>
             </b-col>
           </b-row>
+          <hr>
         </template>
       </b-form>
     </template>
@@ -317,4 +373,12 @@ export default {
 
 <style lang="scss">
 @import '@core/scss/vue/libs/vue-select.scss';
+
+.circle-number-additional {
+  background-color: #332b7b;
+  padding: 5px 12px;
+  border-radius: 16px;
+  color: white;
+
+}
 </style>
