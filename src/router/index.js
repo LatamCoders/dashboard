@@ -214,7 +214,7 @@ const router = new VueRouter({
             },
         },
         {
-            path: '/booking/assign-driver/details-assign-driver/:booking_id',
+            path: '/booking/assign-driver/details-assign-driver/:id',
             name: 'details-assign-driver',
             props: true,
             component: () => import('@/views/Pages/admin/DetailsAssignDriver.vue'),

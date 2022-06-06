@@ -2,7 +2,10 @@
   <div v-if="dataBookingSelfpaid !== ''">
     <!-- form Admin -->
     <b-form class="mb-4" v-for="(bookings, i ,index) in dataBookingSelfpaid.booking" :key="index">
-      <h3>Booking #{{ i+1 }}</h3>
+      <div class="d-flex align-items-center mb-2">
+        <h3 class="circle-number-additional mr-1">{{ i + 1 }}</h3>
+        <h3>Booking</h3>
+      </div>
       <hr>
       <b-row>
         <b-col
@@ -293,5 +296,11 @@ export default {
 </script>
 
 <style scoped>
+.circle-number-additional {
+  background-color: #332b7b;
+  padding: 5px 12px;
+  border-radius: 16px;
+  color: white;
 
+}
 </style>

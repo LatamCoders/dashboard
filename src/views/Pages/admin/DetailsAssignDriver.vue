@@ -1,6 +1,7 @@
 <template>
   <div class="cols-12 col-xl-12 "
        style="margin: 0 auto"
+       v-if="infoPatient !== ''"
   >
     <form-wizard
         color="#7367F0"
@@ -13,71 +14,6 @@
         style="background-color: #fff"
         ref="assignDriver"
     >
-      <!-- account detail tab -->
-      <!--      <tab-content-->
-      <!--          title="Applicant"-->
-      <!--          icon=""-->
-      <!--      >-->
-      <!--        <b-row>-->
-      <!--          <b-col-->
-      <!--              cols="12"-->
-      <!--              class="mb-2"-->
-      <!--          >-->
-      <!--            <h5 class="mb-0">-->
-      <!--              Ordered by-->
-      <!--            </h5>-->
-      <!--            <small class="text-muted">-->
-
-      <!--            </small>-->
-      <!--          </b-col>-->
-      <!--          <b-col md="4">-->
-      <!--            <b-form-group-->
-      <!--                label="Name"-->
-      <!--            >-->
-      <!--              <b-form-input-->
-      <!--                  value="Orlando"-->
-      <!--                  disabled-->
-      <!--                  style="font-weight: bold"-->
-      <!--              />-->
-      <!--            </b-form-group>-->
-      <!--          </b-col>-->
-      <!--          <b-col md="4">-->
-      <!--            <b-form-group-->
-      <!--                label="Last Name"-->
-      <!--            >-->
-      <!--              <b-form-input-->
-      <!--                  value="Health"-->
-      <!--                  disabled-->
-      <!--                  style="font-weight: bold"-->
-      <!--              />-->
-      <!--            </b-form-group>-->
-      <!--          </b-col>-->
-      <!--          <b-col md="4">-->
-      <!--            <b-form-group-->
-      <!--                label="Contact Number"-->
-      <!--            >-->
-      <!--              <b-form-input-->
-      <!--                  value="231217848"-->
-      <!--                  disabled-->
-      <!--                  style="font-weight: bold"-->
-      <!--              />-->
-      <!--            </b-form-group>-->
-      <!--          </b-col>-->
-      <!--          <b-col md="4">-->
-      <!--            <b-form-group-->
-      <!--                label="Email"-->
-      <!--            >-->
-      <!--              <b-form-input-->
-      <!--                  type="email"-->
-      <!--                  value="orlandohealth@gmail.com"-->
-      <!--                  disabled-->
-      <!--                  style="font-weight: bold"-->
-      <!--              />-->
-      <!--            </b-form-group>-->
-      <!--          </b-col>-->
-      <!--        </b-row>-->
-      <!--      </tab-content>-->
-
       <!-- personal details -->
       <tab-content
           title="Patient  Info"
@@ -297,9 +233,9 @@
               <template #option="{name, lastname}">
                 {{ name }} {{ lastname }}
               </template>
-<!--              <template #option="{name, lastname}">-->
-<!--                {{ name }} {{ lastname }}-->
-<!--              </template>-->
+              <!--              <template #option="{name, lastname}">-->
+              <!--                {{ name }} {{ lastname }}-->
+              <!--              </template>-->
             </v-select>
 
           </b-col>
@@ -466,7 +402,7 @@ export default {
   methods: {
     formSubmitted() {
 
-      if (this.infoPatient.driver !== null){
+      if (this.infoPatient.driver !== null) {
         this.$swal({
           title: 'This reservation already has an assigned driver',
           icon: 'error',
@@ -476,10 +412,10 @@ export default {
           buttonsStyling: false,
         }).then((result) => {
           if (result.isConfirmed) {
-           this.$router.push({name: 'assign-driver'})
+            this.$router.push({name: 'assign-driver'})
           }
         })
-      }else if(this.idDriver === ''){
+      } else if (this.idDriver === '') {
         this.$swal({
           title: 'Select a driver to continue',
           icon: 'error',
@@ -488,7 +424,7 @@ export default {
           },
           buttonsStyling: false,
         })
-      }else {
+      } else {
         this.$swal({
           title: 'Please, wait...',
           didOpen: () => {
@@ -531,9 +467,15 @@ export default {
           .catch((res) => console.log(res.data))
     },
     getallDriver() {
+      // iterar el listado de driver para saber cual fue el seleccionado
       for (this.iterar of this.listDrivers) {
-        this.drivers = this.iterar;
+        // evaluar si el seleccionado coincide con uno de la lista
+        if (this.idDriver === this.iterar.driver_id) {
+          // si coincide guardar el resultado y hacer la petición de la información a la API
+          this.drivers = this.iterar;
+        }
       }
+      // petición de la información del driver de acuerdo a la validación anterior.
       this.$http.get(`admin/panel/driver/${this.drivers.id}/info`)
           .then((response) => {
             this.listDrivers = response.data.data
@@ -544,18 +486,12 @@ export default {
           .catch((res) => console.log(res.data))
     },
 
-      // for (this.iterar of this.listDrivers) {
-      //   this.drivers = this.iterar;
-      //   // if (this.idDriver === information.idDriver) {
-      //   //   this.drivers = information;
-      //   //   console.log(this.drivers)
-      //   // }
-      //   console.log(this.drivers)
-      // }
-
     getPatients() {
-      this.infoPatient = this.$route.params.item;
-
+      for (let infopaciente of this.$store.getters['Users/usersData']) {
+        if (parseInt(this.$route.params.id) === infopaciente.id) {
+          this.infoPatient = infopaciente;
+        }
+      }
     }
 
   },
@@ -587,6 +523,7 @@ export default {
 .urlPagina {
   text-decoration: none;
 }
+
 .urlPagina:hover {
   background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7)) !important;
   color: #fff;

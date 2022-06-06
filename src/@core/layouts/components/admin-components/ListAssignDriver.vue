@@ -89,7 +89,7 @@
             </template>
             <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
               <router-link class="urlPagina"
-                           :to="{ name: 'details-assign-driver', params: { booking_id: item.booking_id, item: item } }"
+                           :to="{ name: 'details-assign-driver', params: { id: item.id } }"
               >
                 <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
                   <b-list-group-item class="font-weight-bold"
@@ -218,7 +218,7 @@ export default {
     }
   },
   methods: {
-    getClientes() {
+    getClientes(id) {
       this.$swal({
         title: 'Please, wait...',
         didOpen: () => {
@@ -227,6 +227,7 @@ export default {
       })
       this.$http.get(`admin/panel/booking/list?status=0`).then((response) => {
         this.listClients = response.data.data.reverse();
+        this.$store.commit('Users/usersData', this.listClients);
         this.$swal.close();
       }).catch((res) => console.log(res.data))
     },
