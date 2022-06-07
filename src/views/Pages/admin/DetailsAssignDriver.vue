@@ -169,7 +169,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="4" v-if="seleccionstop">
+          <b-col md="4">
             <b-form-group
                 label="Destiny"
             >
@@ -244,9 +244,9 @@
                 label="Lastname"
             >
               <b-form-input
-                  placeholder="Jean frank"
                   v-model="drivers.lastname"
                   disabled
+                  style="font-weight: bold"
               />
             </b-form-group>
           </b-col>
@@ -356,33 +356,21 @@ export default {
     maxDate.setDate(15)
     return {
       dir: 'ltr',
-      seleccionstop: '',
-      value: '03/08/2022',
       min: minDate,
       max: maxDate,
-      appointment: '',
-      appointmentdate: '',
-      appointmenttime: '',
-      selectcirujia: null,
-      selected: null,
-      ubicacion: '',
-      selectedContry: 'select_value',
-      selectedLanguage: 'nothing_selected',
+      // selected: null,
       option: [
         {title: 'Wait and return'},
         {title: 'Pharmacy stop'},
         {title: 'Additional stop'},
       ],
-      buscar: '',
+
       listDrivers: [],
       idDriver: '',
       drivers: {},
-      idDriverconsulta: this.$route.params.id,
       carPlatenuber: '',
       modelVehicle: '',
       iterar: 0,
-
-      //get info route patient
       infoPatient: {},
       reserva: {
         from: '',
@@ -462,7 +450,6 @@ export default {
       this.$http.get(`admin/panel/driver/list`)
           .then((response) => {
             this.listDrivers = response.data.data
-            // console.log(this.listDrivers)
           })
           .catch((res) => console.log(res.data))
     },
@@ -471,19 +458,12 @@ export default {
       for (this.iterar of this.listDrivers) {
         // evaluar si el seleccionado coincide con uno de la lista
         if (this.idDriver === this.iterar.driver_id) {
-          // si coincide guardar el resultado y hacer la petición de la información a la API
+          // si coincide guardar el resultado y mostrar la información de los datos del vehiculo
           this.drivers = this.iterar;
+          this.modelVehicle = this.drivers.vehicle.model;
+          this.carPlatenuber = this.drivers.vehicle.plate_number;
         }
       }
-      // petición de la información del driver de acuerdo a la validación anterior.
-      this.$http.get(`admin/panel/driver/${this.drivers.id}/info`)
-          .then((response) => {
-            this.listDrivers = response.data.data
-            this.modelVehicle = this.listDrivers.vehicle.model;
-            this.carPlatenuber = this.listDrivers.vehicle.plate_number;
-            // console.log(this.listDrivers)
-          })
-          .catch((res) => console.log(res.data))
     },
 
     getPatients() {
@@ -495,14 +475,7 @@ export default {
     }
 
   },
-  computed: {
-    // items() {
-    //   return this.listado.filter(item => {
-    //     return item.nombre.toLowerCase()
-    //         .includes(this.buscar.toLowerCase())
-    //   })
-    // },
-  },
+  computed: {},
   created() {
     this.getDrivers()
   },

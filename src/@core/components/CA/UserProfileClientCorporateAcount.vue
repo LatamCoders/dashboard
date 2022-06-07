@@ -25,7 +25,7 @@
             :variant="inhabilitar === false ? 'primary' : 'outline-secondary'"
             @click="savedInfo === true ? inhabilitar = true : inhabilitar = true"
         >
-          <span class="d-none d-sm-inline">Update</span>
+          <span class="d-none d-sm-inline">Edit</span>
           <feather-icon
               icon="EditIcon"
               class="d-inline d-sm-none"
@@ -37,7 +37,7 @@
             class="ml-1"
             @click="savedInfo = true"
         >
-          <span class="d-none d-sm-inline">Saved</span>
+          <span class="d-none d-sm-inline">Save</span>
           <feather-icon
               icon="TrashIcon"
               class="d-inline d-sm-none"
@@ -236,7 +236,7 @@ export default {
   },
   watch: {
     'savedInfo'() {
-      if(this.savedInfo === true){
+      if (this.savedInfo === true) {
         this.inhabilitar = false;
         this.savedInfo = false;
       }
@@ -267,7 +267,7 @@ export default {
               buttonsStyling: false,
             }).then((result) => {
               if (result.isConfirmed) {
-                  // this.$emit('refresh', this.aprobado = true)
+                // this.$emit('refresh', this.aprobado = true)
                 this.$router.go(0)
               }
             })

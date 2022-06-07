@@ -447,6 +447,8 @@ export default {
       locationMarkers: [],
       locPlaces: [],
       existingPlace: {},
+
+
       lispatient: [],
       seleccionstop: '',
       idpaciente: 0,
