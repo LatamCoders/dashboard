@@ -79,41 +79,41 @@ export default {
       })
 
       if (this.nameVehicle !== undefined) {
-        console.log('hol')
+        // console.log('hol')
         let idSend = Object.keys(nameVehicle);
         this.frontImg = idSend[2];
         this.sideImg = idSend[6];
         this.rearImg = idSend[4];
         this.interiorImg = idSend[8];
-        console.log(idSend)
+        // console.log(idSend)
 
         if (this.rearImg in nameVehicle === true && this.valueBtnrear === true) {
           this.sendNameImg = this.rearImg;
-          console.log(this.sendNameImg)
+          // console.log(this.sendNameImg)
         } else if (this.sideImg in nameVehicle === true && this.valueBtnSide === true) {
           this.sendNameImg = this.sideImg;
-          console.log(this.sendNameImg)
+          // console.log(this.sendNameImg)
         } else if (this.interiorImg in nameVehicle === true && this.valueBtnInterior === true) {
           this.sendNameImg = this.interiorImg;
-          console.log(this.sendNameImg)
+          // console.log(this.sendNameImg)
         } else if (this.frontImg in nameVehicle === true && this.valueBtnfront === true) {
           this.sendNameImg = this.frontImg;
-          console.log(this.sendNameImg)
+          // console.log(this.sendNameImg)
         }
       } else if (this.nameVehicle === undefined && driverDocs === undefined) {
-        console.log('hola')
+        // console.log('hola')
         let idSendDriver = Object.keys(nameVehicle);
         this.driverlicens = idSendDriver[2];
         this.insure = idSendDriver[4];
-        console.log(idSendDriver)
+        // console.log(idSendDriver)
 
 
         if (this.driverlicens in nameVehicle === true && this.valueBtnlicense === true) {
           this.sendNameImg = this.driverlicens;
-          console.log(this.sendNameImg)
+          // console.log(this.sendNameImg)
         } else if (this.insure in nameVehicle === true && this.valueBtninsure === true) {
           this.sendNameImg = this.insure;
-          console.log(this.sendNameImg)
+          // console.log(this.sendNameImg)
         }
       }
 

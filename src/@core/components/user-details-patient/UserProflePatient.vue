@@ -27,7 +27,7 @@
             :variant="inhabilitar === true ? 'primary' : 'outline-secondary'"
             @click="inhabilitar = false"
         >
-          <span class="d-none d-sm-inline">Update</span>
+          <span class="d-none d-sm-inline">Edit</span>
           <feather-icon
               icon="EditIcon"
               class="d-inline d-sm-none"
@@ -40,7 +40,7 @@
             class="ml-1"
             @click="saveChanges"
         >
-          <span class="d-none d-sm-inline">Saved changes</span>
+          <span class="d-none d-sm-inline">Save</span>
           <feather-icon
               icon="TrashIcon"
               class="d-inline d-sm-none"

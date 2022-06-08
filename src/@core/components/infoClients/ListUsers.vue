@@ -177,7 +177,7 @@
 import {
   BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
   BBadge, BDropdown, BDropdownItem, BPagination, BListGroup, BListGroupItem,
-    BFormSelect,
+  BFormSelect,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 import UserListAddNew from '@core/components/infoClients/UserListAddNew'
@@ -224,14 +224,14 @@ export default {
         },
       })
       this.$http.get(`ca/${this.$store.getters['Users/userData'].user.corporate_account.id}/panel/client/search`).then((response) => {
-        this.listClients = response.data.data;
+        this.listClients = response.data.data.reverse();
         this.$swal.close();
       }).catch((res) => console.log(res.data))
     },
 
   },
   computed: {
-    rows () {
+    rows() {
       return this.listClients.length
     }
   },
