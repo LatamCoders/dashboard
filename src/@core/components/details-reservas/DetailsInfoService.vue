@@ -177,7 +177,7 @@
 
           >
             <b-form-input
-                v-model="dataProvider.trip_start"
+                v-model="dataProvider.acility_name"
                 disabled
 
             />
@@ -194,7 +194,7 @@
           >
             <b-form-input
                 disabled
-                v-model="dataProvider.trip_end"
+                v-model="dataProvider.doctor_name"
             />
           </b-form-group>
         </b-col>
@@ -207,7 +207,7 @@
           >
             <b-form-input
                 disabled
-                v-model="dataProvider.trip_end"
+                v-model="dataProvider.facility_phone_number"
             />
           </b-form-group>
         </b-col>
@@ -216,10 +216,11 @@
 
     </b-form>
 
-
+<!--    <div>{{ formatToService() }}</div>-->
     <!-- ADDITIONAL STOP  -->
     <template v-if="dataProvider.additional_service.length > 0">
-      <b-form v-for="(dataservice, key, index) in dataProvider.additional_service" :key="index">
+
+      <b-form v-for="(adicional, key, index) in dataProvider.additional_service" :key="index">
         <template>
           <div class="d-flex align-items-center mb-2">
             <h3 class="circle-number-additional mr-1">{{ key + 1 }}</h3>
@@ -236,7 +237,7 @@
 
               >
                 <b-form-input
-                    v-model="dataservice.service"
+                    v-model="adicional.service"
                     disabled
 
                 />
@@ -252,10 +253,12 @@
                   label="To"
               >
                 <b-form-input
+
                     disabled
-                    v-model="dataservice.to"
+                    v-model="adicional.to"
                 />
               </b-form-group>
+
             </b-col>
             <b-col
                 cols="12"
@@ -266,7 +269,7 @@
               >
                 <b-form-input
                     disabled
-                    v-model="dataservice.time"
+                    v-model="adicional.time"
                 />
               </b-form-group>
             </b-col>
@@ -279,7 +282,7 @@
               >
                 <b-form-input
                     disabled
-                    v-model="'$ ' + dataservice.price"
+                    v-model="'$ ' + adicional.price"
                 />
               </b-form-group>
             </b-col>
@@ -347,12 +350,20 @@ export default {
           from: '',
         },
       },
+      aditionalStop: {
+        to: '',
+        valors: ''
+      },
+      adicional: '',
     }
   },
   computed: {
     ...mapGetters({
       dataProvider: "Users/usersData"
-    })
+    }),
+    // formatToService(items) {
+    //   return items;
+    // },
   },
   // methods: {
   //   infoTravel() {
@@ -363,6 +374,7 @@ export default {
   //
   //   }
   // },
+  methods: {},
   beforeUpdate() {
     this.reserva.from = JSON.parse(this.dataService.from);
     this.reserva.to = JSON.parse(this.dataService.to);
