@@ -177,7 +177,7 @@
 
           >
             <b-form-input
-                v-model="dataProvider.acility_name"
+                v-model="dataProvider.facility_name"
                 disabled
 
             />

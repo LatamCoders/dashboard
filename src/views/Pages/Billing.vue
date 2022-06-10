@@ -1,6 +1,20 @@
 <template>
   <div>
-    <b-row class="row-container" style="margin-top: 15px;">
+    <b-row class="row-container" style="margin-top: 15px; row-gap: 10px">
+      <b-col
+          lg="3"
+          sm="6"
+      >
+        <router-link style="color: #6e6b7b" :to="{name:'TransactionsMade'}">
+          <StatisticCardWithAreaChart
+              statistic="Transactions made"
+              :chart-data="series"
+              icon="DollarSignIcon"
+              :total-driver="null"
+              statistic-title="Manage your transactions made"
+          ></StatisticCardWithAreaChart>
+        </router-link>
+      </b-col>
       <b-col
           lg="3"
           sm="6"

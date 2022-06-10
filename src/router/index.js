@@ -413,6 +413,24 @@ const router = new VueRouter({
             },
         },
         {
+            path: '/billing/transactions-made',
+            name: 'TransactionsMade',
+            component: () => import('@/views/Pages/Billings/TransactionsMade.vue'),
+            meta: {
+                pageTitle: 'Transactions made',
+                requiresAuth: true,
+            },
+        },
+        {
+            path: '/billing/transactions-made/:id/details',
+            name: 'TransactionsMade details',
+            component: () => import('@/views/Pages/Billings/DetailsTransactions.vue'),
+            meta: {
+                pageTitle: 'Transactions made details',
+                requiresAuth: true,
+            },
+        },
+        {
             path: '/billing/payments-made',
             name: 'PaymentsMade',
             component: () => import('@/views/Pages/Billings/PaymentsMade.vue'),
