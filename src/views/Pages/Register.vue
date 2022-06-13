@@ -531,10 +531,10 @@
 
 <script>
 /* eslint-disable global-require */
-import { FormWizard, TabContent } from 'vue-form-wizard'
+import {FormWizard, TabContent} from 'vue-form-wizard'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import {ValidationProvider, ValidationObserver} from 'vee-validate'
 import VuexyLogo from '@core/layouts/components/Logo.vue'
 import axios from 'axios'
 import Ripple from 'vue-ripple-directive'
@@ -555,8 +555,8 @@ import {
   BCardText,
   BFormSelect, BFormDatepicker,
 } from 'bootstrap-vue'
-import { required, email } from '@validations'
-import { togglePasswordVisibility } from '@core/mixins/ui/forms'
+import {required, email} from '@validations'
+import {togglePasswordVisibility} from '@core/mixins/ui/forms'
 import store from '@/store/index'
 import useJwt from '@/auth/jwt/useJwt'
 import vSelect from 'vue-select'
@@ -1015,8 +1015,12 @@ export default {
                   confirmButton: 'btn btn-primary',
                 },
                 buttonsStyling: false,
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  this.$router.push({name: 'login'})
+                }
               })
-              this.$router.push({ name: 'login' })
+
 
               //clear form
               this.dataregister.company_legal_name = ''

@@ -68,8 +68,10 @@
 
 
         <!-- Column: Actions -->
-        <template #cell(actions)="{ item }">
+        <template #cell(actions)="{ item }"
+                  >
           <b-dropdown
+              v-if="$store.getters['Users/userData'].user.role.id === 1 && item.role.id === 2 || $store.getters['Users/userData'].user.role.id === 1 && item.role.id === 1"
               variant="link"
               no-caret
               :right="$store.state.appConfig.isRTL"
