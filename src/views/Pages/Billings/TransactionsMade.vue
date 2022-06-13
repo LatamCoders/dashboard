@@ -239,7 +239,7 @@ export default {
         },
       })
       this.$http.get(`admin/panel/charges/all`).then((response) => {
-        this.listClients = response.data.data.reverse();
+        this.listClients = response.data.data;
         this.valortotal = this.listClients.length;
         this.totalUsers = this.valortotal;
         this.$swal.close();

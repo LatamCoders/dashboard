@@ -51,7 +51,7 @@
           responsive
           primary-key="id"
           :items="listClients"
-          empty-text="No reservations found"
+          empty-text="No users found"
           show-empty
           :fields="fields"
           :filter="searchQuery"
@@ -60,9 +60,9 @@
           :current-page="currentPage"
       >
 
-        <template #cell(name_selfpay)="{ item }">
+        <template #cell(role)="{ item }">
           <span>
-               {{ item.self_pay.name + ' ' + item.self_pay.lastname }}
+               {{ item.role.role }}
           </span>
         </template>
 
@@ -88,7 +88,7 @@
               </b-btn>
             </template>
             <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded
-                          v-if="$store.getters['Users/userData'].user.role.id === '2'"
+                          v-if="$store.getters['Users/userData'].user.role.id === 1 && item.role.id === 2"
             >
               <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
                 <b-list-group-item class="font-weight-bold"
@@ -96,13 +96,13 @@
                                    @click="changeForSuper(item.id)"
                 >
                   <feather-icon icon="FileTextIcon"/>
-                  Change for superadmin
+                  Change for super admin
                 </b-list-group-item
                 >
               </b-list-group-item>
             </b-list-group>
             <b-list-group style="padding: 2px; margin-bottom: 2px"
-                          v-if="$store.getters['Users/userData'].user.role.id === '1'" dense rounded
+                          v-if="$store.getters['Users/userData'].user.role.id === 1 && item.role.id === 1" dense rounded
             >
               <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
                 <b-list-group-item class="font-weight-bold"
@@ -115,18 +115,18 @@
                 >
               </b-list-group-item>
             </b-list-group>
-            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
-              <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
-                <b-list-group-item class="font-weight-bold"
-                                   style="border: none; padding: 5px"
-                                   @click="deleteReservation(item.id)"
-                >
-                  <feather-icon icon="TrashIcon"/>
-                  Delete
-                </b-list-group-item
-                >
-              </b-list-group-item>
-            </b-list-group>
+            <!--            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>-->
+            <!--              <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">-->
+            <!--                <b-list-group-item class="font-weight-bold"-->
+            <!--                                   style="border: none; padding: 5px"-->
+            <!--                                   @click="deleteReservation(item.id)"-->
+            <!--                >-->
+            <!--                  <feather-icon icon="TrashIcon"/>-->
+            <!--                  Delete-->
+            <!--                </b-list-group-item-->
+            <!--                >-->
+            <!--              </b-list-group-item>-->
+            <!--            </b-list-group>-->
           </b-dropdown>
         </template>
 
@@ -187,7 +187,7 @@
 import {
   BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
   BBadge, BDropdown, BDropdownItem, BPagination, BListGroup, BListGroupItem,
-    BFormSelect,
+  BFormSelect,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 
@@ -221,11 +221,9 @@ export default {
       listClients: [],
       perPage: 5,
       currentPage: 1,
-      totalUsers: 0,
-      valortotal: 0,
       searchQuery: '',
       pageOptions: [3, 5, 10],
-      fields: ['name_selfpay', 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime', 'city', 'actions'],
+      fields: ['name', 'email', 'role', 'actions'],
     }
   },
   methods: {
@@ -236,32 +234,25 @@ export default {
           this.$swal.showLoading()
         },
       })
-      this.$http.get(`admin/panel/booking/list?status=0`)
+      this.$http.get(`admin/panel/users/list`)
           .then((response) => {
             this.listClients = response.data.data.reverse();
-            this.valortotal = this.listClients.length
-            this.totalUsers = this.valortotal
             this.$swal.close();
           })
           .catch((res) => console.log(res.data))
     },
-    changeForSuper(id){
-      console.log(id)
-    },
-    changeForAdmin(id) {
-      console.log(id)
-    },
-    deleteReservation(id) {
+    changeForSuper(id) {
       this.$swal({
         title: 'Please, wait...',
         didOpen: () => {
           this.$swal.showLoading()
         },
       })
-      this.$http.post(`/admin/panel/booking/${id}/delete`)
-          .then((res) => {
+      let roleSuper = 1;
+      this.$http.post(`/admin/panel/users/${id}/changeRol`, {'role': roleSuper})
+          .then((response) => {
             this.$swal({
-              title: res.data.message,
+              title: response.data.message,
               icon: 'success',
               customClass: {
                 confirmButton: 'btn btn-primary',
@@ -274,18 +265,87 @@ export default {
                   }
                 })
 
-          })
-          .catch((error) => {
+          }).catch((error) => {
+        this.$swal({
+          title: error.response.data.message,
+          icon: 'error',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
+        })
+      })
+    },
+    changeForAdmin(id) {
+      this.$swal({
+        title: 'Please, wait...',
+        didOpen: () => {
+          this.$swal.showLoading()
+        },
+      })
+      let roleAdmin = 2;
+      this.$http.post(`/admin/panel/users/${id}/changeRol`, {'role': roleAdmin})
+          .then((response) => {
             this.$swal({
-              title: error.response.data.data,
-              icon: 'error',
+              title: response.data.message,
+              icon: 'success',
               customClass: {
                 confirmButton: 'btn btn-primary',
               },
               buttonsStyling: false,
             })
-          })
-    }
+                .then((result) => {
+                  if (result.isConfirmed) {
+                    this.getClientes()
+                  }
+                })
+
+          }).catch((error) => {
+        this.$swal({
+          title: error.response.data.message,
+          icon: 'error',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
+        })
+      })
+    },
+    // deleteReservation(id) {
+    //   this.$swal({
+    //     title: 'Please, wait...',
+    //     didOpen: () => {
+    //       this.$swal.showLoading()
+    //     },
+    //   })
+    //   this.$http.post(`/admin/panel/booking/${id}/delete`)
+    //       .then((res) => {
+    //         this.$swal({
+    //           title: res.data.message,
+    //           icon: 'success',
+    //           customClass: {
+    //             confirmButton: 'btn btn-primary',
+    //           },
+    //           buttonsStyling: false,
+    //         })
+    //             .then((result) => {
+    //               if (result.isConfirmed) {
+    //                 this.getClientes()
+    //               }
+    //             })
+    //
+    //       })
+    //       .catch((error) => {
+    //         this.$swal({
+    //           title: error.response.data.data,
+    //           icon: 'error',
+    //           customClass: {
+    //             confirmButton: 'btn btn-primary',
+    //           },
+    //           buttonsStyling: false,
+    //         })
+    //       })
+    // }
 
   },
   computed: {
