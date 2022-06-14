@@ -71,12 +71,12 @@
         <template #cell(actions)="{ item }"
                   >
           <b-dropdown
-              v-if="$store.getters['Users/userData'].user.role.id === 1 && item.role.id === 2 || $store.getters['Users/userData'].user.role.id === 1 && item.role.id === 1"
               variant="link"
               no-caret
               :right="$store.state.appConfig.isRTL"
               transition="scale-transition"
               :offset-y="true"
+              :disabled="$store.getters['Users/userData'].user.role.id === 1 && item.role.id === 3"
           >
             <template #button-content>
               <feather-icon
@@ -86,7 +86,8 @@
               />
             </template>
             <template style="padding: 0" v-slot:activator="{ on, attrs }">
-              <b-btn color="primary" v-bind="attrs" v-on="on" icon ripple>
+              <b-btn
+                  color="primary" v-bind="attrs" v-on="on" icon ripple>
               </b-btn>
             </template>
             <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded
@@ -98,7 +99,7 @@
                                    @click="changeForSuper(item.id)"
                 >
                   <feather-icon icon="FileTextIcon"/>
-                  Change for super admin
+                  Change to Super Admin
                 </b-list-group-item
                 >
               </b-list-group-item>
@@ -112,7 +113,7 @@
                                    @click="changeForAdmin(item.id)"
                 >
                   <feather-icon icon="FileTextIcon"/>
-                  Change for admin
+                  Change to Admin
                 </b-list-group-item
                 >
               </b-list-group-item>

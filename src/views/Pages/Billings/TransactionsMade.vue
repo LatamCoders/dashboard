@@ -93,6 +93,15 @@
           </span>
         </template>
 
+        <template #cell(status)="{ item }">
+          <span>
+            <b-badge variant="success">
+              {{ item.outcome.seller_message }}
+            </b-badge>
+
+          </span>
+        </template>
+
 
         <!-- Column: Actions -->
         <template #cell(actions)="{ item }">
@@ -227,7 +236,7 @@ export default {
       totalUsers: 0,
       valortotal: 0,
       searchQuery: '',
-      fields: ['name', 'email', 'phone', 'card', 'amount', 'description', 'actions'],
+      fields: ['name', 'email', 'phone', 'card', 'amount', 'description', 'status', 'actions'],
     }
   },
   methods: {
