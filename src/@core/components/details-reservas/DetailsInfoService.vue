@@ -216,7 +216,7 @@
 
     </b-form>
 
-<!--    <div>{{ formatToService() }}</div>-->
+    <!--    <div>{{ formatToService() }}</div>-->
     <!-- ADDITIONAL STOP  -->
     <template v-if="dataProvider.additional_service.length > 0">
 
@@ -224,27 +224,9 @@
         <template>
           <div class="d-flex align-items-center mb-2">
             <h3 class="circle-number-additional mr-1">{{ key + 1 }}</h3>
-            <h3>Addittional stop </h3>
+            <h3>Service: {{ adicional.service }} </h3>
           </div>
           <b-row>
-            <!-- Field: Username -->
-            <b-col
-                cols="12"
-                md="3"
-            >
-              <b-form-group
-                  label="Service"
-
-              >
-                <b-form-input
-                    v-model="adicional.service"
-                    disabled
-
-                />
-              </b-form-group>
-            </b-col>
-
-            <!-- Field: Full Name -->
             <b-col
                 cols="12"
                 md="3"
@@ -255,10 +237,11 @@
                 <b-form-input
 
                     disabled
-                    v-model="adicional.to"
-                />
+                    v-model="aditionalStop.to"
+                >
+                  <p>{{ formatToService(adicional.to) }}</p>
+                </b-form-input>
               </b-form-group>
-
             </b-col>
             <b-col
                 cols="12"
@@ -354,16 +337,12 @@ export default {
         to: '',
         valors: ''
       },
-      adicional: '',
     }
   },
   computed: {
     ...mapGetters({
       dataProvider: "Users/usersData"
     }),
-    // formatToService(items) {
-    //   return items;
-    // },
   },
   // methods: {
   //   infoTravel() {
@@ -374,7 +353,11 @@ export default {
   //
   //   }
   // },
-  methods: {},
+  methods: {
+    formatToService(items) {
+      return this.aditionalStop = Object.assign(JSON.parse(items));
+    },
+  },
   beforeUpdate() {
     this.reserva.from = JSON.parse(this.dataService.from);
     this.reserva.to = JSON.parse(this.dataService.to);
