@@ -716,10 +716,10 @@ export default {
       // const proxyurl = "https://cors-anywhere.herokuapp.com/";
       let config = {
         method: 'get',
-        url: `https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/distancematrix/json?origins=Washington%2C%20DC&destinations=New%20York%20City%2C%20NY&units=imperial&key=AIzaSyAlI4H4o6Uuid7GwOidfs_lybbT4XtzJ2s`,
+        url: `https://maps.googleapis.com/maps/api/distancematrix/json?origins=Washington%2C%20DC&destinations=New%20York%20City%2C%20NY&units=imperial&key=AIzaSyAlI4H4o6Uuid7GwOidfs_lybbT4XtzJ2s`,
         headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+          'Access-Control-Allow-Origin': 'https://amera.vnddev.com/',
+          'Access-Control-Allow-Methods': 'GET,PUT,POST',
         }
       }
 
