@@ -714,22 +714,46 @@ export default {
       //   console.log(error.message)
       // })
       // const proxyurl = "https://cors-anywhere.herokuapp.com/";
-      let config = {
-        method: 'get',
-        url: `https://maps.googleapis.com/maps/api/distancematrix/json?origins=Washington%2C%20DC&destinations=New%20York%20City%2C%20NY&units=imperial&key=AIzaSyAlI4H4o6Uuid7GwOidfs_lybbT4XtzJ2s`,
-        headers: {
-          'Access-Control-Allow-Origin': 'https://amera.vnddev.com/',
-          'Access-Control-Allow-Methods': 'GET,PUT,POST',
-        }
-      }
 
-      axios(config)
-          .then(function (response) {
-            console.log(JSON.stringify(response.data));
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+
+      let searchComa = this.dataCa.to_coordinates.indexOf(',');
+      console.log(searchComa)
+      let latud = this.dataCa.to_coordinates.substring(0, searchComa);
+      console.warn(latud)
+      let longi = this.dataCa.to_coordinates.substring(searchComa + 1, this.dataCa.to_coordinates.length);
+      console.warn(longi)
+
+      //longitúd y latitúd from
+      let searchComaFrom = this.dataCa.from_coordinates.indexOf(',');
+      console.log(searchComaFrom)
+      let latudFrom = this.dataCa.from_coordinates.substring(0, searchComaFrom);
+      console.warn(latudFrom)
+      let longiFrom = this.dataCa.from_coordinates.substring(searchComaFrom + 1, this.dataCa.from_coordinates.length);
+      console.warn(longiFrom)
+
+
+      let origin1 = new google.maps.LatLng(latud, longi);
+      let origin2 = this.dataCa.to;
+      let destinationA = this.dataCa.from;
+      let destinationB = new google.maps.LatLng(latudFrom, longiFrom);
+
+      let service = new google.maps.DistanceMatrixService();
+      service.getDistanceMatrix(
+          {
+            origins: [origin1, origin2],
+            destinations: [destinationA, destinationB],
+            travelMode: google.maps.TravelMode.DRIVING,
+            // unitSystem: google.maps.UnitSystem.METRIC,
+            avoidHighways: false,
+            avoidTolls: false,
+          }, callback);
+
+      function callback(response, status) {
+        console.log(response.rows[0].elements[0].distance.value)
+        console.log(status)
+        // See Parsing the Results for
+        // the basics of a callback function.
+      }
     }
   },
   computed: {
