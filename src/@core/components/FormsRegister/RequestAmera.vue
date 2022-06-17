@@ -299,7 +299,7 @@
                   label="Additional stop"
               >
                 <v-select
-                    v-model="seleccionstop"
+                    v-model="dataCa.seleccionstop"
                     :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                     multiple
                     :options="option"
@@ -308,7 +308,7 @@
                 />
               </b-form-group>
             </b-col>
-            <b-col md="4" v-if="seleccionstop">
+            <b-col md="4" v-if="dataCa.seleccionstop">
               <b-form-group
                   label="Destination"
               >
@@ -408,7 +408,7 @@ export default {
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
     // 15th two months prior
     const minDate = new Date(today)
-    minDate.setMonth(minDate.getMonth() - 2)
+    minDate.setMonth(minDate.getMonth() - 1)
     minDate.setDate(15)
     // 15th in two months
     const maxDate = new Date(today)
@@ -431,6 +431,9 @@ export default {
 
         emailpatient: '',
         contac_number: '',
+
+        seleccionstop: '',
+        price: '',
       },
       //tomar dirección de api google
       getlocationlong: '',
@@ -468,15 +471,22 @@ export default {
       getInfoPat: [],
       //fin nuevo agregado
 
+      priceAdiciona: 0,
+      valormillas: 0,
+
       selectcirujia: null,
       selected: null,
       ubicacion: '',
-      selectedContry: 'select_value',
-      selectedLanguage: 'nothing_selected',
       option: [
-        {title: 'Wait and return'},
-        {title: 'Pharmacy stop'},
-        {title: 'Additional stop'},
+        {
+          title: 'One way',
+        },
+        {
+          title: 'Roundtrip '
+        },
+        {
+          title: 'Additional stop'
+        },
       ],
       optionscirujia: [
         {
@@ -633,21 +643,6 @@ export default {
 
       this.calculatePrice();
 
-      // axios.get(`https://maps.googleapis.com/maps/api/directions/json?destination=${this.dataCa.to_coordinates}&origin=${this.dataCa.from_coordinates}&key=AIzaSyAlI4H4o6Uuid7GwOidfs_lybbT4XtzJ2s&units=imperial`,
-      //     {
-      //       headers: {
-      //         'X-Requested-With': 'XMLHttpRequest',
-      //         'Access-Control-Allow-Origin': '*',
-      //         'Access-Control-Allow-Credentials': true
-      //       }
-      //     }).then((response) => {
-      //   this.infoLoca = response;
-      //   console.log(this.infoLoca)
-      // }).catch((error) => {
-      //   console.log(error)
-      // })
-
-
       // this.$http.post('ca/panel/booking/add?clientType=reservationCode', this.dataCa)
       //     .then((response) => {
       //       if (response.data.status === 200) {
@@ -703,18 +698,6 @@ export default {
       this.dataCa = this.$store.getters['Users/userData'].user
     },
     calculatePrice() {
-      // const URL = `https://maps.googleapis.com/maps/api/directions/json?destination=${this.dataCa.to_coordinates}&origin=${this.dataCa.from_coordinates}&key=AIzaSyAlI4H4o6Uuid7GwOidfs_lybbT4XtzJ2s&units=imperial`
-      // axios.get(URL)
-      //     .then((response) => {
-      //       console.warn(response.data.routes[0].legs[0].distance.value)
-      //       let metros = response.data.routes[0].legs[0].distance.value;
-      //       let millaje = metros / 1609.34;
-      //       console.log(millaje)
-      //     }).catch((error) => {
-      //   console.log(error.message)
-      // })
-      // const proxyurl = "https://cors-anywhere.herokuapp.com/";
-
 
       let searchComa = this.dataCa.to_coordinates.indexOf(',');
       console.log(searchComa)
@@ -751,6 +734,14 @@ export default {
       function callback(response, status) {
         console.log(response.rows[0].elements[0].distance.value)
         console.log(status)
+        this.valormillas = response.rows[0].elements[0].distance.value * 0.621371;
+        console.log(this.valormillas)
+
+        if (this.valormillas < 16.0934) {
+          this.priceAdiciona = 75;
+          console.log('Has superado las millas tu valor es ' + ' $75' + 'one way')
+        }
+
         // See Parsing the Results for
         // the basics of a callback function.
       }
