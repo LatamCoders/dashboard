@@ -369,9 +369,9 @@
 </template>
 
 <script>
-import {FormWizard, TabContent} from 'vue-form-wizard'
+import { FormWizard, TabContent } from 'vue-form-wizard'
 import vSelect from 'vue-select'
-import {ValidationProvider, ValidationObserver} from 'vee-validate'
+import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import {
@@ -383,8 +383,7 @@ import {
   BFormDatepicker,
   BFormTimepicker,
 } from 'bootstrap-vue'
-import axios from "axios";
-
+import axios from 'axios'
 
 export default {
   components: {
@@ -450,7 +449,6 @@ export default {
       locPlaces: [],
       existingPlace: {},
 
-
       lispatient: [],
       seleccionstop: '',
       idpaciente: 0,
@@ -472,7 +470,7 @@ export default {
       //fin nuevo agregado
 
       priceAdiciona: 0,
-      valormillas: 0,
+      valormillas: '',
 
       selectcirujia: null,
       selected: null,
@@ -594,7 +592,7 @@ export default {
       this.existingPlace = loc
       this.dataCa.to = this.existingPlace.formatted_address
       // this.dataCa.to_coordinates = this.existingPlace.geometry.viewport.wb.h + ',' + this.existingPlace.geometry.viewport.Sa.h
-      this.dataCa.to_coordinates = this.existingPlace.geometry.location.lat() + ',' + this.existingPlace.geometry.location.lng();
+      this.dataCa.to_coordinates = this.existingPlace.geometry.location.lat() + ',' + this.existingPlace.geometry.location.lng()
 
       console.log(this.dataCa.to)
       console.log(this.dataCa.to_coordinates)
@@ -602,7 +600,7 @@ export default {
     initMarkerFrom(loc) {
       this.existingPlace = loc
       this.dataCa.from = this.existingPlace.formatted_address
-      this.dataCa.from_coordinates = this.existingPlace.geometry.location.lat() + ',' + this.existingPlace.geometry.location.lng();
+      this.dataCa.from_coordinates = this.existingPlace.geometry.location.lat() + ',' + this.existingPlace.geometry.location.lng()
       console.log(this.dataCa.from)
       console.log(this.dataCa.from_coordinates)
     },
@@ -612,7 +610,7 @@ export default {
           lat: this.existingPlace.geometry.location.lat(),
           lng: this.existingPlace.geometry.location.lng()
         }
-        this.locationMarkers.push({position: marker})
+        this.locationMarkers.push({ position: marker })
         this.locPlaces.push(this.existingPlace)
         this.center = marker
         this.existingPlace = null
@@ -640,8 +638,7 @@ export default {
       // this.addLocationMarker();
       // console.log(this.dataCa)
 
-
-      this.calculatePrice();
+      this.calculatePrice()
 
       // this.$http.post('ca/panel/booking/add?clientType=reservationCode', this.dataCa)
       //     .then((response) => {
@@ -699,28 +696,27 @@ export default {
     },
     calculatePrice() {
 
-      let searchComa = this.dataCa.to_coordinates.indexOf(',');
+      let searchComa = this.dataCa.to_coordinates.indexOf(',')
       console.log(searchComa)
-      let latud = this.dataCa.to_coordinates.substring(0, searchComa);
+      let latud = this.dataCa.to_coordinates.substring(0, searchComa)
       console.warn(latud)
-      let longi = this.dataCa.to_coordinates.substring(searchComa + 1, this.dataCa.to_coordinates.length);
+      let longi = this.dataCa.to_coordinates.substring(searchComa + 1, this.dataCa.to_coordinates.length)
       console.warn(longi)
 
       //longitúd y latitúd from
-      let searchComaFrom = this.dataCa.from_coordinates.indexOf(',');
+      let searchComaFrom = this.dataCa.from_coordinates.indexOf(',')
       console.log(searchComaFrom)
-      let latudFrom = this.dataCa.from_coordinates.substring(0, searchComaFrom);
+      let latudFrom = this.dataCa.from_coordinates.substring(0, searchComaFrom)
       console.warn(latudFrom)
-      let longiFrom = this.dataCa.from_coordinates.substring(searchComaFrom + 1, this.dataCa.from_coordinates.length);
+      let longiFrom = this.dataCa.from_coordinates.substring(searchComaFrom + 1, this.dataCa.from_coordinates.length)
       console.warn(longiFrom)
 
+      let origin1 = new google.maps.LatLng(latud, longi)
+      let origin2 = this.dataCa.to
+      let destinationA = this.dataCa.from
+      let destinationB = new google.maps.LatLng(latudFrom, longiFrom)
 
-      let origin1 = new google.maps.LatLng(latud, longi);
-      let origin2 = this.dataCa.to;
-      let destinationA = this.dataCa.from;
-      let destinationB = new google.maps.LatLng(latudFrom, longiFrom);
-
-      let service = new google.maps.DistanceMatrixService();
+      let service = new google.maps.DistanceMatrixService()
       service.getDistanceMatrix(
           {
             origins: [origin1, origin2],
@@ -729,17 +725,20 @@ export default {
             // unitSystem: google.maps.UnitSystem.METRIC,
             avoidHighways: false,
             avoidTolls: false,
-          }, callback);
+          }, callback)
 
       function callback(response, status) {
         console.log(response.rows[0].elements[0].distance.value)
         console.log(status)
-        this.valormillas = response.rows[0].elements[0].distance.value * 0.621371;
-        console.log(this.valormillas)
+        let valormillas = response.rows[0].elements[0].distance.value
+        let calculoMillas = valormillas * 0.621371
+        console.warn(calculoMillas)
 
-        if (this.valormillas < 16.0934) {
-          this.priceAdiciona = 75;
+        if (parseFloat(calculoMillas) < 16.0934) {
+          this.priceAdiciona = 75
           console.log('Has superado las millas tu valor es ' + ' $75' + 'one way')
+        } else {
+          console.log('no cumplió')
         }
 
         // See Parsing the Results for
@@ -774,13 +773,13 @@ export default {
     },
     idpaciente() {
       for (let getvalor of this.lispatient) {
-        this.getInfoPat = getvalor;
+        this.getInfoPat = getvalor
         if (parseInt(this.idpaciente) === this.getInfoPat.id) {
-          let todos = [];
+          let todos = []
           todos = this.getInfoPat
-          this.lastnombre = todos.lastname;
-          this.contact = todos.phone_number;
-          this.getEmailPatient = todos.email;
+          this.lastnombre = todos.lastname
+          this.contact = todos.phone_number
+          this.getEmailPatient = todos.email
         }
       }
     }
