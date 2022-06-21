@@ -369,9 +369,9 @@
 </template>
 
 <script>
-import { FormWizard, TabContent } from 'vue-form-wizard'
+import {FormWizard, TabContent} from 'vue-form-wizard'
 import vSelect from 'vue-select'
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import {ValidationProvider, ValidationObserver} from 'vee-validate'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import {
@@ -610,7 +610,7 @@ export default {
           lat: this.existingPlace.geometry.location.lat(),
           lng: this.existingPlace.geometry.location.lng()
         }
-        this.locationMarkers.push({ position: marker })
+        this.locationMarkers.push({position: marker})
         this.locPlaces.push(this.existingPlace)
         this.center = marker
         this.existingPlace = null
@@ -722,28 +722,38 @@ export default {
             origins: [origin1, origin2],
             destinations: [destinationA, destinationB],
             travelMode: google.maps.TravelMode.DRIVING,
-            // unitSystem: google.maps.UnitSystem.METRIC,
+            unitSystem: google.maps.UnitSystem.METRIC,
             avoidHighways: false,
             avoidTolls: false,
           }, callback)
+
 
       function callback(response, status) {
         console.log(response.rows[0].elements[0].distance.value)
         console.log(status)
         let valormillas = response.rows[0].elements[0].distance.value
-        let calculoMillas = valormillas * 0.621371
+        let calculoMillas = valormillas * 0.621371;
         console.warn(calculoMillas)
 
-        if (parseFloat(calculoMillas) < 16.0934) {
-          this.priceAdiciona = 75
-          console.log('Has superado las millas tu valor es ' + ' $75' + 'one way')
+        if (parseFloat(calculoMillas) < 160934) {
+          let priceAdiciona = 75;
+          console.log(priceAdiciona)
+          // console.log(`Has superado las millas tu valor es ${$75} one way`)
+          // getResult()
+
         } else {
           console.log('no cumplió')
         }
 
+
         // See Parsing the Results for
         // the basics of a callback function.
       }
+
+      // function getResult(response) {
+      //   return this.valormillas = response;
+      //   console.log(this.valormillas)
+      // }
     }
   },
   computed: {
@@ -782,8 +792,7 @@ export default {
           this.getEmailPatient = todos.email
         }
       }
-    }
-
+    },
   },
 
   beforeMount() {
