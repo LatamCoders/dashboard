@@ -199,7 +199,7 @@
                   <b-form-datepicker
                       v-model="fecha"
                       :min="min"
-                      :max="max"
+
                       locale="en"
                       placeholder="0/00/0000"
                       :state="errors.length > 0 ? false:null"
@@ -220,23 +220,6 @@
                       locale="en"
                       v-model="tiempo"
                       :state="errors.length > 0 ? false:null"
-                  />
-                  <small class="text-danger" v-if="errors[0]">This field is required</small>
-                </validation-provider>
-              </b-form-group>
-            </b-col>
-            <b-col md="4">
-              <b-form-group
-                  label="Time of Appt"
-              >
-                <validation-provider
-                    #default="{ errors }"
-                    rules="required"
-                >
-                  <b-form-timepicker
-                      locale="en"
-                      :state="errors.length > 0 ? false:null"
-                      v-model="dataCa.pickup_time"
                   />
                   <small class="text-danger" v-if="errors[0]">This field is required</small>
                 </validation-provider>
@@ -299,7 +282,7 @@
                   label="Additional stop"
               >
                 <v-select
-                    v-model="dataCa.seleccionstop"
+                    v-model="selectcirujia"
                     :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                     multiple
                     :options="option"
@@ -308,7 +291,7 @@
                 />
               </b-form-group>
             </b-col>
-            <b-col md="4" v-if="dataCa.seleccionstop">
+            <b-col md="4" v-if="selectcirujia">
               <b-form-group
                   label="Destination"
               >
@@ -360,6 +343,16 @@
                 </validation-provider>
               </b-form-group>
             </b-col>
+            <b-col md="4">
+              <b-form-group
+                  label="Pickup time"
+              >
+                <b-form-input
+                    disabled
+                    v-model="dataCa.pickup_time"
+                />
+              </b-form-group>
+            </b-col>
           </b-row>
         </validation-observer>
       </tab-content>
@@ -369,9 +362,9 @@
 </template>
 
 <script>
-import { FormWizard, TabContent } from 'vue-form-wizard'
+import {FormWizard, TabContent} from 'vue-form-wizard'
 import vSelect from 'vue-select'
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import {ValidationProvider, ValidationObserver} from 'vee-validate'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import {
@@ -611,7 +604,7 @@ export default {
           lat: this.existingPlace.geometry.location.lat(),
           lng: this.existingPlace.geometry.location.lng()
         }
-        this.locationMarkers.push({ position: marker })
+        this.locationMarkers.push({position: marker})
         this.locPlaces.push(this.existingPlace)
         this.center = marker
         this.existingPlace = null
@@ -627,70 +620,102 @@ export default {
       })
     },
     formRequest() {
-      this.$swal({
-        title: 'Please, wait...',
-        didOpen: () => {
-          this.$swal.showLoading()
-        }
-      })
-      this.dataCa.selfpay_id = parseInt(this.idpaciente)
-      this.dataCa.booking_date = this.fecha + ' ' + this.tiempo
-      this.dataCa.appoinment_datetime = this.appointmentdate + ' ' + this.appointmenttime
-      // this.addLocationMarker();
-      // console.log(this.dataCa)
+      const d = new Date();
+      const today = new Date(d.getFullYear(), d.getMonth(), d.getDate())
+      let h = d.getHours();
+      let m = d.getMinutes();
+      let s = d.getSeconds();
+      let time = h + ":" + m + ":" + s;
+      // console.log(time)
+      // console.log(today)
+      if (this.tiempo < time) {
+        this.$swal({
+          title: 'Error, no puede colocar una hora menor a la actual',
+          icon: 'error',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
+        })
+      }
+          // else if (this.fecha <= today) {
+          //   this.$swal({
+          //     title: 'Error, no puede colocar una fecha menor o igual a la actual',
+          //     icon: 'error',
+          //     customClass: {
+          //       confirmButton: 'btn btn-primary',
+          //     },
+          //     buttonsStyling: false,
+          //   })
+      // }
+      else {
+        this.$swal({
+          title: 'Please, wait...',
+          didOpen: () => {
+            this.$swal.showLoading()
+          }
+        })
+        this.dataCa.selfpay_id = parseInt(this.idpaciente)
+        this.dataCa.booking_date = this.fecha + ' ' + this.tiempo
+        this.dataCa.appoinment_datetime = this.appointmentdate + ' ' + this.appointmenttime;
+        this.dataCa.seleccionstop = this.selectcirujia[0].title;
+        this.dataCa.pickup_time = this.tiempo + 30;
+        // this.addLocationMarker();
+        // console.log(this.dataCa)
 
-      this.calculatePrice()
+        this.calculatePrice();
 
-      // this.$http.post('ca/panel/booking/add?clientType=reservationCode', this.dataCa)
-      //     .then((response) => {
-      //       if (response.data.status === 200) {
-      //         this.$swal({
-      //           title: response.data.message,
-      //           icon: 'success',
-      //           customClass: {
-      //             confirmButton: 'btn btn-primary',
-      //           },
-      //           buttonsStyling: false,
-      //         })
-      //         this.$refs.requestTrip.reset()
-      //         //clear form
-      //         this.dataCa.booking_date = '',
-      //             this.dataCa.from = '',
-      //             this.dataCa.to = '',
-      //             this.dataCa.pickup_time = '',
-      //             this.dataCa.city = '',
-      //             this.dataCa.surgery_type = '',
-      //             this.dataCa.appoinment_datetime = '',
-      //             this.dataCa.selfpay_id = '',
-      //             this.dataCa.from_coordinates = '',
-      //             this.dataCa.to_coordinates = '',
-      //             this.fecha = '',
-      //             this.tiempo = '',
-      //             this.appointmentdate = '',
-      //             this.appointmenttime = '',
-      //             this.seleccionstop = ''
-      //       } else {
-      //         this.$swal({
-      //           title: response.data.message,
-      //           icon: 'error',
-      //           customClass: {
-      //             confirmButton: 'btn btn-primary',
-      //           },
-      //           buttonsStyling: false,
-      //         })
-      //
-      //         // console.log(res.data.data)
-      //       }
-      //     }).catch((error) => {
-      //   this.$swal({
-      //     title: error.response.data.message,
-      //     icon: 'error',
-      //     customClass: {
-      //       confirmButton: 'btn btn-primary',
-      //     },
-      //     buttonsStyling: false,
-      //   })
-      // })
+        // this.$http.post('ca/panel/booking/add?clientType=reservationCode', this.dataCa)
+        //     .then((response) => {
+        //       if (response.data.status === 200) {
+        //         this.$swal({
+        //           title: response.data.message,
+        //           icon: 'success',
+        //           customClass: {
+        //             confirmButton: 'btn btn-primary',
+        //           },
+        //           buttonsStyling: false,
+        //         })
+        //         this.$refs.requestTrip.reset()
+        //         //clear form
+        //         this.dataCa.booking_date = '',
+        //             this.dataCa.from = '',
+        //             this.dataCa.to = '',
+        //             this.dataCa.pickup_time = '',
+        //             this.dataCa.city = '',
+        //             this.dataCa.surgery_type = '',
+        //             this.dataCa.appoinment_datetime = '',
+        //             this.dataCa.selfpay_id = '',
+        //             this.dataCa.from_coordinates = '',
+        //             this.dataCa.to_coordinates = '',
+        //             this.fecha = '',
+        //             this.tiempo = '',
+        //             this.appointmentdate = '',
+        //             this.appointmenttime = '',
+        //             this.seleccionstop = ''
+        //       } else {
+        //         this.$swal({
+        //           title: response.data.message,
+        //           icon: 'error',
+        //           customClass: {
+        //             confirmButton: 'btn btn-primary',
+        //           },
+        //           buttonsStyling: false,
+        //         })
+        //
+        //         // console.log(res.data.data)
+        //       }
+        //     }).catch((error) => {
+        //   this.$swal({
+        //     title: error.response.data.message,
+        //     icon: 'error',
+        //     customClass: {
+        //       confirmButton: 'btn btn-primary',
+        //     },
+        //     buttonsStyling: false,
+        //   })
+        // })
+      }
     },
     getInfo() {
       this.dataCa = this.$store.getters['Users/userData'].user
@@ -733,28 +758,31 @@ export default {
       console.log(this.infoKilometros)
       console.log(status)
       let milla = parseFloat(0.621371);
-      let calculoMillas = this.infoKilometros * milla;
-      console.warn(calculoMillas)
+      let calculoMillas = milla * this.infoKilometros;
+      console.log(calculoMillas)
 
-      if (parseFloat(calculoMillas) < 160934 && this.dataCa.seleccionstop[0].title === 'One way') {
-        this.priceAdiciona = 75
-        console.log(this.priceAdiciona)
-      } else if (parseFloat(calculoMillas) < 160934 && this.dataCa.seleccionstop[0].title === 'Roundtrip') {
-        this.priceAdiciona = 125
-        console.log(this.priceAdiciona)
-      } else if (parseFloat(calculoMillas) > 160934 && parseFloat(calculoMillas) < 321869 && this.dataCa.seleccionstop[0].title === 'One way') {
-        this.priceAdiciona = 85
-        console.log(this.priceAdiciona)
-      } else if (parseFloat(calculoMillas) > 160934 && parseFloat(calculoMillas) < 321869 && this.dataCa.seleccionstop[0].title === 'Roundtrip') {
-        this.priceAdiciona = 135
-        console.log(this.priceAdiciona)
+      if (parseFloat(calculoMillas) <= 160934) {
+        if (this.selectcirujia[0].title === 'One way') {
+          this.dataCa.price = 75;
+          console.log(this.dataCa.price)
+        } else if (this.selectcirujia[0].title === 'Roundtrip') {
+          this.dataCa.price = 125;
+          console.log(this.dataCa.price)
+        }
+      } else if (parseFloat(calculoMillas) >= 160934 || parseFloat(calculoMillas) <= 321869) {
+        if (this.selectcirujia[0].title === 'One way') {
+          this.dataCa.price = 85;
+          console.log(this.dataCa.price)
+        } else if (this.selectcirujia[0].title === 'Roundtrip') {
+          this.dataCa.price = 135;
+          console.log(this.dataCa.price)
+        }
       } else {
-        console.log('no cumplió')
+        console.log('falló')
       }
 
-      // See Parsing the Results for
-      // the basics of a callback function.
-    }
+    },
+
   },
   computed: {
     infopersonaselec() {
@@ -793,6 +821,18 @@ export default {
         }
       }
     },
+    // fecha(){
+    //   if (this.fecha !== ''){
+    //     const now = new Date()
+    //     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    //     const minDate = new Date(today)
+    //     minDate.setMonth(minDate.getMonth() - 1)
+    //
+    //     console.warn(this.fecha)
+    //     console.log(today)
+    //     console.log(minDate.setDate(15))
+    //   }
+    // }
   },
 
   beforeMount() {
