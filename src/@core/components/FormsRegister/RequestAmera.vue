@@ -369,9 +369,9 @@
 </template>
 
 <script>
-import {FormWizard, TabContent} from 'vue-form-wizard'
+import { FormWizard, TabContent } from 'vue-form-wizard'
 import vSelect from 'vue-select'
-import {ValidationProvider, ValidationObserver} from 'vee-validate'
+import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import {
@@ -471,6 +471,7 @@ export default {
 
       priceAdiciona: 0,
       valormillas: '',
+      infoKilometros: 0,
 
       selectcirujia: null,
       selected: null,
@@ -480,7 +481,7 @@ export default {
           title: 'One way',
         },
         {
-          title: 'Roundtrip '
+          title: 'Roundtrip'
         },
         {
           title: 'Additional stop'
@@ -610,7 +611,7 @@ export default {
           lat: this.existingPlace.geometry.location.lat(),
           lng: this.existingPlace.geometry.location.lng()
         }
-        this.locationMarkers.push({position: marker})
+        this.locationMarkers.push({ position: marker })
         this.locPlaces.push(this.existingPlace)
         this.center = marker
         this.existingPlace = null
@@ -725,35 +726,34 @@ export default {
             unitSystem: google.maps.UnitSystem.METRIC,
             avoidHighways: false,
             avoidTolls: false,
-          }, callback)
+          }, this.callback)
+    },
+    callback(response, status) {
+      this.infoKilometros = response.rows[0].elements[0].distance.value
+      console.log(this.infoKilometros)
+      console.log(status)
+      let milla = parseFloat(0.621371);
+      let calculoMillas = this.infoKilometros * milla;
+      console.warn(calculoMillas)
 
-
-      function callback(response, status) {
-        console.log(response.rows[0].elements[0].distance.value)
-        console.log(status)
-        let valormillas = response.rows[0].elements[0].distance.value
-        let calculoMillas = valormillas * 0.621371;
-        console.warn(calculoMillas)
-
-        if (parseFloat(calculoMillas) < 160934) {
-          let priceAdiciona = 75;
-          console.log(priceAdiciona)
-          // console.log(`Has superado las millas tu valor es ${$75} one way`)
-          // getResult()
-
-        } else {
-          console.log('no cumplió')
-        }
-
-
-        // See Parsing the Results for
-        // the basics of a callback function.
+      if (parseFloat(calculoMillas) < 160934 && this.dataCa.seleccionstop[0].title === 'One way') {
+        this.priceAdiciona = 75
+        console.log(this.priceAdiciona)
+      } else if (parseFloat(calculoMillas) < 160934 && this.dataCa.seleccionstop[0].title === 'Roundtrip') {
+        this.priceAdiciona = 125
+        console.log(this.priceAdiciona)
+      } else if (parseFloat(calculoMillas) > 160934 && parseFloat(calculoMillas) < 321869 && this.dataCa.seleccionstop[0].title === 'One way') {
+        this.priceAdiciona = 85
+        console.log(this.priceAdiciona)
+      } else if (parseFloat(calculoMillas) > 160934 && parseFloat(calculoMillas) < 321869 && this.dataCa.seleccionstop[0].title === 'Roundtrip') {
+        this.priceAdiciona = 135
+        console.log(this.priceAdiciona)
+      } else {
+        console.log('no cumplió')
       }
 
-      // function getResult(response) {
-      //   return this.valormillas = response;
-      //   console.log(this.valormillas)
-      // }
+      // See Parsing the Results for
+      // the basics of a callback function.
     }
   },
   computed: {
