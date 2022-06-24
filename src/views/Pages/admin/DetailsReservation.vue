@@ -52,6 +52,20 @@
             class="mt-2 pt-75"
         />
       </b-tab>
+      <b-tab>
+        <template #title>
+          <feather-icon
+              icon="InfoIcon"
+              size="16"
+              class="mr-0 mr-sm-50"
+          />
+          <span class="d-none d-sm-inline">Detail of payment</span>
+        </template>
+        <details-info-payment-booking
+            :data-service="listReservas"
+            class="mt-2 pt-75"
+        />
+      </b-tab>
     </b-tabs
     >
   </component>
@@ -67,6 +81,7 @@ import store from '@/store'
 import DetailsViewReserva from '@core/components/details-reservas/DetailsViewReserva'
 import DetailsViewDriverAsignado from '@core/components/details-reservas/DetailsViewDriverAsignado'
 import DetailsInfoService from '@core/components/details-reservas/DetailsInfoService'
+import DetailsInfoPaymentBooking from '@core/components/details-reservas/DetailsInfoPaymentBooking'
 // import ListPatientCA from '@core/components/CA/ListPatientCA'
 
 export default {
@@ -80,6 +95,7 @@ export default {
     DetailsViewReserva,
     DetailsViewDriverAsignado,
     DetailsInfoService,
+    DetailsInfoPaymentBooking,
 
   },
   name: 'DetailsReservation',

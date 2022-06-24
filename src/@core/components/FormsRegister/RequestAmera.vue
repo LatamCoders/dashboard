@@ -169,6 +169,57 @@
         </validation-observer>
       </tab-content>
 
+      <!-- personal details -->
+      <tab-content
+          title="Info"
+          :before-change="validationForm"
+      >
+        <validation-observer
+            ref="accountRules"
+            tag="form"
+        >
+          <b-row>
+            <b-col
+                cols="12"
+                class="mb-2"
+            >
+              <h5 class="mb-0">
+                Information
+              </h5>
+              <small class="text-muted" style="color: #000000d6 !important">Enter information.</small>
+            </b-col>
+            <b-col md="4">
+              <b-form-group
+                  label="Facility Name"
+              >
+                <b-form-input
+                    v-model="dataCa.facility_name"
+                >
+                </b-form-input>
+              </b-form-group>
+            </b-col>
+            <b-col md="4">
+              <b-form-group
+                  label="Doctor's Name"
+              >
+                <b-form-input
+                    v-model="dataCa.doctor_name"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col md="4">
+              <b-form-group
+                  label="Facility Phone Number"
+              >
+                <b-form-input
+                    v-model="dataCa.facility_phone_number"
+                />
+              </b-form-group>
+            </b-col>
+          </b-row>
+        </validation-observer>
+      </tab-content>
+
       <!-- address -->
       <tab-content
           title="Preschedule"
@@ -362,9 +413,9 @@
 </template>
 
 <script>
-import {FormWizard, TabContent} from 'vue-form-wizard'
+import { FormWizard, TabContent } from 'vue-form-wizard'
 import vSelect from 'vue-select'
-import {ValidationProvider, ValidationObserver} from 'vee-validate'
+import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import {
@@ -412,20 +463,24 @@ export default {
         booking_date: '',
         from: '',
         to: '',
-        status: '',
         pickup_time: '',
         city: '',
         surgery_type: '',
         appoinment_datetime: '',
-        selfpay_id: '',
         from_coordinates: '',
         to_coordinates: '',
 
+        price: '',
+
+        status: '',
+
+        selfpay_id: '',
         emailpatient: '',
         contac_number: '',
-
+        facility_name: '',
+        doctor_name: '',
+        facility_phone_number: '',
         seleccionstop: '',
-        price: '',
       },
       //tomar dirección de api google
       getlocationlong: '',
@@ -604,7 +659,7 @@ export default {
           lat: this.existingPlace.geometry.location.lat(),
           lng: this.existingPlace.geometry.location.lng()
         }
-        this.locationMarkers.push({position: marker})
+        this.locationMarkers.push({ position: marker })
         this.locPlaces.push(this.existingPlace)
         this.center = marker
         this.existingPlace = null
@@ -620,12 +675,12 @@ export default {
       })
     },
     formRequest() {
-      const d = new Date();
+      const d = new Date()
       const today = new Date(d.getFullYear(), d.getMonth(), d.getDate())
-      let h = d.getHours();
-      let m = d.getMinutes();
-      let s = d.getSeconds();
-      let time = h + ":" + m + ":" + s;
+      let h = d.getHours()
+      let m = d.getMinutes()
+      let s = d.getSeconds()
+      let time = h + ':' + m + ':' + s
       // console.log(time)
       // console.log(today)
       if (this.tiempo < time) {
@@ -655,66 +710,66 @@ export default {
             this.$swal.showLoading()
           }
         })
+        this.calculatePrice()
         this.dataCa.selfpay_id = parseInt(this.idpaciente)
         this.dataCa.booking_date = this.fecha + ' ' + this.tiempo
-        this.dataCa.appoinment_datetime = this.appointmentdate + ' ' + this.appointmenttime;
-        this.dataCa.seleccionstop = this.selectcirujia[0].title;
-        this.dataCa.pickup_time = this.tiempo + 30;
+        this.dataCa.appoinment_datetime = this.appointmentdate + ' ' + this.appointmenttime
+        this.dataCa.seleccionstop = this.selectcirujia[0].title
+        this.dataCa.pickup_time = this.tiempo + 30
         // this.addLocationMarker();
         // console.log(this.dataCa)
 
-        this.calculatePrice();
+        this.$http.post('ca/panel/booking/add?clientType=reservationCode', this.dataCa)
+            .then((response) => {
+              if (response.data.status === 200) {
+                this.$swal({
+                  title: response.data.message,
+                  icon: 'success',
+                  customClass: {
+                    confirmButton: 'btn btn-primary',
+                  },
+                  buttonsStyling: false,
+                })
+                this.$refs.requestTrip.reset()
+                //clear form
+                this.dataCa.booking_date = '',
+                    this.dataCa.from = '',
+                    this.dataCa.to = '',
+                    this.dataCa.pickup_time = '',
+                    this.dataCa.city = '',
+                    this.dataCa.surgery_type = '',
+                    this.dataCa.appoinment_datetime = '',
+                    this.dataCa.selfpay_id = '',
+                    this.dataCa.from_coordinates = '',
+                    this.dataCa.to_coordinates = '',
+                    this.fecha = '',
+                    this.tiempo = '',
+                    this.appointmentdate = '',
+                    this.appointmenttime = '',
+                    this.seleccionstop = ''
+              } else {
+                this.$swal({
+                  title: response.data.message,
+                  icon: 'error',
+                  customClass: {
+                    confirmButton: 'btn btn-primary',
+                  },
+                  buttonsStyling: false,
+                })
 
-        // this.$http.post('ca/panel/booking/add?clientType=reservationCode', this.dataCa)
-        //     .then((response) => {
-        //       if (response.data.status === 200) {
-        //         this.$swal({
-        //           title: response.data.message,
-        //           icon: 'success',
-        //           customClass: {
-        //             confirmButton: 'btn btn-primary',
-        //           },
-        //           buttonsStyling: false,
-        //         })
-        //         this.$refs.requestTrip.reset()
-        //         //clear form
-        //         this.dataCa.booking_date = '',
-        //             this.dataCa.from = '',
-        //             this.dataCa.to = '',
-        //             this.dataCa.pickup_time = '',
-        //             this.dataCa.city = '',
-        //             this.dataCa.surgery_type = '',
-        //             this.dataCa.appoinment_datetime = '',
-        //             this.dataCa.selfpay_id = '',
-        //             this.dataCa.from_coordinates = '',
-        //             this.dataCa.to_coordinates = '',
-        //             this.fecha = '',
-        //             this.tiempo = '',
-        //             this.appointmentdate = '',
-        //             this.appointmenttime = '',
-        //             this.seleccionstop = ''
-        //       } else {
-        //         this.$swal({
-        //           title: response.data.message,
-        //           icon: 'error',
-        //           customClass: {
-        //             confirmButton: 'btn btn-primary',
-        //           },
-        //           buttonsStyling: false,
-        //         })
-        //
-        //         // console.log(res.data.data)
-        //       }
-        //     }).catch((error) => {
-        //   this.$swal({
-        //     title: error.response.data.message,
-        //     icon: 'error',
-        //     customClass: {
-        //       confirmButton: 'btn btn-primary',
-        //     },
-        //     buttonsStyling: false,
-        //   })
-        // })
+                // console.log(res.data.data)
+              }
+            })
+            .catch((error) => {
+              this.$swal({
+                title: error.response.data.message,
+                icon: 'error',
+                customClass: {
+                  confirmButton: 'btn btn-primary',
+                },
+                buttonsStyling: false,
+              })
+            })
       }
     },
     getInfo() {
@@ -757,24 +812,24 @@ export default {
       this.infoKilometros = response.rows[0].elements[0].distance.value
       console.log(this.infoKilometros)
       console.log(status)
-      let milla = parseFloat(0.621371);
-      let calculoMillas = milla * this.infoKilometros;
+      let milla = parseFloat(0.621371)
+      let calculoMillas = milla * this.infoKilometros
       console.log(calculoMillas)
 
       if (parseFloat(calculoMillas) <= 160934) {
         if (this.selectcirujia[0].title === 'One way') {
-          this.dataCa.price = 75;
+          this.dataCa.price = 75
           console.log(this.dataCa.price)
         } else if (this.selectcirujia[0].title === 'Roundtrip') {
-          this.dataCa.price = 125;
+          this.dataCa.price = 125
           console.log(this.dataCa.price)
         }
       } else if (parseFloat(calculoMillas) >= 160934 || parseFloat(calculoMillas) <= 321869) {
         if (this.selectcirujia[0].title === 'One way') {
-          this.dataCa.price = 85;
+          this.dataCa.price = 85
           console.log(this.dataCa.price)
         } else if (this.selectcirujia[0].title === 'Roundtrip') {
-          this.dataCa.price = 135;
+          this.dataCa.price = 135
           console.log(this.dataCa.price)
         }
       } else {

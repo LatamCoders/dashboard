@@ -289,9 +289,9 @@ export default {
     BtnValidationDocsDriver,
   },
   computed: {
-    ...mapGetters({
-      userVehicle: 'Users/usersData'
-    })
+    // ...mapGetters({
+    //   userVehicle: 'Users/usersData'
+    // })
   },
   data() {
     return {
@@ -300,8 +300,13 @@ export default {
       btninterior: true,
       btnfront: true,
 
+      userVehicle: {}
+
     }
   },
+  mounted() {
+    this.userVehicle = this.$store.getters['Users/usersData'];
+  }
 }
 </script>
 
