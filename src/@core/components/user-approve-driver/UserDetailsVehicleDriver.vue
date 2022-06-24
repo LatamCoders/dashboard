@@ -304,8 +304,26 @@ export default {
 
     }
   },
+  methods: {
+    getInfoGeneral() {
+      let userId = parseInt(this.$route.params.id);
+      this.$http.get(`admin/panel/driver/${userId}/info`).then((response) => {
+        this.userVehicle = response.data.data;
+      }).catch((error) => {
+        this.$swal({
+          title: error.response.data.data,
+          icon: 'error',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
+        })
+      })
+    },
+  },
   mounted() {
-    this.userVehicle = this.$store.getters['Users/usersData'];
+    this.getInfoGeneral();
+
   }
 }
 </script>

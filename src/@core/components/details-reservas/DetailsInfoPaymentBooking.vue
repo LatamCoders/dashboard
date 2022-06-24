@@ -225,7 +225,7 @@ import {
   VBTooltip,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
-import { mapGetters } from 'vuex'
+// import {mapGetters} from 'vuex'
 
 export default {
   name: 'DetailsInfoPaymentBooking',
@@ -249,26 +249,50 @@ export default {
   },
   data() {
     return {
-      chargePayment: {}
+      chargePayment: {},
+      listReservas: {},
+      reservaId: '',
     }
   },
-  computed: {
-    ...mapGetters({
-      dataProvider: 'Users/usersData'
-    }),
-  },
+  // computed: {
+  //   ...mapGetters({
+  //     dataProvider: 'Users/usersData'
+  //   }),
+  // },
   methods: {
     getChargePayments() {
-      this.$http.get(`admin/panel/charges/${this.dataProvider.charge_id}/show`)
-          .then((response) => {
-            this.chargePayment = response.data.data
-            // console.log(this.chargePayment)
-          }).catch((error) => {
-            console.log(error)
+      this.$swal({
+        title: 'Please, wait...',
+        didOpen: () => {
+          this.$swal.showLoading()
+        },
       })
+      this.reservaId = this.$route.params.id;
+      this.$http.get(`admin/panel/booking/${this.reservaId}/info`).then((response) => {
+        this.listReservas = response.data.data;
+        console.log(this.listReservas.charge_id)
+        this.$http.get(`admin/panel/charges/${this.listReservas.charge_id}/show`)
+            .then((response) => {
+              this.chargePayment = response.data.data
+              this.$swal.close();
+              // console.log(this.chargePayment)
+            }).catch((error) => {
+          console.log(error)
+        })
+      }).catch((error) => {
+        this.$swal({
+          title: error.response.data.data,
+          icon: 'error',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
+        })
+      })
+
     }
   },
-  mounted() {
+  created() {
     this.getChargePayments()
   }
 
