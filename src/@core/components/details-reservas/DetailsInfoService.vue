@@ -250,10 +250,21 @@
               <b-form-group
                   label="Time"
               >
-                <b-form-input
-                    disabled
-                    v-model="adicional.time"
-                />
+                <template>
+                  <b-input-group>
+                    <b-form-input v-model="valonuevo.time" disabled placeholder="Button on right"/>
+                    <b-input-group-append>
+                      <b-button
+                          v-if="adicional.service === 'Wait/Return Fee'"
+                          v-ripple.400="'rgba(113, 102, 240, 0.15)'"
+                          v-b-modal.modal-1
+                          variant="outline-primary"
+                      >
+                        Edit
+                      </b-button>
+                    </b-input-group-append>
+                  </b-input-group>
+                </template>
               </b-form-group>
             </b-col>
             <b-col
@@ -273,6 +284,24 @@
           <hr>
         </template>
       </b-form>
+
+
+      <b-modal
+          id="modal-1"
+          title="Edit time"
+          hide-footer
+      >
+        <b-form>
+          <b-form-group>
+            <label for="email">Time:</label>
+            <b-form-input
+                v-model="valonuevo.time"
+            />
+          </b-form-group>
+
+          <b-button variant="primary" @click="sendChangeTime">Save change</b-button>
+        </b-form>
+      </b-modal>
     </template>
   </div>
 </template>
@@ -290,14 +319,19 @@ import {
   BForm,
   BTable,
   BCard,
+  BCardText,
   BCardHeader,
   BCardTitle,
   BFormCheckbox,
   BFormSelect,
+  BModal,
+  BInputGroup,
+  BInputGroupAppend,
   VBTooltip,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
-import {mapGetters} from "vuex";
+import { mapGetters } from 'vuex'
+import Ripple from 'vue-ripple-directive'
 
 export default {
   name: 'DetailsInfoService',
@@ -313,17 +347,24 @@ export default {
     BForm,
     BTable,
     BCard,
+    BCardText,
     BCardHeader,
     BCardTitle,
     BFormCheckbox,
     BFormSelect,
+    BModal,
+    BInputGroup,
+    BInputGroupAppend,
     vSelect,
+  },
+  directives: {
+    Ripple,
   },
   props: {
     dataService: {},
     ejecutar: {
       type: Boolean
-    }
+    },
   },
   data() {
     return {
@@ -337,30 +378,88 @@ export default {
         to: '',
         valors: ''
       },
+      listAditional: {},
+      inhabilitar: true,
+      savedInfo: false,
+      valonuevo: '',
+      adicional: ''
+
     }
   },
   computed: {
     ...mapGetters({
-      dataProvider: "Users/usersData"
+      dataProvider: 'Users/usersData'
     }),
   },
-  // methods: {
-  //   infoTravel() {
-  //     if (this.dataService.from !== '' && this.dataService.to !== '') {
-  //       this.reserva.from = JSON.parse(this.dataService.from);
-  //       this.reserva.to = JSON.parse(this.dataService.to);
-  //     }
-  //
-  //   }
-  // },
   methods: {
     formatToService(items) {
-      return this.aditionalStop = Object.assign(JSON.parse(items));
+      return this.aditionalStop = Object.assign(JSON.parse(items))
     },
+    getAdicional() {
+      this.listAditional = this.$store.getters['Users/usersData'].additional_service
+      for (let i = 0; i < this.listAditional.length; i++) {
+        let hola = i
+        console.log(hola)
+        if (this.listAditional[i].service === 'Wait/Return Fee') {
+          this.valonuevo = this.listAditional[i]
+          console.log(this.valonuevo)
+          console.warn('bbe')
+        }
+      }
+
+    },
+    sendChangeTime() {
+      if (this.valonuevo.time === '') {
+        this.$swal({
+          title: 'Empty field' + '\n' +
+              ' Fill in correctly',
+          icon: 'error',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
+        })
+      } else {
+        this.$swal({
+          title: 'Please, wait...',
+          didOpen: () => {
+            this.$swal.showLoading()
+          },
+        })
+        let idBooking = this.$route.params.id
+        this.$http.post(`admin/panel/booking/${idBooking}/update-return-time`, {
+          'return_time': this.valonuevo.time
+        })
+            .then((response) => {
+              this.$swal({
+                title: response.data.message,
+                icon: 'success',
+                customClass: {
+                  confirmButton: 'btn btn-primary',
+                },
+                buttonsStyling: false,
+              })
+            })
+            .catch((error) => {
+              this.$swal({
+                title: error.response.data.message,
+                icon: 'error',
+                customClass: {
+                  confirmButton: 'btn btn-primary',
+                },
+                buttonsStyling: false,
+              })
+            })
+      }
+    }
   },
   beforeUpdate() {
-    this.reserva.from = JSON.parse(this.dataService.from);
-    this.reserva.to = JSON.parse(this.dataService.to);
+    this.reserva.from = JSON.parse(this.dataService.from)
+    this.reserva.to = JSON.parse(this.dataService.to)
+  },
+  mounted() {
+    this.listAditional = this.$store.getters['Users/usersData'].additional_service
+    this.getAdicional()
   }
 
 }

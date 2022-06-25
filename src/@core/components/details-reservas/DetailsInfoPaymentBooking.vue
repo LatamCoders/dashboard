@@ -109,19 +109,6 @@
             />
           </b-form-group>
         </b-col>
-        <b-col
-            cols="12"
-            md="3"
-        >
-          <b-form-group
-              label="Destination"
-          >
-            <b-form-textarea
-                disabled
-                v-model="chargePayment.destination"
-            />
-          </b-form-group>
-        </b-col>
       </b-row>
     </b-form>
     <hr>
