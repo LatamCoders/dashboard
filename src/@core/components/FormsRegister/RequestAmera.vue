@@ -1047,6 +1047,7 @@ export default {
         }
       }
       this.dataCa.price = this.dataCa.service_fee + Math.round(this.valormillas)
+      console.log(this.dataCa.price)
     }
   },
   beforeMount() {

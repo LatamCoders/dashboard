@@ -9,6 +9,7 @@ import store from './store/index'
 import App from './App.vue'
 
 import * as VueGoogleMaps from "vue2-google-maps"
+import { VueMaskDirective } from 'v-mask'
 // Global Components
 import './global-components'
 
@@ -35,7 +36,7 @@ Vue.use(VueGoogleMaps, {
         openNow: true
     }
 });
-
+Vue.directive('mask', VueMaskDirective);
 // import core styles
 require('@core/scss/core.scss')
 

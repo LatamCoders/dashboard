@@ -102,21 +102,21 @@
                 </b-list-group-item>
               </router-link>
             </b-list-group>
-            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
-              <router-link class="urlPagina"
-                           :to="{ name: 'profile' }"
-              >
-                <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
-                  <b-list-group-item class="font-weight-bold"
-                                     style="border: none; padding: 5px"
-                  >
-                    <feather-icon icon="TrashIcon"/>
-                    Delete
-                  </b-list-group-item
-                  >
-                </b-list-group-item>
-              </router-link>
-            </b-list-group>
+<!--            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>-->
+<!--              <router-link class="urlPagina"-->
+<!--                           :to="{ name: 'profile' }"-->
+<!--              >-->
+<!--                <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">-->
+<!--                  <b-list-group-item class="font-weight-bold"-->
+<!--                                     style="border: none; padding: 5px"-->
+<!--                  >-->
+<!--                    <feather-icon icon="TrashIcon"/>-->
+<!--                    Delete-->
+<!--                  </b-list-group-item-->
+<!--                  >-->
+<!--                </b-list-group-item>-->
+<!--              </router-link>-->
+<!--            </b-list-group>-->
           </b-dropdown>
         </template>
 

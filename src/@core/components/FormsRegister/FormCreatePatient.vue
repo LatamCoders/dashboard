@@ -194,10 +194,11 @@
                     #default="{ errors }"
                     rules="required"
                 >
-                  <b-form-datepicker
+                  <b-form-input
                       v-model="createdPatient.birthday"
-                      locale="en"
-                      placeholder="00/00/0000"
+                      v-mask="'##/##/####'"
+                      hint="DD/MM/YYYY"
+                      placeholder="DD/MM/YYYY"
                       :state="errors.length > 0 ? false:null"
                   />
                   <small class="text-danger" v-if="errors[0]">This field is required</small>
