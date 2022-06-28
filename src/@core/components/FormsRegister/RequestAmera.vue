@@ -342,6 +342,27 @@
                 />
               </b-form-group>
             </b-col>
+            <b-col md="4" v-if="show === true">
+              <b-form-group
+                  label="Select time"
+              >
+                <b-form-select
+                    v-model="valorWaitAndReturn"
+                    :options="listPrices"
+                    placeholder="Please select the time"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col md="4" v-if="show === true">
+              <b-form-group
+                  label="Price"
+              >
+                <b-form-input
+                    v-model="resultValor"
+                    disabled
+                />
+              </b-form-group>
+            </b-col>
             <b-col md="4" v-if="selectcirujia">
               <b-form-group
                   label="Destination"
@@ -469,17 +490,18 @@ export default {
         appoinment_datetime: '',
         from_coordinates: '',
         to_coordinates: '',
-
-        price: '',
-
+        trip_distance: 0,
+        service_fee: 0,
+        price: 0,
+        facility_name: '',
+        doctor_name: '',
+        facility_phone_number: '',
+        approximately_return_time: '',
         status: '',
 
         selfpay_id: '',
         emailpatient: '',
         contac_number: '',
-        facility_name: '',
-        doctor_name: '',
-        facility_phone_number: '',
         seleccionstop: '',
       },
       //tomar dirección de api google
@@ -518,8 +540,10 @@ export default {
       //fin nuevo agregado
 
       priceAdiciona: 0,
-      valormillas: '',
-      infoKilometros: 0,
+      valormillas: 0,
+      valorWaitAndReturn: 0,
+      resultValor: 0,
+      show: false,
 
       selectcirujia: null,
       selected: null,
@@ -533,6 +557,104 @@ export default {
         },
         {
           title: 'Additional stop'
+        },
+      ],
+      listPrices: [
+        {
+          text: '1 hour',
+          value: 35
+        },
+        {
+          text: '2 hours',
+          value: 70
+        },
+        {
+          text: '3 hours',
+          value: 105
+        },
+        {
+          text: '4 hours',
+          value: 140
+        },
+        {
+          text: '5 hours',
+          value: 175
+        },
+        {
+          text: '6 hours',
+          value: 210
+        },
+        {
+          text: '7 hours',
+          value: 245
+        },
+        {
+          text: '8 hours',
+          value: 280
+        },
+        {
+          text: '9 hours',
+          value: 315
+        },
+        {
+          text: '10 hours',
+          value: 350
+        },
+        {
+          text: '11 hours',
+          value: 385
+        },
+        {
+          text: '12 hours',
+          value: 420
+        },
+        {
+          text: '13 hours',
+          value: 455
+        },
+        {
+          text: '14 hours',
+          value: 490
+        },
+        {
+          text: '15 hours',
+          value: 525
+        },
+        {
+          text: '16 hours',
+          value: 560
+        },
+        {
+          text: '17 hours',
+          value: 595
+        },
+        {
+          text: '18 hours',
+          value: 630
+        },
+        {
+          text: '19 hours',
+          value: 665
+        },
+        {
+          text: '20 hours',
+          value: 700
+        },
+        {
+          text: '21 hours',
+          value: 735
+        },
+        {
+          text: '22 hours',
+          value: 770
+        },
+        {
+          text: '23 hours',
+          value: 805
+        },
+        {
+          text: '24 hours',
+          value: 840
         },
       ],
       optionscirujia: [
@@ -607,6 +729,73 @@ export default {
       ],
     }
   },
+  watch: {
+    namepatient() {
+      this.valornumerico = Number(this.dataCa.namepatient)
+      console.log(this.valornumerico)
+    },
+    selfpay_id() {
+      let {
+        selfpay_id,
+        status
+      } = this.$store.getters['Users/userData']
+      this.dataCa.selfpay_id = selfpay_id
+      this.dataCa.status = status
+    },
+    idpaciente() {
+      for (let getvalor of this.lispatient) {
+        this.getInfoPat = getvalor
+        if (parseInt(this.idpaciente) === this.getInfoPat.id) {
+          let todos = []
+          todos = this.getInfoPat
+          this.lastnombre = todos.lastname
+          this.contact = todos.phone_number
+          this.getEmailPatient = todos.email
+        }
+      }
+    },
+    valorWaitAndReturn() {
+      if (this.valorWaitAndReturn !== '') {
+        return this.resultValor = '$' + this.valorWaitAndReturn
+      }
+    },
+    selectcirujia() {
+      if (this.selectcirujia.length !== 0) {
+        for (let searchWait of this.selectcirujia) {
+          if (searchWait.title === 'Roundtrip') {
+            this.show = true
+          } else if (searchWait.title === 'One way') {
+            this.show = false
+          }
+        }
+      }
+    },
+    'dataCa.from'() {
+      if (this.dataCa.from === '' && this.dataCa.to === '') {
+        this.callback()
+      }
+    },
+  },
+  computed: {
+    infopersonaselec() {
+      for (let lispatientKey of this.lispatient) {
+        console.log(lispatientKey.id)
+        if (lispatientKey.id === lispatientKey.id) {
+          let arrat = this.lispatient
+          console.log(arrat)
+          for (let ki of arrat) {
+            console.log(ki.id)
+            if (ki.id === lispatientKey.id) {
+              console.log(ki.lastname)
+            }
+            // let otro = arrat.indexOf(lispatientKey.id)
+            // console.log(otro)
+          }
+          console.log(arrat)
+        }
+      }
+    }
+  },
   methods: {
     validationForm() {
       return new Promise((resolve, reject) => {
@@ -674,103 +863,120 @@ export default {
         }
       })
     },
-    formRequest() {
-      const d = new Date()
-      const today = new Date(d.getFullYear(), d.getMonth(), d.getDate())
-      let h = d.getHours()
-      let m = d.getMinutes()
-      let s = d.getSeconds()
-      let time = h + ':' + m + ':' + s
-      // console.log(time)
-      // console.log(today)
-      if (this.tiempo < time) {
-        this.$swal({
-          title: 'Error, no puede colocar una hora menor a la actual',
-          icon: 'error',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-          },
-          buttonsStyling: false,
-        })
-      }
-          // else if (this.fecha <= today) {
-          //   this.$swal({
-          //     title: 'Error, no puede colocar una fecha menor o igual a la actual',
-          //     icon: 'error',
-          //     customClass: {
-          //       confirmButton: 'btn btn-primary',
-          //     },
-          //     buttonsStyling: false,
-          //   })
+    async formRequest() {
+      // const d = new Date()
+      // const today = new Date(d.getFullYear(), d.getMonth(), d.getDate())
+      // let h = d.getHours()
+      // let m = d.getMinutes()
+      // let s = d.getSeconds()
+      // let time = h + ':' + m + ':' + s
+      // // console.log(time)
+      // // console.log(today)
+      // if (this.tiempo < time) {
+      //   this.$swal({
+      //     title: 'Error, no puede colocar una hora menor a la actual',
+      //     icon: 'error',
+      //     customClass: {
+      //       confirmButton: 'btn btn-primary',
+      //     },
+      //     buttonsStyling: false,
+      //   })
       // }
-      else {
-        this.$swal({
-          title: 'Please, wait...',
-          didOpen: () => {
-            this.$swal.showLoading()
-          }
-        })
-        this.calculatePrice()
-        this.dataCa.selfpay_id = parseInt(this.idpaciente)
-        this.dataCa.booking_date = this.fecha + ' ' + this.tiempo
-        this.dataCa.appoinment_datetime = this.appointmentdate + ' ' + this.appointmenttime
-        this.dataCa.seleccionstop = this.selectcirujia[0].title
-        this.dataCa.pickup_time = this.tiempo + 30
-        // this.addLocationMarker();
-        // console.log(this.dataCa)
+      // else if (this.fecha <= today) {
+      //   this.$swal({
+      //     title: 'Error, no puede colocar una fecha menor o igual a la actual',
+      //     icon: 'error',
+      //     customClass: {
+      //       confirmButton: 'btn btn-primary',
+      //     },
+      //     buttonsStyling: false,
+      //   })
+      // }
+      // else {
+      this.$swal({
+        title: 'Please, wait...',
+        didOpen: () => {
+          this.$swal.showLoading()
+        }
+      })
+      this.calculatePrice()
+      this.dataCa.selfpay_id = parseInt(this.idpaciente)
+      this.dataCa.booking_date = this.fecha + ' ' + this.tiempo
+      this.dataCa.appoinment_datetime = this.appointmentdate + ' ' + this.appointmenttime
+      this.dataCa.seleccionstop = this.selectcirujia[0].title
+      this.dataCa.pickup_time = this.tiempo + 30
+      // this.dataCa.price = this.dataCa.service_fee + this.valormillas.toLocaleString('es', { style: 'currency', currency: 'USD' });
+      // console.warn(this.valormillas.toLocaleString('es', { style: 'currency', currency: 'USD' }))
+      // console.log(Math.ceil(this.valormillas))
+      this.dataCa.approximately_return_time = this.dataCa.pickup_time
 
-        this.$http.post('ca/panel/booking/add?clientType=reservationCode', this.dataCa)
-            .then((response) => {
-              if (response.data.status === 200) {
-                this.$swal({
-                  title: response.data.message,
-                  icon: 'success',
-                  customClass: {
-                    confirmButton: 'btn btn-primary',
-                  },
-                  buttonsStyling: false,
-                })
-                this.$refs.requestTrip.reset()
-                //clear form
-                this.dataCa.booking_date = '',
-                    this.dataCa.from = '',
-                    this.dataCa.to = '',
-                    this.dataCa.pickup_time = '',
-                    this.dataCa.city = '',
-                    this.dataCa.surgery_type = '',
-                    this.dataCa.appoinment_datetime = '',
-                    this.dataCa.selfpay_id = '',
-                    this.dataCa.from_coordinates = '',
-                    this.dataCa.to_coordinates = '',
-                    this.fecha = '',
-                    this.tiempo = '',
-                    this.appointmentdate = '',
-                    this.appointmenttime = '',
-                    this.seleccionstop = ''
-              } else {
-                this.$swal({
-                  title: response.data.message,
-                  icon: 'error',
-                  customClass: {
-                    confirmButton: 'btn btn-primary',
-                  },
-                  buttonsStyling: false,
-                })
+      console.log(2)
+      // this.addLocationMarker();
+      // console.log(this.dataCa)
 
-                // console.log(res.data.data)
-              }
-            })
-            .catch((error) => {
+      await this.$http.post('ca/panel/booking/add?clientType=reservationCode', this.dataCa)
+          .then((response) => {
+            if (response.data.status === 200) {
               this.$swal({
-                title: error.response.data.message,
+                title: response.data.message,
+                icon: 'success',
+                customClass: {
+                  confirmButton: 'btn btn-primary',
+                },
+                buttonsStyling: false,
+              })
+              this.$refs.requestTrip.reset()
+              //clear form
+              this.lastnombre = ''
+              this.contact = ''
+              this.getEmailPatient = ''
+              this.dataCa.facility_name = ''
+              this.dataCa.doctor_name = ''
+              this.dataCa.facility_phone_number = ''
+              this.fecha = ''
+              this.tiempo = ''
+              this.dataCa.city = ''
+              this.dataCa.surgery_type = ''
+              this.selectcirujia = ''
+              this.valorWaitAndReturn = ''
+              this.resultValor = ''
+              this.appointmentdate = ''
+              this.appointmenttime = ''
+
+              this.dataCa.booking_date = ''
+              this.dataCa.from = ''
+              this.dataCa.to = ''
+              this.dataCa.pickup_time = ''
+
+              this.dataCa.appoinment_datetime = ''
+              this.dataCa.selfpay_id = ''
+              this.dataCa.from_coordinates = ''
+              this.dataCa.to_coordinates = ''
+              this.seleccionstop = ''
+            } else {
+              this.$swal({
+                title: response.data.message,
                 icon: 'error',
                 customClass: {
                   confirmButton: 'btn btn-primary',
                 },
                 buttonsStyling: false,
               })
+
+              // console.log(res.data.data)
+            }
+          })
+          .catch((error) => {
+            this.$swal({
+              title: error.response.data.data,
+              icon: 'error',
+              customClass: {
+                confirmButton: 'btn btn-primary',
+              },
+              buttonsStyling: false,
             })
-      }
+          })
+      // }
     },
     getInfo() {
       this.dataCa = this.$store.getters['Users/userData'].user
@@ -809,93 +1015,44 @@ export default {
           }, this.callback)
     },
     callback(response, status) {
-      this.infoKilometros = response.rows[0].elements[0].distance.value
-      console.log(this.infoKilometros)
+      this.dataCa.trip_distance = response.rows[0].elements[0].distance.value
+      console.log(this.dataCa.trip_distance)
       console.log(status)
-      let milla = parseFloat(0.621371)
-      let calculoMillas = milla * this.infoKilometros
-      console.log(calculoMillas)
-
-      if (parseFloat(calculoMillas) <= 160934) {
-        if (this.selectcirujia[0].title === 'One way') {
-          this.dataCa.price = 75
-          console.log(this.dataCa.price)
-        } else if (this.selectcirujia[0].title === 'Roundtrip') {
-          this.dataCa.price = 125
-          console.log(this.dataCa.price)
-        }
-      } else if (parseFloat(calculoMillas) >= 160934 || parseFloat(calculoMillas) <= 321869) {
-        if (this.selectcirujia[0].title === 'One way') {
-          this.dataCa.price = 85
-          console.log(this.dataCa.price)
-        } else if (this.selectcirujia[0].title === 'Roundtrip') {
-          this.dataCa.price = 135
-          console.log(this.dataCa.price)
-        }
-      } else {
-        console.log('falló')
-      }
-
+      this.precioFinal()
+      console.log(3)
     },
-
-  },
-  computed: {
-    infopersonaselec() {
-      for (let lispatientKey of this.lispatient) {
-        console.log(lispatientKey.id)
-        if (lispatientKey.id === lispatientKey.id) {
-          let arrat = this.lispatient
-          console.log(arrat)
-          for (let ki of arrat) {
-            console.log(ki.id)
-            if (ki.id === lispatientKey.id) {
-              console.log(ki.lastname)
-            }
-            // let otro = arrat.indexOf(lispatientKey.id)
-            // console.log(otro)
+    precioFinal() {
+      let milla = parseFloat(0.621371)
+      this.valormillas = this.dataCa.trip_distance * milla
+      console.log(4)
+      for (let searchWait of this.selectcirujia) {
+        if (parseFloat(this.valormillas) <= 160934) {
+          if (searchWait.title === 'One way') {
+            this.dataCa.service_fee = 75
+            this.dataCa.price = this.dataCa.service_fee + Math.round(this.valormillas)
+          } else if (searchWait.title === 'Roundtrip') {
+            this.dataCa.service_fee = 125
+            this.dataCa.price = this.dataCa.service_fee + Math.round(this.valormillas)
           }
-          console.log(arrat)
+        } else if (parseFloat(this.valormillas) >= 160934 || parseFloat(this.valormillas) <= 321869) {
+          if (searchWait.title === 'One way') {
+            this.dataCa.service_fee = 85
+            this.dataCa.price = this.dataCa.service_fee + Math.round(this.valormillas)
+          } else if (searchWait.title === 'Roundtrip') {
+            this.dataCa.service_fee = 135
+            this.dataCa.price = this.dataCa.service_fee + Math.round(this.valormillas)
+          }
+        } else {
+          console.log('falló')
         }
       }
+      this.dataCa.price = this.dataCa.service_fee + Math.round(this.valormillas)
     }
   },
-  watch: {
-    namepatient() {
-      this.valornumerico = Number(this.dataCa.namepatient)
-      console.log(this.valornumerico)
-    },
-    idpaciente() {
-      for (let getvalor of this.lispatient) {
-        this.getInfoPat = getvalor
-        if (parseInt(this.idpaciente) === this.getInfoPat.id) {
-          let todos = []
-          todos = this.getInfoPat
-          this.lastnombre = todos.lastname
-          this.contact = todos.phone_number
-          this.getEmailPatient = todos.email
-        }
-      }
-    },
-    // fecha(){
-    //   if (this.fecha !== ''){
-    //     const now = new Date()
-    //     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-    //     const minDate = new Date(today)
-    //     minDate.setMonth(minDate.getMonth() - 1)
-    //
-    //     console.warn(this.fecha)
-    //     console.log(today)
-    //     console.log(minDate.setDate(15))
-    //   }
-    // }
-  },
-
   beforeMount() {
     this.getInfo()
   },
   mounted() {
-    // this.getInfo();
-    // this.lispatient =
     this.locateGeoLocation()
     this.$http.get(`ca/${this.$store.getters['Users/userData'].user.corporate_account.id}/panel/client/search`)
         .then((res) => {
@@ -903,7 +1060,7 @@ export default {
             this.lispatient = res.data.data
           }
         })
-  },
+  }
 }
 </script>
 

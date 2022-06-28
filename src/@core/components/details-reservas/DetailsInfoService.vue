@@ -398,12 +398,9 @@ export default {
     getAdicional() {
       this.listAditional = this.$store.getters['Users/usersData'].additional_service
       for (let i = 0; i < this.listAditional.length; i++) {
-        let hola = i
-        console.log(hola)
         if (this.listAditional[i].service === 'Wait/Return Fee') {
           this.valonuevo = this.listAditional[i]
           console.log(this.valonuevo)
-          console.warn('bbe')
         }
       }
 
