@@ -434,9 +434,9 @@
 </template>
 
 <script>
-import { FormWizard, TabContent } from 'vue-form-wizard'
+import {FormWizard, TabContent} from 'vue-form-wizard'
 import vSelect from 'vue-select'
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import {ValidationProvider, ValidationObserver} from 'vee-validate'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import {
@@ -544,6 +544,10 @@ export default {
       valorWaitAndReturn: 0,
       resultValor: 0,
       show: false,
+      searchWait: '',
+      millas: 0.621371,
+      segundos: 1800, //30 minutos
+      tiempoEstimado: 0,
 
       selectcirujia: null,
       selected: null,
@@ -775,24 +779,71 @@ export default {
         this.callback()
       }
     },
+    'dataRequest.trip_distance'() {
+      if (this.dataRequest.from !== '' && this.dataRequest.to !== '' || this.dataRequest.from_coordinates !== '' && this.dataRequest.to_coordinates !== '') {
+        return this.calculatePrice();
+        // console.log('retornando')
+        // this.valormillas = this.dataRequest.trip_distance * parseFloat(this.millas)
+      }
+    },
+    tiempoEstimado() {
+      if (this.tiempoEstimado !== 0) {
+        let resultSegundos = this.tiempoEstimado + this.segundos;
+        console.log(resultSegundos)
+        let getMinutos = resultSegundos / 60;
+        console.warn(getMinutos)
+
+        let horas = this.tiempo.slice(0, 2);
+        let minutos = this.tiempo.slice(3, 5)
+        console.log(horas + '  ' + minutos)
+
+        let horaMin = (horas * 60)
+        console.log(horaMin)
+
+
+        let valorEnminutos = horaMin - getMinutos;
+        console.log(valorEnminutos)
+
+        let pasar = valorEnminutos * 60
+
+
+        let hour = Math.floor(pasar / 3600);
+        hour = (hour < 10) ? '0' + hour : hour;
+        let minute = Math.floor((pasar / 60) % 60);
+        minute = (minute < 10) ? '0' + minute : minute;
+        let second = pasar % 60;
+        second = (second < 10) ? '0' + second : second;
+        this.dataRequest.pickup_time = hour + ':' + minute + ':' + second
+        console.log(this.dataRequest.pickup_time);
+
+
+        let hourestimado = Math.floor(this.tiempoEstimado / 3600);
+        hourestimado = (hourestimado < 10) ? '0' + hourestimado : hourestimado;
+        let minutetimado = Math.floor((this.tiempoEstimado / 60) % 60);
+        minutetimado = (minutetimado < 10) ? '0' + minutetimado : minutetimado;
+        let secondestimado = this.tiempoEstimado % 60;
+        secondestimado = (secondestimado < 10) ? '0' + secondestimado : secondestimado;
+        this.dataRequest.approximately_return_time = hourestimado + ':' + minutetimado + ':' + secondestimado
+        console.log(this.dataRequest.approximately_return_time);
+      }
+    }
   },
   computed: {
     infopersonaselec() {
       for (let lispatientKey of this.lispatient) {
-        console.log(lispatientKey.id)
         if (lispatientKey.id === lispatientKey.id) {
           let arrat = this.lispatient
-          console.log(arrat)
           for (let ki of arrat) {
-            console.log(ki.id)
             if (ki.id === lispatientKey.id) {
-              console.log(ki.lastname)
+              // console.log(ki.lastname)
             }
-            // let otro = arrat.indexOf(lispatientKey.id)
-            // console.log(otro)
           }
-          console.log(arrat)
         }
+      }
+    },
+    'dataRequest.trip_distance'() {
+      if (this.dataRequest.from !== '' && this.dataRequest.to !== '' || this.dataRequest.from_coordinates !== '' && this.dataRequest.to_coordinates !== '') {
+        return this.calculatePrice();
       }
     }
   },
@@ -848,7 +899,7 @@ export default {
           lat: this.existingPlace.geometry.location.lat(),
           lng: this.existingPlace.geometry.location.lng()
         }
-        this.locationMarkers.push({ position: marker })
+        this.locationMarkers.push({position: marker})
         this.locPlaces.push(this.existingPlace)
         this.center = marker
         this.existingPlace = null
@@ -899,41 +950,41 @@ export default {
           this.$swal.showLoading()
         }
       })
-      this.calculatePrice()
+      // this.calculatePrice()
       this.dataRequest.selfpay_id = parseInt(this.idpaciente)
       this.dataRequest.emailpatient = this.getInfoPat.email
       this.dataRequest.status = this.dataCa.status
       this.dataRequest.booking_date = this.fecha + ' ' + this.tiempo
       this.dataRequest.appoinment_datetime = this.appointmentdate + ' ' + this.appointmenttime
       this.dataRequest.seleccionstop = this.selectcirujia[0].title
-      this.dataRequest.pickup_time = this.tiempo + 30
-      this.dataRequest.approximately_return_time = this.dataRequest.pickup_time
+      this.valormillas = this.dataRequest.trip_distance * parseFloat(this.millas)
 
-      let milla = parseFloat(0.621371)
-      this.valormillas = this.dataRequest.trip_distance * milla
-
-      for (let searchWait of this.selectcirujia) {
+      for (this.searchWait of this.selectcirujia) {
         if (parseFloat(this.valormillas) <= 160934) {
-          if (searchWait.title === 'One way') {
+          if (this.searchWait.title === 'One way') {
             this.dataRequest.service_fee = 75
-          } else if (searchWait.title === 'Roundtrip') {
+          } else if (this.searchWait.title === 'Roundtrip') {
             this.dataRequest.service_fee = 125
           }
         } else if (parseFloat(this.valormillas) >= 160934 || parseFloat(this.valormillas) <= 321869) {
-          if (searchWait.title === 'One way') {
+          if (this.searchWait.title === 'One way') {
             this.dataRequest.service_fee = 85
-          } else if (searchWait.title === 'Roundtrip') {
+          } else if (this.searchWait.title === 'Roundtrip') {
             this.dataRequest.service_fee = 135
           }
         } else {
           console.log('falló')
         }
       }
-      this.dataRequest.price = this.dataRequest.service_fee + Math.round(this.valormillas)
-      console.warn('precio ' + this.dataRequest.price)
-      console.log(2)
-      // this.addLocationMarker();
-      // console.log(this.dataCa)
+
+      if (this.searchWait.title === 'Roundtrip') {
+        this.dataRequest.price = this.dataRequest.service_fee + this.valorWaitAndReturn + Math.round(this.valormillas)
+        console.warn('precio ' + this.dataRequest.service_fee + this.valorWaitAndReturn + Math.round(this.valormillas))
+      } else if (this.searchWait.title === 'One way') {
+        this.dataRequest.price = this.dataRequest.service_fee + Math.round(this.valormillas)
+        console.warn('precio ' + this.dataRequest.service_fee + Math.round(this.valormillas))
+      }
+
 
       await this.$http.post('ca/panel/booking/add?clientType=reservationCode', this.dataRequest)
           .then((response) => {
@@ -1038,36 +1089,10 @@ export default {
           }, this.callback)
     },
     callback(response, status) {
-      return this.dataRequest.trip_distance = response.rows[0].elements[0].distance.value
-
+      this.dataRequest.trip_distance = response.rows[0].elements[0].distance.value
+      this.tiempoEstimado = response.rows[0].elements[0].duration.value
+      console.log(status)
     },
-    // precioFinal() {
-    //   // for (let searchWait of this.selectcirujia) {
-    //   //   if (parseFloat(this.valormillas) <= 160934) {
-    //   //     if (searchWait.title === 'One way') {
-    //   //       this.dataRequest.service_fee = 75
-    //   //       // this.dataRequest.price = this.dataRequest.service_fee + Math.round(this.valormillas)
-    //   //     } else if (searchWait.title === 'Roundtrip') {
-    //   //       this.dataRequest.service_fee = 125
-    //   //       // this.dataRequest.price = this.dataRequest.service_fee + Math.round(this.valormillas)
-    //   //     }
-    //   //   } else if (parseFloat(this.valormillas) >= 160934 || parseFloat(this.valormillas) <= 321869) {
-    //   //     if (searchWait.title === 'One way') {
-    //   //       this.dataRequest.service_fee = 85
-    //   //       // this.dataRequest.price = this.dataRequest.service_fee + Math.round(this.valormillas)
-    //   //     } else if (searchWait.title === 'Roundtrip') {
-    //   //       this.dataRequest.service_fee = 135
-    //   //       // this.dataRequest.price = this.dataRequest.service_fee + Math.round(this.valormillas)
-    //   //     }
-    //   //   } else {
-    //   //     console.log('falló')
-    //   //   }
-    //   // }
-    //   // this.dataRequest.price = this.dataRequest.service_fee + Math.round(this.valormillas)
-    //   // console.warn('precio ' + this.dataRequest.price)
-    //   // console.log(this.dataCa.trip_distance)
-    //   // console.log(status)
-    // }
   },
   beforeMount() {
     this.getInfo()
