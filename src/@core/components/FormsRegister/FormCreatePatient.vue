@@ -196,9 +196,9 @@
                 >
                   <b-form-input
                       v-model="createdPatient.birthday"
-                      v-mask="'##/##/####'"
-                      hint="DD/MM/YYYY"
-                      placeholder="DD/MM/YYYY"
+                      v-mask="'####-##-##'"
+                      hint="YYYY-MM-DD"
+                      placeholder="YYYY-MM-DD"
                       :state="errors.length > 0 ? false:null"
                   />
                   <small class="text-danger" v-if="errors[0]">This field is required</small>
@@ -416,6 +416,8 @@ export default {
                   this.createdPatient.note = '',
                   this.createdPatient.gender = '',
                   this.createdPatient.birthday = '',
+                  this.existingPlace.formatted_address = '',
+                  this.createdPatient.home_telephone_number = '',
                   this.createdPatient.city = '',
                   this.createdPatient.address = ''
             } else {

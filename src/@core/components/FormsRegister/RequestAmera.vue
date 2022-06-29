@@ -193,7 +193,7 @@
                   label="Facility Name"
               >
                 <b-form-input
-                    v-model="dataCa.facility_name"
+                    v-model="dataRequest.facility_name"
                 >
                 </b-form-input>
               </b-form-group>
@@ -203,7 +203,7 @@
                   label="Doctor's Name"
               >
                 <b-form-input
-                    v-model="dataCa.doctor_name"
+                    v-model="dataRequest.doctor_name"
                 />
               </b-form-group>
             </b-col>
@@ -212,7 +212,7 @@
                   label="Facility Phone Number"
               >
                 <b-form-input
-                    v-model="dataCa.facility_phone_number"
+                    v-model="dataRequest.facility_phone_number"
                 />
               </b-form-group>
             </b-col>
@@ -288,7 +288,7 @@
                   <!--                  </gmap-autocomplete>-->
 
                   <b-form-input
-                      v-model="dataCa.city"
+                      v-model="dataRequest.city"
                       :state="errors.length > 0 ? false:null"
                   />
                   <small class="text-danger" v-if="errors[0]">This field is required</small>
@@ -304,7 +304,7 @@
                     rules="required"
                 >
                   <b-form-select
-                      v-model="dataCa.surgery_type"
+                      v-model="dataRequest.surgery_type"
                       :options="optionscirujia"
                       :state="errors.length > 0 ? false:null"
                   />
@@ -421,7 +421,7 @@
               >
                 <b-form-input
                     disabled
-                    v-model="dataCa.pickup_time"
+                    v-model="dataRequest.pickup_time"
                 />
               </b-form-group>
             </b-col>
@@ -480,7 +480,8 @@ export default {
     maxDate.setDate(15)
     return {
       dir: 'ltr',
-      dataCa: {
+      dataCa: {},
+      dataRequest: {
         booking_date: '',
         from: '',
         to: '',
@@ -501,7 +502,6 @@ export default {
 
         selfpay_id: '',
         emailpatient: '',
-        contac_number: '',
         seleccionstop: '',
       },
       //tomar dirección de api google
@@ -770,8 +770,8 @@ export default {
         }
       }
     },
-    'dataCa.from'() {
-      if (this.dataCa.from === '' && this.dataCa.to === '') {
+    'dataRequest.from'() {
+      if (this.dataRequest.from === '' && this.dataRequest.to === '') {
         this.callback()
       }
     },
@@ -823,24 +823,24 @@ export default {
     },
     initMarker(loc) {
       this.existingPlace = loc
-      this.dataCa.city = this.existingPlace.formatted_address
-      console.log(this.dataCa.city)
+      this.dataRequest.city = this.existingPlace.formatted_address
+      console.log(this.dataRequest.city)
     },
     initMarkerTo(loc) {
       this.existingPlace = loc
-      this.dataCa.to = this.existingPlace.formatted_address
+      this.dataRequest.to = this.existingPlace.formatted_address
       // this.dataCa.to_coordinates = this.existingPlace.geometry.viewport.wb.h + ',' + this.existingPlace.geometry.viewport.Sa.h
-      this.dataCa.to_coordinates = this.existingPlace.geometry.location.lat() + ',' + this.existingPlace.geometry.location.lng()
+      this.dataRequest.to_coordinates = this.existingPlace.geometry.location.lat() + ',' + this.existingPlace.geometry.location.lng()
 
-      console.log(this.dataCa.to)
-      console.log(this.dataCa.to_coordinates)
+      console.log(this.dataRequest.to)
+      console.log(this.dataRequest.to_coordinates)
     },
     initMarkerFrom(loc) {
       this.existingPlace = loc
-      this.dataCa.from = this.existingPlace.formatted_address
-      this.dataCa.from_coordinates = this.existingPlace.geometry.location.lat() + ',' + this.existingPlace.geometry.location.lng()
-      console.log(this.dataCa.from)
-      console.log(this.dataCa.from_coordinates)
+      this.dataRequest.from = this.existingPlace.formatted_address
+      this.dataRequest.from_coordinates = this.existingPlace.geometry.location.lat() + ',' + this.existingPlace.geometry.location.lng()
+      console.log(this.dataRequest.from)
+      console.log(this.dataRequest.from_coordinates)
     },
     addLocationMarker() {
       if (this.existingPlace) {
@@ -900,21 +900,42 @@ export default {
         }
       })
       this.calculatePrice()
-      this.dataCa.selfpay_id = parseInt(this.idpaciente)
-      this.dataCa.booking_date = this.fecha + ' ' + this.tiempo
-      this.dataCa.appoinment_datetime = this.appointmentdate + ' ' + this.appointmenttime
-      this.dataCa.seleccionstop = this.selectcirujia[0].title
-      this.dataCa.pickup_time = this.tiempo + 30
-      // this.dataCa.price = this.dataCa.service_fee + this.valormillas.toLocaleString('es', { style: 'currency', currency: 'USD' });
-      // console.warn(this.valormillas.toLocaleString('es', { style: 'currency', currency: 'USD' }))
-      // console.log(Math.ceil(this.valormillas))
-      this.dataCa.approximately_return_time = this.dataCa.pickup_time
+      this.dataRequest.selfpay_id = parseInt(this.idpaciente)
+      this.dataRequest.emailpatient = this.getInfoPat.email
+      this.dataRequest.status = this.dataCa.status
+      this.dataRequest.booking_date = this.fecha + ' ' + this.tiempo
+      this.dataRequest.appoinment_datetime = this.appointmentdate + ' ' + this.appointmenttime
+      this.dataRequest.seleccionstop = this.selectcirujia[0].title
+      this.dataRequest.pickup_time = this.tiempo + 30
+      this.dataRequest.approximately_return_time = this.dataRequest.pickup_time
 
+      let milla = parseFloat(0.621371)
+      this.valormillas = this.dataRequest.trip_distance * milla
+
+      for (let searchWait of this.selectcirujia) {
+        if (parseFloat(this.valormillas) <= 160934) {
+          if (searchWait.title === 'One way') {
+            this.dataRequest.service_fee = 75
+          } else if (searchWait.title === 'Roundtrip') {
+            this.dataRequest.service_fee = 125
+          }
+        } else if (parseFloat(this.valormillas) >= 160934 || parseFloat(this.valormillas) <= 321869) {
+          if (searchWait.title === 'One way') {
+            this.dataRequest.service_fee = 85
+          } else if (searchWait.title === 'Roundtrip') {
+            this.dataRequest.service_fee = 135
+          }
+        } else {
+          console.log('falló')
+        }
+      }
+      this.dataRequest.price = this.dataRequest.service_fee + Math.round(this.valormillas)
+      console.warn('precio ' + this.dataRequest.price)
       console.log(2)
       // this.addLocationMarker();
       // console.log(this.dataCa)
 
-      await this.$http.post('ca/panel/booking/add?clientType=reservationCode', this.dataCa)
+      await this.$http.post('ca/panel/booking/add?clientType=reservationCode', this.dataRequest)
           .then((response) => {
             if (response.data.status === 200) {
               this.$swal({
@@ -930,28 +951,28 @@ export default {
               this.lastnombre = ''
               this.contact = ''
               this.getEmailPatient = ''
-              this.dataCa.facility_name = ''
-              this.dataCa.doctor_name = ''
-              this.dataCa.facility_phone_number = ''
+              this.dataRequest.facility_name = ''
+              this.dataRequest.doctor_name = ''
+              this.dataRequest.facility_phone_number = ''
               this.fecha = ''
               this.tiempo = ''
-              this.dataCa.city = ''
-              this.dataCa.surgery_type = ''
+              this.dataRequest.city = ''
+              this.dataRequest.surgery_type = ''
               this.selectcirujia = ''
               this.valorWaitAndReturn = ''
               this.resultValor = ''
               this.appointmentdate = ''
               this.appointmenttime = ''
 
-              this.dataCa.booking_date = ''
-              this.dataCa.from = ''
-              this.dataCa.to = ''
-              this.dataCa.pickup_time = ''
+              this.dataRequest.booking_date = ''
+              this.dataRequest.from = ''
+              this.dataRequest.to = ''
+              this.dataRequest.pickup_time = ''
 
-              this.dataCa.appoinment_datetime = ''
-              this.dataCa.selfpay_id = ''
-              this.dataCa.from_coordinates = ''
-              this.dataCa.to_coordinates = ''
+              this.dataRequest.appoinment_datetime = ''
+              this.dataRequest.selfpay_id = ''
+              this.dataRequest.from_coordinates = ''
+              this.dataRequest.to_coordinates = ''
               this.seleccionstop = ''
             } else {
               this.$swal({
@@ -962,7 +983,7 @@ export default {
                 },
                 buttonsStyling: false,
               })
-
+              console.log('cumplido' + 5)
               // console.log(res.data.data)
             }
           })
@@ -975,32 +996,34 @@ export default {
               },
               buttonsStyling: false,
             })
+            console.log('no cumplido' + 5)
           })
       // }
+
     },
     getInfo() {
       this.dataCa = this.$store.getters['Users/userData'].user
     },
     calculatePrice() {
 
-      let searchComa = this.dataCa.to_coordinates.indexOf(',')
+      let searchComa = this.dataRequest.to_coordinates.indexOf(',')
       console.log(searchComa)
-      let latud = this.dataCa.to_coordinates.substring(0, searchComa)
+      let latud = this.dataRequest.to_coordinates.substring(0, searchComa)
       console.warn(latud)
-      let longi = this.dataCa.to_coordinates.substring(searchComa + 1, this.dataCa.to_coordinates.length)
+      let longi = this.dataRequest.to_coordinates.substring(searchComa + 1, this.dataRequest.to_coordinates.length)
       console.warn(longi)
 
       //longitúd y latitúd from
-      let searchComaFrom = this.dataCa.from_coordinates.indexOf(',')
+      let searchComaFrom = this.dataRequest.from_coordinates.indexOf(',')
       console.log(searchComaFrom)
-      let latudFrom = this.dataCa.from_coordinates.substring(0, searchComaFrom)
+      let latudFrom = this.dataRequest.from_coordinates.substring(0, searchComaFrom)
       console.warn(latudFrom)
-      let longiFrom = this.dataCa.from_coordinates.substring(searchComaFrom + 1, this.dataCa.from_coordinates.length)
+      let longiFrom = this.dataRequest.from_coordinates.substring(searchComaFrom + 1, this.dataRequest.from_coordinates.length)
       console.warn(longiFrom)
 
       let origin1 = new google.maps.LatLng(latud, longi)
-      let origin2 = this.dataCa.to
-      let destinationA = this.dataCa.from
+      let origin2 = this.dataRequest.to
+      let destinationA = this.dataRequest.from
       let destinationB = new google.maps.LatLng(latudFrom, longiFrom)
 
       let service = new google.maps.DistanceMatrixService()
@@ -1015,40 +1038,36 @@ export default {
           }, this.callback)
     },
     callback(response, status) {
-      this.dataCa.trip_distance = response.rows[0].elements[0].distance.value
-      console.log(this.dataCa.trip_distance)
-      console.log(status)
-      this.precioFinal()
-      console.log(3)
+      return this.dataRequest.trip_distance = response.rows[0].elements[0].distance.value
+
     },
-    precioFinal() {
-      let milla = parseFloat(0.621371)
-      this.valormillas = this.dataCa.trip_distance * milla
-      console.log(4)
-      for (let searchWait of this.selectcirujia) {
-        if (parseFloat(this.valormillas) <= 160934) {
-          if (searchWait.title === 'One way') {
-            this.dataCa.service_fee = 75
-            this.dataCa.price = this.dataCa.service_fee + Math.round(this.valormillas)
-          } else if (searchWait.title === 'Roundtrip') {
-            this.dataCa.service_fee = 125
-            this.dataCa.price = this.dataCa.service_fee + Math.round(this.valormillas)
-          }
-        } else if (parseFloat(this.valormillas) >= 160934 || parseFloat(this.valormillas) <= 321869) {
-          if (searchWait.title === 'One way') {
-            this.dataCa.service_fee = 85
-            this.dataCa.price = this.dataCa.service_fee + Math.round(this.valormillas)
-          } else if (searchWait.title === 'Roundtrip') {
-            this.dataCa.service_fee = 135
-            this.dataCa.price = this.dataCa.service_fee + Math.round(this.valormillas)
-          }
-        } else {
-          console.log('falló')
-        }
-      }
-      this.dataCa.price = this.dataCa.service_fee + Math.round(this.valormillas)
-      console.log(this.dataCa.price)
-    }
+    // precioFinal() {
+    //   // for (let searchWait of this.selectcirujia) {
+    //   //   if (parseFloat(this.valormillas) <= 160934) {
+    //   //     if (searchWait.title === 'One way') {
+    //   //       this.dataRequest.service_fee = 75
+    //   //       // this.dataRequest.price = this.dataRequest.service_fee + Math.round(this.valormillas)
+    //   //     } else if (searchWait.title === 'Roundtrip') {
+    //   //       this.dataRequest.service_fee = 125
+    //   //       // this.dataRequest.price = this.dataRequest.service_fee + Math.round(this.valormillas)
+    //   //     }
+    //   //   } else if (parseFloat(this.valormillas) >= 160934 || parseFloat(this.valormillas) <= 321869) {
+    //   //     if (searchWait.title === 'One way') {
+    //   //       this.dataRequest.service_fee = 85
+    //   //       // this.dataRequest.price = this.dataRequest.service_fee + Math.round(this.valormillas)
+    //   //     } else if (searchWait.title === 'Roundtrip') {
+    //   //       this.dataRequest.service_fee = 135
+    //   //       // this.dataRequest.price = this.dataRequest.service_fee + Math.round(this.valormillas)
+    //   //     }
+    //   //   } else {
+    //   //     console.log('falló')
+    //   //   }
+    //   // }
+    //   // this.dataRequest.price = this.dataRequest.service_fee + Math.round(this.valormillas)
+    //   // console.warn('precio ' + this.dataRequest.price)
+    //   // console.log(this.dataCa.trip_distance)
+    //   // console.log(status)
+    // }
   },
   beforeMount() {
     this.getInfo()
