@@ -367,15 +367,15 @@
                     #default="{ errors }"
                     rules="required"
                 >
-                <v-select
-                    v-model="selectcirujia"
-                    :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                    multiple
-                    :options="option"
-                    label="title"
-                    placeholder="Please select some item"
-                    :state="errors.length > 0 ? false:null"
-                />
+                  <v-select
+                      v-model="selectcirujia"
+                      :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                      multiple
+                      :options="option"
+                      label="title"
+                      placeholder="Please select some item"
+                      :state="errors.length > 0 ? false:null"
+                  />
                   <small class="text-danger" v-if="errors[0]">This field is required</small>
                 </validation-provider>
               </b-form-group>
@@ -443,8 +443,6 @@
                     rules="required"
                 >
                   <b-form-timepicker
-                      id="timepicker-placeholder"
-                      placeholder="Choose a time"
                       local="en"
                       v-model="appointmenttime"
                       :state="errors.length > 0 ? false:null"
@@ -472,9 +470,9 @@
 </template>
 
 <script>
-import { FormWizard, TabContent } from 'vue-form-wizard'
+import {FormWizard, TabContent} from 'vue-form-wizard'
 import vSelect from 'vue-select'
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import {ValidationProvider, ValidationObserver} from 'vee-validate'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import {
@@ -825,40 +823,43 @@ export default {
       }
     },
     tiempoEstimado() {
-      if (this.tiempoEstimado !== 0 && this.dataRequest.from !== '' && this.dataRequest.to !== '') {
-        let resultSegundos = this.tiempoEstimado + this.segundos
+      if ((this.dataRequest.from !== '' && this.dataRequest.to !== '') && this.tiempoEstimado !== 0) {
+        let resultSegundos = this.tiempoEstimado + this.segundos;
         console.log(resultSegundos)
-        let getMinutos = resultSegundos / 60
+        let getMinutos = resultSegundos / 60;
         console.warn(getMinutos)
 
-        let horas = this.tiempo.slice(0, 2)
-        let minutos = this.tiempo.slice(3, 5)
+        let horas = this.tiempo.slice(0, 2);
+        let minutos = this.tiempo.slice(3, 5);
         console.log(horas + '  ' + minutos)
 
-        let horaMin = (horas * 60)
+        let horaMin = (horas * 60);
         console.log(horaMin)
 
-        let valorEnminutos = horaMin - getMinutos
+        let valorEnminutos = horaMin - getMinutos;
         console.log(valorEnminutos)
 
-        let pasar = valorEnminutos * 60
+        let pasar = valorEnminutos * 60;
 
         let hour = Math.floor(pasar / 3600)
-        hour = (hour < 10) ? '0' + hour : hour
-        let minute = Math.floor((pasar / 60) % 60)
-        minute = (minute < 10) ? '0' + minute : minute
-        let second = pasar % 60
-        second = (second < 10) ? '0' + second : second
-        this.dataRequest.pickup_time = hour + ':' + minute + ':' + second
+        hour = (hour < 10) ? '0' + hour : hour;
+        let minute = Math.floor((pasar / 60) % 60);
+        minute = (minute < 10) ? '0' + minute : minute;
+        let second = pasar % 60;
+        second = (second < 10) ? '0' + second : second;
+        this.dataRequest.pickup_time = hour + ':' + minute + ':' + second;
         console.log(this.dataRequest.pickup_time)
-
-        let hourestimado = Math.floor(this.tiempoEstimado / 3600)
-        hourestimado = (hourestimado < 10) ? '0' + hourestimado : hourestimado
-        let minutetimado = Math.floor((this.tiempoEstimado / 60) % 60)
-        minutetimado = (minutetimado < 10) ? '0' + minutetimado : minutetimado
-        let secondestimado = this.tiempoEstimado % 60
-        secondestimado = (secondestimado < 10) ? '0' + secondestimado : secondestimado
-        this.dataRequest.approximately_return_time = hourestimado + ':' + minutetimado + ':' + secondestimado
+      }
+    },
+    'dataRequest.approximately_return_time'() {
+      if ((this.dataRequest.from !== '' && this.dataRequest.to !== '') && this.tiempoEstimado !== 0) {
+        let hourestimado = Math.floor(this.tiempoEstimado / 3600);
+        hourestimado = (hourestimado < 10) ? '0' + hourestimado : hourestimado;
+        let minutetimado = Math.floor((this.tiempoEstimado / 60) % 60);
+        minutetimado = (minutetimado < 10) ? '0' + minutetimado : minutetimado;
+        let secondestimado = this.tiempoEstimado % 60;
+        secondestimado = (secondestimado < 10) ? '0' + secondestimado : secondestimado;
+        this.dataRequest.approximately_return_time = hourestimado + ':' + minutetimado + ':' + secondestimado;
         console.log(this.dataRequest.approximately_return_time)
       }
     }
@@ -954,7 +955,7 @@ export default {
           lat: this.existingPlace.geometry.location.lat(),
           lng: this.existingPlace.geometry.location.lng()
         }
-        this.locationMarkers.push({ position: marker })
+        this.locationMarkers.push({position: marker})
         this.locPlaces.push(this.existingPlace)
         this.center = marker
         this.existingPlace = null
