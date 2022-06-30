@@ -825,7 +825,7 @@ export default {
       }
     },
     tiempoEstimado() {
-      if (this.tiempoEstimado !== 0) {
+      if (this.tiempoEstimado !== 0 && this.dataRequest.from !== '' && this.dataRequest.to !== '') {
         let resultSegundos = this.tiempoEstimado + this.segundos
         console.log(resultSegundos)
         let getMinutos = resultSegundos / 60

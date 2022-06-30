@@ -67,8 +67,8 @@
 
 
         <template #cell(status)="{ item }">
-          <span :class="item.status === 1 ? 'colorpago': 'colornopago' ">
-               {{ item.status === 0 ? 'refused' : 'no paid out' }}
+          <span :class="item.status === 3 ? 'colorpago': 'colornopago' ">
+               {{ item.status === 3  ? 'refused' : 'no paid out' }}
           </span>
         </template>
 
@@ -104,7 +104,7 @@
               <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
                 <b-list-group-item class="font-weight-bold"
                                    style="border: none; padding: 5px; color: #7367f0"
-                                   @click="downloadReports(item.id)"
+                                   @click="sendPayment(item.id)"
                 >
                   <feather-icon icon="SendIcon"/>
                   Send payment
@@ -227,6 +227,7 @@ export default {
       totalUsers: 0,
       valortotal: 0,
       searchQuery: '',
+      pagado: false,
       fields: ['name_selfpay', 'booking_date', 'pickup_time', 'surgery_type', 'appoinment_datetime', 'city', 'price', 'status', 'actions'],
     }
   },
@@ -238,12 +239,44 @@ export default {
           this.$swal.showLoading()
         },
       })
-      this.$http.get(`admin/panel/booking/list?status=0`).then((response) => {
+      this.$http.get(`admin/panel/booking/list?status=3`).then((response) => {
         this.listClients = response.data.data.reverse();
         this.valortotal = this.listClients.length;
         this.totalUsers = this.valortotal;
         this.$swal.close();
       }).catch((res) => console.log(res.data))
+    },
+    sendPayment(id) {
+      this.$swal({
+        title: 'Please, wait...',
+        didOpen: () => {
+          this.$swal.showLoading()
+        },
+      })
+      this.$http.post(`admin/panel/booking/${id}/markAsPaid`).then((response) => {
+        this.$swal({
+          title: response.data.data,
+          icon: 'success',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.pagado = true;
+            this.getClientes();
+          }
+        })
+      }).catch((error) => {
+        this.$swal({
+          title: error.response.data.data,
+          icon: 'error',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
+        })
+      })
     },
     downloadReports(id) {
       this.$swal({

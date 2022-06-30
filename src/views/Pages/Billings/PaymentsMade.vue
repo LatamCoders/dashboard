@@ -91,18 +91,18 @@
               <b-btn color="primary" v-bind="attrs" v-on="on" icon ripple>
               </b-btn>
             </template>
-            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
-              <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">
-                <b-list-group-item class="font-weight-bold"
-                                   style="border: none; padding: 5px; color: #7367f0"
-                                   @click="downloadReports(item.id)"
-                >
-                  <feather-icon icon="DownloadIcon"/>
-                  Download document
-                </b-list-group-item
-                >
-              </b-list-group-item>
-            </b-list-group>
+            <!--            <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>-->
+            <!--              <b-list-group-item style="padding: 0" class="urlPagina" :ripple="false">-->
+            <!--                <b-list-group-item class="font-weight-bold"-->
+            <!--                                   style="border: none; padding: 5px; color: #7367f0"-->
+            <!--                                   @click="downloadReports(item.id)"-->
+            <!--                >-->
+            <!--                  <feather-icon icon="DownloadIcon"/>-->
+            <!--                  Download document-->
+            <!--                </b-list-group-item-->
+            <!--                >-->
+            <!--              </b-list-group-item>-->
+            <!--            </b-list-group>-->
             <b-list-group style="padding: 2px; margin-bottom: 2px" dense rounded>
               <router-link class="urlPagina"
                            :to="{ name: 'details-driver-view' }"
@@ -227,12 +227,24 @@ export default {
           this.$swal.showLoading()
         },
       })
-      this.$http.get(`admin/panel/booking/list?status=0`).then((response) => {
-        this.listClients = response.data.data.reverse();
-        this.valortotal = this.listClients.length;
-        this.totalUsers = this.valortotal;
-        this.$swal.close();
-      }).catch((res) => console.log(res.data))
+      // /ca/1/panel/booking/list
+      if (this.$store.getters['Users/userData'].user.role.id === 1 || this.$store.getters['Users/userData'].user.role.id === 2) {
+        this.$http.get(`admin/panel/booking/list?status=0`).then((response) => {
+          this.listClients = response.data.data.reverse();
+          this.valortotal = this.listClients.length;
+          this.totalUsers = this.valortotal;
+          this.$swal.close();
+        }).catch((res) => console.log(res.data))
+      } else {
+        this.user = parseInt(this.$store.getters["Users/userData"].user.corporate_account.id)
+        this.$http.get(`ca/${this.user}/panel/booking/list`).then((response) => {
+          this.listClients = response.data.data.reverse();
+          this.valortotal = this.listClients.length;
+          this.totalUsers = this.valortotal;
+          this.$swal.close();
+        }).catch((res) => console.log(res.data))
+      }
+
     },
     downloadReports(id) {
       this.$swal({

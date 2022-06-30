@@ -4,6 +4,7 @@
       <b-col
           lg="3"
           sm="6"
+          v-if="$store.getters['Users/userData'].user.role.id === 1 || $store.getters['Users/userData'].user.role.id === 2"
       >
         <router-link style="color: #6e6b7b" :to="{name:'TransactionsMade'}">
           <StatisticCardWithAreaChart
@@ -18,6 +19,7 @@
       <b-col
           lg="3"
           sm="6"
+          v-if="$store.getters['Users/userData'].user.role.id === 1 || $store.getters['Users/userData'].user.role.id === 2 || $store.getters['Users/userData'].user.role.id === 3"
       >
         <router-link style="color: #6e6b7b" :to="{name:'PaymentsMade'}">
           <StatisticCardWithAreaChart
@@ -32,6 +34,7 @@
       <b-col
           lg="3"
           sm="6"
+          v-if="$store.getters['Users/userData'].user.role.id === 1 || $store.getters['Users/userData'].user.role.id === 2"
       >
         <router-link style="color: #6e6b7b" :to="{name:'PaymentsToBeMade'}">
           <StatisticCardWithAreaChart
@@ -47,6 +50,7 @@
       <b-col
           lg="3"
           sm="6"
+          v-if="$store.getters['Users/userData'].user.role.id === 1 || $store.getters['Users/userData'].user.role.id === 2"
       >
         <router-link style="color: #6e6b7b" :to="{name:'RefusedPayments'}">
           <StatisticCardWithAreaChart
@@ -61,6 +65,7 @@
       <b-col
           lg="3"
           sm="6"
+          v-if="$store.getters['Users/userData'].user.role.id === 1 || $store.getters['Users/userData'].user.role.id === 2"
       >
         <router-link style="color: #6e6b7b" :to="{ name: 'Payments' }">
           <StatisticCardWithAreaChart
