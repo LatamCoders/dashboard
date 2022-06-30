@@ -882,7 +882,7 @@ export default {
         return this.calculatePrice()
       }
     },
-    tiempoEstimado() {
+    tiempoSearch() {
       if ((this.dataRequest.from !== '' && this.dataRequest.to !== '') && this.tiempoEstimado !== 0) {
         let resultSegundos = this.tiempoEstimado + this.segundos;
         console.log(resultSegundos)
@@ -911,7 +911,7 @@ export default {
         // console.log(this.dataRequest.pickup_time)
       }
     },
-    'dataRequest.approximately_return_time'() {
+    retornoTiempo() {
       if ((this.dataRequest.from !== '' && this.dataRequest.to !== '') && this.tiempoEstimado !== 0) {
         let hourestimado = Math.floor(this.tiempoEstimado / 3600);
         hourestimado = (hourestimado < 10) ? '0' + hourestimado : hourestimado;
@@ -922,6 +922,12 @@ export default {
         return this.dataRequest.approximately_return_time = hourestimado + ':' + minutetimado + ':' + secondestimado;
         // console.log(this.dataRequest.approximately_return_time)
       }
+    },
+    millasBooking() {
+      if(this.dataRequest.trip_distance !== '' || this.dataRequest.trip_distance !== 0){
+        return this.valormillas = this.dataRequest.trip_distance * parseFloat(this.millas)
+      }
+
     }
   },
   methods: {
