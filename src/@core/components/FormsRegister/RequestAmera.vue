@@ -877,7 +877,7 @@ export default {
         }
       }
     },
-    'dataRequest.trip_distance'() {
+    getInfoTravel() {
       if (this.dataRequest.from !== '' && this.dataRequest.to !== '' || this.dataRequest.from_coordinates !== '' && this.dataRequest.to_coordinates !== '') {
         return this.calculatePrice()
       }
