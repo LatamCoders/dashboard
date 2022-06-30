@@ -22,6 +22,7 @@
 
       <div class="d-flex flex-wrap">
         <b-button
+            v-if="$store.getters['Users/userData'].user.role.id === 3 && inhabilitar ===  true && savedInfo === false"
             :variant="inhabilitar === false ? 'primary' : 'outline-secondary'"
             @click="savedInfo === true ? inhabilitar = true : inhabilitar = true"
         >
@@ -146,21 +147,6 @@
 
       </b-row>
       <b-row>
-        <!-- Field: Full Name -->
-<!--        <b-col-->
-<!--            cols="12"-->
-<!--            md="4"-->
-<!--        >-->
-<!--          <b-form-group-->
-<!--              label="Contract start Date"-->
-<!--          >-->
-<!--            <b-form-input-->
-<!--                v-model="userData.corporate_account.contract_start_date"-->
-<!--                disabled-->
-<!--            />-->
-<!--          </b-form-group>-->
-<!--        </b-col>-->
-
         <!-- Field: Email -->
         <b-col
             cols="12"

@@ -135,7 +135,8 @@
             </b-img>
             <div style="width: fit-content; padding: 10px">
               <template
-                  v-if="userVehicle.vehicle.vehicle_documents.vehicle_front_image_verify_at === undefined  || userVehicle.vehicle.vehicle_documents.vehicle_front_image_verify_at === null">
+                  v-if="userVehicle.vehicle.vehicle_documents.vehicle_front_image_verify_at === undefined  || userVehicle.vehicle.vehicle_documents.vehicle_front_image_verify_at === null"
+              >
                 <btn-validation-docs-driver
                     :nameVehicle="userVehicle.vehicle.vehicle_documents"
                     :idUserVehicle="userVehicle.id"
@@ -169,7 +170,8 @@
             ></b-img>
             <div style="width: fit-content; padding: 10px">
               <template
-                  v-if="userVehicle.vehicle.vehicle_documents.vehicle_rear_image_verify_at === undefined || userVehicle.vehicle.vehicle_documents.vehicle_rear_image_verify_at === null">
+                  v-if="userVehicle.vehicle.vehicle_documents.vehicle_rear_image_verify_at === undefined || userVehicle.vehicle.vehicle_documents.vehicle_rear_image_verify_at === null"
+              >
                 <btn-validation-docs-driver
                     :nameVehicle="userVehicle.vehicle.vehicle_documents"
                     :idUserVehicle="userVehicle.id"
@@ -199,7 +201,8 @@
             ></b-img>
             <div style="width: fit-content; padding: 10px">
               <template
-                  v-if="userVehicle.vehicle.vehicle_documents.vehicle_side_image_verify_at === undefined || userVehicle.vehicle.vehicle_documents.vehicle_side_image_verify_at === null">
+                  v-if="userVehicle.vehicle.vehicle_documents.vehicle_side_image_verify_at === undefined || userVehicle.vehicle.vehicle_documents.vehicle_side_image_verify_at === null"
+              >
                 <btn-validation-docs-driver
                     :nameVehicle="userVehicle.vehicle.vehicle_documents"
                     :idUserVehicle="userVehicle.id"
@@ -230,7 +233,8 @@
             ></b-img>
             <div style="width: fit-content; padding: 10px">
               <template
-                  v-if="userVehicle.vehicle.vehicle_documents.vehicle_interior_image_verify_at === undefined || userVehicle.vehicle.vehicle_documents.vehicle_interior_image_verify_at === null">
+                  v-if="userVehicle.vehicle.vehicle_documents.vehicle_interior_image_verify_at === undefined || userVehicle.vehicle.vehicle_documents.vehicle_interior_image_verify_at === null"
+              >
                 <btn-validation-docs-driver
                     :nameVehicle="userVehicle.vehicle.vehicle_documents"
                     :idUserVehicle="userVehicle.id"
@@ -242,24 +246,6 @@
         </b-col>
 
       </b-row>
-
-      <!--      <b-row class="mt-2">-->
-      <!--        <b-col>-->
-      <!--          <b-button-->
-      <!--              variant="primary"-->
-      <!--              class="mb-1 mb-sm-0 mr-0 mr-sm-1"-->
-      <!--              :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
-      <!--          >-->
-      <!--            Save Changes-->
-      <!--          </b-button>-->
-      <!--          <b-button-->
-      <!--              variant="outline-secondary"-->
-      <!--              :block="$store.getters['app/currentBreakPoint'] === 'xs'"-->
-      <!--          >-->
-      <!--            Reset-->
-      <!--          </b-button>-->
-      <!--        </b-col>-->
-      <!--      </b-row>-->
     </b-form>
   </div>
 </template>
@@ -270,8 +256,8 @@ import {
 } from 'bootstrap-vue'
 import flatPickr from 'vue-flatpickr-component'
 import vSelect from 'vue-select'
-import BtnValidationDocsDriver from "@core/components/buttonsValidationDocsDriver/BtnValidationDocsDriver";
-import {mapGetters} from "vuex";
+import BtnValidationDocsDriver from '@core/components/buttonsValidationDocsDriver/BtnValidationDocsDriver'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -289,9 +275,9 @@ export default {
     BtnValidationDocsDriver,
   },
   computed: {
-    // ...mapGetters({
-    //   userVehicle: 'Users/usersData'
-    // })
+    ...mapGetters({
+      userVehicle: 'Users/usersData'
+    })
   },
   data() {
     return {
@@ -300,31 +286,31 @@ export default {
       btninterior: true,
       btnfront: true,
 
-      userVehicle: {}
+      // userVehicle: {}
 
     }
   },
-  methods: {
-    getInfoGeneral() {
-      let userId = parseInt(this.$route.params.id);
-      this.$http.get(`admin/panel/driver/${userId}/info`).then((response) => {
-        this.userVehicle = response.data.data;
-      }).catch((error) => {
-        this.$swal({
-          title: error.response.data.data,
-          icon: 'error',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-          },
-          buttonsStyling: false,
-        })
-      })
-    },
-  },
-  mounted() {
-    this.getInfoGeneral();
-
-  }
+  // methods: {
+  //   getInfoGeneral() {
+  //     let userId = parseInt(this.$route.params.id);
+  //     this.$http.get(`admin/panel/driver/${userId}/info`).then((response) => {
+  //       this.userVehicle = response.data.data;
+  //     }).catch((error) => {
+  //       this.$swal({
+  //         title: error.response.data.data,
+  //         icon: 'error',
+  //         customClass: {
+  //           confirmButton: 'btn btn-primary',
+  //         },
+  //         buttonsStyling: false,
+  //       })
+  //     })
+  //   },
+  // },
+  // mounted() {
+  //   this.getInfoGeneral();
+  //
+  // }
 }
 </script>
 

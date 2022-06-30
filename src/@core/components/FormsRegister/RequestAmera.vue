@@ -110,7 +110,6 @@
                       :options="lispatient"
                       :reduce="c => `${c.id}`"
                       :state="errors.length > 0 ? false:null"
-
                   >
                     <template #option="{name, lastname}">
                       {{ name }} {{ lastname }}
@@ -124,11 +123,18 @@
               <b-form-group
                   label="Last Name"
               >
-                <b-form-input
-                    v-model="lastnombre"
-                    disabled
-
-                />
+                <validation-provider
+                    #default="{ errors }"
+                    rules="required"
+                    name="lastnombre"
+                >
+                  <b-form-input
+                      v-model="lastnombre"
+                      disabled
+                      :state="errors.length > 0 ? false:null"
+                  />
+                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+                </validation-provider>
               </b-form-group>
             </b-col>
             <b-col md="4">
@@ -138,6 +144,7 @@
                 <validation-provider
                     #default="{ errors }"
                     rules="required"
+                    name="contact"
                 >
                   <b-form-input
                       v-model="contact"
@@ -155,6 +162,7 @@
                 <validation-provider
                     #default="{ errors }"
                     rules="required|email"
+                    name="getEmailPatient"
                 >
                   <b-form-input
                       v-model="getEmailPatient"
@@ -172,10 +180,10 @@
       <!-- personal details -->
       <tab-content
           title="Info"
-          :before-change="validationForm"
+          :before-change="validationFormInfo"
       >
         <validation-observer
-            ref="accountRules"
+            ref="accountRulesFacilityName"
             tag="form"
         >
           <b-row>
@@ -192,28 +200,52 @@
               <b-form-group
                   label="Facility Name"
               >
-                <b-form-input
-                    v-model="dataRequest.facility_name"
+                <validation-provider
+                    #default="{ errors }"
+                    rules="required"
+                    name="facility_name"
                 >
-                </b-form-input>
+                  <b-form-input
+                      :state="errors.length > 0 ? false:null"
+                      v-model="dataRequest.facility_name"
+                  />
+                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+                </validation-provider>
               </b-form-group>
             </b-col>
             <b-col md="4">
               <b-form-group
                   label="Doctor's Name"
               >
-                <b-form-input
-                    v-model="dataRequest.doctor_name"
-                />
+                <validation-provider
+                    #default="{ errors }"
+                    rules="required"
+                    name="doctor_name"
+                >
+                  <b-form-input
+                      v-model="dataRequest.doctor_name"
+                      :state="errors.length > 0 ? false:null"
+                  />
+                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+                </validation-provider>
               </b-form-group>
             </b-col>
             <b-col md="4">
               <b-form-group
                   label="Facility Phone Number"
               >
-                <b-form-input
-                    v-model="dataRequest.facility_phone_number"
-                />
+                <validation-provider
+                    #default="{ errors }"
+                    rules="required"
+                    name="facility_phone_number"
+                >
+                  <b-form-input
+                      v-model="dataRequest.facility_phone_number"
+                      :state="errors.length > 0 ? false:null"
+                      @keypress="isNumberVar($event)"
+                  />
+                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+                </validation-provider>
               </b-form-group>
             </b-col>
           </b-row>
@@ -223,10 +255,10 @@
       <!-- address -->
       <tab-content
           title="Preschedule"
-          :before-change="validationFormInfo"
+          :before-change="validationFormInfoRequest"
       >
         <validation-observer
-            ref="infoRules"
+            ref="infoRulesRequest"
             tag="form"
         >
           <b-row>
@@ -250,7 +282,6 @@
                   <b-form-datepicker
                       v-model="fecha"
                       :min="min"
-
                       locale="en"
                       placeholder="0/00/0000"
                       :state="errors.length > 0 ? false:null"
@@ -332,6 +363,10 @@
               <b-form-group
                   label="Additional stop"
               >
+                <validation-provider
+                    #default="{ errors }"
+                    rules="required"
+                >
                 <v-select
                     v-model="selectcirujia"
                     :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
@@ -339,7 +374,10 @@
                     :options="option"
                     label="title"
                     placeholder="Please select some item"
+                    :state="errors.length > 0 ? false:null"
                 />
+                  <small class="text-danger" v-if="errors[0]">This field is required</small>
+                </validation-provider>
               </b-form-group>
             </b-col>
             <b-col md="4" v-if="show === true">
@@ -434,9 +472,9 @@
 </template>
 
 <script>
-import {FormWizard, TabContent} from 'vue-form-wizard'
+import { FormWizard, TabContent } from 'vue-form-wizard'
 import vSelect from 'vue-select'
-import {ValidationProvider, ValidationObserver} from 'vee-validate'
+import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import {
@@ -781,50 +819,47 @@ export default {
     },
     'dataRequest.trip_distance'() {
       if (this.dataRequest.from !== '' && this.dataRequest.to !== '' || this.dataRequest.from_coordinates !== '' && this.dataRequest.to_coordinates !== '') {
-        return this.calculatePrice();
+        return this.calculatePrice()
         // console.log('retornando')
         // this.valormillas = this.dataRequest.trip_distance * parseFloat(this.millas)
       }
     },
     tiempoEstimado() {
       if (this.tiempoEstimado !== 0) {
-        let resultSegundos = this.tiempoEstimado + this.segundos;
+        let resultSegundos = this.tiempoEstimado + this.segundos
         console.log(resultSegundos)
-        let getMinutos = resultSegundos / 60;
+        let getMinutos = resultSegundos / 60
         console.warn(getMinutos)
 
-        let horas = this.tiempo.slice(0, 2);
+        let horas = this.tiempo.slice(0, 2)
         let minutos = this.tiempo.slice(3, 5)
         console.log(horas + '  ' + minutos)
 
         let horaMin = (horas * 60)
         console.log(horaMin)
 
-
-        let valorEnminutos = horaMin - getMinutos;
+        let valorEnminutos = horaMin - getMinutos
         console.log(valorEnminutos)
 
         let pasar = valorEnminutos * 60
 
-
-        let hour = Math.floor(pasar / 3600);
-        hour = (hour < 10) ? '0' + hour : hour;
-        let minute = Math.floor((pasar / 60) % 60);
-        minute = (minute < 10) ? '0' + minute : minute;
-        let second = pasar % 60;
-        second = (second < 10) ? '0' + second : second;
+        let hour = Math.floor(pasar / 3600)
+        hour = (hour < 10) ? '0' + hour : hour
+        let minute = Math.floor((pasar / 60) % 60)
+        minute = (minute < 10) ? '0' + minute : minute
+        let second = pasar % 60
+        second = (second < 10) ? '0' + second : second
         this.dataRequest.pickup_time = hour + ':' + minute + ':' + second
-        console.log(this.dataRequest.pickup_time);
+        console.log(this.dataRequest.pickup_time)
 
-
-        let hourestimado = Math.floor(this.tiempoEstimado / 3600);
-        hourestimado = (hourestimado < 10) ? '0' + hourestimado : hourestimado;
-        let minutetimado = Math.floor((this.tiempoEstimado / 60) % 60);
-        minutetimado = (minutetimado < 10) ? '0' + minutetimado : minutetimado;
-        let secondestimado = this.tiempoEstimado % 60;
-        secondestimado = (secondestimado < 10) ? '0' + secondestimado : secondestimado;
+        let hourestimado = Math.floor(this.tiempoEstimado / 3600)
+        hourestimado = (hourestimado < 10) ? '0' + hourestimado : hourestimado
+        let minutetimado = Math.floor((this.tiempoEstimado / 60) % 60)
+        minutetimado = (minutetimado < 10) ? '0' + minutetimado : minutetimado
+        let secondestimado = this.tiempoEstimado % 60
+        secondestimado = (secondestimado < 10) ? '0' + secondestimado : secondestimado
         this.dataRequest.approximately_return_time = hourestimado + ':' + minutetimado + ':' + secondestimado
-        console.log(this.dataRequest.approximately_return_time);
+        console.log(this.dataRequest.approximately_return_time)
       }
     }
   },
@@ -843,7 +878,7 @@ export default {
     },
     'dataRequest.trip_distance'() {
       if (this.dataRequest.from !== '' && this.dataRequest.to !== '' || this.dataRequest.from_coordinates !== '' && this.dataRequest.to_coordinates !== '') {
-        return this.calculatePrice();
+        return this.calculatePrice()
       }
     }
   },
@@ -862,7 +897,7 @@ export default {
     },
     validationFormInfo() {
       return new Promise((resolve, reject) => {
-        this.$refs.infoRules.validate()
+        this.$refs.accountRulesFacilityName.validate()
             .then(success => {
               if (success) {
                 resolve(true)
@@ -871,6 +906,26 @@ export default {
               }
             })
       })
+    },
+    validationFormInfoRequest() {
+      return new Promise((resolve, reject) => {
+        this.$refs.infoRulesRequest.validate()
+            .then(success => {
+              if (success) {
+                resolve(true)
+              } else {
+                reject()
+              }
+            })
+      })
+    },
+    isNumberVar: function (event) {
+      let regex = new RegExp('^[-Z0-9 ]+$')
+      let key = String.fromCharCode(!event.charCode ? event.which : event.charCode)
+      if (!regex.test(key)) {
+        event.preventDefault()
+        return false
+      }
     },
     initMarker(loc) {
       this.existingPlace = loc
@@ -899,7 +954,7 @@ export default {
           lat: this.existingPlace.geometry.location.lat(),
           lng: this.existingPlace.geometry.location.lng()
         }
-        this.locationMarkers.push({position: marker})
+        this.locationMarkers.push({ position: marker })
         this.locPlaces.push(this.existingPlace)
         this.center = marker
         this.existingPlace = null
@@ -984,7 +1039,6 @@ export default {
         this.dataRequest.price = this.dataRequest.service_fee + Math.round(this.valormillas)
         console.warn('precio ' + this.dataRequest.service_fee + Math.round(this.valormillas))
       }
-
 
       await this.$http.post('ca/panel/booking/add?clientType=reservationCode', this.dataRequest)
           .then((response) => {
