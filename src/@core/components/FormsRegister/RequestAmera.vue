@@ -827,7 +827,7 @@ export default {
         let resultSegundos = this.tiempoEstimado + this.segundos;
         // console.log(resultSegundos)
         let getMinutos = resultSegundos / 60;
-        // console.warn(getMinutos)
+        // console.warn(Math.round(getMinutos))
 
         let horas = this.tiempo.slice(0, 2);
         let minutos = this.tiempo.slice(3, 5);
@@ -836,7 +836,7 @@ export default {
         let horaMin = (horas * 60);
         // console.log(horaMin)
 
-        let valorEnminutos = horaMin - getMinutos;
+        let valorEnminutos = horaMin - Math.round(getMinutos);
         // console.log(valorEnminutos)
 
         let pasar = valorEnminutos * 60;
