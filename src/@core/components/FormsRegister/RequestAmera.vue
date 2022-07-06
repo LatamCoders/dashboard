@@ -991,129 +991,130 @@ export default {
       })
     },
     async formRequest() {
-      const d = new Date()
-      const today = new Date(d.getFullYear(), d.getMonth(), d.getDate())
-      let h = d.getHours()
-      let m = d.getMinutes()
-      let s = d.getSeconds()
-      let time = h + ':' + m + ':' + s
-      // console.log(time)
-      // console.log(today)
-      if (this.tiempo < time) {
-        this.$swal({
-          title: 'Error, no puede colocar una hora menor a la actual',
-          icon: 'error',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-          },
-          buttonsStyling: false,
-        })
-      } else {
-        this.$swal({
-          title: 'Please, wait...',
-          didOpen: () => {
-            this.$swal.showLoading()
-          }
-        })
-        // this.calculatePrice()
-        this.dataRequest.selfpay_id = parseInt(this.idpaciente)
-        this.dataRequest.emailpatient = this.getInfoPat.email
-        this.dataRequest.status = this.dataCa.status
-        this.dataRequest.booking_date = this.fecha + ' ' + this.tiempo
-        this.dataRequest.appoinment_datetime = this.appointmentdate + ' ' + this.appointmenttime
-        this.dataRequest.seleccionstop = this.selectcirujia[0].title
-        this.valormillas = this.dataRequest.trip_distance * parseFloat(this.millas)
-
-        for (this.searchWait of this.selectcirujia) {
-          if (parseFloat(this.valormillas) <= 160934) {
-            if (this.searchWait.title === 'One way') {
-              this.dataRequest.service_fee = 75
-            } else if (this.searchWait.title === 'Roundtrip') {
-              this.dataRequest.service_fee = 125
-            }
-          } else if (parseFloat(this.valormillas) >= 160934 || parseFloat(this.valormillas) <= 321869) {
-            if (this.searchWait.title === 'One way') {
-              this.dataRequest.service_fee = 85
-            } else if (this.searchWait.title === 'Roundtrip') {
-              this.dataRequest.service_fee = 135
-            }
-          } else {
-            console.log('falló')
-          }
+      // const d = new Date()
+      // const today = new Date(d.getFullYear(), d.getMonth(), d.getDate())
+      // let h = d.getHours()
+      // let m = d.getMinutes()
+      // let s = d.getSeconds()
+      // let time = h + ':' + m + ':' + s
+      // // console.log(time)
+      // // console.log(today)
+      // if (this.tiempo < time) {
+      //   this.$swal({
+      //     title: 'Error, no puede colocar una hora menor a la actual',
+      //     icon: 'error',
+      //     customClass: {
+      //       confirmButton: 'btn btn-primary',
+      //     },
+      //     buttonsStyling: false,
+      //   })
+      //}
+      //
+      this.$swal({
+        title: 'Please, wait...',
+        didOpen: () => {
+          this.$swal.showLoading()
         }
+      })
+      // this.calculatePrice()
+      this.dataRequest.selfpay_id = parseInt(this.idpaciente)
+      this.dataRequest.emailpatient = this.getInfoPat.email
+      this.dataRequest.status = this.dataCa.status
+      this.dataRequest.booking_date = this.fecha + ' ' + this.tiempo
+      this.dataRequest.appoinment_datetime = this.appointmentdate + ' ' + this.appointmenttime
+      this.dataRequest.seleccionstop = this.selectcirujia[0].title
+      this.valormillas = this.dataRequest.trip_distance * parseFloat(this.millas)
 
-        if (this.searchWait.title === 'Roundtrip') {
-          this.dataRequest.price = this.dataRequest.service_fee + this.valorWaitAndReturn + Math.round(this.valormillas)
-          console.warn('precio ' + this.dataRequest.service_fee + this.valorWaitAndReturn + Math.round(this.valormillas))
-        } else if (this.searchWait.title === 'One way') {
-          this.dataRequest.price = this.dataRequest.service_fee + Math.round(this.valormillas)
-          console.warn('precio ' + this.dataRequest.service_fee + Math.round(this.valormillas))
+      for (this.searchWait of this.selectcirujia) {
+        if (parseFloat(this.valormillas) <= 160934) {
+          if (this.searchWait.title === 'One way') {
+            this.dataRequest.service_fee = 75
+          } else if (this.searchWait.title === 'Roundtrip') {
+            this.dataRequest.service_fee = 125
+          }
+        } else if (parseFloat(this.valormillas) >= 160934 || parseFloat(this.valormillas) <= 321869) {
+          if (this.searchWait.title === 'One way') {
+            this.dataRequest.service_fee = 85
+          } else if (this.searchWait.title === 'Roundtrip') {
+            this.dataRequest.service_fee = 135
+          }
+        } else {
+          console.log('falló')
         }
+      }
 
-        await this.$http.post('ca/panel/booking/add?clientType=reservationCode', this.dataRequest)
-            .then((response) => {
-              if (response.data.status === 200) {
-                this.$swal({
-                  title: response.data.message,
-                  icon: 'success',
-                  customClass: {
-                    confirmButton: 'btn btn-primary',
-                  },
-                  buttonsStyling: false,
-                })
-                this.$refs.requestTrip.reset()
-                //clear form
-                this.lastnombre = ''
-                this.contact = ''
-                this.getEmailPatient = ''
-                this.dataRequest.facility_name = ''
-                this.dataRequest.doctor_name = ''
-                this.dataRequest.facility_phone_number = ''
-                this.fecha = ''
-                this.tiempo = ''
-                this.dataRequest.city = ''
-                this.dataRequest.surgery_type = ''
-                this.selectcirujia = ''
-                this.valorWaitAndReturn = ''
-                this.resultValor = ''
-                this.appointmentdate = ''
-                this.appointmenttime = ''
+      if (this.searchWait.title === 'Roundtrip') {
+        this.dataRequest.price = this.dataRequest.service_fee + this.valorWaitAndReturn + Math.round(this.valormillas)
+        console.warn('precio ' + this.dataRequest.service_fee + this.valorWaitAndReturn + Math.round(this.valormillas))
+      } else if (this.searchWait.title === 'One way') {
+        this.dataRequest.price = this.dataRequest.service_fee + Math.round(this.valormillas)
+        console.warn('precio ' + this.dataRequest.service_fee + Math.round(this.valormillas))
+      }
 
-                this.dataRequest.booking_date = ''
-                this.dataRequest.from = ''
-                this.dataRequest.to = ''
-                this.dataRequest.pickup_time = ''
-
-                this.dataRequest.appoinment_datetime = ''
-                this.dataRequest.selfpay_id = ''
-                this.dataRequest.from_coordinates = ''
-                this.dataRequest.to_coordinates = ''
-                this.seleccionstop = ''
-              } else {
-                this.$swal({
-                  title: response.data.message,
-                  icon: 'error',
-                  customClass: {
-                    confirmButton: 'btn btn-primary',
-                  },
-                  buttonsStyling: false,
-                })
-                console.log('cumplido' + 5)
-                // console.log(res.data.data)
-              }
-            })
-            .catch((error) => {
+      await this.$http.post('ca/panel/booking/add?clientType=reservationCode', this.dataRequest)
+          .then((response) => {
+            if (response.data.status === 200) {
               this.$swal({
-                title: error.response.data.data,
+                title: response.data.message,
+                icon: 'success',
+                customClass: {
+                  confirmButton: 'btn btn-primary',
+                },
+                buttonsStyling: false,
+              })
+              this.$refs.requestTrip.reset()
+              //clear form
+              this.lastnombre = ''
+              this.contact = ''
+              this.getEmailPatient = ''
+              this.dataRequest.facility_name = ''
+              this.dataRequest.doctor_name = ''
+              this.dataRequest.facility_phone_number = ''
+              this.fecha = ''
+              this.tiempo = ''
+              this.dataRequest.city = ''
+              this.dataRequest.surgery_type = ''
+              this.selectcirujia = ''
+              this.valorWaitAndReturn = ''
+              this.resultValor = ''
+              this.appointmentdate = ''
+              this.appointmenttime = ''
+
+              this.dataRequest.booking_date = ''
+              this.dataRequest.from = ''
+              this.dataRequest.to = ''
+              this.dataRequest.pickup_time = ''
+
+              this.dataRequest.appoinment_datetime = ''
+              this.dataRequest.selfpay_id = ''
+              this.dataRequest.from_coordinates = ''
+              this.dataRequest.to_coordinates = ''
+              this.seleccionstop = ''
+            } else {
+              this.$swal({
+                title: response.data.message,
                 icon: 'error',
                 customClass: {
                   confirmButton: 'btn btn-primary',
                 },
                 buttonsStyling: false,
               })
-              console.log('no cumplido' + 5)
+              console.log('cumplido' + 5)
+              // console.log(res.data.data)
+            }
+          })
+          .catch((error) => {
+            this.$swal({
+              title: error.response.data.data,
+              icon: 'error',
+              customClass: {
+                confirmButton: 'btn btn-primary',
+              },
+              buttonsStyling: false,
             })
-      }
+            console.log('no cumplido' + 5)
+          })
+      //}
     },
     getInfo() {
       this.dataCa = this.$store.getters['Users/userData'].user
@@ -1156,10 +1157,12 @@ export default {
       this.tiempoEstimado = response.rows[0].elements[0].duration.value
       console.log(status)
     },
-  },
+  }
+  ,
   beforeMount() {
     this.getInfo()
-  },
+  }
+  ,
   mounted() {
     this.locateGeoLocation()
     this.$http.get(`ca/${this.$store.getters['Users/userData'].user.corporate_account.id}/panel/client/search`)

@@ -130,7 +130,7 @@
             <b-img
                 class="imgDocVehicle"
                 style="border-radius: 5px ; height: 318px;"
-                :src="userVehicle.vehicle.vehicle_documents.vehicle_front_image"
+                :src="traerFrontImg"
             >
             </b-img>
             <div style="width: fit-content; padding: 10px">
@@ -166,7 +166,7 @@
             <b-img
                 class="imgDocVehicle"
                 style="border-radius: 5px; height: 318px;"
-                :src="userVehicle.vehicle.vehicle_documents.vehicle_rear_image"
+                :src="traerReartImg"
             ></b-img>
             <div style="width: fit-content; padding: 10px">
               <template
@@ -197,7 +197,7 @@
             <b-img
                 class="imgDocVehicle"
                 style="border-radius: 5px; height: 318px;"
-                :src="userVehicle.vehicle.vehicle_documents.vehicle_side_image"
+                :src="traerSidetImg"
             ></b-img>
             <div style="width: fit-content; padding: 10px">
               <template
@@ -229,7 +229,7 @@
             <b-img
                 class="imgDocVehicle"
                 style="border-radius: 5px; height: 318px;"
-                :src="userVehicle.vehicle.vehicle_documents.vehicle_interior_image"
+                :src="traerInteriortImg"
             ></b-img>
             <div style="width: fit-content; padding: 10px">
               <template
@@ -257,7 +257,7 @@ import {
 import flatPickr from 'vue-flatpickr-component'
 import vSelect from 'vue-select'
 import BtnValidationDocsDriver from '@core/components/buttonsValidationDocsDriver/BtnValidationDocsDriver'
-import { mapGetters } from 'vuex'
+import {mapGetters} from 'vuex'
 
 export default {
   components: {
@@ -277,7 +277,31 @@ export default {
   computed: {
     ...mapGetters({
       userVehicle: 'Users/usersData'
-    })
+    }),
+    traerFrontImg() {
+      let img = this.userVehicle.vehicle.vehicle_documents.vehicle_front_image;
+      let max = 5000000;
+      let numberRam = Math.random() * max;
+      return this.imagenFront = `${img}?${Math.round(numberRam)}`
+    },
+    traerReartImg() {
+      let img = this.userVehicle.vehicle.vehicle_documents.vehicle_rear_image;
+      let max = 5000000;
+      let numberRam = Math.random() * max;
+      return this.imagenRear = `${img}?${Math.round(numberRam)}`
+    },
+    traerSidetImg() {
+      let img = this.userVehicle.vehicle.vehicle_documents.vehicle_side_image;
+      let max = 5000000;
+      let numberRam = Math.random() * max;
+      return this.imagenSide = `${img}?${Math.round(numberRam)}`
+    },
+    traerInteriortImg() {
+      let img = this.userVehicle.vehicle.vehicle_documents.vehicle_interior_image;
+      let max = 5000000;
+      let numberRam = Math.random() * max;
+      return this.imagenInterior = `${img}?${Math.round(numberRam)}`
+    }
   },
   data() {
     return {
@@ -285,7 +309,10 @@ export default {
       btnsideimg: true,
       btninterior: true,
       btnfront: true,
-
+      imagenFront: '',
+      imagenRear: '',
+      imagenSide: '',
+      imagenInterior: '',
       // userVehicle: {}
 
     }

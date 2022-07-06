@@ -28,7 +28,7 @@
             <b-img
                 class="imgDocVehicle"
                 style="border-radius: 5px; height: 318px;"
-                :src="driverDocuments.driver_documents.driver_license"
+                :src="traerLicense"
             ></b-img>
             <div style="width: fit-content; padding: 10px">
               <template
@@ -56,7 +56,7 @@
             <b-img
                 class="imgDocVehicle"
                 style="border-radius: 5px; height: 318px;"
-                :src="driverDocuments.driver_documents.proof_of_insurance"
+                :src="traerProofInsuranse"
             ></b-img>
             <div style="width: fit-content; padding: 10px">
               <template
@@ -99,12 +99,27 @@ export default {
   computed: {
     ...mapGetters({
       driverDocuments: 'Users/usersData'
-    })
+    }),
+    traerLicense() {
+      let img = this.driverDocuments.driver_documents.driver_license;
+      let max = 5000000;
+      let numberRam = Math.random() * max;
+      return this.imagenLicense = `${img}?${Math.round(numberRam)}`
+    },
+    traerProofInsuranse() {
+      let img = this.driverDocuments.driver_documents.proof_of_insurance;
+      let max = 5000000;
+      let numberRam = Math.random() * max;
+      return this.imagenInsurance = `${img}?${Math.round(numberRam)}`
+    }
   },
   data() {
     return {
       btnlicense: true,
       btninsure: true,
+
+      imagenLicense: '',
+      imagenInsurance: '',
     }
   },
   // mounted() {

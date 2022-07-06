@@ -298,7 +298,7 @@ export default {
           })
           .catch((error) => {
             this.$swal({
-              title: error.message,
+              title: error.response.data.data,
               icon: 'error',
               customClass: {
                 confirmButton: 'btn btn-primary',
