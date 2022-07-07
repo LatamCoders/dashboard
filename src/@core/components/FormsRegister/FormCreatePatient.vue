@@ -388,60 +388,74 @@ export default {
       })
     },
     formSubmitted() {
-      this.$swal({
-        title: 'Please, wait...',
-        didOpen: () => {
-          this.$swal.showLoading()
-        }
-      })
-      this.createdPatient.ca_id = this.$store.getters['Users/userData'].user.corporate_account.id
-      this.$http.post('ca/panel/client/add', this.createdPatient)
-          .then((res) => {
-            if (res.data.status === 200) {
-              this.$swal({
-                title: res.data.message,
-                icon: 'success',
-                customClass: {
-                  confirmButton: 'btn btn-primary',
-                },
-                buttonsStyling: false,
-              })
-              this.$refs.registerClient.reset()
+      let RegExPattern = new RegExp('/^\\d{1,2}\\/\\d{1,2}\\/\\d{2,4}$/')
+      console.log(this.createdPatient.birthday.match(RegExPattern));
+      if ((this.createdPatient.birthday.match(RegExPattern)) && (this.createdPatient.birthday != '')) {
+        this.$swal({
+          title: 'true',
+          icon: 'success',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
+        })
+        return true
+      } else {
+        this.$swal({
+          title: 'Please, wait...',
+          didOpen: () => {
+            this.$swal.showLoading()
+          }
+        })
+        this.createdPatient.ca_id = this.$store.getters['Users/userData'].user.corporate_account.id
+        this.$http.post('ca/panel/client/add', this.createdPatient)
+            .then((res) => {
+              if (res.data.status === 200) {
+                this.$swal({
+                  title: res.data.message,
+                  icon: 'success',
+                  customClass: {
+                    confirmButton: 'btn btn-primary',
+                  },
+                  buttonsStyling: false,
+                })
+                this.$refs.registerClient.reset()
 
-              //clear form register
-              this.createdPatient.name = '',
-                  this.createdPatient.lastname = '',
-                  this.createdPatient.email = '',
-                  this.createdPatient.phone_number = '',
-                  this.createdPatient.note = '',
-                  this.createdPatient.gender = '',
-                  this.createdPatient.birthday = '',
-                  this.existingPlace.formatted_address = '',
-                  this.createdPatient.home_telephone_number = '',
-                  this.createdPatient.city = '',
-                  this.createdPatient.address = ''
-            } else {
+                //clear form register
+                this.createdPatient.name = '',
+                    this.createdPatient.lastname = '',
+                    this.createdPatient.email = '',
+                    this.createdPatient.phone_number = '',
+                    this.createdPatient.note = '',
+                    this.createdPatient.gender = '',
+                    this.createdPatient.birthday = '',
+                    this.existingPlace.formatted_address = '',
+                    this.createdPatient.home_telephone_number = '',
+                    this.createdPatient.city = '',
+                    this.createdPatient.address = ''
+              } else {
+                this.$swal({
+                  title: res.data.message,
+                  icon: 'error',
+                  customClass: {
+                    confirmButton: 'btn btn-primary',
+                  },
+                  buttonsStyling: false,
+                })
+                console.log(res)
+              }
+            })
+            .catch((res) => {
               this.$swal({
-                title: res.data.message,
+                title: res.message,
                 icon: 'error',
                 customClass: {
                   confirmButton: 'btn btn-primary',
                 },
                 buttonsStyling: false,
               })
-              console.log(res)
-            }
-          })
-          .catch((res) => {
-            this.$swal({
-              title: res.message,
-              icon: 'error',
-              customClass: {
-                confirmButton: 'btn btn-primary',
-              },
-              buttonsStyling: false,
             })
-          })
+      }
     },
     validationForm() {
       return new Promise((resolve, reject) => {

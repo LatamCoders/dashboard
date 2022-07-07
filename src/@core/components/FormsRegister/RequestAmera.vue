@@ -853,6 +853,7 @@ export default {
         this.timeReturn()
       }
     },
+
   },
   computed: {
     infopersonaselec() {

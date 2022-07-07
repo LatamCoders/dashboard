@@ -239,7 +239,7 @@
                     disabled
                     v-model="aditionalStop.to"
                 >
-                  <p>{{ formatToService(adicional.to) }}</p>
+<!--                  <p>{{ formatToService(adicional.to) }}</p>-->
                 </b-form-input>
               </b-form-group>
             </b-col>
@@ -330,7 +330,7 @@ import {
   VBTooltip,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 import Ripple from 'vue-ripple-directive'
 
 export default {
@@ -384,8 +384,8 @@ export default {
       valonuevo: '',
       adicional: '',
       reservaId: 0,
-      listReservas: {}
-
+      listReservas: {},
+      editvalor: '',
     }
   },
   computed: {
@@ -393,24 +393,24 @@ export default {
       dataProvider: 'Users/usersData'
     }),
   },
-  watch: {
-    'reserva.from'() {
-      if (this.reserva.from === '') {
-        this.reserva.from = JSON.parse(this.dataProvider.from)
-        this.reserva.to = JSON.parse(this.dataProvider.to)
-      }
-    },
-  },
+  // watch: {
+  //   'reserva.from'() {
+  //     if (this.reserva.from === '') {
+  //       this.reserva.from = JSON.parse(this.dataProvider.from)
+  //       this.reserva.to = JSON.parse(this.dataProvider.to)
+  //     }
+  //   },
+  // },
   methods: {
     formatToService(items) {
       return this.aditionalStop = Object.assign(JSON.parse(items))
     },
     getAdicional() {
-      this.listAditional = this.$store.getters['Users/usersData'].additional_service;
       for (let i = 0; i < this.listAditional.length; i++) {
         if (this.listAditional[i].service === 'Wait/Return Fee') {
           this.valonuevo = this.listAditional[i]
           console.log(this.valonuevo)
+          return;
         }
       }
     },
@@ -421,24 +421,26 @@ export default {
           this.$swal.showLoading()
         },
       })
-      this.reservaId = this.$route.params.id;
-      this.$http.get(`admin/panel/booking/${this.reservaId}/info`).then((response) => {
-        this.listReservas = response.data.data;
-        this.reserva.from = JSON.parse(this.listReservas.from)
-        this.reserva.to = JSON.parse(this.listReservas.to)
-        this.$swal.close();
-      }).catch((error) => {
-        this.$swal({
-          title: error.response.data.data,
-          icon: 'error',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-          },
-          buttonsStyling: false,
-        })
-      })
-      // this.reserva = this.listReservas.from;
-      // console.log(this.reserva)
+      this.reservaId = this.$route.params.id
+      this.$http.get(`admin/panel/booking/${this.reservaId}/info`)
+          .then((response) => {
+            this.listReservas = response.data.data
+            this.reserva.from = JSON.parse(this.listReservas.from)
+            this.reserva.to = JSON.parse(this.listReservas.to)
+            this.listAditional = this.listReservas.additional_service
+            this.getAdicional()
+            this.$swal.close()
+          })
+          .catch((error) => {
+            this.$swal({
+              title: error.response.data.data,
+              icon: 'error',
+              customClass: {
+                confirmButton: 'btn btn-primary',
+              },
+              buttonsStyling: false,
+            })
+          })
     },
     sendChangeTime() {
       if (this.valonuevo.time === '') {
@@ -470,6 +472,11 @@ export default {
                   confirmButton: 'btn btn-primary',
                 },
                 buttonsStyling: false,
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  this.getInfoReserva()
+                  this.$router.go(0)
+                }
               })
             })
             .catch((error) => {
@@ -485,21 +492,12 @@ export default {
       }
     }
   },
-  // beforeUpdate() {
-  //   this.reserva.from = JSON.parse(this.dataService.from)
-  //   this.reserva.to = JSON.parse(this.dataService.to)
-  // },
   mounted() {
-    this.getInfoReserva();
-    this.listAditional = this.$store.getters['Users/usersData'].additional_service;
-
-
-    // this.reserva.from = JSON.parse(this.dataService.from)
-    // this.reserva.to = JSON.parse(this.dataService.to)
+    this.getInfoReserva()
   },
-  created() {
-    this.getAdicional();
-  }
+  // created() {
+  //   this.getAdicional()
+  // }
 
 }
 </script>
