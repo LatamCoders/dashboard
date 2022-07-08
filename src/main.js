@@ -9,7 +9,7 @@ import store from './store/index'
 import App from './App.vue'
 
 import * as VueGoogleMaps from "vue2-google-maps"
-import { VueMaskDirective } from 'v-mask'
+import {VueMaskDirective} from 'v-mask'
 // Global Components
 import './global-components'
 
@@ -18,6 +18,7 @@ import '@/libs/portal-vue'
 import '@/libs/toastification'
 import '@/libs/sweet-alerts'
 import axiosIns from "@/libs/axios";
+// import moment from "moment";
 
 // BSV Plugin Registration
 Vue.use(ToastPlugin)
@@ -26,6 +27,7 @@ Vue.use(VueCardFormat);
 
 // Composition API
 Vue.use(VueCompositionAPI)
+// Vue.use(moment)
 
 // integración mapa
 Vue.use(VueGoogleMaps, {

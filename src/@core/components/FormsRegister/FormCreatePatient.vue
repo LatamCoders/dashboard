@@ -259,9 +259,9 @@
 </template>
 
 <script>
-import { FormWizard, TabContent } from 'vue-form-wizard'
+import {FormWizard, TabContent} from 'vue-form-wizard'
 // import vSelect from 'vue-select'
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import {ValidationProvider, ValidationObserver} from 'vee-validate'
 import axios from 'axios'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
@@ -329,6 +329,7 @@ export default {
         address: '',
         ca_id: '',
       },
+      validFecha: false,
     }
   },
   methods: {
@@ -372,7 +373,7 @@ export default {
           lat: this.existingPlace.geometry.location.lat(),
           lng: this.existingPlace.geometry.location.lng()
         }
-        this.locationMarkers.push({ position: marker })
+        this.locationMarkers.push({position: marker})
         this.locPlaces.push(this.existingPlace)
         this.center = marker
         this.existingPlace = null
@@ -388,18 +389,32 @@ export default {
       })
     },
     formSubmitted() {
-      let RegExPattern = new RegExp('/^\\d{1,2}\\/\\d{1,2}\\/\\d{2,4}$/')
-      console.log(this.createdPatient.birthday.match(RegExPattern));
-      if ((this.createdPatient.birthday.match(RegExPattern)) && (this.createdPatient.birthday != '')) {
+      let mes = this.createdPatient.birthday.slice(5, 7);
+      let year = this.createdPatient.birthday.slice(0, 4);
+      let dia = this.createdPatient.birthday.slice(8, 10);
+
+      if ((year === '0000') || (mes > 12 || mes === '00') || (dia > 31 || dia === '00')) {
         this.$swal({
-          title: 'true',
-          icon: 'success',
+          title: 'Error, invalid date',
+          icon: 'error',
           customClass: {
             confirmButton: 'btn btn-primary',
           },
           buttonsStyling: false,
         })
-        return true
+        this.validFecha = false;
+      } else if (mes === parseInt('02') || mes === 2) {
+        if (dia > 28) {
+          this.$swal({
+            title: 'Error, invalid date',
+            icon: 'error',
+            customClass: {
+              confirmButton: 'btn btn-primary',
+            },
+            buttonsStyling: false,
+          })
+        }
+        this.validFecha = false;
       } else {
         this.$swal({
           title: 'Please, wait...',

@@ -280,6 +280,19 @@
                 />
               </b-form-group>
             </b-col>
+            <b-col
+                cols="12"
+                md="3"
+            >
+              <b-form-group
+                  label="Approximately return time"
+              >
+                <b-form-input
+                    disabled
+                    v-model="dataProvider.approximately_return_time"
+                />
+              </b-form-group>
+            </b-col>
           </b-row>
           <hr>
         </template>
