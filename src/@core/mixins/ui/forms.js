@@ -2,7 +2,7 @@
 export const togglePasswordVisibility = {
   data() {
     return {
-      passwordFieldType: 'password',
+        passwordFieldType: 'password',
     }
   },
   methods: {

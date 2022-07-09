@@ -1,23 +1,28 @@
 <template>
   <div class="auth-wrapper auth-v2">
-    <b-row class="auth-inner m-0">
+    <b-row class="auth-inner m-0 container-logo-form">
 
       <!-- Brand logo-->
-      <b-link class="brand-logo">
-        <vuexy-logo />
-      </b-link>
+      <b-row class="main-logo-container">
+        <b-link class="brand-logo">
+          <vuexy-logo/>
+        </b-link>
+      </b-row>
+
       <!-- /Brand logo-->
 
       <!-- Left Text-->
       <b-col
-        lg="8"
-        class="d-none d-lg-flex align-items-center p-5"
+          lg="8"
+          md="7"
+          class="d-none d-lg-flex align-items-center p-5"
       >
         <div class="w-100 d-lg-flex align-items-center justify-content-center px-5">
           <b-img
-            fluid
-            :src="imgUrl"
-            alt="Login V2"
+              fluid
+              :src="imgUrl"
+              alt="Login V2"
+              class="imgLogin"
           />
         </div>
       </b-col>
@@ -25,115 +30,119 @@
 
       <!-- Login-->
       <b-col
-        lg="4"
-        class="d-flex align-items-center auth-bg px-2 p-lg-5"
+          lg="4"
+          md="12"
+          class="d-flex align-items-center auth-bg px-2 p-lg-5"
       >
         <b-col
-          sm="8"
-          md="6"
-          lg="12"
-          class="px-xl-2 mx-auto form-login"
+            sm="8"
+            md="6"
+            lg="12"
+            class="px-xl-2 mx-auto form-login"
         >
+
           <b-card-title
-            title-tag="h2"
-            class="font-weight-bold mb-1"
+              title-tag="h2"
+              class="font-weight-bold mb-1"
           >
             Welcome to Amera! 👋
           </b-card-title>
           <b-card-text class="mb-2">
-            Please sign-in to your account and start the adventure
+            <!--            Please sign-in to your account to start the adventure-->
           </b-card-text>
 
-          <!-- form -->
-          <validation-observer ref="loginValidation">
-            <b-form
-              class="auth-login-form mt-2"
-              @submit.prevent
-            >
-              <!-- email -->
-              <b-form-group
-                label="Email"
-                label-for="login-email"
-              >
-                <validation-provider
-                  #default="{ errors }"
-                  name="Email"
-                  rules="required|email"
-                >
-                  <b-form-input
-                    id="login-email"
-                    v-model="userEmail"
-                    :state="errors.length > 0 ? false:null"
-                    name="login-email"
-                    placeholder="john@example.com"
-                  />
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
-              </b-form-group>
+          <!-- form Admin -->
+          <transition name="fade" mode="out-in">
+            <validation-observer ref="loginValidation">
 
-              <!-- forgot password -->
-              <b-form-group>
-                <div class="d-flex justify-content-between">
-                  <label for="login-password">Password</label>
-                  <b-link :to="{name:'forgot-password'}">
-                    <small class="colors-login">Forgot Password?</small>
-                  </b-link>
-                </div>
-                <validation-provider
-                  #default="{ errors }"
-                  name="Password"
-                  rules="required"
+              <b-form
+                  class="auth-login-form mt-2"
+                  @submit.prevent
+              >
+                <!-- email -->
+                <b-form-group
+                    label="Email"
+                    label-for="login-email"
                 >
-                  <b-input-group
-                    class="input-group-merge"
-                    :class="errors.length > 0 ? 'is-invalid':null"
+                  <validation-provider
+                      #default="{ errors }"
+                      name="Email"
+                      rules="required|email"
                   >
                     <b-form-input
-                      id="login-password"
-                      v-model="password"
-                      :state="errors.length > 0 ? false:null"
-                      class="form-control-merge"
-                      :type="passwordFieldType"
-                      name="login-password"
-                      placeholder="············"
+                        id="login-email"
+                        v-model="person.userEmail"
+                        :state="errors.length > 0 ? false:null"
+                        name="login-email"
+                        placeholder="john@example.com"
+                        type="email"
                     />
-                    <b-input-group-append is-text>
-                      <feather-icon
-                        class="cursor-pointer"
-                        :icon="passwordToggleIcon"
-                        @click="togglePasswordVisibility"
+                    <small v-if="errors[0]" class="text-danger">This field is required, enter a valid email </small>
+                  </validation-provider>
+                </b-form-group>
+
+                <!-- forgot password -->
+                <b-form-group>
+                  <div class="d-flex justify-content-between">
+                    <label for="login-password">Password</label>
+                    <b-link :to="{name:'forgot-password'}">
+                      <small class="colors-login">Forgot Password?</small>
+                    </b-link>
+                  </div>
+                  <validation-provider
+                      #default="{ errors }"
+                      name="Password"
+                      rules="required"
+                  >
+                    <b-input-group
+                        class="input-group-merge"
+                        :class="errors.length > 0 ? 'is-invalid':null"
+                    >
+                      <b-form-input
+                          id="login-password"
+                          v-model="person.password"
+                          :state="errors.length > 0 ? false:null"
+                          class="form-control-merge"
+                          :type="passwordFieldType"
+                          name="login-password"
+                          placeholder="············"
                       />
-                    </b-input-group-append>
-                  </b-input-group>
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
-              </b-form-group>
+                      <b-input-group-append is-text>
+                        <feather-icon
+                            class="cursor-pointer"
+                            :icon="passwordToggleIcon"
+                            @click="togglePasswordVisibility"
+                        />
+                      </b-input-group-append>
+                    </b-input-group>
+                    <small v-if="errors[0]" class="text-danger">This field is required</small>
+                  </validation-provider>
+                </b-form-group>
 
-              <!-- checkbox -->
-              <b-form-group>
-                <b-form-checkbox
-                  id="remember-me"
-                  v-model="status"
-                  name="checkbox-1"
+                <!-- checkbox -->
+                <b-form-group>
+                  <b-form-checkbox
+                      id="remember-me"
+                      v-model="status"
+                      name="checkbox-1"
+                  >
+                    Remember Me
+                  </b-form-checkbox>
+                </b-form-group>
+
+                <!-- submit buttons -->
+                <b-button
+                    type="submit"
+                    variant="primary"
+                    block
+                    @click="validationForm"
+                    class="sigin"
                 >
-                  Remember Me
-                </b-form-checkbox>
-              </b-form-group>
-
-              <!-- submit buttons -->
-              <b-button
-                type="submit"
-                variant="primary"
-                block
-                @click="validationForm"
-                to="/"
-                class="sigin"
-              >
-                Sign in
-              </b-button>
-            </b-form>
-          </validation-observer>
-
+                  Sign in
+                </b-button>
+              </b-form>
+            </validation-observer>
+          </transition>
           <b-card-text class="text-center mt-2">
             <span>New on our platform? </span>
             <b-link :to="{name:'register'}">
@@ -142,57 +151,74 @@
           </b-card-text>
 
           <!-- divider -->
-          <div class="divider my-2">
-            <div class="divider-text">
-              or
-            </div>
-          </div>
+          <!--          <div class="divider my-2">-->
+          <!--            <div class="divider-text">-->
+          <!--              or-->
+          <!--            </div>-->
+          <!--          </div>-->
 
-          <!-- social buttons -->
-          <div class="auth-footer-btn d-flex justify-content-center">
-            <b-button
-              variant="facebook"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="FacebookIcon" />
-            </b-button>
-            <b-button
-              variant="twitter"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="TwitterIcon" />
-            </b-button>
-            <b-button
-              variant="google"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="MailIcon" />
-            </b-button>
-            <b-button
-              variant="github"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="GithubIcon" />
-            </b-button>
-          </div>
+          <!--          &lt;!&ndash; social buttons &ndash;&gt;-->
+          <!--          <div class="auth-footer-btn d-flex justify-content-center">-->
+          <!--            <b-button-->
+          <!--                variant="facebook"-->
+          <!--                href="javascript:void(0)"-->
+          <!--                style="background-color: transparent"-->
+          <!--            >-->
+          <!--              <b-img src="@/assets/images/icons/facebook.png" height="35"></b-img>-->
+          <!--            </b-button>-->
+          <!--            <b-button-->
+          <!--                variant="twitter"-->
+          <!--                href="javascript:void(0)"-->
+          <!--                style="background-color: transparent"-->
+          <!--            >-->
+          <!--              <b-img src="@/assets/images/icons/instagram.png" height="35"></b-img>-->
+          <!--            </b-button>-->
+          <!--            <b-button-->
+          <!--                variant="google"-->
+          <!--                href="javascript:void(0)"-->
+          <!--                style="background-color: transparent"-->
+          <!--            >-->
+          <!--              <b-img src="@/assets/images/icons/youtube.png" height="35"></b-img>-->
+          <!--            </b-button>-->
+          <!--            <b-button-->
+          <!--                variant="github"-->
+          <!--                href="javascript:void(0)"-->
+          <!--                style="background-color: transparent"-->
+          <!--            >-->
+          <!--              <b-img src="@/assets/images/icons/whatsaap.png" height="35"></b-img>-->
+          <!--            </b-button>-->
+          <!--          </div>-->
         </b-col>
       </b-col>
-    <!-- /Login-->
+      <!-- /Login-->
     </b-row>
   </div>
 </template>
 
 <script>
 /* eslint-disable global-require */
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import {ValidationProvider, ValidationObserver} from 'vee-validate'
 import VuexyLogo from '@core/layouts/components/Logo.vue'
 import {
-  BRow, BCol, BLink, BFormGroup, BFormInput, BInputGroupAppend, BInputGroup, BFormCheckbox, BCardText, BCardTitle, BImg, BForm, BButton,
+  BRow,
+  BCol,
+  BLink,
+  BFormGroup,
+  BFormInput,
+  BInputGroupAppend,
+  BInputGroup,
+  BFormCheckbox,
+  BCardText,
+  BCardTitle,
+  BImg,
+  BForm,
+  BButton,
 } from 'bootstrap-vue'
-import { required, email } from '@validations'
-import { togglePasswordVisibility } from '@core/mixins/ui/forms'
+import {required, email} from '@validations'
+import {togglePasswordVisibility} from '@core/mixins/ui/forms'
 import store from '@/store/index'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import axios from 'axios'
 
 export default {
   components: {
@@ -217,9 +243,16 @@ export default {
   data() {
     return {
       status: '',
-      password: '',
-      userEmail: '',
-      sideImg: require('@/assets/images/pages/login-v2.svg'),
+      person: {
+        password: '',
+        userEmail: '',
+        loginType: '',
+      },
+      viewFormCorporate: false,
+      viewFormAdmin: false,
+      btnUser: '',
+      atras: false,
+      sideImg: require('@/assets/images/pages/amera.png'),
       // validation rulesimport store from '@/store/index'
       required,
       email,
@@ -232,26 +265,83 @@ export default {
     imgUrl() {
       if (store.state.appConfig.layout.skin === 'dark') {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.sideImg = require('@/assets/images/pages/login-v2-dark.svg')
+        this.sideImg = require('@/assets/images/pages/amera.png')
         return this.sideImg
       }
       return this.sideImg
     },
   },
+  watch: {
+    btnUser() {
+      this.person.loginType = this.btnUser
+    }
+  },
+
   methods: {
     validationForm() {
-      this.$refs.loginValidation.validate().then(success => {
-        if (success) {
-          this.$toast({
-            component: ToastificationContent,
-            props: {
-              title: 'Form Submitted',
-              icon: 'EditIcon',
-              variant: 'success',
-            },
-          })
-        }
-      })
+      this.$refs.loginValidation.validate()
+      if (this.person.userEmail === '' || this.person.password === '') {
+        this.$swal({
+          icon: 'error',
+          title: 'Please fill out required fields',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
+        })
+      } else {
+        this.$swal({
+          title: 'Please, wait...',
+          didOpen: () => {
+            this.$swal.showLoading()
+          },
+          timer: 1000,
+          customClass: {
+            confirmButton: 'btn btn-primary',
+          },
+          buttonsStyling: false,
+        })
+
+        this.$store.dispatch('Users/retrieveToken', this.person)
+            .then((res) => {
+              this.$toast({
+                component: ToastificationContent,
+                props: {
+                  title: res.data.message,
+                  icon: 'CheckIcon',
+                  variant: 'success',
+                },
+              })
+
+              // if(this.person.loginType === 'admin') {
+              if (res.data.data.user.role.id === 2) {
+                this.$router.push({name: 'home-admin'})
+              } else if (res.data.data.user.role.id === 1) {
+                this.$router.push({name: 'home-admin'})
+              } else {
+                this.$router.push({name: 'home-corporate-account'})
+              }
+            })
+            .catch((err) => {
+              this.$swal({
+                title: `Error, ${err.response.data.data}`,
+                icon: 'error',
+                customClass: {
+                  confirmButton: 'btn btn-primary',
+                },
+                buttonsStyling: false,
+              })
+              console.log(err.message)
+            })
+      }
+    },
+    retornarInicio() {
+      this.atras = true
+      if (this.atras === true) {
+        this.btnUser = ''
+        this.person.userEmail = ''
+        this.person.password = ''
+      }
     },
   },
 }
@@ -260,4 +350,38 @@ export default {
 <style lang="scss">
 @import '@core/scss/vue/pages/page-auth.scss';
 @import "src/assets/scss/variables/variables-components.scss";
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .1ms;
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
+{
+  opacity: 0;
+}
+
+.main-logo-container {
+  padding-bottom: 372px;
+  margin-bottom: 300px;
+}
+
+
+.imgLogin {
+  height: 500px;
+  border-radius: 10px;
+  //box-shadow: 4px 2px 10px -2px #342b7b;
+  box-shadow: 4px 2px 10px -2px #868498;
+}
+
+@media screen and (max-width: 1440px) {
+  .imgLogin {
+    height: 349px;
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 500px){
+  .container-logo-form {
+      justify-content: space-between;
+  }
+}
 </style>

@@ -4,7 +4,7 @@
 
       <!-- Brand logo-->
       <b-link class="brand-logo">
-        <vuexy-logo />
+        <vuexy-logo/>
       </b-link>
       <!-- /Brand logo-->
 
@@ -27,6 +27,7 @@
       <b-col
           lg="4"
           class="d-flex align-items-center auth-bg px-2 p-lg-5"
+          v-if="secondForms === false"
       >
         <b-col
             sm="8"
@@ -41,7 +42,7 @@
             Forgot Password? 🔒
           </b-card-title>
           <b-card-text class="mb-2">
-            Enter your email and we'll send you instructions to reset your password
+            Enter your email and your new password
           </b-card-text>
 
           <!-- form -->
@@ -61,7 +62,7 @@
                 >
                   <b-form-input
                       id="forgot-password-email"
-                      v-model="userEmail"
+                      v-model="forgot.email"
                       :state="errors.length > 0 ? false:null"
                       name="forgot-password-email"
                       placeholder="john@example.com"
@@ -69,7 +70,6 @@
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
-
               <b-button
                   type="submit"
                   variant="primary"
@@ -82,26 +82,35 @@
 
           <p class="text-center mt-2">
             <b-link :to="{name:'login'}">
-              <feather-icon icon="ChevronLeftIcon" /> Back to login
+              <feather-icon icon="ChevronLeftIcon"/>
+              Back to login
             </b-link>
           </p>
         </b-col>
       </b-col>
+
+      <template v-if="secondForms === true">
+        <code-verification/>
+      </template>
       <!-- /Forgot password-->
+
+
     </b-row>
+
   </div>
 </template>
 
 <script>
 /* eslint-disable global-require */
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import {ValidationProvider, ValidationObserver} from 'vee-validate'
 import VuexyLogo from '@core/layouts/components/Logo.vue'
 import {
   BRow, BCol, BLink, BCardTitle, BCardText, BImg, BForm, BFormGroup, BFormInput, BButton,
 } from 'bootstrap-vue'
-import { required, email } from '@validations'
+import {required, email} from '@validations'
 import store from '@/store/index'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import codeVerification from "@core/layouts/components/requestPassword/CodeVerification";
 
 export default {
   components: {
@@ -118,10 +127,15 @@ export default {
     BCardText,
     ValidationProvider,
     ValidationObserver,
+    codeVerification,
   },
   data() {
     return {
-      userEmail: '',
+      forgot: {
+        email: '',
+      },
+      secondForms: false,
+
       sideImg: require('@/assets/images/pages/forgot-password-v2.svg'),
       // validation
       required,
@@ -142,13 +156,34 @@ export default {
     validationForm() {
       this.$refs.simpleRules.validate().then(success => {
         if (success) {
-          this.$toast({
-            component: ToastificationContent,
-            props: {
-              title: 'Form Submitted',
-              icon: 'EditIcon',
-              variant: 'success',
+          this.$swal({
+            title: 'Please, wait...',
+            didOpen: () => {
+              this.$swal.showLoading()
             },
+          })
+          this.$http.post(`/auth/users/recoverPassword/sendCode`, this.forgot)
+              .then((response) => {
+                this.$swal({
+                  title: response.data.message,
+                  icon: 'success',
+                  customClass: {
+                    confirmButton: 'btn btn-primary',
+                  },
+                  buttonsStyling: false,
+                })
+                this.$store.commit('Users/userData', this.forgot)
+                this.secondForms = true;
+
+              }).catch((error) => {
+            this.$swal({
+              title: error.response.data.data,
+              icon: 'error',
+              customClass: {
+                confirmButton: 'btn btn-primary',
+              },
+              buttonsStyling: false,
+            })
           })
         }
       })
