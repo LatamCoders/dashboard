@@ -992,25 +992,6 @@ export default {
       })
     },
     async formRequest() {
-      // const d = new Date()
-      // const today = new Date(d.getFullYear(), d.getMonth(), d.getDate())
-      // let h = d.getHours()
-      // let m = d.getMinutes()
-      // let s = d.getSeconds()
-      // let time = h + ':' + m + ':' + s
-      // // console.log(time)
-      // // console.log(today)
-      // if (this.tiempo < time) {
-      //   this.$swal({
-      //     title: 'Error, no puede colocar una hora menor a la actual',
-      //     icon: 'error',
-      //     customClass: {
-      //       confirmButton: 'btn btn-primary',
-      //     },
-      //     buttonsStyling: false,
-      //   })
-      //}
-      //
       this.$swal({
         title: 'Please, wait...',
         didOpen: () => {

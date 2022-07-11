@@ -150,44 +150,6 @@
             </b-link>
           </b-card-text>
 
-          <!-- divider -->
-          <!--          <div class="divider my-2">-->
-          <!--            <div class="divider-text">-->
-          <!--              or-->
-          <!--            </div>-->
-          <!--          </div>-->
-
-          <!--          &lt;!&ndash; social buttons &ndash;&gt;-->
-          <!--          <div class="auth-footer-btn d-flex justify-content-center">-->
-          <!--            <b-button-->
-          <!--                variant="facebook"-->
-          <!--                href="javascript:void(0)"-->
-          <!--                style="background-color: transparent"-->
-          <!--            >-->
-          <!--              <b-img src="@/assets/images/icons/facebook.png" height="35"></b-img>-->
-          <!--            </b-button>-->
-          <!--            <b-button-->
-          <!--                variant="twitter"-->
-          <!--                href="javascript:void(0)"-->
-          <!--                style="background-color: transparent"-->
-          <!--            >-->
-          <!--              <b-img src="@/assets/images/icons/instagram.png" height="35"></b-img>-->
-          <!--            </b-button>-->
-          <!--            <b-button-->
-          <!--                variant="google"-->
-          <!--                href="javascript:void(0)"-->
-          <!--                style="background-color: transparent"-->
-          <!--            >-->
-          <!--              <b-img src="@/assets/images/icons/youtube.png" height="35"></b-img>-->
-          <!--            </b-button>-->
-          <!--            <b-button-->
-          <!--                variant="github"-->
-          <!--                href="javascript:void(0)"-->
-          <!--                style="background-color: transparent"-->
-          <!--            >-->
-          <!--              <b-img src="@/assets/images/icons/whatsaap.png" height="35"></b-img>-->
-          <!--            </b-button>-->
-          <!--          </div>-->
         </b-col>
       </b-col>
       <!-- /Login-->

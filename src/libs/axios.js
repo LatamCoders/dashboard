@@ -4,7 +4,7 @@ import Vue from 'vue'
 import axios from 'axios'
 
 const axiosIns = axios.create({
-    baseURL: 'https://amera.losolivoscartagena.com/api/v1/'
+    baseURL: 'https://api.myamera.com/api/v1/'
 })
 
 axiosIns.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
